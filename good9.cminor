@@ -1,0 +1,28 @@
+
+/* abc */ 
+"abc"			"a\"b"
+
+/**** * Common multi-line comment style.  ****/
+
+/****
+ * Common multi-line comment style.
+ ****/
+
+/****
+ * Another common multi-line comment style.
+ */
+
+/* /* bac */
+
+// /* */ bac */
+
+string
+1534
+'a'
+Notre Dame
+"Notre\nDame";
+>=
+
+5ab
+0_12
+53

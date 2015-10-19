@@ -1,0 +1,33 @@
+array boolean char else false for function if integer print return string true void while
+name var1 _2 i x mystr fog123 BigLongName55
+6 8 9 123 +6 -9
+
+'a' '\n' '\0' '\t' '"'
+
+/* abc */ 
+"abc"			"a\"b"
+
+/**** * Common multi-line comment style.  ****/
+
+/****
+ * Common multi-line comment style.
+ ****/
+
+/****
+ * Another common multi-line comment style.
+ */
+
+/* /* bac */
+
+// /* */ bac */
+
+string
+1534
+'a'
+Notre Dame
+"Notre\nDame";
+>=
+
+5ab
+0_12
+53
