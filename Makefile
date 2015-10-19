@@ -1,14 +1,19 @@
 FLEX_FILE = scanner.flex
+BISON_FILE = parser.bison
 
 all: cminor
 
-lex.yy.c: $(FLEX_FILE)
-	flex $(FLEX_FILE)
+cminor: main.c expr.o scanner.o parser.tab.o
+	gcc main.o expr.o scanner.o parser.tab.o -o cminor -lm
+
+%.o: %.c *.h
+	gcc -Wall -c $< -o $@
+
+scanner.c: $(FLEX_FILE) parser.tab.h
+	flex -o scanner.c $(FLEX_FILE)
+
+parser.tab.c parser.tab.h: $(BISON_FILE)
+	yacc -d -bparser -v $(BISON_FILE)
 	
-cminor: main.c lex.yy.c token.c
-	gcc -o cminor main.c token.c
-
 clean:
-	rm -f cminor *.o lex.yy.c
-
-
+	rm -f cminor *.o scanner.c parser.tab.* parser.output

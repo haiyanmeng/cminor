@@ -128,6 +128,10 @@ int token_string(token_t t, const char *token_text, int token_len) {
 		fprintf(stdout, "TOKEN_OP_DECREMENT\n");
 		//fprintf(stdout, "%s\n", token_text);
 		break;
+	case TOKEN_OP_NOT:
+		fprintf(stdout, "TOKEN_OP_NOT\n");
+		//fprintf(stdout, "%s\n", token_text);
+		break;
 	case TOKEN_OP_POWER:
 		fprintf(stdout, "TOKEN_OP_POWER\n");
 		//fprintf(stdout, "%s\n", token_text);

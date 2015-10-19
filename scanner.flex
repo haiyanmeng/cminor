@@ -2,6 +2,7 @@
 
 %{
 #include "token.h"
+#include "parser.tab.h"
 %}
 
 %{
@@ -67,6 +68,7 @@ while { return TOKEN_WHILE; }
 "]" { return TOKEN_OP_RIGHTBRACKET; }
 "++" { return TOKEN_OP_INCREMENT; }
 "--" { return TOKEN_OP_DECREMENT; }
+"!" { return TOKEN_OP_NOT; }
 "^" { return TOKEN_OP_POWER; }
 "*" { return TOKEN_OP_MUL; }
 "/" { return TOKEN_OP_DIV; }
