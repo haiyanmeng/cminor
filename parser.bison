@@ -93,6 +93,42 @@ struct expr * parser_result = 0;
 
 /* Here is the grammar: program is the start symbol. */
 
+
+stmt_list_opt: /* nothing */
+	| stmt_list
+	;
+
+stmt_list: stmt
+	| stmt_list stmt
+	;
+
+stmt: expr_stmt
+	| compound_stmt
+	| if_stmt
+	| for_stmt
+	| return_stmt
+	;
+
+expr_stmt: expr TOKEN_SEMICOLON
+	;
+
+compound_stmt: TOKEN_LEFTCURLY stmt_list_opt TOKEN_RIGHTCURLY
+	;
+
+
+if_stmt: TOKEN_IF TOKEN_OP_LEFTPARENTHESS expr TOKEN_OP_RIGHTPARENTHESS stmt TOKEN_ELSE stmt
+	;
+
+for_stmt: TOKEN_OP_LEFTPARENTHESS expr_opt TOKEN_SEMICOLON expr_opt TOKEN_SEMICOLON expr_opt TOKEN_OP_RIGHTPARENTHESS stmt
+	;
+
+return_stmt: TOKEN_RETURN expr TOKEN_SEMICOLON
+	;
+
+expr_opt: /* nothing */
+	| expr
+	;
+
 expr: assignment_expr
 	| expr TOKEN_COMMA assignment_expr
 	;
