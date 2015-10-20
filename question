@@ -1,1 +1,6 @@
 are we allow to use %left and %right to define associativity?
+can we just do return without any expression: return (return_stmt)
+can we do: for(;;) (for_stmt)
+can we do a statement without anything but a semicolon: ; (expr_stmnt)
+is this legal: x: array[] char = {'a', 'b'};
+is this legal: puts: function void ( string ); 
