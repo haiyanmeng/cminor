@@ -102,11 +102,11 @@ external_decl: decl
 	| func_definition
 	;
 
-func_definition: TOKEN_IDENT TOKEN_COLON TOKEN_FUNCTION type TOKEN_OP_LEFTPARENTHESS param_list TOKEN_OP_RIGHTPARENTHESS TOKEN_OP_ASSIGN compound_stmt
+func_definition: TOKEN_IDENT TOKEN_COLON TOKEN_FUNCTION type TOKEN_OP_LEFTPARENTHESS param_list_opt TOKEN_OP_RIGHTPARENTHESS TOKEN_OP_ASSIGN compound_stmt
 
-decl: TOKEN_IDENT TOKEN_COLON type TOKEN_OP_ASSIGN initializer TOKEN_SEMICOLON 
-	| TOKEN_IDENT TOKEN_COLON type TOKEN_SEMICOLON
-	| TOKEN_IDENT TOKEN_COLON TOKEN_FUNCTION type TOKEN_OP_LEFTPARENTHESS param_list TOKEN_OP_RIGHTPARENTHESS TOKEN_SEMICOLON 
+decl: TOKEN_IDENT TOKEN_COLON type TOKEN_OP_ASSIGN initializer TOKEN_SEMICOLON  /* declaration with initialization */
+	| TOKEN_IDENT TOKEN_COLON type TOKEN_SEMICOLON /* declaration without initialization */
+	| TOKEN_IDENT TOKEN_COLON TOKEN_FUNCTION type TOKEN_OP_LEFTPARENTHESS param_list_opt TOKEN_OP_RIGHTPARENTHESS TOKEN_SEMICOLON /* function prototype */
 	;
 
 initializer: expr
@@ -117,17 +117,22 @@ initializer_list: initializer
 	| initializer_list TOKEN_COMMA initializer
 	;
 
+param_list_opt: /* nothing */
+	| param_list
+	;
+
 param_list: param
 	| param_list TOKEN_COMMA param
 	;
 
-param: TOKEN_VOID
-	| TOKEN_IDENT TOKEN_COLON type 
+param: TOKEN_IDENT TOKEN_COLON type 
+	;
 
 type: TOKEN_INTEGER
 	| TOKEN_CHAR
 	| TOKEN_BOOLEAN
 	| TOKEN_STRING
+	| TOKEN_ARRAY TOKEN_OP_LEFTBRACKET TOKEN_OP_RIGHTBRACKET type
 	| TOKEN_ARRAY TOKEN_OP_LEFTBRACKET logical_or_expr TOKEN_OP_RIGHTBRACKET type
 	| TOKEN_VOID
 	;
