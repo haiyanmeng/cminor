@@ -91,22 +91,25 @@ struct expr * parser_result = 0;
 
 %%
 
-/* Here is the grammar: program is the start symbol. */
-translation_unit: external_decl
-	| translation_unit external_decl
+/* Here is the grammar: translation_unit is the start symbol. */
+
+/* an empty files is legal in cminor: translation_unit can be empty */
+translation_unit: translation_unit external_decl
+	| /* nothing */
 	;
 
 external_decl: decl
 	| func_definition
 	;
 
-func_definition: TOKEN_IDENT TOKEN_COLON TOKEN_FUNCTION type TOKEN_OP_LEFTPARENTHESS param_list TOKEN_OP_RIGHTPARENTHESS compound_stmt
+func_definition: TOKEN_IDENT TOKEN_COLON TOKEN_FUNCTION type TOKEN_OP_LEFTPARENTHESS param_list TOKEN_OP_RIGHTPARENTHESS TOKEN_OP_ASSIGN compound_stmt
 
-decl: TOKEN_IDENT TOKEN_COLON type initializer TOKEN_SEMICOLON 
+decl: TOKEN_IDENT TOKEN_COLON type TOKEN_OP_ASSIGN initializer TOKEN_SEMICOLON 
+	| TOKEN_IDENT TOKEN_COLON type TOKEN_SEMICOLON
 	| TOKEN_IDENT TOKEN_COLON TOKEN_FUNCTION type TOKEN_OP_LEFTPARENTHESS param_list TOKEN_OP_RIGHTPARENTHESS TOKEN_SEMICOLON 
 	;
 
-initializer: assignment_expr
+initializer: expr
 	| TOKEN_LEFTCURLY initializer_list TOKEN_RIGHTCURLY
 	;
 
@@ -125,15 +128,11 @@ type: TOKEN_INTEGER
 	| TOKEN_CHAR
 	| TOKEN_BOOLEAN
 	| TOKEN_STRING
-	| TOKEN_ARRAY TOKEN_OP_LEFTBRACKET logical_or_expr TOKEN_OP_RIGHTBRACKET
+	| TOKEN_ARRAY TOKEN_OP_LEFTBRACKET logical_or_expr TOKEN_OP_RIGHTBRACKET type
 	| TOKEN_VOID
 	;
 
-stmt_list_opt: /* nothing */
-	| stmt_list
-	;
-
-stmt_list: stmt
+stmt_list: /* nothing */ 
 	| stmt_list stmt
 	;
 
@@ -142,14 +141,14 @@ stmt: expr_stmt
 	| if_stmt
 	| for_stmt
 	| return_stmt
+	| print_stmt
 	;
 
 expr_stmt: expr TOKEN_SEMICOLON
 	;
 
-compound_stmt: TOKEN_LEFTCURLY stmt_list_opt TOKEN_RIGHTCURLY
+compound_stmt: TOKEN_LEFTCURLY stmt_list TOKEN_RIGHTCURLY
 	;
-
 
 if_stmt: TOKEN_IF TOKEN_OP_LEFTPARENTHESS expr TOKEN_OP_RIGHTPARENTHESS stmt TOKEN_ELSE stmt
 	;
@@ -157,7 +156,18 @@ if_stmt: TOKEN_IF TOKEN_OP_LEFTPARENTHESS expr TOKEN_OP_RIGHTPARENTHESS stmt TOK
 for_stmt: TOKEN_OP_LEFTPARENTHESS expr_opt TOKEN_SEMICOLON expr_opt TOKEN_SEMICOLON expr_opt TOKEN_OP_RIGHTPARENTHESS stmt
 	;
 
-return_stmt: TOKEN_RETURN expr TOKEN_SEMICOLON
+return_stmt: TOKEN_RETURN expr_opt TOKEN_SEMICOLON
+	;
+
+print_stmt: TOKEN_PRINT expr_list_opt TOKEN_SEMICOLON
+	;
+
+expr_list_opt: /* nothing */
+	| expr_list
+	;
+
+expr_list: expr 
+	| expr_list TOKEN_COMMA expr
 	;
 
 expr_opt: /* nothing */
@@ -165,7 +175,6 @@ expr_opt: /* nothing */
 	;
 
 expr: assignment_expr
-	| expr TOKEN_COMMA assignment_expr
 	;
 
 assignment_expr: logical_or_expr
@@ -176,20 +185,18 @@ logical_or_expr: logical_and_expr
 	| logical_or_expr TOKEN_OP_OR logical_and_expr
 	;
 
-logical_and_expr: equality_expr
-	| logical_and_expr TOKEN_OP_AND equality_expr
+logical_and_expr: relational_expr
+	| logical_and_expr TOKEN_OP_AND relational_expr
 	;
 
-equality_expr: relational_expr
-	| equality_expr TOKEN_OP_EQ relational_expr
-	| equality_expr TOKEN_OP_UNEQ relational_expr
-	;
-
+/* this is different from C. In C, relational ops have higher precedence than equality ops */
 relational_expr: add_expr
 	| relational_expr TOKEN_OP_LT add_expr
 	| relational_expr TOKEN_OP_LE add_expr
 	| relational_expr TOKEN_OP_GT add_expr
 	| relational_expr TOKEN_OP_GE add_expr
+	| relational_expr TOKEN_OP_EQ add_expr
+	| relational_expr TOKEN_OP_UNEQ add_expr
 	;
 
 add_expr: mul_expr
@@ -197,14 +204,17 @@ add_expr: mul_expr
 	| add_expr TOKEN_OP_SUB mul_expr
 	;
 
-mul_expr: unary_expr
-	| mul_expr TOKEN_OP_MUL unary_expr
-	| mul_expr TOKEN_OP_DIV unary_expr
-	| mul_expr TOKEN_OP_MOD unary_expr
-	| mul_expr TOKEN_OP_POWER unary_expr
+mul_expr: power_expr
+	| mul_expr TOKEN_OP_MUL power_expr
+	| mul_expr TOKEN_OP_DIV power_expr
+	| mul_expr TOKEN_OP_MOD power_expr
 	;
 
-unary_expr: postfix_expr
+power_expr: unary_expr
+	| power_expr TOKEN_OP_POWER unary_expr
+	;
+
+unary_expr: increment_expr
 	| unary_operator unary_expr
 	;
 
@@ -212,23 +222,20 @@ unary_operator: TOKEN_OP_SUB
 	| TOKEN_OP_NOT
 	;
 
+increment_expr: postfix_expr
+	| increment_expr TOKEN_OP_INCREMENT
+	| increment_expr TOKEN_OP_DECREMENT
+	;
+
 postfix_expr: primary_expr
-	| postfix_expr TOKEN_OP_LEFTBRACKET expr TOKEN_OP_RIGHTBRACKET
-	| postfix_expr TOKEN_OP_LEFTPARENTHESS TOKEN_OP_RIGHTPARENTHESS /* function call without arguments */ 
-	| postfix_expr TOKEN_OP_LEFTPARENTHESS argument_expr_list TOKEN_OP_RIGHTPARENTHESS /* function call with arguments */
-	| postfix_expr TOKEN_OP_INCREMENT
-	| postfix_expr TOKEN_OP_DECREMENT
+	| postfix_expr TOKEN_OP_LEFTBRACKET expr TOKEN_OP_RIGHTBRACKET /* array subscript */
+	| postfix_expr TOKEN_OP_LEFTPARENTHESS expr_list_opt TOKEN_OP_RIGHTPARENTHESS /* function call */
 	;
 
-argument_expr_list: assignment_expr
-	| argument_expr_list TOKEN_COMMA assignment_expr
-	;
-
-/* need more work */
 primary_expr: TOKEN_IDENT
 	| constant
 	| TOKEN_STRING_LITERAL
-	TOKEN_OP_LEFTPARENTHESS expr TOKEN_OP_RIGHTPARENTHESS
+	TOKEN_OP_LEFTPARENTHESS expr TOKEN_OP_RIGHTPARENTHESS /* grouping */
 	;
 
 constant: TOKEN_INTEGER_LITERAL

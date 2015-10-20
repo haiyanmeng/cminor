@@ -1,6 +1,30 @@
-are we allow to use %left and %right to define associativity?
+are we allow to use %left and %right and %nonassoc to define associativity?
+	no, you can not.
+
 can we just do return without any expression: return (return_stmt)
+	yes. for functions whose return type is void, you can use `return ;`
+
 can we do: for(;;) (for_stmt)
+	yes.
+
+can we do: for(i=0,j=0; i<10, j<15; i=i+1, j=j+2) (for_stmt)
+	no. comma is only valiable in four places: array initialization; print argument list; function declaration; function definition.
+
 can we do a statement without anything but a semicolon: ; (expr_stmnt)
+	no.
+
 is this legal: x: array[] char = {'a', 'b'};
+	for parser, it is legal. Type checking should fail.
+
 is this legal: puts: function void ( string ); 
+	no. it should be puts: function void ( x:string );
+
+can we have: print ; (print_stmt)
+	yes. it means print out nothing.	
+
+< and == have the same precedence? (equality_expr and relational_expr)
+	it is okay. just keep them the same.
+
+how the grouping is used in cminor? (x=1; y=2;) (x=1, y=2)
+	do not mix it with the grouping feature in shell. 
+	it is just normal sense of grouping things together. like the group feature in C.
