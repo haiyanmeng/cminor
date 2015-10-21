@@ -3,8 +3,9 @@ BISON_FILE = parser.bison
 
 all: cminor
 
-cminor: main.c expr.o scanner.o parser.tab.o
-	gcc main.o expr.o scanner.o parser.tab.o -o cminor -lm
+# Add expr.o and other.o here 
+cminor: main.o scanner.o parser.tab.o
+	gcc main.o scanner.o parser.tab.o -o cminor -lm
 
 %.o: %.c *.h
 	gcc -Wall -c $< -o $@
@@ -16,4 +17,4 @@ parser.tab.c parser.tab.h: $(BISON_FILE)
 	yacc -d -bparser -v $(BISON_FILE)
 	
 clean:
-	rm -f cminor *.o scanner.c parser.tab.* parser.output
+	rm -f cminor *.o scanner.c parser.tab.* parser.output lex.yy.*

@@ -1,3 +1,55 @@
+stmt: matched_stmt
+        | unmatched_stmt
+        ;
+
+matched_stmt: expr_stmt
+        | compound_stmt
+        | for_stmt
+        | return_stmt
+        | print_stmt
+        | TOKEN_IF TOKEN_OP_LEFTPARENTHESS expr TOKEN_OP_RIGHTPARENTHESS matched_stmt TOKEN_ELSE matched_stmt
+        ;
+
+unmatched_stmt: TOKEN_IF TOKEN_OP_LEFTPARENTHESS expr TOKEN_OP_RIGHTPARENTHESS stmt
+        | TOKEN_IF TOKEN_OP_LEFTPARENTHESS expr TOKEN_OP_RIGHTPARENTHESS matched_stmt TOKEN_ELSE unmatched_stmt
+        ;
+
+expr_stmt: expr TOKEN_SEMICOLON
+        ;
+
+compound_stmt: TOKEN_LEFTCURLY stmt_list TOKEN_RIGHTCURLY
+        ;
+
+for_stmt: TOKEN_OP_LEFTPARENTHESS expr_opt TOKEN_SEMICOLON expr_opt TOKEN_SEMICOLON expr_opt TOKEN_OP_RIGHTPARENTHESS TOKEN_LEFTCURLY stmt TOKEN_RIGHTCURLY
+        ;
+
+return_stmt: TOKEN_RETURN expr_opt TOKEN_SEMICOLON
+        ;
+
+print_stmt: TOKEN_PRINT expr_list_opt TOKEN_SEMICOLON
+        ;
+
+the statement of for_stmt must be surrounded by {}, otherwise 
+follow(for_stmt) should be in follow(stmt) according to the for_stmt production
+follow(matched_stmt) should be in follow(for_stmt); according to the matched_stmt production
+TOKEN_ELSE is in follow(matched_stmt)
+
+if (a == 0)
+	for(;;) 
+		if (a == 1)
+			print 0;
+else:
+	print 1;
+
+if (a == 0)
+	for(;;) 
+	{
+		if (a == 1)
+			print 0;
+	}
+else:
+	print 1;
+
 are we allow to use %left and %right and %nonassoc to define associativity?
 	no, you can not.
 

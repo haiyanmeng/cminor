@@ -1,4 +1,3 @@
-#include "lex.yy.c"
 #include <stdio.h>
 #include <errno.h>
 #include <string.h>
@@ -6,6 +5,7 @@
 
 // declare the parser function generated from parser.bison
 extern int yyparse();
+extern FILE *yyin;
 
 int main(int argc, char *argv[]) {
 	int i;
@@ -13,7 +13,7 @@ int main(int argc, char *argv[]) {
 //	for(i=0; i<argc; i++)
 //		fprintf(stdout, "argc %d: %s\n", i, argv[i]);
 
-	if(strcmp(argv[1], "-scan") != 0 || strcmp(argv[1], "-parse") != 0) {
+	if(strcmp(argv[1], "-scan") != 0 && strcmp(argv[1], "-parse") != 0) {
 		fprintf(stderr, "The option of %s should be: -scan or -parse\n", argv[0]);
 		exit(EXIT_FAILURE);
 	}
@@ -23,7 +23,12 @@ int main(int argc, char *argv[]) {
 		exit(EXIT_FAILURE);
 	}
 
-	yyparse();
+	if(yyparse() == 0) {
+		fprintf(stdout, "parse successful: \n");
+	} else {
+		fprintf(stdout, "parse failed\n");
+		exit(EXIT_FAILURE);
+	}
 
 /*
 	while(1) {

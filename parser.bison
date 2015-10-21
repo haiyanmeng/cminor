@@ -103,10 +103,15 @@ external_decl: decl
 	;
 
 func_definition: TOKEN_IDENT TOKEN_COLON TOKEN_FUNCTION type TOKEN_OP_LEFTPARENTHESS param_list_opt TOKEN_OP_RIGHTPARENTHESS TOKEN_OP_ASSIGN compound_stmt
+	;
+		{ fprintf(stdout, "function definition\n\n"); }
 
 decl: TOKEN_IDENT TOKEN_COLON type TOKEN_OP_ASSIGN initializer TOKEN_SEMICOLON  /* declaration with initialization */
+		{ fprintf(stdout, "declaration with initialziation\n\n"); }
 	| TOKEN_IDENT TOKEN_COLON type TOKEN_SEMICOLON /* declaration without initialization */
+		{ fprintf(stdout, "declaration without initialziation\n\n"); }
 	| TOKEN_IDENT TOKEN_COLON TOKEN_FUNCTION type TOKEN_OP_LEFTPARENTHESS param_list_opt TOKEN_OP_RIGHTPARENTHESS TOKEN_SEMICOLON /* function prototype */
+		{ fprintf(stdout, "function prototype\n\n"); }
 	;
 
 initializer: expr
@@ -151,25 +156,33 @@ matched_stmt: expr_stmt
 	| return_stmt
 	| print_stmt
 	| TOKEN_IF TOKEN_OP_LEFTPARENTHESS expr TOKEN_OP_RIGHTPARENTHESS matched_stmt TOKEN_ELSE matched_stmt
+		{ fprintf(stdout, "matched if statement\n\n"); }
 	;
 
 unmatched_stmt: TOKEN_IF TOKEN_OP_LEFTPARENTHESS expr TOKEN_OP_RIGHTPARENTHESS stmt
+		{ fprintf(stdout, "unmatched if statement\n\n"); }
 	| TOKEN_IF TOKEN_OP_LEFTPARENTHESS expr TOKEN_OP_RIGHTPARENTHESS matched_stmt TOKEN_ELSE unmatched_stmt
+		{ fprintf(stdout, "unmatched if statement\n\n"); }
 	;
 
 expr_stmt: expr TOKEN_SEMICOLON
+		{ fprintf(stdout, "expression statement\n\n"); }
 	;
 
 compound_stmt: TOKEN_LEFTCURLY stmt_list TOKEN_RIGHTCURLY
+		{ fprintf(stdout, "compound statement\n\n"); }
 	;
 
-for_stmt: TOKEN_OP_LEFTPARENTHESS expr_opt TOKEN_SEMICOLON expr_opt TOKEN_SEMICOLON expr_opt TOKEN_OP_RIGHTPARENTHESS TOKEN_LEFTCURLY stmt TOKEN_RIGHTCURLY
+for_stmt: TOKEN_OP_LEFTPARENTHESS expr_opt TOKEN_SEMICOLON expr_opt TOKEN_SEMICOLON expr_opt TOKEN_OP_RIGHTPARENTHESS compound_stmt 
+		{ fprintf(stdout, "for statement\n\n"); }
 	;
 
 return_stmt: TOKEN_RETURN expr_opt TOKEN_SEMICOLON
+		{ fprintf(stdout, "return statement\n\n"); }
 	;
 
 print_stmt: TOKEN_PRINT expr_list_opt TOKEN_SEMICOLON
+		{ fprintf(stdout, "print statement\n\n"); }
 	;
 
 expr_list_opt: /* nothing */
@@ -245,7 +258,7 @@ postfix_expr: primary_expr
 primary_expr: TOKEN_IDENT
 	| constant
 	| TOKEN_STRING_LITERAL
-	TOKEN_OP_LEFTPARENTHESS expr TOKEN_OP_RIGHTPARENTHESS /* grouping */
+	| TOKEN_OP_LEFTPARENTHESS expr TOKEN_OP_RIGHTPARENTHESS /* grouping */
 	;
 
 constant: TOKEN_INTEGER_LITERAL
@@ -262,9 +275,4 @@ useful.  In practice, it often does not.
 int yyerror( char *str )
 {
 	printf("parse error: %s\n",str);
-}
-
-main()
-{
-	yyparse();
 }
