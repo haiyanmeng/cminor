@@ -141,12 +141,20 @@ stmt_list: /* nothing */
 	| stmt_list stmt
 	;
 
-stmt: expr_stmt
+stmt: matched_stmt
+	| unmatched_stmt
+	;
+
+matched_stmt: expr_stmt
 	| compound_stmt
-	| if_stmt
 	| for_stmt
 	| return_stmt
 	| print_stmt
+	| TOKEN_IF TOKEN_OP_LEFTPARENTHESS expr TOKEN_OP_RIGHTPARENTHESS matched_stmt TOKEN_ELSE matched_stmt
+	;
+
+unmatched_stmt: TOKEN_IF TOKEN_OP_LEFTPARENTHESS expr TOKEN_OP_RIGHTPARENTHESS stmt
+	| TOKEN_IF TOKEN_OP_LEFTPARENTHESS expr TOKEN_OP_RIGHTPARENTHESS matched_stmt TOKEN_ELSE unmatched_stmt
 	;
 
 expr_stmt: expr TOKEN_SEMICOLON
@@ -155,10 +163,7 @@ expr_stmt: expr TOKEN_SEMICOLON
 compound_stmt: TOKEN_LEFTCURLY stmt_list TOKEN_RIGHTCURLY
 	;
 
-if_stmt: TOKEN_IF TOKEN_OP_LEFTPARENTHESS expr TOKEN_OP_RIGHTPARENTHESS stmt TOKEN_ELSE stmt
-	;
-
-for_stmt: TOKEN_OP_LEFTPARENTHESS expr_opt TOKEN_SEMICOLON expr_opt TOKEN_SEMICOLON expr_opt TOKEN_OP_RIGHTPARENTHESS stmt
+for_stmt: TOKEN_OP_LEFTPARENTHESS expr_opt TOKEN_SEMICOLON expr_opt TOKEN_SEMICOLON expr_opt TOKEN_OP_RIGHTPARENTHESS TOKEN_LEFTCURLY stmt TOKEN_RIGHTCURLY
 	;
 
 return_stmt: TOKEN_RETURN expr_opt TOKEN_SEMICOLON
