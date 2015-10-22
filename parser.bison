@@ -163,6 +163,7 @@ unmatched_stmt: TOKEN_IF TOKEN_OP_LEFTPARENTHESS expr TOKEN_OP_RIGHTPARENTHESS s
 		{ fprintf(stdout, "unmatched if statement\n\n"); }
 	| TOKEN_IF TOKEN_OP_LEFTPARENTHESS expr TOKEN_OP_RIGHTPARENTHESS matched_stmt TOKEN_ELSE unmatched_stmt
 		{ fprintf(stdout, "unmatched if statement\n\n"); }
+	| TOKEN_FOR TOKEN_OP_LEFTPARENTHESS expr_opt TOKEN_SEMICOLON expr_opt TOKEN_SEMICOLON expr_opt TOKEN_OP_RIGHTPARENTHESS unmatched_stmt
 	;
 
 expr_stmt: expr TOKEN_SEMICOLON
@@ -173,7 +174,7 @@ compound_stmt: TOKEN_LEFTCURLY stmt_list TOKEN_RIGHTCURLY
 		{ fprintf(stdout, "compound statement\n\n"); }
 	;
 
-for_stmt: TOKEN_OP_LEFTPARENTHESS expr_opt TOKEN_SEMICOLON expr_opt TOKEN_SEMICOLON expr_opt TOKEN_OP_RIGHTPARENTHESS compound_stmt 
+for_stmt: TOKEN_FOR TOKEN_OP_LEFTPARENTHESS expr_opt TOKEN_SEMICOLON expr_opt TOKEN_SEMICOLON expr_opt TOKEN_OP_RIGHTPARENTHESS matched_stmt
 		{ fprintf(stdout, "for statement\n\n"); }
 	;
 
