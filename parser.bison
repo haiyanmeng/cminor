@@ -101,14 +101,17 @@ external_decl: decl
 	| func_definition
 	;
 
-func_definition: TOKEN_IDENT TOKEN_COLON type TOKEN_OP_ASSIGN compound_stmt
+func_definition: TOKEN_IDENT TOKEN_COLON TOKEN_FUNCTION type TOKEN_OP_LEFTPARENTHESS param_list_opt TOKEN_OP_RIGHTPARENTHESS TOKEN_OP_ASSIGN compound_stmt
 	;
-		{ fprintf(stdout, "function definition\n\n"); type_print($3); }
+		{ fprintf(stdout, "function definition\n\n"); $3 = type_create(TYPE_FUNCTION, (struct param_list *)$6, (struct type *)$4); type_print((struct type *)$3); }
 
 decl: TOKEN_IDENT TOKEN_COLON type TOKEN_OP_ASSIGN initializer TOKEN_SEMICOLON  /* declaration with initialization */
 		{ fprintf(stdout, "declaration with initialziation\n\n"); type_print($3); }
 	| TOKEN_IDENT TOKEN_COLON type TOKEN_SEMICOLON /* declaration without initialization */
 		{ fprintf(stdout, "declaration without initialziation\n\n"); type_print($3); }
+	| TOKEN_IDENT TOKEN_COLON TOKEN_FUNCTION type TOKEN_OP_LEFTPARENTHESS param_list_opt TOKEN_OP_RIGHTPARENTHESS TOKEN_SEMICOLON /* function prototype */
+		{ fprintf(stdout, "function prototype\n\n"); $3 = type_create(TOKEN_FUNCTION, (struct param_list *)$6, (struct type *)$4); type_print((struct type *)$3); }
+
 	;
 
 initializer: expr
@@ -126,7 +129,7 @@ param_list_opt: /* nothing */
 param_list: TOKEN_IDENT TOKEN_COLON type 
 		{ $$ = param_list_create((char *)$1, (struct type *)$3, 0); }
 	| TOKEN_IDENT TOKEN_COLON type TOKEN_COMMA param_list /* */
-		{ $$ = param_list_create((char *)$1, (struct type *)$3, (struct param_list *)$4); }
+		{ param_list_print((struct param_list *)$4); $$ = param_list_create((char *)$1, (struct type *)$3, (struct param_list *)$5); }
 	;
 
 type: TOKEN_INTEGER
@@ -143,8 +146,6 @@ type: TOKEN_INTEGER
 		{ $$ = type_create(TYPE_ARRAY, 0, (struct type *)$4); }
 	| TOKEN_ARRAY TOKEN_OP_LEFTBRACKET logical_or_expr TOKEN_OP_RIGHTBRACKET type
 		{ $$ = type_create(TYPE_ARRAY, 0, (struct type *)$5); }
-	| TOKEN_FUNCTION type TOKEN_OP_LEFTPARENTHESS param_list_opt TOKEN_OP_RIGHTPARENTHESS
-		{ $$ = type_create(TYPE_FUNCTION, (struct param_list *)$4, (struct type *)$2); }
 	;
 
 stmt_list: /* nothing */ 

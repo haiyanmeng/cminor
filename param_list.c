@@ -13,6 +13,7 @@ void param_list_print(struct param_list *p) {
 	if(!p) return;
 
 	printf("%s", p->name);
+	printf(" ");
 	type_print(p->type);
 	param_list_print(p->next);
 }
