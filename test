@@ -80,8 +80,7 @@ a = !(-b);
 for (a=1; b = 2; c=3)
 	print a;
 
-for (a=1, c=1; b = 2; c=3)
-	print a;
+a:integer = 5;
 }
 
 

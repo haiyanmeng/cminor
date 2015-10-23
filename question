@@ -1,3 +1,5 @@
+does c minor allow nested function?
+
 stmt: matched_stmt
         | unmatched_stmt
         ;

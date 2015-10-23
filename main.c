@@ -2,10 +2,12 @@
 #include <errno.h>
 #include <string.h>
 #include <stdlib.h>
+#include "type.h"
 
 // declare the parser function generated from parser.bison
 extern int yyparse();
 extern FILE *yyin;
+extern struct type *parser_result;
 
 int main(int argc, char *argv[]) {
 	int i;
@@ -25,6 +27,7 @@ int main(int argc, char *argv[]) {
 
 	if(yyparse() == 0) {
 		fprintf(stdout, "parse successful: \n");
+		type_print(parser_result);
 	} else {
 		fprintf(stdout, "parse failed\n");
 		exit(EXIT_FAILURE);

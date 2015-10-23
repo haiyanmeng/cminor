@@ -4,8 +4,8 @@ BISON_FILE = parser.bison
 all: cminor
 
 # Add expr.o and other.o here 
-cminor: main.o scanner.o parser.tab.o
-	gcc main.o scanner.o parser.tab.o -o cminor -lm
+cminor: main.o scanner.o parser.tab.o type.o param_list.o
+	gcc main.o scanner.o parser.tab.o type.o param_list.o -o cminor -lm
 
 %.o: %.c *.h
 	gcc -Wall -c $< -o $@
