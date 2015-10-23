@@ -150,7 +150,8 @@ stmt: matched_stmt
 	| unmatched_stmt
 	;
 
-matched_stmt: expr_stmt
+matched_stmt: external_decl
+	| expr_stmt
 	| compound_stmt
 	| return_stmt
 	| print_stmt
