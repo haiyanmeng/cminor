@@ -12,8 +12,10 @@ struct param_list *param_list_create(char *name, struct type *type, struct param
 void param_list_print(struct param_list *p) {
 	if(!p) return;
 
-	printf("%s", p->name);
-	printf(" ");
+	printf("%s: ", p->name);
 	type_print(p->type);
-	param_list_print(p->next);
+	if(p->next) {
+		printf(", ");
+		param_list_print(p->next);
+	}
 }

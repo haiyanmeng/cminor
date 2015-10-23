@@ -262,7 +262,6 @@ postfix_expr: primary_expr
 	;
 
 primary_expr: TOKEN_IDENT
-		{ $$ = yytext; }
 	| constant
 	| TOKEN_STRING_LITERAL
 	| TOKEN_OP_LEFTPARENTHESS expr TOKEN_OP_RIGHTPARENTHESS /* grouping */

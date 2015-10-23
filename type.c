@@ -12,34 +12,35 @@ struct type *type_create(type_kind_t kind, struct param_list *params, struct typ
 
 void type_print(struct type *t) {
 	if(!t) return;
+
 	switch(t->kind) {
 		case TYPE_BOOLEAN:
-			printf("boolean");	 
-			printf(" ");
+			printf("boolean ");	 
 			break;
 		case TYPE_CHARACTER:
-			printf("char");
-			printf(" ");
+			printf("char ");
 			break;
 		case TYPE_INTEGER:
-			printf("integer");
-			printf(" ");
+			printf("integer ");
 			break;
 		case TYPE_STRING:
-			printf("string");
-			printf(" ");
+			printf("string ");
 			break;
 		case TYPE_ARRAY:
-			printf("array");
-			printf(" ");
-			break;
+			printf("array [ ");
+			param_list_print(t->params);
+			printf("] ");
+			type_print(t->subtype);
+			return;
 		case TYPE_FUNCTION:
-			printf("function");
-			printf(" ");
-			break;
+			printf("function: ");
+			type_print(t->subtype);
+			printf("( ");
+			param_list_print(t->params);
+			printf(")");
+			return;
 		case TYPE_VOID:
-			printf("void");
-			printf(" ");
+			printf("void ");
 			break;
 	}
 
