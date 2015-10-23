@@ -101,16 +101,14 @@ external_decl: decl
 	| func_definition
 	;
 
-func_definition: TOKEN_IDENT TOKEN_COLON TOKEN_FUNCTION type TOKEN_OP_LEFTPARENTHESS param_list_opt TOKEN_OP_RIGHTPARENTHESS TOKEN_OP_ASSIGN compound_stmt
+func_definition: TOKEN_IDENT TOKEN_COLON type TOKEN_OP_ASSIGN compound_stmt
 	;
-		{ fprintf(stdout, "function definition\n\n"); }
+		{ fprintf(stdout, "function definition\n\n"); type_print($3); }
 
 decl: TOKEN_IDENT TOKEN_COLON type TOKEN_OP_ASSIGN initializer TOKEN_SEMICOLON  /* declaration with initialization */
 		{ fprintf(stdout, "declaration with initialziation\n\n"); type_print($3); }
 	| TOKEN_IDENT TOKEN_COLON type TOKEN_SEMICOLON /* declaration without initialization */
 		{ fprintf(stdout, "declaration without initialziation\n\n"); type_print($3); }
-	| TOKEN_IDENT TOKEN_COLON TOKEN_FUNCTION type TOKEN_OP_LEFTPARENTHESS param_list_opt TOKEN_OP_RIGHTPARENTHESS TOKEN_SEMICOLON /* function prototype */
-		{ fprintf(stdout, "function prototype\n\n"); type_print($4); }
 	;
 
 initializer: expr
@@ -125,11 +123,10 @@ param_list_opt: /* nothing */
 	| param_list
 	;
 
-param_list: param
-	| param_list TOKEN_COMMA param
-	;
-
-param: TOKEN_IDENT TOKEN_COLON type 
+param_list: TOKEN_IDENT TOKEN_COLON type 
+		{ $$ = param_list_create((char *)$1, (struct type *)$3, 0); }
+	| TOKEN_IDENT TOKEN_COLON type TOKEN_COMMA param_list /* */
+		{ $$ = param_list_create((char *)$1, (struct type *)$3, (struct param_list *)$4); }
 	;
 
 type: TOKEN_INTEGER
@@ -140,12 +137,14 @@ type: TOKEN_INTEGER
 		{ $$ = type_create(TYPE_BOOLEAN, 0, 0); }
 	| TOKEN_STRING
 		{ $$ = type_create(TYPE_STRING, 0, 0); }
-	| TOKEN_ARRAY TOKEN_OP_LEFTBRACKET TOKEN_OP_RIGHTBRACKET type
-		{ $$ = type_create(TYPE_ARRAY, 0, $4); }
-	| TOKEN_ARRAY TOKEN_OP_LEFTBRACKET logical_or_expr TOKEN_OP_RIGHTBRACKET type
-		{ $$ = type_create(TYPE_ARRAY, 0, $5); }
 	| TOKEN_VOID
 		{ $$ = type_create(TYPE_VOID, 0, 0); }
+	| TOKEN_ARRAY TOKEN_OP_LEFTBRACKET TOKEN_OP_RIGHTBRACKET type
+		{ $$ = type_create(TYPE_ARRAY, 0, (struct type *)$4); }
+	| TOKEN_ARRAY TOKEN_OP_LEFTBRACKET logical_or_expr TOKEN_OP_RIGHTBRACKET type
+		{ $$ = type_create(TYPE_ARRAY, 0, (struct type *)$5); }
+	| TOKEN_FUNCTION type TOKEN_OP_LEFTPARENTHESS param_list_opt TOKEN_OP_RIGHTPARENTHESS
+		{ $$ = type_create(TYPE_FUNCTION, (struct param_list *)$4, (struct type *)$2); }
 	;
 
 stmt_list: /* nothing */ 
@@ -262,6 +261,7 @@ postfix_expr: primary_expr
 	;
 
 primary_expr: TOKEN_IDENT
+		{ $$ = yytext; }
 	| constant
 	| TOKEN_STRING_LITERAL
 	| TOKEN_OP_LEFTPARENTHESS expr TOKEN_OP_RIGHTPARENTHESS /* grouping */
