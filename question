@@ -1,4 +1,6 @@
 does c minor allow nested function?
+does c minor allow empty compound stmt like {}?
+is x:boolean = 1; okay?
 
 stmt: matched_stmt
         | unmatched_stmt

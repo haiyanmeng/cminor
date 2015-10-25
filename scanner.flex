@@ -29,33 +29,33 @@ single_char [^\\]|\\.
 single_string_char \\.|[^\\"\n]
 %%
 	/* keywords */
-array { fprintf(stdout, "TOKEN_ARRAY: %s\n", yytext); return TOKEN_ARRAY; }
-boolean { fprintf(stdout, "TOKEN_BOOLEAN: %s\n", yytext); return TOKEN_BOOLEAN; }
-char { fprintf(stdout, "TOKEN_CHAR: %s\n", yytext); return TOKEN_CHAR; }
-else { fprintf(stdout, "TOKEN_ELSE: %s\n", yytext); return TOKEN_ELSE; }
-false { fprintf(stdout, "TOKEN_FALSE: %s\n", yytext); return TOKEN_FALSE; }
-for { fprintf(stdout, "TOKEN_FOR: %s\n", yytext); return TOKEN_FOR; }
-function { fprintf(stdout, "TOKEN_FUNCTION: %s\n", yytext); return TOKEN_FUNCTION; }
-if { fprintf(stdout, "TOKEN_IF: %s\n", yytext); return TOKEN_IF; }
-integer { fprintf(stdout, "TOKEN_INTEGER: %s\n", yytext); return TOKEN_INTEGER; }
-print { fprintf(stdout, "TOKEN_PRINT: %s\n", yytext); return TOKEN_PRINT; }
-return { fprintf(stdout, "TOKEN_RETURN: %s\n", yytext); return TOKEN_RETURN; }
-string { fprintf(stdout, "TOKEN_STRING: %s\n", yytext); return TOKEN_STRING; }
-true { fprintf(stdout, "TOKEN_TRUE: %s\n", yytext); return TOKEN_TRUE; }
-void { fprintf(stdout, "TOKEN_VOID: %s\n", yytext); return TOKEN_VOID; }
-while { fprintf(stdout, "TOKEN_WHILE: %s\n", yytext); return TOKEN_WHILE; }
+array { fprintf(stdout, "TOKEN_ARRAY: %s\n", yytext); yylval.str = strdup(yytext); return TOKEN_ARRAY; }
+boolean { fprintf(stdout, "TOKEN_BOOLEAN: %s\n", yytext); yylval.str = strdup(yytext); return TOKEN_BOOLEAN; }
+char { fprintf(stdout, "TOKEN_CHAR: %s\n", yytext); yylval.str = strdup(yytext); return TOKEN_CHAR; }
+else { fprintf(stdout, "TOKEN_ELSE: %s\n", yytext); yylval.str = strdup(yytext); return TOKEN_ELSE; }
+false { fprintf(stdout, "TOKEN_FALSE: %s\n", yytext); yylval.str = strdup(yytext); return TOKEN_FALSE; }
+for { fprintf(stdout, "TOKEN_FOR: %s\n", yytext); yylval.str = strdup(yytext); return TOKEN_FOR; }
+function { fprintf(stdout, "TOKEN_FUNCTION: %s\n", yytext); yylval.str = strdup(yytext); return TOKEN_FUNCTION; }
+if { fprintf(stdout, "TOKEN_IF: %s\n", yytext); yylval.str = strdup(yytext); return TOKEN_IF; }
+integer { fprintf(stdout, "TOKEN_INTEGER: %s\n", yytext); yylval.str = strdup(yytext); return TOKEN_INTEGER; }
+print { fprintf(stdout, "TOKEN_PRINT: %s\n", yytext); yylval.str = strdup(yytext); return TOKEN_PRINT; }
+return { fprintf(stdout, "TOKEN_RETURN: %s\n", yytext); yylval.str = strdup(yytext); return TOKEN_RETURN; }
+string { fprintf(stdout, "TOKEN_STRING: %s\n", yytext); yylval.str = strdup(yytext); return TOKEN_STRING; }
+true { fprintf(stdout, "TOKEN_TRUE: %s\n", yytext); yylval.str = strdup(yytext); return TOKEN_TRUE; }
+void { fprintf(stdout, "TOKEN_VOID: %s\n", yytext); yylval.str = strdup(yytext); return TOKEN_VOID; }
+while { fprintf(stdout, "TOKEN_WHILE: %s\n", yytext); yylval.str = strdup(yytext); return TOKEN_WHILE; }
 
 	/* identifier */
-{letter_}({letter_}|{digit})* { check_id(); fprintf(stdout, "TOKEN_IDENT: %s\n", yytext); return TOKEN_IDENT; }
+{letter_}({letter_}|{digit})* { check_id(); fprintf(stdout, "TOKEN_IDENT: %s\n", yytext); yylval.str = strdup(yytext); return TOKEN_IDENT; }
 
 	/* integer */
-[+-]?{digit}+ { fprintf(stdout, "TOKEN_INTEGER_LITERAL: %s\n", yytext); return TOKEN_INTEGER_LITERAL; }
+[+-]?{digit}+ { fprintf(stdout, "TOKEN_INTEGER_LITERAL: %s\n", yytext); yylval.n = atoi(strdup(yytext)); return TOKEN_INTEGER_LITERAL; }
 
 	/* char */
-'{single_char}' { fprintf(stdout, "TOKEN_CHAR_LITERAL: %s\n", yytext); return TOKEN_CHAR_LITERAL; }
+'{single_char}' { fprintf(stdout, "TOKEN_CHAR_LITERAL: %s\n", yytext); yylval.c = atoi(strdup(yytext)); return TOKEN_CHAR_LITERAL; }
 
 	/* string */
-\"{single_string_char}*\" { check_str(); fprintf(stdout, "TOKEN_STRING_LITERAL: %s\n", yytext); return TOKEN_STRING_LITERAL; }
+\"{single_string_char}*\" { check_str(); fprintf(stdout, "TOKEN_STRING_LITERAL: %s\n", yytext); yylval.str = strdup(yytext); return TOKEN_STRING_LITERAL; }
 	
 	/* C-style comments */
 "/*" { yyless(2); c_comment(); fprintf(stdout, "TOKEN_COMMENT_C\n"); }
@@ -64,33 +64,33 @@ while { fprintf(stdout, "TOKEN_WHILE: %s\n", yytext); return TOKEN_WHILE; }
 "//"[^\n]*\n /* C++-style comments */
 
 	/* operators */
-"(" { fprintf(stdout, "TOKEN_OP_LEFTPARENTHESS: %s\n", yytext); return TOKEN_OP_LEFTPARENTHESS; }
-")" { fprintf(stdout, "TOKEN_OP_RIGHTPARENTHESS: %s\n", yytext); return TOKEN_OP_RIGHTPARENTHESS; }
-"[" { fprintf(stdout, "TOKEN_OP_LEFTBRACKET: %s\n", yytext); return TOKEN_OP_LEFTBRACKET; }
-"]" { fprintf(stdout, "TOKEN_OP_RIGHTBRACKET: %s\n", yytext); return TOKEN_OP_RIGHTBRACKET; }
-"++" { fprintf(stdout, "TOKEN_OP_INCREMENT: %s\n", yytext); return TOKEN_OP_INCREMENT; }
-"--" { fprintf(stdout, "TOKEN_OP_DECREMENT: %s\n", yytext); return TOKEN_OP_DECREMENT; }
-"!" { fprintf(stdout, "TOKEN_OP_NOT: %s\n", yytext); return TOKEN_OP_NOT; }
-"^" { fprintf(stdout, "TOKEN_OP_POWER: %s\n", yytext); return TOKEN_OP_POWER; }
-"*" { fprintf(stdout, "TOKEN_OP_MUL: %s\n", yytext); return TOKEN_OP_MUL; }
-"/" { fprintf(stdout, "TOKEN_OP_DIV: %s\n", yytext); return TOKEN_OP_DIV; }
-"%" { fprintf(stdout, "TOKEN_OP_MOD: %s\n", yytext); return TOKEN_OP_MOD; }
-"+" { fprintf(stdout, "TOKEN_OP_ADD: %s\n", yytext); return TOKEN_OP_ADD; }
-"-" { fprintf(stdout, "TOKEN_OP_SUB: %s\n", yytext); return TOKEN_OP_SUB; }
-"<=" { fprintf(stdout, "TOKEN_OP_LE: %s\n", yytext); return TOKEN_OP_LE; }
-"<" { fprintf(stdout, "TOKEN_OP_LT: %s\n", yytext); return TOKEN_OP_LT; }
-">=" { fprintf(stdout, "TOKEN_OP_GE: %s\n", yytext); return TOKEN_OP_GE; }
-">" { fprintf(stdout, "TOKEN_OP_GT: %s\n", yytext); return TOKEN_OP_GT; }
-"==" { fprintf(stdout, "TOKEN_OP_EQ: %s\n", yytext); return TOKEN_OP_EQ; }
-"!=" { fprintf(stdout, "TOKEN_OP_UNEQ: %s\n", yytext); return TOKEN_OP_UNEQ; }
-"&&" { fprintf(stdout, "TOKEN_OP_AND: %s\n", yytext); return TOKEN_OP_AND; }
-"||" { fprintf(stdout, "TOKEN_OP_OR: %s\n", yytext); return TOKEN_OP_OR; }
-"=" { fprintf(stdout, "TOKEN_OP_ASSIGN: %s\n", yytext); return TOKEN_OP_ASSIGN; }
-"{" { fprintf(stdout, "TOKEN_LEFTCURLY: %s\n", yytext); return TOKEN_LEFTCURLY; }
-"}" { fprintf(stdout, "TOKEN_RIGHTCURLY: %s\n", yytext); return TOKEN_RIGHTCURLY; }
-":" { fprintf(stdout, "TOKEN_COLON: %s\n", yytext); return TOKEN_COLON; }
-"," { fprintf(stdout, "TOKEN_COMMA: %s\n", yytext); return TOKEN_COMMA; }
-";" { fprintf(stdout, "TOKEN_SEMICOLON: %s\n", yytext); return TOKEN_SEMICOLON; }
+"(" { fprintf(stdout, "TOKEN_OP_LEFTPARENTHESS: %s\n", yytext); yylval.str = strdup(yytext); return TOKEN_OP_LEFTPARENTHESS; }
+")" { fprintf(stdout, "TOKEN_OP_RIGHTPARENTHESS: %s\n", yytext); yylval.str = strdup(yytext); return TOKEN_OP_RIGHTPARENTHESS; }
+"[" { fprintf(stdout, "TOKEN_OP_LEFTBRACKET: %s\n", yytext); yylval.str = strdup(yytext); return TOKEN_OP_LEFTBRACKET; }
+"]" { fprintf(stdout, "TOKEN_OP_RIGHTBRACKET: %s\n", yytext); yylval.str = strdup(yytext); return TOKEN_OP_RIGHTBRACKET; }
+"++" { fprintf(stdout, "TOKEN_OP_INCREMENT: %s\n", yytext); yylval.str = strdup(yytext); return TOKEN_OP_INCREMENT; }
+"--" { fprintf(stdout, "TOKEN_OP_DECREMENT: %s\n", yytext); yylval.str = strdup(yytext); return TOKEN_OP_DECREMENT; }
+"!" { fprintf(stdout, "TOKEN_OP_NOT: %s\n", yytext); yylval.str = strdup(yytext); return TOKEN_OP_NOT; }
+"^" { fprintf(stdout, "TOKEN_OP_POWER: %s\n", yytext); yylval.str = strdup(yytext); return TOKEN_OP_POWER; }
+"*" { fprintf(stdout, "TOKEN_OP_MUL: %s\n", yytext); yylval.str = strdup(yytext); return TOKEN_OP_MUL; }
+"/" { fprintf(stdout, "TOKEN_OP_DIV: %s\n", yytext); yylval.str = strdup(yytext); return TOKEN_OP_DIV; }
+"%" { fprintf(stdout, "TOKEN_OP_MOD: %s\n", yytext); yylval.str = strdup(yytext); return TOKEN_OP_MOD; }
+"+" { fprintf(stdout, "TOKEN_OP_ADD: %s\n", yytext); yylval.str = strdup(yytext); return TOKEN_OP_ADD; }
+"-" { fprintf(stdout, "TOKEN_OP_SUB: %s\n", yytext); yylval.str = strdup(yytext); return TOKEN_OP_SUB; }
+"<=" { fprintf(stdout, "TOKEN_OP_LE: %s\n", yytext); yylval.str = strdup(yytext); return TOKEN_OP_LE; }
+"<" { fprintf(stdout, "TOKEN_OP_LT: %s\n", yytext); yylval.str = strdup(yytext); return TOKEN_OP_LT; }
+">=" { fprintf(stdout, "TOKEN_OP_GE: %s\n", yytext); yylval.str = strdup(yytext); return TOKEN_OP_GE; }
+">" { fprintf(stdout, "TOKEN_OP_GT: %s\n", yytext); yylval.str = strdup(yytext); return TOKEN_OP_GT; }
+"==" { fprintf(stdout, "TOKEN_OP_EQ: %s\n", yytext); yylval.str = strdup(yytext); return TOKEN_OP_EQ; }
+"!=" { fprintf(stdout, "TOKEN_OP_UNEQ: %s\n", yytext); yylval.str = strdup(yytext); return TOKEN_OP_UNEQ; }
+"&&" { fprintf(stdout, "TOKEN_OP_AND: %s\n", yytext); yylval.str = strdup(yytext); return TOKEN_OP_AND; }
+"||" { fprintf(stdout, "TOKEN_OP_OR: %s\n", yytext); yylval.str = strdup(yytext); return TOKEN_OP_OR; }
+"=" { fprintf(stdout, "TOKEN_OP_ASSIGN: %s\n", yytext); yylval.str = strdup(yytext); return TOKEN_OP_ASSIGN; }
+"{" { fprintf(stdout, "TOKEN_LEFTCURLY: %s\n", yytext); yylval.str = strdup(yytext); return TOKEN_LEFTCURLY; }
+"}" { fprintf(stdout, "TOKEN_RIGHTCURLY: %s\n", yytext); yylval.str = strdup(yytext); return TOKEN_RIGHTCURLY; }
+":" { fprintf(stdout, "TOKEN_COLON: %s\n", yytext); yylval.str = strdup(yytext); return TOKEN_COLON; }
+"," { fprintf(stdout, "TOKEN_COMMA: %s\n", yytext); yylval.str = strdup(yytext); return TOKEN_COMMA; }
+";" { fprintf(stdout, "TOKEN_SEMICOLON: %s\n", yytext); yylval.str = strdup(yytext); return TOKEN_SEMICOLON; }
 
 	/* whitespace */
 [ \t\n\r]+ /* white space */

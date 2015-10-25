@@ -1,5 +1,14 @@
 
-main: function integer (x:char,y:boolean) = {}
+main: function integer (x:char,y:boolean) = {
+	f(a,b,c);
+}
+/* 
+	abc;
+(a);
+(a,b);
+a+b;
+a+1;
+*/
 x:integer; // declaration integer without initialization
 x:string = "abc"; // declaration string with initialization
 a: array[5] integer={1,2,3,4,5}; // declaration 1-D array with initialization
