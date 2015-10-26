@@ -3,6 +3,7 @@
 
 /* the operators */
 typedef enum {
+	EXPR_LEFTCURLY,
 	EXPR_LEFTPARENTHESS,
 	EXPR_LEFTBRACKET,
 	EXPR_INCREMENT,

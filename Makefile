@@ -4,11 +4,11 @@ BISON_FILE = parser.bison
 all: cminor
 
 # Add expr.o and other.o here 
-cminor: main.o scanner.o parser.tab.o type.o param_list.o expr.o
-	gcc main.o scanner.o parser.tab.o type.o param_list.o expr.o -o cminor -lm
+cminor: main.o scanner.o parser.tab.o type.o param_list.o expr.o stmt.o decl.o
+	gcc -g main.o scanner.o parser.tab.o type.o param_list.o expr.o stmt.o decl.o -o cminor -lm
 
 %.o: %.c *.h
-	gcc -Wall -c $< -o $@
+	gcc -g -Wall -c $< -o $@
 
 scanner.c: $(FLEX_FILE) parser.tab.h
 	flex -o scanner.c $(FLEX_FILE)

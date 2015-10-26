@@ -55,6 +55,8 @@ for use by scanner.c.
 %token TOKEN_ERROR
 
 %union {
+	struct decl *decl;
+	struct stmt *stmt;
 	struct type *type;
 	struct param_list *params;
 	struct expr *expr;
@@ -63,9 +65,11 @@ for use by scanner.c.
 	char c;
 }
 
+%type <decl> decl func_definition external_decl translation_unit program
+%type <stmt> print_stmt return_stmt compound_stmt expr_stmt unmatched_stmt matched_stmt stmt stmt_list
 %type <type> type func_type
-%type <params> param_list param_list_opt
-%type <expr> constant primary_expr postfix_expr increment_expr unary_expr power_expr mul_expr add_expr relational_expr logical_and_expr logical_or_expr assignment_expr expr expr_opt expr_list expr_list_opt
+%type <params> param param_list param_list_opt
+%type <expr> constant primary_expr postfix_expr increment_expr unary_expr power_expr mul_expr add_expr relational_expr logical_and_expr logical_or_expr assignment_expr expr expr_opt expr_list expr_list_opt initializer initializer_list
 %type <n> unary_operator
 
 %token <n> TOKEN_INTEGER_LITERAL 
@@ -77,6 +81,8 @@ for use by scanner.c.
 #include <stdio.h>
 #include "type.h"
 #include "expr.h" 
+#include "stmt.h" 
+#include "decl.h" 
 
 /*
 YYSTYPE cannot be used together with %union
@@ -97,7 +103,7 @@ Clunky: Keep the final result of the parse in a global variable,
 so that it can be retrieved by main().
 */
 
-struct type *parser_result = 0;
+struct decl *program = 0;
 
 %}
 
@@ -106,47 +112,65 @@ struct type *parser_result = 0;
 /* Here is the grammar: translation_unit is the start symbol. */
 
 /* an empty files is legal in cminor: translation_unit can be empty */
-translation_unit: translation_unit external_decl
+
+program: translation_unit
+		{ program = $1; decl_print($1, 4); return 0; }
+	;
+
+translation_unit: external_decl translation_unit 
+		{ $1->next = $2; $$ = $1; }
 	| /* empty */
+		{ $$ = 0; }
 	;
 
 external_decl: decl
+		{ $$ = $1; }
 	| func_definition
+		{ $$ = $1; }
 	;
 
 func_definition: TOKEN_IDENT TOKEN_COLON func_type TOKEN_OP_ASSIGN compound_stmt
+		{ fprintf(stdout, "function definition\n\n"); $$ = decl_create($1, $3, 0, $5, 0); decl_print($$, 4); }
 	;
-		{ fprintf(stdout, "function prototype\n\n"); }
 
 decl: TOKEN_IDENT TOKEN_COLON type TOKEN_OP_ASSIGN initializer TOKEN_SEMICOLON  /* declaration with initialization */
-		{ fprintf(stdout, "declaration with initialziation\n\n"); type_print($3); }
+		{ fprintf(stdout, "declaration with initialziation\n\n"); $$ = decl_create($1, $3, $5, 0, 0); decl_print($$, 4); }
 	| TOKEN_IDENT TOKEN_COLON type TOKEN_SEMICOLON /* declaration without initialization */
-		{ fprintf(stdout, "declaration without initialziation\n\n"); type_print($3); }
+		{ fprintf(stdout, "declaration without initialziation\n\n"); $$ = decl_create($1, $3, 0, 0, 0); decl_print($$, 4); }
 	| TOKEN_IDENT TOKEN_COLON func_type TOKEN_SEMICOLON /* function prototype */
-		{ fprintf(stdout, "function prototype\n\n"); }
+		{ fprintf(stdout, "function prototype\n\n"); $$ = decl_create($1, $3, 0, 0, 0); decl_print($$, 4); }
 	;
 
 func_type: TOKEN_FUNCTION type TOKEN_OP_LEFTPARENTHESS param_list_opt TOKEN_OP_RIGHTPARENTHESS
-		{ $$ = type_create(TOKEN_FUNCTION, $4, $2); }
+		{ $$ = type_create(TYPE_FUNCTION, $4, $2); }
 	;
 
 initializer: expr
+		{ $$ = $1; }
 	| TOKEN_LEFTCURLY initializer_list TOKEN_RIGHTCURLY
+		{ $$ = expr_create(EXPR_LEFTCURLY, 0, $2); }
 	;
 
 initializer_list: initializer
+		{ $$ = $1; }
 	| initializer_list TOKEN_COMMA initializer
+		{ $$ = expr_create(EXPR_COMMA, $1, $3); }
 	;
 
 param_list_opt: /* empty */
+		{ $$ = 0; }
 	| param_list
+		{ $$ = $1; }
 	;
 
-param_list: TOKEN_IDENT TOKEN_COLON type 
-		{ $$ = param_list_create($1, $3, 0); }
-	| TOKEN_IDENT TOKEN_COLON type TOKEN_COMMA param_list /* */
-		{ $$ = param_list_create($1, $3, $5); }
+param_list: param
+		{ $$ = $1; }
+	| param TOKEN_COMMA param_list /* */
+		{ $1->next = $3; $$ = $1; }
 	;
+
+param: TOKEN_IDENT TOKEN_COLON type 
+		{ $$ = param_list_create($1, $3, 0); }
 
 type: TOKEN_INTEGER
 		{ $$ = type_create(TYPE_INTEGER, 0, 0); }
@@ -165,51 +189,61 @@ type: TOKEN_INTEGER
 	;
 
 stmt_list: /* empty */ 
-	| stmt_list stmt
+		{ $$ = 0; }
+	| stmt stmt_list 
+		{ $1->next = $2; $$ = $1; }
 	;
 
 stmt: matched_stmt
+		{ $$ = $1; }
 	| unmatched_stmt
+		{ $$ = $1; }
 	;
 
 matched_stmt: external_decl
+		{ $$ = stmt_create(STMT_DECL, $1, 0, 0, 0, 0, 0, 0); }
 	| expr_stmt
+		{ $$ = $1; }
 	| compound_stmt
+		{ $$ = $1; }
 	| return_stmt
+		{ $$ = $1; }
 	| print_stmt
+		{ $$ = $1; }
 	| TOKEN_FOR TOKEN_OP_LEFTPARENTHESS expr_opt TOKEN_SEMICOLON expr_opt TOKEN_SEMICOLON expr_opt TOKEN_OP_RIGHTPARENTHESS matched_stmt
-		{ fprintf(stdout, "matched for statement\n\n"); }
+		{ fprintf(stdout, "matched for statement\n\n"); $$ = stmt_create(STMT_FOR, 0, $3, $5, $7, $9, 0, 0); }
 	| TOKEN_IF TOKEN_OP_LEFTPARENTHESS expr TOKEN_OP_RIGHTPARENTHESS matched_stmt TOKEN_ELSE matched_stmt
-		{ fprintf(stdout, "matched if statement\n\n"); }
+		{ fprintf(stdout, "matched if statement\n\n"); $$ = stmt_create(STMT_IF_ELSE, 0, 0, $3, 0, $5, $7, 0); }
 	;
 
 unmatched_stmt: TOKEN_IF TOKEN_OP_LEFTPARENTHESS expr TOKEN_OP_RIGHTPARENTHESS stmt
-		{ fprintf(stdout, "unmatched if statement\n\n"); }
+		{ fprintf(stdout, "unmatched if statement\n\n"); $$ = stmt_create(STMT_IF_ELSE, 0, 0, $3, 0, $5, 0, 0); }
 	| TOKEN_IF TOKEN_OP_LEFTPARENTHESS expr TOKEN_OP_RIGHTPARENTHESS matched_stmt TOKEN_ELSE unmatched_stmt
-		{ fprintf(stdout, "unmatched if statement\n\n"); }
+		{ fprintf(stdout, "unmatched if statement\n\n"); $$ = stmt_create(STMT_IF_ELSE, 0, 0, $3, 0, $5, $7, 0); }
 	| TOKEN_FOR TOKEN_OP_LEFTPARENTHESS expr_opt TOKEN_SEMICOLON expr_opt TOKEN_SEMICOLON expr_opt TOKEN_OP_RIGHTPARENTHESS unmatched_stmt
-		{ fprintf(stdout, "unmatched for statement\n\n"); }
+		{ fprintf(stdout, "unmatched for statement\n\n"); $$ = stmt_create(STMT_FOR, 0, $3, $5, $7, $9, 0, 0); }
 	;
 
 expr_stmt: expr TOKEN_SEMICOLON
-		{ fprintf(stdout, "expression statement\n\n"); 
-		 printf("expr print funcion\n"); expr_print($1); printf("expr print funcion\n"); }
+		{ fprintf(stdout, "expression statement\n\n"); $$ = stmt_create(STMT_EXPR, 0, 0, $1, 0, 0, 0, 0); }
 	;
 
 compound_stmt: TOKEN_LEFTCURLY stmt_list TOKEN_RIGHTCURLY
-		{ fprintf(stdout, "compound statement\n\n"); }
+		{ fprintf(stdout, "compound statement\n\n"); $$ = stmt_create(STMT_BLOCK, 0, 0, 0, 0, $2, 0, 0); }
 	;
 
 return_stmt: TOKEN_RETURN expr_opt TOKEN_SEMICOLON
-		{ fprintf(stdout, "return statement\n\n"); }
+		{ fprintf(stdout, "return statement\n\n"); $$ = stmt_create(STMT_RETURN, 0, 0, $2, 0, 0, 0, 0); }
 	;
 
 print_stmt: TOKEN_PRINT expr_list_opt TOKEN_SEMICOLON
-		{ fprintf(stdout, "print statement\n\n"); }
+		{ fprintf(stdout, "print statement\n\n"); $$ = stmt_create(STMT_RETURN, 0, 0, $2, 0, 0, 0, 0); }
 	;
 
 expr_list_opt: /* empty */
+		{ $$ = 0; }
 	| expr_list
+		{ $$ = $1; }
 	;
 
 expr_list: expr 
@@ -298,14 +332,14 @@ postfix_expr: primary_expr
 	| postfix_expr TOKEN_OP_LEFTBRACKET expr TOKEN_OP_RIGHTBRACKET /* array subscript */
 		{ $$ = expr_create(EXPR_LEFTBRACKET, $1, $3); }
 	| postfix_expr TOKEN_OP_LEFTPARENTHESS expr_list_opt TOKEN_OP_RIGHTPARENTHESS /* function call */
-		{ $$ = expr_create(EXPR_LEFTPARENTHESS, $1, $3); expr_print($$); }
+		{ $$ = expr_create(EXPR_LEFTPARENTHESS, $1, $3); }
 	;
 
 primary_expr: constant
 	| TOKEN_IDENT
 		{ $$ = expr_create_name($1); }
 	| TOKEN_OP_LEFTPARENTHESS expr TOKEN_OP_RIGHTPARENTHESS /* grouping */
-		{ $$ = $2; }
+		{ $$ = expr_create(EXPR_LEFTPARENTHESS, 0, $2); }
 	;
 
 constant: TOKEN_INTEGER_LITERAL

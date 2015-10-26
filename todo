@@ -1,2 +1,2 @@
-how to get yytext inside parser.bision;
+change the print function for char and string
 add lineno to the error output.

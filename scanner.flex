@@ -8,6 +8,7 @@
 void c_comment();
 void check_id();
 void check_str();
+int char_process();
 int real_strlen(const char *text, int len);
 %}
 
@@ -21,6 +22,13 @@ int real_strlen(const char *text, int len);
 /* punctuations : , ; */
 /* whitespace: */
 /* others */
+
+/*
+yytext is the interal buffer flex uses to match tokens, and it will be overwritten
+when the next yylex call tries to read the next token.
+Therefore, bison cannot rely on yytext to keep the token content.
+One solution is to use strdup copy yytext to some storage pointed by yylval.<union_member>.
+*/
 %}
 
 digit [0-9]
@@ -49,10 +57,10 @@ while { fprintf(stdout, "TOKEN_WHILE: %s\n", yytext); yylval.str = strdup(yytext
 {letter_}({letter_}|{digit})* { check_id(); fprintf(stdout, "TOKEN_IDENT: %s\n", yytext); yylval.str = strdup(yytext); return TOKEN_IDENT; }
 
 	/* integer */
-[+-]?{digit}+ { fprintf(stdout, "TOKEN_INTEGER_LITERAL: %s\n", yytext); yylval.n = atoi(strdup(yytext)); return TOKEN_INTEGER_LITERAL; }
+[+-]?{digit}+ { fprintf(stdout, "TOKEN_INTEGER_LITERAL: %s\n", yytext); yylval.n = atoi(yytext); return TOKEN_INTEGER_LITERAL; }
 
 	/* char */
-'{single_char}' { fprintf(stdout, "TOKEN_CHAR_LITERAL: %s\n", yytext); yylval.c = atoi(strdup(yytext)); return TOKEN_CHAR_LITERAL; }
+'{single_char}' { fprintf(stdout, "TOKEN_CHAR_LITERAL: %s\n", yytext); yylval.c = char_process(); return TOKEN_CHAR_LITERAL; }
 
 	/* string */
 \"{single_string_char}*\" { check_str(); fprintf(stdout, "TOKEN_STRING_LITERAL: %s\n", yytext); yylval.str = strdup(yytext); return TOKEN_STRING_LITERAL; }
@@ -111,6 +119,26 @@ void check_str() {
 	if(real_len > 255) {
 		fprintf(stderr, "scan error: the string is too long (its length is %d)! A string can have at most 255 printable characters and 1 null-terminator!\n", real_len);
 		exit(EXIT_FAILURE);
+	}
+}
+
+int char_process() {
+	if(yytext[1] == '\\') {
+		switch(yytext[2]) {
+			case '0':
+				return '\0';
+			case 't':
+				return '\t';
+			case 'n':
+				return '\n';
+			case 'r':
+				return '\r';
+			default:
+				return yytext[2];
+		}
+		return 2;
+	} else {
+		return yytext[1];
 	}
 }
 

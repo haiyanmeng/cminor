@@ -33,7 +33,7 @@ void type_print(struct type *t) {
 			type_print(t->subtype);
 			return;
 		case TYPE_FUNCTION:
-			printf("function: ");
+			printf("function ");
 			type_print(t->subtype);
 			printf("( ");
 			param_list_print(t->params);
@@ -43,7 +43,4 @@ void type_print(struct type *t) {
 			printf("void ");
 			break;
 	}
-
-	param_list_print(t->params);
-	type_print(t->subtype);
 }
