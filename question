@@ -1,14 +1,25 @@
 does c minor allow nested function?
+	no.
 Can we have function prototype or definition inside function?
+	no nested function; function prototype inside function is okay;
 does c minor allow empty compound stmt like {}?
+	yes.
 does c minor allow empty function?
+	yes.
+	
 can we use {} willfully? can we use (()) willfully?
+	yes.
 is x:boolean = 1; okay?
+	parser yes. type checking no.
 a+1: how to only scan one +, without keep going. how to differentiate a+1 and a + 1; change the pattern of numbers. use column number to control it.
-print char and string
-if the user want to how these are printed? f(a*b,a + 1,b, "abc \c\c\d\d\n\d", '\n', '\0', '\r', '\t', '\\', '\b', c);
-can we throw some () like (a);
+	no. there no uanry + sign; only has unary - sign. so a + -5 is right; a + +5 is wrong.
 
+print char and string: print everything liternally without intepreting any special character.
+if the user want to how these are printed? f(a*b,a + 1,b, "abc \c\c\d\d\n\d", '\n', '\0', '\r', '\t', '\\', '\b', c);
+	print everything exactly.
+
+can we throw some () like (a);
+	it does not matter. But you can keep it.
 
 stmt: matched_stmt
         | unmatched_stmt

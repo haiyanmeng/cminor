@@ -14,21 +14,34 @@ struct decl *decl_create(char *name, struct type *t, struct expr *v, struct stmt
 void decl_print(struct decl *d, int indent) {
 	if(!d) return;
 
-	printf("\n");
+	/* indent process */
+	if(indent > 0) {
+		char *spaces = (char *)malloc(indent);
+		int i;
+		for(i = 0; i < indent; i++) {
+			spaces[i] = ' ';
+		}
+		printf("%s", spaces);
+	}
+
 	printf("%s: ", d->name);
 	type_print(d->type);
 	if(d->value) {
+		// declaration with initialization
 		printf("= ");
 		expr_print(d->value);
 		printf(";\n");
 	} else if(d->code) {
-		stmt_print(d->code, 4);
+		// function definition
+		printf("=\n");
+		stmt_print(d->code, indent);
 		printf("\n");
 	} else {
+		// declaration without initialization
 		printf(";\n");
 	}
 
-	decl_print(d->next, 4);
+	decl_print(d->next, indent);
 
 	return;
 }

@@ -22,22 +22,27 @@ void stmt_print(struct stmt *s, int indent) {
 
 	switch(s->kind) {
 		case STMT_DECL:
-			decl_print(s->decl, 4);
+			decl_print(s->decl, indent);
 			break;
 		case STMT_EXPR:
+			indent_process(indent);
 			expr_print(s->expr);
 			printf(";\n");
 			break;
 		case STMT_IF_ELSE:
+			indent_process(indent);
 			printf("if(");
 			expr_print(s->expr);
 			printf(") {\n");
-			stmt_print(s->body, 4);
+			stmt_print(s->body, indent + 4);
+			indent_process(indent);
 			printf("} else {\n");
-			stmt_print(s->else_body, 4);
+			stmt_print(s->else_body, indent + 4);
+			indent_process(indent);
 			printf("}\n");
 			break;
 		case STMT_FOR:
+			indent_process(indent);
 			printf("for(");
 			expr_print(s->init_expr);
 			printf("; ");
@@ -45,27 +50,44 @@ void stmt_print(struct stmt *s, int indent) {
 			printf("; ");
 			expr_print(s->next_expr);
 			printf(") {\n");
-			stmt_print(s->body, 4);
+			stmt_print(s->body, indent + 4);
+			indent_process(indent);
 			printf("}\n");
 			break;
 		case STMT_PRINT:
+			indent_process(indent);
 			printf("print ");
 			expr_print(s->expr);
 			printf(";\n");
 			break;
 		case STMT_RETURN:
+			indent_process(indent);
 			printf("return ");
 			expr_print(s->expr);
 			printf(";\n");
 			break;
 		case STMT_BLOCK:	
+			indent_process(indent);
 			printf("{\n");
-			stmt_print(s->body, 4);
+			stmt_print(s->body, indent + 4);
+			indent_process(indent);
 			printf("}\n");
 			break;
 	}	
-	stmt_print(s->next, 4);
+	stmt_print(s->next, indent);
 	return;
+}
+
+void indent_process(int indent) {
+	/* indent process */
+	if(indent > 0) {
+		char *spaces = (char *)malloc(indent * sizeof(char));
+		int i;
+		for(i = 0; i < indent; i++) {
+			spaces[i] = ' ';
+		}
+		printf("%s", spaces);
+	}
 }
 
 

@@ -62,7 +62,6 @@ for use by scanner.c.
 	struct expr *expr;
 	char *str;
 	int n;
-	char c;
 }
 
 %type <decl> decl func_definition external_decl translation_unit program
@@ -73,8 +72,7 @@ for use by scanner.c.
 %type <n> unary_operator
 
 %token <n> TOKEN_INTEGER_LITERAL 
-%token <c> TOKEN_CHAR_LITERAL
-%token <str> TOKEN_ARRAY TOKEN_BOOLEAN TOKEN_CHAR TOKEN_ELSE TOKEN_FALSE TOKEN_FOR TOKEN_FUNCTION TOKEN_IF TOKEN_INTEGER TOKEN_PRINT TOKEN_RETURN TOKEN_STRING TOKEN_TRUE TOKEN_VOID TOKEN_WHILE TOKEN_IDENT TOKEN_STRING_LITERAL TOKEN_OP_LEFTPARENTHESS TOKEN_OP_RIGHTPARENTHESS TOKEN_OP_LEFTBRACKET TOKEN_OP_RIGHTBRACKET TOKEN_OP_INCREMENT TOKEN_OP_DECREMENT TOKEN_OP_NOT TOKEN_OP_POWER TOKEN_OP_MUL TOKEN_OP_DIV TOKEN_OP_MOD TOKEN_OP_ADD TOKEN_OP_SUB TOKEN_OP_LE TOKEN_OP_LT TOKEN_OP_GE TOKEN_OP_GT TOKEN_OP_EQ TOKEN_OP_UNEQ TOKEN_OP_AND TOKEN_OP_OR TOKEN_OP_ASSIGN TOKEN_LEFTCURLY TOKEN_RIGHTCURLY TOKEN_COLON TOKEN_COMMA TOKEN_SEMICOLON
+%token <str> TOKEN_ARRAY TOKEN_BOOLEAN TOKEN_CHAR TOKEN_ELSE TOKEN_FALSE TOKEN_FOR TOKEN_FUNCTION TOKEN_IF TOKEN_INTEGER TOKEN_PRINT TOKEN_RETURN TOKEN_STRING TOKEN_TRUE TOKEN_VOID TOKEN_WHILE TOKEN_IDENT TOKEN_CHAR_LITERAL TOKEN_STRING_LITERAL TOKEN_OP_LEFTPARENTHESS TOKEN_OP_RIGHTPARENTHESS TOKEN_OP_LEFTBRACKET TOKEN_OP_RIGHTBRACKET TOKEN_OP_INCREMENT TOKEN_OP_DECREMENT TOKEN_OP_NOT TOKEN_OP_POWER TOKEN_OP_MUL TOKEN_OP_DIV TOKEN_OP_MOD TOKEN_OP_ADD TOKEN_OP_SUB TOKEN_OP_LE TOKEN_OP_LT TOKEN_OP_GE TOKEN_OP_GT TOKEN_OP_EQ TOKEN_OP_UNEQ TOKEN_OP_AND TOKEN_OP_OR TOKEN_OP_ASSIGN TOKEN_LEFTCURLY TOKEN_RIGHTCURLY TOKEN_COLON TOKEN_COMMA TOKEN_SEMICOLON
 
 %{
 
@@ -114,7 +112,7 @@ struct decl *program = 0;
 /* an empty files is legal in cminor: translation_unit can be empty */
 
 program: translation_unit
-		{ program = $1; decl_print($1, 4); return 0; }
+		{ program = $1; return 0; }
 	;
 
 translation_unit: external_decl translation_unit 
@@ -130,19 +128,19 @@ external_decl: decl
 	;
 
 func_definition: TOKEN_IDENT TOKEN_COLON func_type TOKEN_OP_ASSIGN compound_stmt
-		{ fprintf(stdout, "function definition\n\n"); $$ = decl_create($1, $3, 0, $5, 0); decl_print($$, 4); }
+		{ fprintf(stdout, "function definition\n\n"); $$ = decl_create($1, $3, 0, $5, 0); }
 	;
 
 decl: TOKEN_IDENT TOKEN_COLON type TOKEN_OP_ASSIGN initializer TOKEN_SEMICOLON  /* declaration with initialization */
-		{ fprintf(stdout, "declaration with initialziation\n\n"); $$ = decl_create($1, $3, $5, 0, 0); decl_print($$, 4); }
+		{ fprintf(stdout, "declaration with initialziation\n\n"); $$ = decl_create($1, $3, $5, 0, 0); }
 	| TOKEN_IDENT TOKEN_COLON type TOKEN_SEMICOLON /* declaration without initialization */
-		{ fprintf(stdout, "declaration without initialziation\n\n"); $$ = decl_create($1, $3, 0, 0, 0); decl_print($$, 4); }
+		{ fprintf(stdout, "declaration without initialziation\n\n"); $$ = decl_create($1, $3, 0, 0, 0); }
 	| TOKEN_IDENT TOKEN_COLON func_type TOKEN_SEMICOLON /* function prototype */
-		{ fprintf(stdout, "function prototype\n\n"); $$ = decl_create($1, $3, 0, 0, 0); decl_print($$, 4); }
+		{ fprintf(stdout, "function prototype\n\n"); $$ = decl_create($1, $3, 0, 0, 0); }
 	;
 
 func_type: TOKEN_FUNCTION type TOKEN_OP_LEFTPARENTHESS param_list_opt TOKEN_OP_RIGHTPARENTHESS
-		{ $$ = type_create(TYPE_FUNCTION, $4, $2); }
+		{ $$ = type_create(TYPE_FUNCTION, $4, 0, $2); }
 	;
 
 initializer: expr
@@ -173,19 +171,19 @@ param: TOKEN_IDENT TOKEN_COLON type
 		{ $$ = param_list_create($1, $3, 0); }
 
 type: TOKEN_INTEGER
-		{ $$ = type_create(TYPE_INTEGER, 0, 0); }
+		{ $$ = type_create(TYPE_INTEGER, 0, 0, 0); }
 	| TOKEN_CHAR
-		{ $$ = type_create(TYPE_CHARACTER, 0, 0); }
+		{ $$ = type_create(TYPE_CHARACTER, 0, 0, 0); }
 	| TOKEN_BOOLEAN
-		{ $$ = type_create(TYPE_BOOLEAN, 0, 0); }
+		{ $$ = type_create(TYPE_BOOLEAN, 0, 0, 0); }
 	| TOKEN_STRING
-		{ $$ = type_create(TYPE_STRING, 0, 0); }
+		{ $$ = type_create(TYPE_STRING, 0, 0, 0); }
 	| TOKEN_VOID
-		{ $$ = type_create(TYPE_VOID, 0, 0); }
+		{ $$ = type_create(TYPE_VOID, 0, 0, 0); }
 	| TOKEN_ARRAY TOKEN_OP_LEFTBRACKET TOKEN_OP_RIGHTBRACKET type
-		{ $$ = type_create(TYPE_ARRAY, 0, $4); }
+		{ $$ = type_create(TYPE_ARRAY, 0, 0, $4); }
 	| TOKEN_ARRAY TOKEN_OP_LEFTBRACKET logical_or_expr TOKEN_OP_RIGHTBRACKET type
-		{ $$ = type_create(TYPE_ARRAY, 0, $5); }
+		{ $$ = type_create(TYPE_ARRAY, 0, $3, $5); }
 	;
 
 stmt_list: /* empty */ 

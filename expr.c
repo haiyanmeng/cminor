@@ -29,9 +29,9 @@ struct expr *expr_create_integer_literal(int c) {
 	return e;
 }
 
-struct expr *expr_create_character_literal(int c) {
+struct expr *expr_create_character_literal(const char *str) {
 	struct expr *e = expr_create(EXPR_CHARACTER_LITERAL, 0, 0);
-	e->literal_value = c;
+	e->string_literal = str;
 	return e;
 }
 
@@ -49,6 +49,7 @@ void expr_print(struct expr *e) {
 			printf("{");
 			expr_print(e->right);
 			printf("}");
+			break;
 		case EXPR_LEFTPARENTHESS:
 			expr_print(e->left);
 			printf("(");
@@ -170,7 +171,7 @@ void expr_print(struct expr *e) {
 			printf("%d", e->literal_value);
 			break;
 		case EXPR_CHARACTER_LITERAL: /*FIXME: need more work, print using the function in token.c */
-			printf("'%c'", e->literal_value);
+			printf("%s", e->string_literal);
 			break;
 		case EXPR_STRING_LITERAL: /*FIXME: need more work, print using the function in token.c */
 			printf("%s", e->string_literal);

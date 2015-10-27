@@ -1,2 +1,7 @@
-change the print function for char and string
+Todo:
+carefully control the space around tokens 
 add lineno to the error output.
+
+#done
+change + - sign for integer;
+change char and string to output literally

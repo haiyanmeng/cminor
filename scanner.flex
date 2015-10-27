@@ -57,10 +57,10 @@ while { fprintf(stdout, "TOKEN_WHILE: %s\n", yytext); yylval.str = strdup(yytext
 {letter_}({letter_}|{digit})* { check_id(); fprintf(stdout, "TOKEN_IDENT: %s\n", yytext); yylval.str = strdup(yytext); return TOKEN_IDENT; }
 
 	/* integer */
-[+-]?{digit}+ { fprintf(stdout, "TOKEN_INTEGER_LITERAL: %s\n", yytext); yylval.n = atoi(yytext); return TOKEN_INTEGER_LITERAL; }
+{digit}+ { fprintf(stdout, "TOKEN_INTEGER_LITERAL: %s\n", yytext); yylval.n = atoi(yytext); return TOKEN_INTEGER_LITERAL; }
 
 	/* char */
-'{single_char}' { fprintf(stdout, "TOKEN_CHAR_LITERAL: %s\n", yytext); yylval.c = char_process(); return TOKEN_CHAR_LITERAL; }
+'{single_char}' { fprintf(stdout, "TOKEN_CHAR_LITERAL: %s\n", yytext); yylval.str = strdup(yytext); return TOKEN_CHAR_LITERAL; }
 
 	/* string */
 \"{single_string_char}*\" { check_str(); fprintf(stdout, "TOKEN_STRING_LITERAL: %s\n", yytext); yylval.str = strdup(yytext); return TOKEN_STRING_LITERAL; }
