@@ -28,12 +28,12 @@ void decl_print(struct decl *d, int indent) {
 	type_print(d->type);
 	if(d->value) {
 		// declaration with initialization
-		printf("= ");
+		printf(" = ");
 		expr_print(d->value);
 		printf(";\n");
 	} else if(d->code) {
 		// function definition
-		printf("=\n");
+		printf(" =\n");
 		stmt_print(d->code, indent);
 		printf("\n");
 	} else {

@@ -16,19 +16,19 @@ void type_print(struct type *t) {
 
 	switch(t->kind) {
 		case TYPE_BOOLEAN:
-			printf("boolean ");	 
+			printf("boolean");	 
 			break;
 		case TYPE_CHARACTER:
-			printf("char ");
+			printf("char");
 			break;
 		case TYPE_INTEGER:
-			printf("integer ");
+			printf("integer");
 			break;
 		case TYPE_STRING:
-			printf("string ");
+			printf("string");
 			break;
 		case TYPE_ARRAY:
-			printf("array [ ");
+			printf("array [");
 			expr_print(t->expr);
 			printf("] ");
 			type_print(t->subtype);
@@ -36,12 +36,17 @@ void type_print(struct type *t) {
 		case TYPE_FUNCTION:
 			printf("function ");
 			type_print(t->subtype);
-			printf("( ");
-			param_list_print(t->params);
-			printf(") ");
+			printf(" ");
+			printf("(");
+			if(t->params) {
+				printf(" ");
+				param_list_print(t->params);
+				printf(" ");
+			}
+			printf(")");
 			return;
 		case TYPE_VOID:
-			printf("void ");
+			printf("void");
 			break;
 	}
 }

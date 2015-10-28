@@ -1,3 +1,12 @@
+a valid c-minor program? do we need check type?
+exactly output the input? no divide by 0 checking? no type check?
+
+what is the test cases we are facing? for example, function_return_type you defined it as type, but I limited it to atomic type + void?
+Is this legal?
+
+why the { after if else does not need to start a newline?
+can we let all block_stmt start on the new line?
+
 does c minor allow nested function?
 	no.
 Can we have function prototype or definition inside function?

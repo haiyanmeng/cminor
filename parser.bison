@@ -235,7 +235,7 @@ return_stmt: TOKEN_RETURN expr_opt TOKEN_SEMICOLON
 	;
 
 print_stmt: TOKEN_PRINT expr_list_opt TOKEN_SEMICOLON
-		{ fprintf(stdout, "print statement\n\n"); $$ = stmt_create(STMT_RETURN, 0, 0, $2, 0, 0, 0, 0); }
+		{ fprintf(stdout, "print statement\n\n"); $$ = stmt_create(STMT_PRINT, 0, 0, $2, 0, 0, 0, 0); }
 	;
 
 expr_list_opt: /* empty */
