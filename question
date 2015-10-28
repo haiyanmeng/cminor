@@ -6,6 +6,9 @@ Is this legal?
 
 why the { after if else does not need to start a newline?
 can we let all block_stmt start on the new line?
+we can delete extra newlines? can we add extra newlines?
+
+
 
 does c minor allow nested function?
 	no.

@@ -34,8 +34,7 @@ void decl_print(struct decl *d, int indent) {
 	} else if(d->code) {
 		// function definition
 		printf(" =\n");
-		stmt_print(d->code, indent);
-		printf("\n");
+		stmt_print(d->code, indent, indent, 1);
 	} else {
 		// declaration without initialization
 		printf(";\n");

@@ -80,6 +80,13 @@ a = !(-b);
 for (a=1; b = 2; c=3)
 	print a;
 
+for (a=1; b = 2; c=3) {
+	{
+		a+b;
+	}
+}
+a=1;
+
 a:integer = 5;
 }
 

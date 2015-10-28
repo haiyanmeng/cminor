@@ -1,7 +1,10 @@
 Todo:
-carefully control the space around tokens 
 add lineno to the error output.
+add memory allocation successful check. check function return value
+valgrind check memory leak
 
 #done
+if else and for end { tune
 change + - sign for integer;
 change char and string to output literally
+carefully control the space around tokens 
