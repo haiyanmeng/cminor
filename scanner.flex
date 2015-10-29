@@ -1,4 +1,5 @@
 %option noyywrap
+%option yylineno
 
 %{
 #include "parser.tab.h"
@@ -104,12 +105,12 @@ while { fprintf(stdout, "TOKEN_WHILE: %s\n", yytext); yylval.str = strdup(yytext
 [ \t\n\r]+ /* white space */
 
 	/* all the others */
-. { fprintf(stderr, "scan error: %s is not a valid token!\n", yytext); exit(EXIT_FAILURE); }
+. { fprintf(stderr, "scan error: %s is not a valid token! (Error Location: Line %d)\n", yytext, yylineno); exit(EXIT_FAILURE); }
 %%
 
 void check_id() {
 	if(yyleng > 256) {
-		fprintf(stderr, "scan error: the identifier(%s) is too long (its length is %d)! A identifer can be no longer than 256 characters!\n", yytext, yyleng);
+		fprintf(stderr, "scan error: the identifier(%s) is too long (its length is %d)! A identifer can be no longer than 256 characters! (Error Location: Line %d)\n", yytext, yyleng, yylineno);
 		exit(EXIT_FAILURE);
 	}
 }
@@ -117,7 +118,7 @@ void check_id() {
 void check_str() {
 	int real_len = real_strlen(yytext, yyleng);
 	if(real_len > 255) {
-		fprintf(stderr, "scan error: the string is too long (its length is %d)! A string can have at most 255 printable characters and 1 null-terminator!\n", real_len);
+		fprintf(stderr, "scan error: the string is too long (its length is %d)! A string can have at most 255 printable characters and 1 null-terminator! (Error Location: Line %d)\n", real_len, yylineno);
 		exit(EXIT_FAILURE);
 	}
 }
@@ -187,7 +188,7 @@ loop1:
 	}
 
 	if(c == EOF) {
-		printf("scan error: the C-style comment is incomplete, EOF should not be included inside a comment!\n");
+		printf("scan error: the C-style comment is incomplete, EOF should not be included inside a comment! (Error Location: Line %d)\n", yylineno);
 		exit(EXIT_FAILURE);
 	}
 }
