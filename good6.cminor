@@ -1,20 +1,16 @@
 /* declaration */
-
 x:integer; // declaration integer without initialization
-x:integer = 123243535; // declaration integer with initialization
-x:integer = "123"; // declaration integer with initialization, parser does not do type checking.
-x:integer = {1, 'a', "123"}; // declaration integer with initialization, parser does not do type checking.
+x2:integer = 123243535; // declaration integer with initialization
 
-x:string; // declaration string without initialization
-x:string = "abc"; // declaration string with initialization
+x3:string; // declaration string without initialization
+x4:string = "abc"; // declaration string with initialization
 
 y:char; // declaration char without initialization
-y:char = 'q'; // declaration char with initialization
+y1:char = 'q'; // declaration char with initialization
 
 a: array[5] integer; // declaration 1-D array without initialization
-a: array[5] integer={1,2,3,4,5}; // declaration 1-D array with initialization
+a2: array[5] integer={1,2,3,4,5}; // declaration 1-D array with initialization
 
-a: array [] array [] string; // declaration 2-D array without initialization
-a: array [] array [] string = { {"today", "is"}, {"Thursday"}, {"a", "b", "c"} }; // declaration 2-D array with intialization
+a3: array [] array [] string; // declaration 2-D array without initialization
 
 

@@ -1,5 +1,3 @@
-puts: function void (); 
-puts: function void ( s: string ); 
-puts: function array [] array [] char ( a: array[] integer, s: string ); 
-
-
+puts1: function void (); 
+puts2: function void ( s: string ); 
+puts3: function char ( a: array[] integer, s: string ); 

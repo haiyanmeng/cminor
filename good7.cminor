@@ -1,15 +1,17 @@
 /* function definition */
-main: function integer () = {}
+f: function void (s:string) = {
+	print s;
+	return;
+}
 
 main: function integer () = {
-	puts("hello");
-
-/* return statement */
-return a;
-return;
-
+	f("hello");
+	d:string = "abc";
 /* print statement */
 print "abc", d;
 print;
+
+/* return statement */
+return 1;
 }
 

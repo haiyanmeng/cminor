@@ -1,4 +1,4 @@
-main: function integer (x:char,y:boolean) = {
-    f(a+b,a + 1,b,'dd',c);
+main: function integer () (x:char,y:boolean) = {
+    f(a+b,a + 1,b,'d',c);
 }
 

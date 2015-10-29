@@ -1,3 +1,4 @@
 main: function integer (x:char,y:boolean) = {
-	a: array[5+x-323] integer={1,2,3,4,5}; // declaration 1-D array with initialization
+	a: array[5] integer={1,2,3,4,5}; // declaration 1-D array with initialization
+	return 0;
 }
