@@ -1,1 +1,2 @@
-"abc
+/* assignment statement must be inside function */
+x = 1;

@@ -1,7 +1,9 @@
 Todo:
 add lineno to the error output.
+test cases
 add memory allocation successful check. check function return value
 valgrind check memory leak
+remove additional output
 
 #done
 if else and for end { tune

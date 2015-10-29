@@ -1,1 +1,2 @@
-/* abc
+/*a++ can not be directly followed by a integer */
+a++1;

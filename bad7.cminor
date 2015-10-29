@@ -1,1 +1,2 @@
-#
+// missing =
+main: function integer (x:char,y:boolean)  { }

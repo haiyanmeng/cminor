@@ -1,2 +1,5 @@
-"hello
-world"
+/* comma can not be used in this context */
+main: function integer (x:char,y:boolean) = {
+	for(a=1, b= 2; c =1; )
+		print a;
+}

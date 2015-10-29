@@ -1,1 +1,4 @@
-'\'
+/* comma can not used in this context */
+main: function integer (x:char,y:boolean) = {
+	(a=1,b=b);
+}

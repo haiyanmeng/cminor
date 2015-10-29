@@ -1,1 +1,15 @@
-"hello\nworld\rhmeng\tsunday!"
+/* function definition */
+main: function integer () = {}
+
+main: function integer () = {
+	puts("hello");
+
+/* return statement */
+return a;
+return;
+
+/* print statement */
+print "abc", d;
+print;
+}
+
