@@ -19,7 +19,6 @@ struct expr *expr_create(expr_t kind, struct expr *left, struct expr *right) {
 struct expr *expr_create_name(const char *n) {
 	struct expr *e = expr_create(EXPR_IDENT_NAME, 0, 0);
 	e->name = n;
-	printf("\nexpr_create_name %s\n", e->name);
 	return e;
 }
 

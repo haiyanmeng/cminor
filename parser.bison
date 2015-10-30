@@ -72,7 +72,7 @@ for use by scanner.c.
 %type <n> unary_operator
 
 %token <n> TOKEN_INTEGER_LITERAL 
-%token <str> TOKEN_ARRAY TOKEN_BOOLEAN TOKEN_CHAR TOKEN_ELSE TOKEN_FALSE TOKEN_FOR TOKEN_FUNCTION TOKEN_IF TOKEN_INTEGER TOKEN_PRINT TOKEN_RETURN TOKEN_STRING TOKEN_TRUE TOKEN_VOID TOKEN_WHILE TOKEN_IDENT TOKEN_CHAR_LITERAL TOKEN_STRING_LITERAL TOKEN_OP_LEFTPARENTHESS TOKEN_OP_RIGHTPARENTHESS TOKEN_OP_LEFTBRACKET TOKEN_OP_RIGHTBRACKET TOKEN_OP_INCREMENT TOKEN_OP_DECREMENT TOKEN_OP_NOT TOKEN_OP_POWER TOKEN_OP_MUL TOKEN_OP_DIV TOKEN_OP_MOD TOKEN_OP_ADD TOKEN_OP_SUB TOKEN_OP_LE TOKEN_OP_LT TOKEN_OP_GE TOKEN_OP_GT TOKEN_OP_EQ TOKEN_OP_UNEQ TOKEN_OP_AND TOKEN_OP_OR TOKEN_OP_ASSIGN TOKEN_LEFTCURLY TOKEN_RIGHTCURLY TOKEN_COLON TOKEN_COMMA TOKEN_SEMICOLON
+%token <str> TOKEN_IDENT TOKEN_CHAR_LITERAL TOKEN_STRING_LITERAL 
 
 %{
 
@@ -128,15 +128,15 @@ external_decl: decl
 	;
 
 func_definition: TOKEN_IDENT TOKEN_COLON func_type TOKEN_OP_ASSIGN compound_stmt
-		{ fprintf(stdout, "function definition\n\n"); $$ = decl_create($1, $3, 0, $5, 0); }
+		{ $$ = decl_create($1, $3, 0, $5, 0); }
 	;
 
 decl: TOKEN_IDENT TOKEN_COLON type TOKEN_OP_ASSIGN initializer TOKEN_SEMICOLON  /* declaration with initialization */
-		{ fprintf(stdout, "declaration with initialziation\n\n"); $$ = decl_create($1, $3, $5, 0, 0); }
+		{ $$ = decl_create($1, $3, $5, 0, 0); }
 	| TOKEN_IDENT TOKEN_COLON type TOKEN_SEMICOLON /* declaration without initialization */
-		{ fprintf(stdout, "declaration without initialziation\n\n"); $$ = decl_create($1, $3, 0, 0, 0); }
+		{ $$ = decl_create($1, $3, 0, 0, 0); }
 	| TOKEN_IDENT TOKEN_COLON func_type TOKEN_SEMICOLON /* function prototype */
-		{ fprintf(stdout, "function prototype\n\n"); $$ = decl_create($1, $3, 0, 0, 0); }
+		{ $$ = decl_create($1, $3, 0, 0, 0); }
 	;
 
 func_type: TOKEN_FUNCTION type TOKEN_OP_LEFTPARENTHESS param_list_opt TOKEN_OP_RIGHTPARENTHESS
@@ -209,33 +209,33 @@ matched_stmt: external_decl
 	| print_stmt
 		{ $$ = $1; }
 	| TOKEN_FOR TOKEN_OP_LEFTPARENTHESS expr_opt TOKEN_SEMICOLON expr_opt TOKEN_SEMICOLON expr_opt TOKEN_OP_RIGHTPARENTHESS matched_stmt
-		{ fprintf(stdout, "matched for statement\n\n"); $$ = stmt_create(STMT_FOR, 0, $3, $5, $7, $9, 0, 0); }
+		{ $$ = stmt_create(STMT_FOR, 0, $3, $5, $7, $9, 0, 0); }
 	| TOKEN_IF TOKEN_OP_LEFTPARENTHESS expr TOKEN_OP_RIGHTPARENTHESS matched_stmt TOKEN_ELSE matched_stmt
-		{ fprintf(stdout, "matched if statement\n\n"); $$ = stmt_create(STMT_IF_ELSE, 0, 0, $3, 0, $5, $7, 0); }
+		{ $$ = stmt_create(STMT_IF_ELSE, 0, 0, $3, 0, $5, $7, 0); }
 	;
 
 unmatched_stmt: TOKEN_IF TOKEN_OP_LEFTPARENTHESS expr TOKEN_OP_RIGHTPARENTHESS stmt
-		{ fprintf(stdout, "unmatched if statement\n\n"); $$ = stmt_create(STMT_IF_ELSE, 0, 0, $3, 0, $5, 0, 0); }
+		{ $$ = stmt_create(STMT_IF_ELSE, 0, 0, $3, 0, $5, 0, 0); }
 	| TOKEN_IF TOKEN_OP_LEFTPARENTHESS expr TOKEN_OP_RIGHTPARENTHESS matched_stmt TOKEN_ELSE unmatched_stmt
-		{ fprintf(stdout, "unmatched if statement\n\n"); $$ = stmt_create(STMT_IF_ELSE, 0, 0, $3, 0, $5, $7, 0); }
+		{ $$ = stmt_create(STMT_IF_ELSE, 0, 0, $3, 0, $5, $7, 0); }
 	| TOKEN_FOR TOKEN_OP_LEFTPARENTHESS expr_opt TOKEN_SEMICOLON expr_opt TOKEN_SEMICOLON expr_opt TOKEN_OP_RIGHTPARENTHESS unmatched_stmt
-		{ fprintf(stdout, "unmatched for statement\n\n"); $$ = stmt_create(STMT_FOR, 0, $3, $5, $7, $9, 0, 0); }
+		{ $$ = stmt_create(STMT_FOR, 0, $3, $5, $7, $9, 0, 0); }
 	;
 
 expr_stmt: expr TOKEN_SEMICOLON
-		{ fprintf(stdout, "expression statement\n\n"); $$ = stmt_create(STMT_EXPR, 0, 0, $1, 0, 0, 0, 0); }
+		{ $$ = stmt_create(STMT_EXPR, 0, 0, $1, 0, 0, 0, 0); }
 	;
 
 compound_stmt: TOKEN_LEFTCURLY stmt_list TOKEN_RIGHTCURLY
-		{ fprintf(stdout, "compound statement\n\n"); $$ = stmt_create(STMT_BLOCK, 0, 0, 0, 0, $2, 0, 0); }
+		{ $$ = stmt_create(STMT_BLOCK, 0, 0, 0, 0, $2, 0, 0); }
 	;
 
 return_stmt: TOKEN_RETURN expr_opt TOKEN_SEMICOLON
-		{ fprintf(stdout, "return statement\n\n"); $$ = stmt_create(STMT_RETURN, 0, 0, $2, 0, 0, 0, 0); }
+		{ $$ = stmt_create(STMT_RETURN, 0, 0, $2, 0, 0, 0, 0); }
 	;
 
 print_stmt: TOKEN_PRINT expr_list_opt TOKEN_SEMICOLON
-		{ fprintf(stdout, "print statement\n\n"); $$ = stmt_create(STMT_PRINT, 0, 0, $2, 0, 0, 0, 0); }
+		{ $$ = stmt_create(STMT_PRINT, 0, 0, $2, 0, 0, 0, 0); }
 	;
 
 expr_list_opt: /* empty */
@@ -361,5 +361,5 @@ useful.  In practice, it often does not.
 
 int yyerror( char *str )
 {
-	printf("parse error: %s\n",str);
+	printf("parse error: %s!\n",str);
 }

@@ -22,10 +22,8 @@ int main(int argc, char *argv[]) {
 	}
 
 	if(yyparse() == 0) {
-		fprintf(stdout, "parse successful: \n");
 		decl_print(program, 0);
 	} else {
-		fprintf(stdout, "parse failed\n");
 		exit(EXIT_FAILURE);
 	}
 
