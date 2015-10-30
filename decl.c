@@ -3,6 +3,12 @@
 
 struct decl *decl_create(char *name, struct type *t, struct expr *v, struct stmt *c, struct decl *next) {
 	struct decl *d = (struct decl *)malloc(sizeof(struct decl));
+
+	if(!d) {
+		fprintf(stderr, "malloc fails!\n");
+		exit(EXIT_FAILURE);
+	}
+
 	d->name = name;
 	d->type = t;
 	d->value = v;
@@ -16,12 +22,21 @@ void decl_print(struct decl *d, int indent) {
 
 	/* indent process */
 	if(indent > 0) {
-		char *spaces = (char *)malloc(indent);
+		char *spaces = (char *)malloc(indent+1);
+
+		if(!spaces) {
+			fprintf(stderr, "malloc fails!\n");
+			exit(EXIT_FAILURE);
+		}
+
 		int i;
 		for(i = 0; i < indent; i++) {
 			spaces[i] = ' ';
 		}
+		spaces[i] = '\0';
 		printf("%s", spaces);
+		
+		free(spaces);
 	}
 
 	printf("%s: ", d->name);

@@ -4,6 +4,12 @@
 
 struct type *type_create(type_kind_t kind, struct param_list *params, struct expr *expr, struct type *subtype) {
 	struct type *t = (struct type *)malloc(sizeof(struct type));	
+
+	if(!t) {
+		fprintf(stderr, "malloc fails!\n");
+		exit(EXIT_FAILURE);
+	}
+
 	t->kind = kind;
 	t->params = params;
 	t->expr = expr;

@@ -4,6 +4,12 @@
 
 struct expr *expr_create(expr_t kind, struct expr *left, struct expr *right) {
 	struct expr *e = (struct expr *)malloc(sizeof(struct expr));
+
+	if(!e) {
+		fprintf(stderr, "malloc fails!\n");
+		exit(EXIT_FAILURE);
+	}
+
 	e->kind = kind;
 	e->left = left;
 	e->right = right;

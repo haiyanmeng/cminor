@@ -6,6 +6,12 @@
 
 struct stmt *stmt_create(stmt_kind_t kind, struct decl *d, struct expr *init_expr, struct expr *e, struct expr *next_expr, struct stmt *body, struct stmt *else_body, struct stmt *next) {
 	struct stmt *s = (struct stmt *)malloc(sizeof(struct stmt));
+
+	if(!s) {
+		fprintf(stderr, "malloc fails!\n");
+		exit(EXIT_FAILURE);
+	}
+
 	s->kind = kind;
 	s->decl = d;
 	s->init_expr = init_expr;
@@ -110,11 +116,20 @@ void stmt_print(struct stmt *s, int indent1, int indent2, int curly_newline) {
 void indent_process(int indent) {
 	/* indent process */
 	if(indent > 0) {
-		char *spaces = (char *)malloc(indent * sizeof(char));
+		char *spaces = (char *)malloc((indent+1) * sizeof(char));
+
+		if(!spaces) {
+			fprintf(stderr, "malloc fails!\n");
+			exit(EXIT_FAILURE);
+		}
+
 		int i;
 		for(i = 0; i < indent; i++) {
 			spaces[i] = ' ';
 		}
+		spaces[i] = '\0';
 		printf("%s", spaces);
+		
+		free(spaces);
 	}
 }
