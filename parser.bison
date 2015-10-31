@@ -19,10 +19,10 @@ for use by scanner.c.
 %token TOKEN_TRUE
 %token TOKEN_VOID
 %token TOKEN_WHILE
-%token TOKEN_IDENT
-%token TOKEN_INTEGER_LITERAL
-%token TOKEN_CHAR_LITERAL
-%token TOKEN_STRING_LITERAL
+%token <str> TOKEN_IDENT
+%token <n> TOKEN_INTEGER_LITERAL
+%token <str> TOKEN_CHAR_LITERAL
+%token <str> TOKEN_STRING_LITERAL
 %token TOKEN_COMMENT_C
 %token TOKEN_COMMENT_CPLUSPLUS
 %token TOKEN_OP_LEFTPARENTHESS
@@ -71,9 +71,6 @@ for use by scanner.c.
 %type <expr> constant primary_expr postfix_expr increment_expr unary_expr power_expr mul_expr add_expr relational_expr logical_and_expr logical_or_expr assignment_expr expr expr_opt expr_list expr_list_opt initializer initializer_list
 %type <n> unary_operator
 
-%token <n> TOKEN_INTEGER_LITERAL 
-%token <str> TOKEN_IDENT TOKEN_CHAR_LITERAL TOKEN_STRING_LITERAL 
-
 %{
 
 #include <stdio.h>
@@ -104,7 +101,6 @@ so that it can be retrieved by main().
 struct decl *program = 0;
 
 %}
-
 %%
 
 /* Here is the grammar: translation_unit is the start symbol. */
@@ -250,10 +246,13 @@ expr_list: expr
 	;
 
 expr_opt: /* empty */
+		{ $$ = 0; }
 	| expr
+		{ $$ = $1; }
 	;
 
 expr: assignment_expr
+		{ $$ = $1; }
 	;
 
 assignment_expr: logical_or_expr
