@@ -17,4 +17,4 @@ parser.tab.c parser.tab.h: $(BISON_FILE)
 	yacc -d -bparser -v $(BISON_FILE)
 	
 clean:
-	rm -f cminor *.o scanner.c parser.tab.* parser.output lex.yy.*
+	rm -f cminor *.o scanner.c parser.tab.* parser.output lex.yy.* output
