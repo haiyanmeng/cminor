@@ -1,5 +1,6 @@
 #include "decl.h"
 #include <stdlib.h>
+#include <stdio.h>
 
 struct decl *decl_create(char *name, struct type *t, struct expr *v, struct stmt *c, struct decl *next) {
 	struct decl *d = (struct decl *)malloc(sizeof(struct decl));

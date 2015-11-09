@@ -5,7 +5,6 @@
 #include "type.h"
 #include "stmt.h"
 #include "expr.h"
-#include <stdio.h>
 
 struct decl {
 	char *name; /* function name or variable name */
