@@ -10,9 +10,9 @@ extern FILE *yyin;
 extern struct decl *program;
 
 int main(int argc, char *argv[]) {
-
-	if(strcmp(argv[1], "-scan") != 0 && strcmp(argv[1], "-parse") != 0) {
-		fprintf(stderr, "The option of %s should be: -scan or -parse\n", argv[0]);
+	/* there is no difference between these three options. */
+	if(strcmp(argv[1], "-scan") != 0 && strcmp(argv[1], "-parse") != 0 && strcmp(argv[1], "-print") != 0) {
+		fprintf(stderr, "The option of %s should be: -scan or -parse or -print\n", argv[0]);
 		exit(EXIT_FAILURE);
 	}
 
