@@ -16,12 +16,12 @@ typedef enum {
 
 struct stmt {
 	stmt_kind_t kind;
-	struct decl *decl;
-	struct expr *init_expr;
-	struct expr *expr;
-	struct expr *next_expr;
+	struct decl *decl; /* x: integer; */
+	struct expr *init_expr; /* the init expr of for stmt */
+	struct expr *expr; /* expr; or middle expr of for stmt */
+	struct expr *next_expr; /* the next expr of for stmt */
 	struct stmt *body;
-	struct stmt *else_body;
+	struct stmt *else_body; /* body of else stmt */
 	struct stmt *next;
 };
 

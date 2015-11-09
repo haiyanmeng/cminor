@@ -41,9 +41,9 @@ struct expr {
 	struct expr *right;
 
 	/* used by leaf expr types */
-	const char *name;
-	int literal_value;
-	const char * string_literal;
+	const char *name; /* identifier */
+	int literal_value; /* boolean and integer */
+	const char * string_literal; /* string */
 };
 
 struct expr * expr_create(expr_t kind, struct expr *left, struct expr *right);

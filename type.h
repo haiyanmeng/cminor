@@ -26,8 +26,8 @@ kind = TYPE_INTEGER, params = null, subtype = null
 */
 struct type {
 	type_kind_t kind;
-	struct param_list *params; /* function parameter list; array size */
-	struct expr *expr; /* array size. (e.g., a: array[5+23-3] integer; */
+	struct param_list *params; /* function parameter list */
+	struct expr *expr; /* array size (e.g., a: array[5+23-3] integer; */
 	struct type *subtype; /* function return value type; type of array elements */
 };
 

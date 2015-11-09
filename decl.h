@@ -8,10 +8,10 @@
 #include <stdio.h>
 
 struct decl {
-	char *name;
+	char *name; /* function name or variable name */
 	struct type *type;
-	struct expr *value;
-	struct stmt *code;
+	struct expr *value; /* initializer */
+	struct stmt *code; /* function body */
 	struct decl *next;
 };
 
