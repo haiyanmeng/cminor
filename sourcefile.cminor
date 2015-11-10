@@ -1,33 +1,9 @@
-array boolean char else false for function if integer print return string true void while
-name var1 _2 i x mystr fog123 BigLongName55
-6 8 9 123 +6 -9
+x:integer = 3;
+y:char;
 
-'a' '\n' '\0' '\t' '"'
-
-/* abc */ 
-"abc"			"a\"b"
-
-/**** * Common multi-line comment style.  ****/
-
-/****
- * Common multi-line comment style.
- ****/
-
-/****
- * Another common multi-line comment style.
- */
-
-/* /* bac */
-
-// /* */ bac */
-
-string
-1534
-'a'
-Notre Dame
-"Notre\nDame";
->=
-
-5ab
-0_12
-53
+/* Display fibonnaci numbers from 0 to 45. */
+fib: function integer ( x: integer ) = {
+if( x<1 ) { return 0; } else {
+if(x<2) { return 1; } else {
+return fib(x-1) + fib(x-2); // recursive step
+} }}

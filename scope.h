@@ -2,6 +2,20 @@
 #define SCOPE_H
 
 #include "symbol.h"
+#include "hash_table.h"
+
+extern int level;
+
+struct scope {
+	struct hash_table *h; /* each hash table corresponds a scope and maps an identifier to a symbol. */
+	struct scope *next;
+};
+
+/* 
+ * a singly linked list of hash tables, each hash table corresponds a scope and maps an identifier to a symbol.
+ * the closest scope is at the beginning of the linked list.
+ */
+extern struct scope *head;
 
 /*
  * Increase the scope level;
@@ -17,4 +31,9 @@ void scope_bind(const char *name, struct symbol *s);
 
 struct symbol *scope_lookup(const char *name);
 
+struct symbol *scope_lookup_local(const char *name);
+
+void scope_init();
+void scope_print();
+void hash_table_traverse(struct hash_table *h);
 #endif

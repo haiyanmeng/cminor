@@ -1,4 +1,7 @@
 Todo:
+function body resolve
+
+check header file includes
 add lineno to the error output.
 add memory allocation successful check. check function return value
 valgrind check memory leak

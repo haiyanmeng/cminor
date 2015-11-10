@@ -1,6 +1,11 @@
 #include "decl.h"
 #include <stdlib.h>
 #include <stdio.h>
+#include "symbol.h"
+#include "scope.h"
+
+extern int level;
+extern struct scope *head; 
 
 struct decl *decl_create(char *name, struct type *t, struct expr *v, struct stmt *c, struct decl *next) {
 	struct decl *d = (struct decl *)malloc(sizeof(struct decl));
@@ -61,5 +66,32 @@ void decl_print(struct decl *d, int indent) {
 	return;
 }
 
+void decl_resolve(struct decl *d) {
+	if(!d) return;
 
+	struct symbol *sym;
+	if(level == 0) {
+		sym = symbol_create(SYMBOL_GLOBAL, d->type, d->name);
+	} else {
+		sym = symbol_create(SYMBOL_LOCAL, d->type, d->name);
+	}
+	
+	if(scope_lookup_local(d->name)) {
+		fprintf(stderr, "resolve error: %s has been defined at the current scope of level %d!\n", d->name, level);
+		exit(EXIT_FAILURE);
+	}
+
+	d->symbol = sym;
+
+	scope_bind(d->name, sym);
+	
+	/* resolve the initializer, the intializer of level 0 can not involve identifier */
+
+	if(d->code) {
+		scope_enter();	
+		scope_exit();
+	}
+
+	decl_resolve(d->next);
+}
 
