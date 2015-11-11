@@ -66,14 +66,14 @@ void decl_print(struct decl *d, int indent) {
 	return;
 }
 
-void decl_resolve(struct decl *d) {
+void decl_resolve(struct decl *d, int seq) {
 	if(!d) return;
 
 	struct symbol *sym;
 	if(level == 0) {
-		sym = symbol_create(SYMBOL_GLOBAL, d->type, d->name);
+		sym = symbol_create(SYMBOL_GLOBAL, seq, d->type, d->name);
 	} else {
-		sym = symbol_create(SYMBOL_LOCAL, d->type, d->name);
+		sym = symbol_create(SYMBOL_LOCAL, seq, d->type, d->name);
 	}
 	
 	if(scope_lookup_local(d->name)) {
@@ -89,11 +89,11 @@ void decl_resolve(struct decl *d) {
 
 	if(d->code) {
 		scope_enter();	
-		param_list_resolve(d->type->params);
-		stmt_resolve(d->code->body);
+		param_list_resolve(d->type->params, 0);
+		stmt_resolve(d->code->body, 0);
 		scope_exit();
 	}
 
-	decl_resolve(d->next);
+	decl_resolve(d->next, seq+1);
 }
 

@@ -57,12 +57,6 @@ int scope_level() {
 }
 
 void scope_bind(const char *name, struct symbol *s) {
-	printf("enter into scope_bind\n");
-	if(head->h) {
-		printf("has a scope to bind\n");
-	} else {
-		printf("does has a scope to bind\n");
-	}
 	//hash_table_traverse(head->h);
 
 	if(!hash_table_insert(head->h, name, (const void *)s)) {
@@ -77,10 +71,16 @@ struct symbol *scope_lookup(const char *name) {
 	while(i >= 0) {
 		struct symbol *sym = (struct symbol *)hash_table_lookup(s->h, name);
 		if(sym) {
-			if(i == 0) {
-				fprintf(stdout, "%s resolves to global %s (level %d)\n", name, name, i);
-			} else {
-				fprintf(stdout, "%s resolves to local %s (level %d)\n", name, name, i);
+			switch(sym->kind) {
+				case SYMBOL_GLOBAL:
+					fprintf(stdout, "%s resolves to global %s (level %d)\n", name, name, i);
+					break;
+				case SYMBOL_LOCAL:
+					fprintf(stdout, "%s resolves to local %d (level %d)\n", name, sym->which, i);
+					break;
+				case SYMBOL_PARAM:
+					fprintf(stdout, "%s resolves to param %d (level %d)\n", name, sym->which, i);
+					break;
 			}
 			return sym;
 		} else {
@@ -128,6 +128,6 @@ void hash_table_traverse(struct hash_table *h) {
 	while(hash_table_nextkey(h, &key, &value)) {
 		fprintf(stdout, "%s: %s\n", key, ((struct symbol *)value)->name);
 	}
-	printf("finish traverse a hash_table\n");
+	printf("finish traverse a hash_table\n\n");
 }
 

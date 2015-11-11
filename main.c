@@ -30,7 +30,7 @@ int main(int argc, char *argv[]) {
 			decl_print(program, 0);
 		} else if(!strcmp(argv[1], "-resolve")) {
 			scope_init();
-			decl_resolve(program);
+			decl_resolve(program, 0);
 			scope_print();
 		}
 	} else {

@@ -41,5 +41,5 @@ void stmt_print(struct stmt *s, int indent1, int indent2, int curly_newline);
 /* print indents */
 void indent_process(int indent);
 
-void stmt_resolve(struct stmt *s);
+void stmt_resolve(struct stmt *s, int seq);
 #endif
