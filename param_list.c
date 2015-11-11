@@ -1,6 +1,10 @@
 #include "param_list.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include "symbol.h"
+#include "scope.h"
+
+extern int level;
 
 struct param_list *param_list_create(char *name, struct type *type, struct param_list *next) {
 	struct param_list *p = (struct param_list *)malloc(sizeof(struct param_list));
@@ -24,4 +28,23 @@ void param_list_print(struct param_list *p) {
 		printf(", ");
 		param_list_print(p->next);
 	}
+}
+
+void param_list_resolve(struct param_list *p) {
+	if(!p) return;
+
+	struct symbol *sym = symbol_create(SYMBOL_LOCAL, p->type, p->name);
+	
+	if(scope_lookup_local(p->name)) {
+		fprintf(stderr, "resolve error: %s has been defined at the current scope (level %d)!\n", p->name, level);
+		exit(EXIT_FAILURE);
+	} else {
+		fprintf(stdout, "%s resolves to param %s (level %d)\n", p->name, p->name, level);
+	}
+
+	p->symbol = sym;
+
+	scope_bind(p->name, sym);
+	
+	param_list_resolve(p->next);
 }

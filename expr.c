@@ -1,6 +1,7 @@
 #include "expr.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include "scope.h"
 
 struct expr *expr_create(expr_t kind, struct expr *left, struct expr *right) {
 	struct expr *e = (struct expr *)malloc(sizeof(struct expr));
@@ -184,4 +185,18 @@ void expr_print(struct expr *e) {
 	}
 	return;
 }
+
+void expr_resolve(struct expr *e) {
+	if(!e) return;
+	
+	expr_resolve(e->left);
+	expr_resolve(e->right);
+
+	if(e->kind == EXPR_IDENT_NAME) {
+		struct symbol * sym = scope_lookup(e->name);
+	}
+	return;
+}
+
+
 

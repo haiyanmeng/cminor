@@ -77,24 +77,26 @@ struct symbol *scope_lookup(const char *name) {
 	while(i >= 0) {
 		struct symbol *sym = (struct symbol *)hash_table_lookup(s->h, name);
 		if(sym) {
-			fprintf(stdout, "Scope lookup succeeds: find %s at level %d\n", name, i);
+			if(i == 0) {
+				fprintf(stdout, "%s resolves to global %s (level %d)\n", name, name, i);
+			} else {
+				fprintf(stdout, "%s resolves to local %s (level %d)\n", name, name, i);
+			}
 			return sym;
 		} else {
 			i -= 1;
 			s = s->next;
 		}
 	}
-	fprintf(stdout, "resolve error: can not find %s in any scope!\n", name);
+	fprintf(stdout, "resolve error: %s is not defined!\n", name);
 	return 0;
 }
 
 struct symbol *scope_lookup_local(const char *name) {
 	struct symbol *sym = (struct symbol *)hash_table_lookup(head->h, name);
 	if(sym) {
-		//fprintf(stdout, "Scope lookup succeeds: find %s in the scope of level %d\n", name, level);
 		return sym;
 	} else {
-		//fprintf(stdout, "resolve error: can not find %s in the local scope of level %d!\n", name, level);
 		return 0;
 	}
 }

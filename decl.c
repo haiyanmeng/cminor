@@ -89,6 +89,8 @@ void decl_resolve(struct decl *d) {
 
 	if(d->code) {
 		scope_enter();	
+		param_list_resolve(d->type->params);
+		stmt_resolve(d->code->body);
 		scope_exit();
 	}
 
