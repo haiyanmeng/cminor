@@ -3,12 +3,19 @@ if (..)
 does this open a new scope?
 
 can we put a function prototype after the function definition?
+	no. prototype should come first.
 
 if a function name is redefined? are we supposed to resolve the fuction body? 
-
+	yes. do as much as possible.
 
 x:integer = 3;
 z:integer = x1+3;
 resolve error: the intializer of a global variable (z) should not involve another global variable (x1)!
 in this case, x1 is also not defined yet. how many different errors should this contribute?
+//	first find name resolution should exit;
+	complain as much as possible before you exit
 
+
+x:integer = 3;
+z:integer = x+3;
+this should be a type check error, not name resolution error.

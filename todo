@@ -1,4 +1,5 @@
 Todo:
+double check the notes to see what error are type check error, and what error are name resolution.
 resolve function prototype; test whether prototype can be after func definition;
 test if body only a single expr_stmt without {}; what happened if we define a new variable there?
 track the error number; print all the errors;
