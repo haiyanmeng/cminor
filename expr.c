@@ -186,14 +186,18 @@ void expr_print(struct expr *e) {
 	return;
 }
 
-void expr_resolve(struct expr *e) {
+void expr_resolve(struct expr *e, const char *lvalue) {
 	if(!e) return;
 	
-	expr_resolve(e->left);
-	expr_resolve(e->right);
+	expr_resolve(e->left, lvalue);
+	expr_resolve(e->right, lvalue);
 
 	if(e->kind == EXPR_IDENT_NAME) {
-		struct symbol * sym = scope_lookup(e->name);
+		if(level == 0) {
+			fprintf(stderr, "resolve error: the intializer of a global variable (%s) should not involve another global variable (%s)!\n", lvalue, e->name);
+		} else {
+			scope_lookup(e->name);
+		}
 	}
 	return;
 }

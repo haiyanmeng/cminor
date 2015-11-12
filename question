@@ -1,3 +1,14 @@
 if (..)
 	int x = 6;
 does this open a new scope?
+
+can we put a function prototype after the function definition?
+
+if a function name is redefined? are we supposed to resolve the fuction body? 
+
+
+x:integer = 3;
+z:integer = x1+3;
+resolve error: the intializer of a global variable (z) should not involve another global variable (x1)!
+in this case, x1 is also not defined yet. how many different errors should this contribute?
+

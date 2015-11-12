@@ -75,23 +75,37 @@ void decl_resolve(struct decl *d, int seq) {
 	} else {
 		sym = symbol_create(SYMBOL_LOCAL, seq, d->type, d->name);
 	}
+
+	struct symbol *s = scope_lookup_local(d->name);	
+	if(s) {
+		switch(s->kind) {
+			case SYMBOL_GLOBAL:
+				fprintf(stderr, "resolve error: %s has been defined globally!\n", d->name);
+				break;
+			case SYMBOL_LOCAL:
+				fprintf(stderr, "resolve error: %s has been defined as local %d (level %d)\n", d->name, s->which, level);
+				break;
+			case SYMBOL_PARAM:
+				fprintf(stderr, "resolve error: %s has been defined as param %d (level %d)\n", d->name, s->which, level);
+				break;
+		}
+	} else {
+		d->symbol = sym;
 	
-	if(scope_lookup_local(d->name)) {
-		fprintf(stderr, "resolve error: %s has been defined at the current scope of level %d!\n", d->name, level);
-		exit(EXIT_FAILURE);
-	}
-
-	d->symbol = sym;
-
-	scope_bind(d->name, sym);
+		scope_bind(d->name, sym);
+		
+		/* resolve the initializer, the intializer of level 0 can not involve identifier */
 	
-	/* resolve the initializer, the intializer of level 0 can not involve identifier */
-
-	if(d->code) {
-		scope_enter();	
-		param_list_resolve(d->type->params, 0);
-		stmt_resolve(d->code->body, 0);
-		scope_exit();
+		if(d->value) {
+			expr_resolve(d->value, d->name);
+		}
+	
+		if(d->code) {
+			scope_enter();	
+			param_list_resolve(d->type->params, 0);
+			stmt_resolve(d->code->body, 0);
+			scope_exit();
+		}
 	}
 
 	decl_resolve(d->next, seq+1);

@@ -1,7 +1,6 @@
 Todo:
-function body resolve
-resolve function prototype;
-the rvalue of global variable can not have variable.
+resolve function prototype; test whether prototype can be after func definition;
+test if body only a single expr_stmt without {}; what happened if we define a new variable there?
 track the error number; print all the errors;
 
 check header file includes
@@ -12,6 +11,8 @@ remove additional output
 
 <<<< Done:
 add id to param and local and global symbol which field
+the rvalue of global variable can not have variable.
+function body resolve
 
 #done
 if else and for end { tune
