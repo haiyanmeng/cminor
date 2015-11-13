@@ -16,13 +16,20 @@ typedef enum {
 	SYMBOL_GLOBAL
 } symbol_t;
 
+typedef enum {
+	FUNC_PROTO,
+	FUNC_DEF,
+	FUNC_NOT
+} func_t;
+
 struct symbol {
 	symbol_t kind;
 	int which; /* number of each symbol in a scope */
 	struct type *type;
 	char *name;
+	func_t t;
 };
 
-struct symbol *symbol_create(symbol_t kind, int seq, struct type *type, char *name);
+struct symbol *symbol_create(symbol_t kind, int seq, struct type *type, char *name, func_t t);
 
 #endif

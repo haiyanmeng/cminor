@@ -193,11 +193,10 @@ void expr_resolve(struct expr *e, const char *lvalue) {
 	expr_resolve(e->right, lvalue);
 
 	if(e->kind == EXPR_IDENT_NAME) {
+		scope_lookup(e->name);
 		if(level == 0) {
-			fprintf(stderr, "resolve error: the intializer of a global variable (%s) should not involve another global variable (%s)!\n", lvalue, e->name);
-		} else {
-			scope_lookup(e->name);
-		}
+			fprintf(stderr, "resolve error: the intializer of a global variable (%s) should be constant and should not involve another global variable (%s)!\n", lvalue, e->name);
+		} 
 	}
 	return;
 }

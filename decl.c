@@ -70,17 +70,41 @@ void decl_resolve(struct decl *d, int seq) {
 	if(!d) return;
 
 	struct symbol *sym;
+
+	//judge whether this is a function prototype
 	if(level == 0) {
-		sym = symbol_create(SYMBOL_GLOBAL, seq, d->type, d->name);
+		// here can have function prototype, function definition, variable declaration.
+		if(d->type->kind == TYPE_FUNCTION) {
+			if(!(d->code)) {
+				sym = symbol_create(SYMBOL_GLOBAL, seq, d->type, d->name, FUNC_PROTO);
+			} else {
+				sym = symbol_create(SYMBOL_GLOBAL, seq, d->type, d->name, FUNC_DEF);
+			}
+		} else {
+				sym = symbol_create(SYMBOL_GLOBAL, seq, d->type, d->name, FUNC_NOT);
+		}
 	} else {
-		sym = symbol_create(SYMBOL_LOCAL, seq, d->type, d->name);
+		//FIXME: here can have function prototype and variable declaration, and stmt.
+		if(d->type->kind == TYPE_FUNCTION) {
+			if(!(d->code)) {
+				sym = symbol_create(SYMBOL_LOCAL, seq, d->type, d->name, FUNC_PROTO);
+			} else {
+				fprintf(stderr, "Function definitions can not be nested!\n");
+			}
+		} else {
+			sym = symbol_create(SYMBOL_LOCAL, seq, d->type, d->name, FUNC_NOT);
+		}
 	}
 
 	struct symbol *s = scope_lookup_local(d->name);	
 	if(s) {
 		switch(s->kind) {
 			case SYMBOL_GLOBAL:
-				fprintf(stderr, "resolve error: %s has been defined globally!\n", d->name);
+				if(s->t == FUNC_PROTO && sym->t == FUNC_DEF) {
+					s->t = FUNC_DEF;
+				} else if(s->t == FUNC_DEF && sym->t == FUNC_DEF) {
+					fprintf(stderr, "resolve error: %s has been defined globally!\n", d->name);
+				}
 				break;
 			case SYMBOL_LOCAL:
 				fprintf(stderr, "resolve error: %s has been defined as local %d (level %d)\n", d->name, s->which, level);
@@ -91,22 +115,20 @@ void decl_resolve(struct decl *d, int seq) {
 		}
 	} else {
 		d->symbol = sym;
-	
 		scope_bind(d->name, sym);
-		
-		/* resolve the initializer, the intializer of level 0 can not involve identifier */
-	
-		if(d->value) {
-			expr_resolve(d->value, d->name);
-		}
-	
-		if(d->code) {
-			scope_enter();	
-			param_list_resolve(d->type->params, 0);
-			stmt_resolve(d->code->body, 0);
-			scope_exit();
-		}
+	}		
+
+	/* resolve the initializer and function body no matter whether the variable or the function is defined or not. */
+	if(d->value) {
+		expr_resolve(d->value, d->name);
 	}
+
+	if(d->code) {
+		scope_enter();	
+		param_list_resolve(d->type->params, 0);
+		stmt_resolve(d->code->body, 0);
+		scope_exit();
+	} 
 
 	decl_resolve(d->next, seq+1);
 }

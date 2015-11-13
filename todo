@@ -1,4 +1,8 @@
 Todo:
+function nesting? no, you can not do function nested.
+test what happen if you do function nested?
+function prototype can be in function, yes. even in the function definition of itself.
+
 double check the notes to see what error are type check error, and what error are name resolution.
 resolve function prototype; test whether prototype can be after func definition;
 test if body only a single expr_stmt without {}; what happened if we define a new variable there?

@@ -33,7 +33,7 @@ void param_list_print(struct param_list *p) {
 void param_list_resolve(struct param_list *p, int seq) {
 	if(!p) return;
 
-	struct symbol *sym = symbol_create(SYMBOL_PARAM, seq, p->type, p->name);
+	struct symbol *sym = symbol_create(SYMBOL_PARAM, seq, p->type, p->name, FUNC_NOT);
 	
 	if(scope_lookup_local(p->name)) {
 		fprintf(stderr, "resolve error: %s has been defined at the current scope (level %d)!\n", p->name, level);

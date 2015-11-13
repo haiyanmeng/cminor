@@ -1,9 +1,39 @@
+can we ignore the parameter name in function prototype? the prototype parameter name should not be necessary to be the same with the paramter of function def?
+
+x:integer = 5;
 if (..)
-	int x = 6;
-does this open a new scope?
+	x:integer = 6;
+is this legal? does this open a new scope? this is legal, but this does not open a new scope.
+
+int main() {
+    int x;
+    if(1) 
+        x = 3;
+    return 1;
+}
+this is legal.
+
+int main() {
+    if(1) 
+        int x = 3;
+    return 1;
+}
+func_param.c:9:3: error: expected expression before ‘int’
+   int x = 3;
+
+int main() {
+    if(1) {
+        int x = 3;
+    }
+    return 0;
+}
+this is also legal.
+
+<<<< Done:
+where a function prototype allowed? anywhere
 
 can we put a function prototype after the function definition?
-	no. prototype should come first.
+	yes. 
 
 if a function name is redefined? are we supposed to resolve the fuction body? 
 	yes. do as much as possible.
