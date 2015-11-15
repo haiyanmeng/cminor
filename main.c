@@ -9,11 +9,14 @@
 extern int yyparse();
 extern FILE *yyin;
 extern struct decl *program;
+extern int error_count;
 
 int main(int argc, char *argv[]) {
 	/* there is no difference between these three options. */
-	if(strcmp(argv[1], "-scan") != 0 && strcmp(argv[1], "-parse") != 0 && strcmp(argv[1], "-print") != 0 \
-		&& strcmp(argv[1], "-resolve")) {
+	if(strcmp(argv[1], "-scan") != 0 \
+		&& strcmp(argv[1], "-parse") != 0 && strcmp(argv[1], "-print") != 0 \
+		&& strcmp(argv[1], "-resolve") \
+		&& strcmp(argv[1], "-typecheck")) {
 		fprintf(stderr, "The option of %s should be: -scan or -parse or -print\n", argv[0]);
 		exit(EXIT_FAILURE);
 	}
@@ -32,6 +35,19 @@ int main(int argc, char *argv[]) {
 			scope_init();
 			decl_resolve(program, 0);
 			scope_print();
+			if(error_count > 0) {
+				fprintf(stderr, "%d name resolution errors have been found!\n", error_count);
+				exit(EXIT_FAILURE);
+			}
+		} else if(!strcmp(argv[1], "-typecheck")) {
+			scope_init();
+			decl_resolve(program, 0);
+			scope_print();
+			if(error_count > 0) {
+				fprintf(stderr, "%d name resolution errors have been found!\n", error_count);
+				exit(EXIT_FAILURE);
+			}
+			decl_typecheck(program);
 		}
 	} else {
 		exit(EXIT_FAILURE);

@@ -56,3 +56,17 @@ void type_print(struct type *t) {
 			break;
 	}
 }
+
+int type_equals(struct type *s, struct type *t) {
+	if(!s && !t) {
+		return 1;
+	} else if(s && t && (s->kind == t->kind)) {
+		if(!(s->subtype) && !(t->subtype) && !(s->params) && !(t->params)) {
+			return 1;
+		} else {
+			return type_equals(s->subtype, t->subtype) && params_equals(s->params, t->params);
+		}
+	} else {
+		return 0;
+	}
+}

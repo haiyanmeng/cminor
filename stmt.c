@@ -172,4 +172,48 @@ void stmt_resolve(struct stmt *s, int seq) {
 	return;
 }
 
+void stmt_typecheck(struct stmt *s) {
+	if(!s) return;
 
+	struct type *t;
+	switch(s->kind) {
+		case STMT_DECL:
+			decl_typecheck(s->decl);
+			break;
+		case STMT_EXPR:
+		case STMT_PRINT:
+		case STMT_RETURN:
+			expr_typecheck(s->expr);
+			break;
+		case STMT_IF_ELSE:
+			t = expr_typecheck(s->expr);
+			if(!t) {
+				fprintf(stderr, "type error: if() is not legal! The correct syntax should be if(expr)!\n");
+				exit(EXIT_FAILURE);
+			}
+			if(t->kind != TYPE_BOOLEAN) {
+				fprintf(stderr, "type error: the expr of if_stmt must be boolean!\n"); 
+				exit(EXIT_FAILURE);
+			}
+
+			stmt_typecheck(s->body);
+			stmt_typecheck(s->else_body);
+			break;
+		case STMT_FOR:
+			expr_typecheck(s->init_expr);
+
+			t = expr_typecheck(s->expr);
+			if(t->kind != TYPE_BOOLEAN) {
+				fprintf(stderr, "type error: the expr of if_stmt must be boolean!\n"); 
+				exit(EXIT_FAILURE);
+			}
+
+			expr_typecheck(s->next_expr);
+			stmt_typecheck(s->body);
+			break;
+		case STMT_BLOCK:	
+			stmt_typecheck(s->body);
+			break;
+	}	
+	stmt_typecheck(s->next);
+}

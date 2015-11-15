@@ -18,6 +18,14 @@ struct decl {
 
 struct decl *decl_create(char *name, struct type *t, struct expr *v, struct stmt *c, struct decl *next);
 void decl_print(struct decl *d, int indent);
+
+/*
+ * name resolution errors: function redefinition
+ */
 void decl_resolve(struct decl *d, int seq);
 
+/*
+ * type checking errors: conflict between function prototype and function definition
+ */
+void decl_typecheck(struct decl *d);
 #endif

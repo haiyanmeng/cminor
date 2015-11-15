@@ -12,6 +12,7 @@ struct expr *expr_create(expr_t kind, struct expr *left, struct expr *right) {
 	}
 
 	e->kind = kind;
+	e->symbol = 0;
 	e->left = left;
 	e->right = right;
 	return e;
@@ -193,13 +194,240 @@ void expr_resolve(struct expr *e, const char *lvalue) {
 	expr_resolve(e->right, lvalue);
 
 	if(e->kind == EXPR_IDENT_NAME) {
-		scope_lookup(e->name);
+		e->symbol = scope_lookup(e->name);
 		if(level == 0) {
 			fprintf(stderr, "resolve error: the intializer of a global variable (%s) should be constant and should not involve another global variable (%s)!\n", lvalue, e->name);
+			error_count += 1;
 		} 
 	}
 	return;
 }
 
+struct type *expr_typecheck(struct expr *e) {
+	if(!e) return 0;
+	
+	struct type *left, *right;
+	switch(e->kind) {
+		case EXPR_LEFTCURLY:
+			return expr_typecheck(e->right);
+			break;
+		case EXPR_LEFTPARENTHESS:
+			if(e->left) {
+				//function call
+				return scope_lookup(e->left->name)->type->subtype;
+			} else {
+				//grouping
+				return expr_typecheck(e->right);
+			}
+			break;
+		case EXPR_LEFTBRACKET:
+			left = expr_typecheck(e->left);
+			right = expr_typecheck(e->right);
 
+			//the left child should be type array
+			if(left->kind != TYPE_ARRAY) {
+				fprintf(stderr, "type error: %s is not an array, and can not be indexed.\n", e->name);
+				exit(EXIT_FAILURE);
+			}
+
+			//the right child should be type integer
+			if(right->kind != TYPE_INTEGER) {
+				fprintf(stderr, "type error: an array index must be integer!\n");
+				exit(EXIT_FAILURE);
+			}
+			return left->subtype;
+			break;
+		case EXPR_INCREMENT:
+		case EXPR_DECREMENT:
+			left = expr_typecheck(e->left);
+			if(left->kind != TYPE_INTEGER) {
+				fprintf(stderr, "type error: ++/-- expr only applys to integer types!\n");
+				type_print(left);
+				type_print(left);
+				exit(EXIT_FAILURE);
+			}
+			return left;
+			break;
+		case EXPR_UNARY_NEG:
+			right = expr_typecheck(e->right);
+			if(right->kind != TYPE_INTEGER) {
+				fprintf(stderr, "type error: unary neg operator expr only applys to integer types!\n");
+				type_print(right);
+				exit(EXIT_FAILURE);
+			}
+			return right;
+			break;
+		case EXPR_NOT:
+			right = expr_typecheck(e->right);
+			if(right->kind != TYPE_BOOLEAN) {
+				fprintf(stderr, "type error: not operator expr only applys to boolean types!\n");
+				type_print(right);
+				exit(EXIT_FAILURE);
+			}
+			return right;
+			break;
+		case EXPR_POWER:
+		case EXPR_MUL:
+		case EXPR_DIV:
+		case EXPR_MOD:
+		case EXPR_ADD:
+		case EXPR_SUB:
+			left = expr_typecheck(e->left);
+			right = expr_typecheck(e->right);
+			if(!type_equals(left, right)) {
+				fprintf(stderr, "type error: binary operator expr mismatch. ");
+				type_print(left);
+				type_print(right);
+				exit(EXIT_FAILURE);
+			} else {
+				if(left->kind != TYPE_INTEGER) {
+					fprintf(stderr, "type error: binary operator expr only applys to integer types!\n");
+					type_print(left);
+					type_print(right);
+					exit(EXIT_FAILURE);
+				}
+				return left;
+			}
+			break;
+		case EXPR_LE:
+		case EXPR_LT:
+		case EXPR_GE:
+		case EXPR_GT:
+			left = expr_typecheck(e->left);
+			right = expr_typecheck(e->right);
+			if(!type_equals(left, right)) {
+				fprintf(stderr, "type error: comparison expr mismatch. ");
+				type_print(left);
+				type_print(right);
+				exit(EXIT_FAILURE);
+			} else {
+				if(left->kind != TYPE_INTEGER) {
+					fprintf(stderr, "type error: comparison expr only applys to integer types!\n");
+					type_print(left);
+					type_print(right);
+					exit(EXIT_FAILURE);
+				}
+				return type_create(TYPE_BOOLEAN, 0, 0, 0);
+			}
+			break;
+		case EXPR_EQ:
+			left = expr_typecheck(e->left);
+			right = expr_typecheck(e->right);
+			if(!type_equals(left, right)) {
+				fprintf(stderr, "type error: eq expr mismatch. ");
+				type_print(left);
+				type_print(right);
+				exit(EXIT_FAILURE);
+			} else {
+				if(left->kind == TYPE_ARRAY || left->kind == TYPE_FUNCTION) {
+					fprintf(stderr, "type error: eq expr does not apply to array and function types!\n");
+					type_print(left);
+					type_print(right);
+					exit(EXIT_FAILURE);
+				}
+				return left;
+			}
+			break;
+		case EXPR_UNEQ:
+			left = expr_typecheck(e->left);
+			right = expr_typecheck(e->right);
+			if(!type_equals(left, right)) {
+				fprintf(stderr, "type error: uneq expr mismatch. ");
+				type_print(left);
+				type_print(right);
+				exit(EXIT_FAILURE);
+			} else {
+				if(left->kind == TYPE_ARRAY || left->kind == TYPE_FUNCTION) {
+					fprintf(stderr, "type error: uneq expr does not apply to array and function types!\n");
+					type_print(left);
+					type_print(right);
+					exit(EXIT_FAILURE);
+				}
+				return left;
+			}
+			break;
+		case EXPR_AND:
+			left = expr_typecheck(e->left);
+			right = expr_typecheck(e->right);
+			if(!type_equals(left, right)) {
+				fprintf(stderr, "type error: and expr mismatch. ");
+				type_print(left);
+				type_print(right);
+				exit(EXIT_FAILURE);
+			} else {
+				if(left->kind != TYPE_BOOLEAN) {
+					fprintf(stderr, "type error: and expr only applys to boolean types!\n");
+					type_print(left);
+					type_print(right);
+					exit(EXIT_FAILURE);
+				}
+				return left;
+			}
+			break;
+		case EXPR_OR:
+			left = expr_typecheck(e->left);
+			right = expr_typecheck(e->right);
+			if(!type_equals(left, right)) {
+				fprintf(stderr, "type error: or expr mismatch. ");
+				type_print(left);
+				type_print(right);
+				exit(EXIT_FAILURE);
+			} else {
+				if(left->kind != TYPE_BOOLEAN) {
+					fprintf(stderr, "type error: or expr only applys to boolean types!\n");
+					type_print(left);
+					type_print(right);
+					exit(EXIT_FAILURE);
+				}
+				return left;
+			}
+			break;
+		case EXPR_ASSIGN:
+			left = expr_typecheck(e->left);
+			right = expr_typecheck(e->right);
+			if(!type_equals(left, right)) {
+				fprintf(stderr, "type error: assign expr mismatch. ");
+				type_print(left);
+				type_print(right);
+				exit(EXIT_FAILURE);
+			} else {
+				if(left->kind == TYPE_FUNCTION) {
+					fprintf(stderr, "type error: assign expr does not apply to function types\n");
+					type_print(left);
+					type_print(right);
+					exit(EXIT_FAILURE);
+				}
+				return left;
+			}
+			break;
+		case EXPR_COMMA:
+			left = expr_typecheck(e->left);
+			right = expr_typecheck(e->right);
+			if(!type_equals(left, right)) {
+				fprintf(stderr, "type error: comma expr mismatch. ");
+				type_print(left);
+				type_print(right);
+				exit(EXIT_FAILURE);
+			} else {
+				return left;
+			}
+			break;
+		case EXPR_IDENT_NAME:
+			return e->symbol->type;
+			break;
+		case EXPR_BOOLEAN_LITERAL:
+			return type_create(TYPE_BOOLEAN, 0, 0, 0);
+			break;
+		case EXPR_INTEGER_LITERAL:
+			return type_create(TYPE_INTEGER, 0, 0, 0);
+			break;
+		case EXPR_CHARACTER_LITERAL: 
+			return type_create(TYPE_CHARACTER, 0, 0, 0);
+			break;
+		case EXPR_STRING_LITERAL: 
+			return type_create(TYPE_STRING, 0, 0, 0);
+			break;
+	}
+	return 0;
+}
 

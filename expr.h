@@ -42,6 +42,7 @@ struct expr {
 
 	/* used by leaf expr types */
 	const char *name; /* identifier */
+	struct symbol *symbol; /* symbol */
 	int literal_value; /* boolean and integer */
 	const char * string_literal; /* string */
 };
@@ -56,4 +57,5 @@ struct expr * expr_create_string_literal(const char *str);
 
 void expr_print(struct expr *e);
 void expr_resolve(struct expr *e, const char *lvalue);
+struct type *expr_typecheck(struct expr *e);
 #endif

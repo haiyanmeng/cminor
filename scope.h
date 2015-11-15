@@ -5,6 +5,7 @@
 #include "hash_table.h"
 
 extern int level;
+extern int error_count;
 
 struct scope {
 	struct hash_table *h; /* each hash table corresponds a scope and maps an identifier to a symbol. */
@@ -28,6 +29,8 @@ void scope_exit();
 int scope_level();
 
 void scope_bind(const char *name, struct symbol *s);
+
+void scope_rebind(const char *name, struct symbol *s);
 
 struct symbol *scope_lookup(const char *name);
 

@@ -37,6 +37,7 @@ void param_list_resolve(struct param_list *p, int seq) {
 	
 	if(scope_lookup_local(p->name)) {
 		fprintf(stderr, "resolve error: %s has been defined at the current scope (level %d)!\n", p->name, level);
+		error_count += 1;
 		exit(EXIT_FAILURE);
 	}
 
@@ -45,4 +46,18 @@ void param_list_resolve(struct param_list *p, int seq) {
 	scope_bind(p->name, sym);
 	
 	param_list_resolve(p->next, seq+1);
+}
+
+int params_equals(struct param_list *p, struct param_list *q) {
+	if(!p && !q) {
+		return 1;
+	} else if((p && !q) || (!p && q)) {
+		return 0;
+	} else {
+		if(type_equals(p->type, q->type)) {
+			return params_equals(p->next, q->next);
+		} else {
+			return 0;
+		}
+	}
 }

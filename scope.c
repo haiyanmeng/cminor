@@ -4,6 +4,7 @@
 #include <stdlib.h>
 
 int level = 0;
+int error_count = 0;
 struct scope *head = 0;
 
 void scope_init() {
@@ -65,6 +66,18 @@ void scope_bind(const char *name, struct symbol *s) {
 	}
 }
 
+void scope_rebind(const char *name, struct symbol *s) {
+	if(!hash_table_remove(head->h, name)) {
+		fprintf(stderr, "Fails to remove an item (%s) into the hash table!\n", name);
+		exit(EXIT_FAILURE);
+	}
+
+	if(!hash_table_insert(head->h, name, (const void *)s)) {
+		fprintf(stderr, "Fails to insert a new item (%s) into the hash table!\n", name);
+		exit(EXIT_FAILURE);
+	}
+}
+
 struct symbol *scope_lookup(const char *name) {
 	int i = level;
 	struct scope *s = head;
@@ -89,6 +102,7 @@ struct symbol *scope_lookup(const char *name) {
 		}
 	}
 	fprintf(stdout, "resolve error: %s is not defined!\n", name);
+	error_count += 1;
 	return 0;
 }
 

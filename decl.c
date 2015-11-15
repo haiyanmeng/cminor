@@ -71,7 +71,6 @@ void decl_resolve(struct decl *d, int seq) {
 
 	struct symbol *sym;
 
-	//judge whether this is a function prototype
 	if(level == 0) {
 		// here can have function prototype, function definition, variable declaration.
 		if(d->type->kind == TYPE_FUNCTION) {
@@ -101,16 +100,19 @@ void decl_resolve(struct decl *d, int seq) {
 		switch(s->kind) {
 			case SYMBOL_GLOBAL:
 				if(s->t == FUNC_PROTO && sym->t == FUNC_DEF) {
-					s->t = FUNC_DEF;
+					scope_rebind(d->name, sym);
 				} else if(s->t == FUNC_DEF && sym->t == FUNC_DEF) {
 					fprintf(stderr, "resolve error: %s has been defined globally!\n", d->name);
+					error_count += 1;
 				}
 				break;
 			case SYMBOL_LOCAL:
 				fprintf(stderr, "resolve error: %s has been defined as local %d (level %d)\n", d->name, s->which, level);
+				error_count += 1;
 				break;
 			case SYMBOL_PARAM:
 				fprintf(stderr, "resolve error: %s has been defined as param %d (level %d)\n", d->name, s->which, level);
+				error_count += 1;
 				break;
 		}
 	} else {
@@ -132,4 +134,36 @@ void decl_resolve(struct decl *d, int seq) {
 
 	decl_resolve(d->next, seq+1);
 }
+
+//here, all the local hash tables and scopes have been disappeared except for the global hash table.
+void decl_typecheck(struct decl *d) {
+	if(!d) return;
+
+	if(d->value) {
+		// declaration with initialization
+		if(!type_equals(d->type, expr_typecheck(d->value))) {
+			fprintf(stderr, "type error: the type of %s does not match the type of its initializer!\n", d->name);
+			exit(EXIT_FAILURE);
+		}
+	} else if(d->code) {
+		// function definition
+		stmt_typecheck(d->code);
+	} else {
+		// declaration without initialization, check the consistency between function prototype and function definition
+			struct symbol *s = scope_lookup(d->name);
+			if(!s) { //the source code file does not include the definition of a function {
+				fprintf(stderr, "type error: the function definition of %s is missing!\n", d->name);
+				exit(EXIT_FAILURE);
+			} else {
+				if(!type_equals(d->type, s->type)) {
+					fprintf(stderr, "type error: the function definition of %s  does not match its prototype!\n", d->name);
+					exit(EXIT_FAILURE);
+				}
+			}
+	}
+	decl_typecheck(d->next);
+}
+
+
+
 
