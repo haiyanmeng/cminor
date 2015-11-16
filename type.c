@@ -70,3 +70,47 @@ int type_equals(struct type *s, struct type *t) {
 		return 0;
 	}
 }
+
+void type_resolve(struct type *t) {
+	if(!t) return;
+
+	switch(t->kind) {
+		case TYPE_ARRAY:
+			expr_resolve(t->expr);
+			type_resolve(t->subtype);
+			break;
+		default:
+			break;
+	}
+}
+
+void type_typecheck(struct type *t, int is_global) {
+	if(!t) return;
+
+	switch(t->kind) {
+		struct type *s;
+		case TYPE_ARRAY:
+			if(is_global == 1) {
+				if(!expr_is_constant(t->expr)) {
+					fprintf(stderr, "resolve error: the array size of a global array should be constant!\n");
+					exit(EXIT_FAILURE);
+				}
+			}
+
+			s = expr_typecheck(t->expr);
+			if(!s) {
+				fprintf(stderr, "type error: the array size is missing!\n");
+				exit(EXIT_FAILURE);
+			} else {
+				if(s->kind != TYPE_INTEGER) {
+					fprintf(stderr, "type error: the array size must be integer!\n");
+					exit(EXIT_FAILURE);
+				}
+			}
+			type_typecheck(t->subtype, is_global);
+			break;
+		default:
+			break;
+	}
+	
+}

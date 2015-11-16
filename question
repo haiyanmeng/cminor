@@ -1,5 +1,13 @@
 there is no include;
 
+array intinization more than the size: this is difficult to judge, because the size may be expressed using an expression, not an integer literal.
+a:array[2] integer = {1,2,3};
+
+if the size of array is put into function paramter, does it account as a type error, 
+f:function void(a:array[5] integer) = {};
+
+if the code only includes a fucntion proto, and there are multiple version of function prototypes.
+
 so a function prototype without a corresponding function definition should be error? right?
 
 can we ignore the parameter name in function prototype? the prototype parameter name should not be necessary to be the same with the paramter of function def?

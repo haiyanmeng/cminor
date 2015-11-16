@@ -1,3 +1,10 @@
+
+f: function void() = {
+x1:integer;
+x2:integer;
+x1=x2=4;
+}
+
 x:integer = 3;
 //resolve error: the intializer of a global variable (z) should not involve another global variable (x1)!
 z:integer = x1+3;

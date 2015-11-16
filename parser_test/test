@@ -1,0 +1,97 @@
+/* declaration */
+
+x:integer; // declaration integer without initialization
+x:integer = 123243535; // declaration integer with initialization
+x:integer = "123"; // declaration integer with initialization, parser does not do type checking.
+x:integer = {1, 'a', "123"}; // declaration integer with initialization, parser does not do type checking.
+
+x:string; // declaration string without initialization
+x:string = "abc"; // declaration string with initialization
+
+y:char; // declaration char without initialization
+y:char = 'q'; // declaration char with initialization
+
+a: array[5] integer; // declaration 1-D array without initialization
+a: array[5] integer={1,2,3,4,5}; // declaration 1-D array with initialization
+
+a: array [] array [] string; // declaration 2-D array without initialization
+a: array [] array [] string = { {"today", "is"}, {"Thursday"}, {"a", "b", "c"} }; // declaration 2-D array with intialization
+
+/* function prototype */
+puts: function void (); 
+puts: function void ( s: string ); 
+puts: function array [] array [] char ( a: array[] integer, s: string ); 
+
+/* function definition */
+main: function integer () = {}
+
+main: function integer () = {
+	puts("hello");
+
+/* return statement */
+return a;
+return;
+
+/* print statement */
+print "abc", d;
+print;
+
+/* if statement */
+if (x == 5)
+	print a;
+else
+	print b;
+
+if (x == 5) {
+	print a;
+} else {
+	print b;
+}
+
+if (x == 5)
+	print a;
+	print b;
+
+/* for statement */
+if (x == 1)
+	for (;;)
+		if (a == 1)
+			print a;
+else
+	print 1;
+
+/* compound statement */
+{a = 5; (c=1); {x = 1;} return 1;}
+
+/* c comment */
+
+/* arithmetic statement */
+a = 1;
+b = c[1];
+b = c[x^2+y*y];
+f(a);
+a = (b==c) || (c!=d) && x==y;
+b = c < 6 || c >= 7 && c > 6 || c <= 7;
+a = -2;
+a = 5 + -2 - c * 12 / 20 % 21 + c++ + d--;
+a = !(x + 3);
+a = !(-b);
+
+for (a=1; b = 2; c=3)
+	print a;
+
+for (a=1; b = 2; c=3) {
+	{
+		a+b;
+	}
+}
+a=1;
+
+a:integer = 5;
+}
+
+
+
+
+
+

@@ -101,7 +101,7 @@ void decl_resolve(struct decl *d, int seq) {
 			case SYMBOL_GLOBAL:
 				if(s->t == FUNC_PROTO && sym->t == FUNC_DEF) {
 					scope_rebind(d->name, sym);
-				} else if(s->t == FUNC_DEF && sym->t == FUNC_DEF) {
+				} else {
 					fprintf(stderr, "resolve error: %s has been defined globally!\n", d->name);
 					error_count += 1;
 				}
@@ -120,9 +120,12 @@ void decl_resolve(struct decl *d, int seq) {
 		scope_bind(d->name, sym);
 	}		
 
+	/* resolve the size of array */
+	type_resolve(d->type);
+
 	/* resolve the initializer and function body no matter whether the variable or the function is defined or not. */
 	if(d->value) {
-		expr_resolve(d->value, d->name);
+		expr_resolve(d->value);
 	}
 
 	if(d->code) {
@@ -141,6 +144,22 @@ void decl_typecheck(struct decl *d) {
 
 	if(d->value) {
 		// declaration with initialization
+		if(d->symbol->kind == SYMBOL_GLOBAL) {
+			printf("d->name %s\n", d->name);
+			if(!expr_is_constant(d->value)) {
+				fprintf(stderr, "resolve error: the intializer of a global variable (%s) should be constant!\n", d->name);
+				exit(EXIT_FAILURE);
+			}
+		}
+
+		if(d->type->kind == TYPE_ARRAY) {
+			if(d->symbol->kind == SYMBOL_GLOBAL) {
+				type_typecheck(d->type, 1);
+			} else {
+				type_typecheck(d->type, 0);
+			}
+		}
+
 		if(!type_equals(d->type, expr_typecheck(d->value))) {
 			fprintf(stderr, "type error: the type of %s does not match the type of its initializer!\n", d->name);
 			exit(EXIT_FAILURE);
@@ -149,9 +168,10 @@ void decl_typecheck(struct decl *d) {
 		// function definition
 		stmt_typecheck(d->code);
 	} else {
-		// declaration without initialization, check the consistency between function prototype and function definition
+		// declaration without initialization or function prototype, check the consistency between function prototype and function definition
+		if(!(d->symbol->t == FUNC_NOT)) {
 			struct symbol *s = scope_lookup(d->name);
-			if(!s) { //the source code file does not include the definition of a function {
+			if(s->t == FUNC_PROTO) { //the source code file does not include the definition of a function
 				fprintf(stderr, "type error: the function definition of %s is missing!\n", d->name);
 				exit(EXIT_FAILURE);
 			} else {
@@ -160,6 +180,7 @@ void decl_typecheck(struct decl *d) {
 					exit(EXIT_FAILURE);
 				}
 			}
+		}
 	}
 	decl_typecheck(d->next);
 }

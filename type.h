@@ -38,4 +38,6 @@ void type_print(struct type *t);
  * return 1 if s and t have the same type; return 0 if s and t have different types.
  */
 int type_equals(struct type *s, struct type *t);
+void type_resolve(struct type *t);
+void type_typecheck(struct type *t, int is_global);
 #endif

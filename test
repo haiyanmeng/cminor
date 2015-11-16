@@ -1,94 +1,119 @@
-/* declaration */
+//resolve error: the intializer of a global variable (y) should be constant!
+//x:boolean = true;
+//y:boolean = x;
 
-x:integer; // declaration integer without initialization
-x:integer = 123243535; // declaration integer with initialization
-x:integer = "123"; // declaration integer with initialization, parser does not do type checking.
-x:integer = {1, 'a', "123"}; // declaration integer with initialization, parser does not do type checking.
+////resolve error: x1 is not defined!
+//f:function void( )= {
+//	x:boolean = true;
+//	y:boolean = x1;
+//}
 
-x:string; // declaration string without initialization
-x:string = "abc"; // declaration string with initialization
+////resolve error: x has been defined as param 0 (level 1)
+//f:function void(x:integer, x:char)= {
+//	x:boolean = true;
+//	y:boolean = x1;
+//}
 
-y:char; // declaration char without initialization
-y:char = 'q'; // declaration char with initialization
+////resolve error: x has been defined as param 0 (level 1)
+//f:function void(x:integer)= {
+//	x:integer = 1;
+//	y:boolean = x;
+//}
 
-a: array[5] integer; // declaration 1-D array without initialization
-a: array[5] integer={1,2,3,4,5}; // declaration 1-D array with initialization
+////resolve error: y has been defined as local 0 (level 1)
+//f:function void(x:integer)= {
+//	y:integer = 1;
+//	y:integer = x;
+//}
 
-a: array [] array [] string; // declaration 2-D array without initialization
-a: array [] array [] string = { {"today", "is"}, {"Thursday"}, {"a", "b", "c"} }; // declaration 2-D array with intialization
+////resolve error: x has been defined globally!
+//x:integer = 1;
+//x:char = 'c';
 
-/* function prototype */
-puts: function void (); 
-puts: function void ( s: string ); 
-puts: function array [] array [] char ( a: array[] integer, s: string ); 
+//type error: the type of x does not match the type of its initializer!
+//x:char = 3;
 
-/* function definition */
-main: function integer () = {}
+////type error: the function definition of f1 is missing!
+//f1:function void(x:integer);
+//f:function void( )= {
+//	x:boolean = true;
+//	y:boolean = x;
+//}
 
-main: function integer () = {
-	puts("hello");
+////type error: the function definition does not match function prototype
+//f:function void(x:integer);
+//f:function void( )= {
+//	x:boolean = true;
+//	y:boolean = x;
+//}
 
-/* return statement */
-return a;
-return;
+////type error: x is not an array, and can not be indexed.
+//f:function void( )= {
+//	x:integer = 1;
+//	x[3] = 5;
+//}
 
-/* print statement */
-print "abc", d;
-print;
+////type error: an array index must be integer!
+//f:function void( )= {
+//	x:char = 'c';
+//	z:integer = 2;
+//	y:array [5] integer;
+//	y[x] = 5;
+//}
 
-/* if statement */
-if (x == 5)
-	print a;
-else
-	print b;
+////type error: comma expr mismatch: integer, char
+//a:array [] integer = {1, 23, 'c'};
 
-if (x == 5) {
-	print a;
-} else {
-	print b;
-}
+////type error: comma expr mismatch: array [] integer, array [] char
+//a:array[] array[] integer = {{1}, {'2', '3'}};
 
-if (x == 5)
-	print a;
-	print b;
+////type error: the array size is missing!
+//a:array[] array[] integer = {{1}, {2, 3}};
 
-/* for statement */
-if (x == 1)
-	for (;;)
-		if (a == 1)
-			print a;
-else
-	print 1;
+////resolve error: the array size of a global array should be constant!
+//x:integer = 3;
+//a:array[3] array[5+x] integer = {{1}, {2, 3}};
 
-/* compound statement */
-{a = 5; (c=1); {x = 1;} return 1;}
 
-/* c comment */
 
-/* arithmetic statement */
-a = 1;
-b = c[1];
-b = c[x^2+y*y];
-f(a);
-a = (b==c) || (c!=d) && x==y;
-b = c < 6 || c >= 7 && c > 6 || c <= 7;
-a = -2;
-a = 5 + -2 - c * 12 / 20 % 21 + c++ + d--;
-a = !(x + 3);
-a = !(-b);
+////good, array size can only be omitted when used as function parameters
+////good, the array size of a local array can be variable.
+//f:function void(a:array[]integer)= {
+//	x:integer = 3;
+//	a1:array[3] array[5+x] integer = {{1}, {2, 3}};
+//}
 
-for (a=1; b = 2; c=3)
-	print a;
+//good, the initializer of a local variable may not be constant
+//f:function void( )= {
+//	x:boolean = true;
+//	y:boolean = x;
+//}
 
-for (a=1; b = 2; c=3) {
-	{
-		a+b;
-	}
-}
-a=1;
+////good, function prototype
+//f:function void();
+//f:function void( )= {
+//	f:function void();
+//	x:boolean = true;
+//	y:boolean = x;
+//	f();
+//}
+//f:function void();
 
-a:integer = 5;
-}
+
+////good example, define x in different scopes
+//x:integer = 1;
+//f:function void(x:integer)= {
+//	y:integer = 1;
+//	xy:integer = x;
+//	if(x == 1) {
+//		x:integer = 1;
+//	}
+//
+//	{ x: integer; }
+//}
+
+
+
 
 
 

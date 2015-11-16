@@ -56,6 +56,10 @@ struct expr * expr_create_character_literal(const char *str);
 struct expr * expr_create_string_literal(const char *str);
 
 void expr_print(struct expr *e);
-void expr_resolve(struct expr *e, const char *lvalue);
+void expr_resolve(struct expr *e);
 struct type *expr_typecheck(struct expr *e);
+
+/* return 1 if expr is constant; return 0 if expr is not constant. */
+int expr_is_constant(struct expr *e);
+
 #endif

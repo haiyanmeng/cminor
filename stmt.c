@@ -143,23 +143,23 @@ void stmt_resolve(struct stmt *s, int seq) {
 			decl_resolve(s->decl, seq);
 			break;
 		case STMT_EXPR:
-			expr_resolve(s->expr, 0);
+			expr_resolve(s->expr);
 			break;
 		case STMT_PRINT:
-			expr_resolve(s->expr, 0);
+			expr_resolve(s->expr);
 			break;
 		case STMT_RETURN:
-			expr_resolve(s->expr, 0);
+			expr_resolve(s->expr);
 			break;
 		case STMT_IF_ELSE:
-			expr_resolve(s->expr, 0);
+			expr_resolve(s->expr);
 			stmt_resolve(s->body, seq);
 			stmt_resolve(s->else_body, seq);
 			break;
 		case STMT_FOR:
-			expr_resolve(s->init_expr, 0);
-			expr_resolve(s->expr, 0);
-			expr_resolve(s->next_expr, 0);
+			expr_resolve(s->init_expr);
+			expr_resolve(s->expr);
+			expr_resolve(s->next_expr);
 			stmt_resolve(s->body, seq);
 			break;
 		case STMT_BLOCK:	
@@ -204,7 +204,7 @@ void stmt_typecheck(struct stmt *s) {
 
 			t = expr_typecheck(s->expr);
 			if(t->kind != TYPE_BOOLEAN) {
-				fprintf(stderr, "type error: the expr of if_stmt must be boolean!\n"); 
+				fprintf(stderr, "type error: the expr of for_stmt must be boolean!\n"); 
 				exit(EXIT_FAILURE);
 			}
 

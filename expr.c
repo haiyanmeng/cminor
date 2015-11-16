@@ -187,20 +187,25 @@ void expr_print(struct expr *e) {
 	return;
 }
 
-void expr_resolve(struct expr *e, const char *lvalue) {
+void expr_resolve(struct expr *e) {
 	if(!e) return;
 	
-	expr_resolve(e->left, lvalue);
-	expr_resolve(e->right, lvalue);
+	expr_resolve(e->left);
+	expr_resolve(e->right);
 
 	if(e->kind == EXPR_IDENT_NAME) {
 		e->symbol = scope_lookup(e->name);
-		if(level == 0) {
-			fprintf(stderr, "resolve error: the intializer of a global variable (%s) should be constant and should not involve another global variable (%s)!\n", lvalue, e->name);
-			error_count += 1;
-		} 
 	}
-	return;
+}
+
+int expr_is_constant(struct expr *e) {
+	if(!e) return 1;
+
+	if(e->kind == EXPR_IDENT_NAME) {
+		return 0;
+	} else {
+		return expr_is_constant(e->left) && expr_is_constant(e->right);
+	}
 }
 
 struct type *expr_typecheck(struct expr *e) {
@@ -209,7 +214,7 @@ struct type *expr_typecheck(struct expr *e) {
 	struct type *left, *right;
 	switch(e->kind) {
 		case EXPR_LEFTCURLY:
-			return expr_typecheck(e->right);
+			return type_create(TYPE_ARRAY, 0, 0, expr_typecheck(e->right));
 			break;
 		case EXPR_LEFTPARENTHESS:
 			if(e->left) {
@@ -226,7 +231,7 @@ struct type *expr_typecheck(struct expr *e) {
 
 			//the left child should be type array
 			if(left->kind != TYPE_ARRAY) {
-				fprintf(stderr, "type error: %s is not an array, and can not be indexed.\n", e->name);
+				fprintf(stderr, "type error: %s is not an array, and can not be indexed.\n", e->left->name);
 				exit(EXIT_FAILURE);
 			}
 
@@ -325,7 +330,7 @@ struct type *expr_typecheck(struct expr *e) {
 					type_print(right);
 					exit(EXIT_FAILURE);
 				}
-				return left;
+				return type_create(TYPE_BOOLEAN, 0, 0, 0);
 			}
 			break;
 		case EXPR_UNEQ:
@@ -404,9 +409,11 @@ struct type *expr_typecheck(struct expr *e) {
 			left = expr_typecheck(e->left);
 			right = expr_typecheck(e->right);
 			if(!type_equals(left, right)) {
-				fprintf(stderr, "type error: comma expr mismatch. ");
+				printf("type error: comma expr mismatch: ");
 				type_print(left);
+				printf(", ");	
 				type_print(right);
+				printf("\n");	
 				exit(EXIT_FAILURE);
 			} else {
 				return left;

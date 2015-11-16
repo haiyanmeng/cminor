@@ -1,18 +1,21 @@
 Todo:
-what happened if there is no expr in if stmt?
-	if()
+function call return value;
+function call numbers == function prototype numbers;
+type of function return values;
+comma expression requirement.
 
+line number 
+test different kinds of function
 x:array[5] integer = {5, x+3, x=8};
 
 decl_resolve: preserve all the function protoypes; so that the type checker can validate the function protype and function definition
 
-function nesting? no, you can not do function nested.
-test what happen if you do function nested?
-function prototype can be in function, yes. even in the function definition of itself.
-
 double check the notes to see what error are type check error, and what error are name resolution.
+
 resolve function prototype; test whether prototype can be after func definition;
+
 test if body only a single expr_stmt without {}; what happened if we define a new variable there?
+
 track the error number; print all the errors;
 
 check header file includes
@@ -22,6 +25,16 @@ valgrind check memory leak
 remove additional output
 
 <<<< Done:
+
+function nesting? no, you can not do function nested.
+test what happen if you do function nested?
+function prototype can be in function, yes. even in the function definition of itself.
+
+
+what happened if there is no expr in if stmt?
+	if() parser will complain
+
+
 add id to param and local and global symbol which field
 the rvalue of global variable can not have variable.
 function body resolve
