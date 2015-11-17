@@ -208,28 +208,28 @@ int expr_is_constant(struct expr *e) {
 	}
 }
 
-struct type *expr_typecheck(struct expr *e) {
+struct type *expr_typecheck(struct expr *e, int is_array_initializer) {
 	if(!e) return 0;
 	
 	struct type *left, *right;
 	switch(e->kind) {
 		case EXPR_LEFTCURLY:
-			return type_create(TYPE_ARRAY, 0, 0, expr_typecheck(e->right));
+			return type_create(TYPE_ARRAY, 0, 0, expr_typecheck(e->right, is_array_initializer));
 			break;
 		case EXPR_LEFTPARENTHESS:
 			if(e->left) {
 				//function call
 				//check function call arguments and function definition paramters
-				expr_func_typecheck(e);
+				expr_func_typecheck(e, is_array_initializer);
 				return scope_lookup(e->left->name)->type->subtype;
 			} else {
 				//grouping
-				return expr_typecheck(e->right);
+				return expr_typecheck(e->right, is_array_initializer);
 			}
 			break;
 		case EXPR_LEFTBRACKET:
-			left = expr_typecheck(e->left);
-			right = expr_typecheck(e->right);
+			left = expr_typecheck(e->left, is_array_initializer);
+			right = expr_typecheck(e->right, is_array_initializer);
 
 			//the left child should be type array
 			if(left->kind != TYPE_ARRAY) {
@@ -246,7 +246,7 @@ struct type *expr_typecheck(struct expr *e) {
 			break;
 		case EXPR_INCREMENT:
 		case EXPR_DECREMENT:
-			left = expr_typecheck(e->left);
+			left = expr_typecheck(e->left, is_array_initializer);
 			if(left->kind != TYPE_INTEGER) {
 				fprintf(stderr, "type error: ++/-- expr only applys to integer types!\n");
 				exit(EXIT_FAILURE);
@@ -254,7 +254,7 @@ struct type *expr_typecheck(struct expr *e) {
 			return left;
 			break;
 		case EXPR_UNARY_NEG:
-			right = expr_typecheck(e->right);
+			right = expr_typecheck(e->right, is_array_initializer);
 			if(right->kind != TYPE_INTEGER) {
 				fprintf(stderr, "type error: unary neg operator expr only applys to integer types!\n");
 				exit(EXIT_FAILURE);
@@ -262,7 +262,7 @@ struct type *expr_typecheck(struct expr *e) {
 			return right;
 			break;
 		case EXPR_NOT:
-			right = expr_typecheck(e->right);
+			right = expr_typecheck(e->right, is_array_initializer);
 			if(right->kind != TYPE_BOOLEAN) {
 				fprintf(stderr, "type error: not operator expr only applys to boolean types!\n");
 				type_print(right);
@@ -276,8 +276,8 @@ struct type *expr_typecheck(struct expr *e) {
 		case EXPR_MOD:
 		case EXPR_ADD:
 		case EXPR_SUB:
-			left = expr_typecheck(e->left);
-			right = expr_typecheck(e->right);
+			left = expr_typecheck(e->left, is_array_initializer);
+			right = expr_typecheck(e->right, is_array_initializer);
 			if(!type_equals(left, right)) {
 				fprintf(stderr, "type error: the operands of binary arithmetic operator expr mismatch.\n");
 				exit(EXIT_FAILURE);
@@ -293,8 +293,8 @@ struct type *expr_typecheck(struct expr *e) {
 		case EXPR_LT:
 		case EXPR_GE:
 		case EXPR_GT:
-			left = expr_typecheck(e->left);
-			right = expr_typecheck(e->right);
+			left = expr_typecheck(e->left, is_array_initializer);
+			right = expr_typecheck(e->right, is_array_initializer);
 			if(!type_equals(left, right)) {
 				fprintf(stderr, "type error: the operands of a comparison operator mismatch!\n");
 				exit(EXIT_FAILURE);
@@ -307,8 +307,8 @@ struct type *expr_typecheck(struct expr *e) {
 			}
 			break;
 		case EXPR_EQ:
-			left = expr_typecheck(e->left);
-			right = expr_typecheck(e->right);
+			left = expr_typecheck(e->left, is_array_initializer);
+			right = expr_typecheck(e->right, is_array_initializer);
 			if(!type_equals(left, right)) {
 				fprintf(stderr, "type error: the operands of the == operator mismatch!\n");
 				exit(EXIT_FAILURE);
@@ -321,8 +321,8 @@ struct type *expr_typecheck(struct expr *e) {
 			}
 			break;
 		case EXPR_UNEQ:
-			left = expr_typecheck(e->left);
-			right = expr_typecheck(e->right);
+			left = expr_typecheck(e->left, is_array_initializer);
+			right = expr_typecheck(e->right, is_array_initializer);
 			if(!type_equals(left, right)) {
 				fprintf(stderr, "type error: the operands of the != operator mismatch!\n");
 				exit(EXIT_FAILURE);
@@ -335,69 +335,57 @@ struct type *expr_typecheck(struct expr *e) {
 			}
 			break;
 		case EXPR_AND:
-			left = expr_typecheck(e->left);
-			right = expr_typecheck(e->right);
+			left = expr_typecheck(e->left, is_array_initializer);
+			right = expr_typecheck(e->right, is_array_initializer);
 			if(!type_equals(left, right)) {
-				fprintf(stderr, "type error: and expr mismatch. ");
-				type_print(left);
-				type_print(right);
+				fprintf(stderr, "type error: the operands of the && operator mismatch!\n");
 				exit(EXIT_FAILURE);
 			} else {
 				if(left->kind != TYPE_BOOLEAN) {
-					fprintf(stderr, "type error: and expr only applys to boolean types!\n");
-					type_print(left);
-					type_print(right);
+					fprintf(stderr, "type error: the && operator only applys to boolean types!\n");
 					exit(EXIT_FAILURE);
 				}
 				return left;
 			}
 			break;
 		case EXPR_OR:
-			left = expr_typecheck(e->left);
-			right = expr_typecheck(e->right);
+			left = expr_typecheck(e->left, is_array_initializer);
+			right = expr_typecheck(e->right, is_array_initializer);
 			if(!type_equals(left, right)) {
-				fprintf(stderr, "type error: or expr mismatch. ");
-				type_print(left);
-				type_print(right);
+				fprintf(stderr, "type error: the operands of the || operator mismatch!\n");
 				exit(EXIT_FAILURE);
 			} else {
 				if(left->kind != TYPE_BOOLEAN) {
-					fprintf(stderr, "type error: or expr only applys to boolean types!\n");
-					type_print(left);
-					type_print(right);
+					fprintf(stderr, "type error: the || operator only applys to boolean types!\n");
 					exit(EXIT_FAILURE);
 				}
 				return left;
 			}
 			break;
 		case EXPR_ASSIGN:
-			left = expr_typecheck(e->left);
-			right = expr_typecheck(e->right);
+			left = expr_typecheck(e->left, is_array_initializer);
+			right = expr_typecheck(e->right, is_array_initializer);
 			if(!type_equals(left, right)) {
-				fprintf(stderr, "type error: assign expr mismatch. ");
-				type_print(left);
-				type_print(right);
+				fprintf(stderr, "type error: the operands of the = operator mismatch!\n");
 				exit(EXIT_FAILURE);
 			} else {
 				if(left->kind == TYPE_FUNCTION) {
-					fprintf(stderr, "type error: assign expr does not apply to function types\n");
-					type_print(left);
-					type_print(right);
+					fprintf(stderr, "type error: the = operator does not apply to function types!\n");
 					exit(EXIT_FAILURE);
 				}
 				return left;
 			}
 			break;
 		case EXPR_COMMA:
-			left = expr_typecheck(e->left);
-			right = expr_typecheck(e->right);
-			if(!type_equals(left, right)) {
-				printf("type error: comma expr mismatch: ");
-				type_print(left);
-				printf(", ");	
-				type_print(right);
-				printf("\n");	
-				exit(EXIT_FAILURE);
+			left = expr_typecheck(e->left, is_array_initializer);
+			right = expr_typecheck(e->right, is_array_initializer);
+			if(is_array_initializer) {
+				if(!type_equals(left, right)) {
+					printf("type error: the elements of an array intializer should have the same type!\n");
+					exit(EXIT_FAILURE);
+				} else {
+					return left;
+			}
 			} else {
 				return left;
 			}
@@ -422,7 +410,7 @@ struct type *expr_typecheck(struct expr *e) {
 }
 
 //check function call arguments and function definition paramters
-void expr_func_typecheck(struct expr *e) {
+void expr_func_typecheck(struct expr *e, int is_array_initializer) {
 	//search for the function in the global scope, get its type 
 	struct symbol *s = scope_lookup(e->left->name);
 	struct param_list *p = s->type->params;
@@ -439,11 +427,7 @@ void expr_func_typecheck(struct expr *e) {
 			exit(EXIT_FAILURE);
 		}
 		arg = expr_func_getarg(e->right, n, i);
-		expr_print(arg);
-		printf("\n");
-		type_print(p->type);
-		printf("\n");
-		if(!type_equals(p->type, expr_typecheck(arg))) {
+		if(!type_equals(p->type, expr_typecheck(arg, is_array_initializer))) {
 			fprintf(stderr, "type error: the types of function call arguments do not match the types of function parameters!\n");
 			exit(EXIT_FAILURE);
 		}
@@ -459,7 +443,6 @@ void expr_func_typecheck(struct expr *e) {
 }
 
 struct expr *expr_func_getarg(struct expr *e, int n, int i) {
-	printf("n = %d; i = %d\n", n, i);
 	if(i == n) {
 		if(n == 1) {
 			return e;

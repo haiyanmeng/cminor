@@ -182,10 +182,11 @@ void stmt_typecheck(struct stmt *s, const char *func_name) {
 			break;
 		case STMT_EXPR:
 		case STMT_PRINT:
-			expr_typecheck(s->expr);
+			expr_typecheck(s->expr, 0);
 			break;
 		case STMT_RETURN:
-			t = expr_typecheck(s->expr);
+			t = expr_typecheck(s->expr, 0);
+			//return wrong number 
 			func_return = scope_lookup(func_name)->type->subtype;
 			if(!t) { //return;
 				if(func_return->kind != TYPE_VOID) {
@@ -200,7 +201,7 @@ void stmt_typecheck(struct stmt *s, const char *func_name) {
 			}
 			break;
 		case STMT_IF_ELSE:
-			t = expr_typecheck(s->expr);
+			t = expr_typecheck(s->expr, 0);
 			if(!t) {
 				fprintf(stderr, "type error: if() is not legal! The correct syntax should be if(expr)!\n");
 				exit(EXIT_FAILURE);
@@ -214,15 +215,15 @@ void stmt_typecheck(struct stmt *s, const char *func_name) {
 			stmt_typecheck(s->else_body, func_name);
 			break;
 		case STMT_FOR:
-			expr_typecheck(s->init_expr);
+			expr_typecheck(s->init_expr, 0);
 
-			t = expr_typecheck(s->expr);
+			t = expr_typecheck(s->expr, 0);
 			if(t->kind != TYPE_BOOLEAN) {
 				fprintf(stderr, "type error: the expr of for_stmt must be boolean!\n"); 
 				exit(EXIT_FAILURE);
 			}
 
-			expr_typecheck(s->next_expr);
+			expr_typecheck(s->next_expr, 0);
 			stmt_typecheck(s->body, func_name);
 			break;
 		case STMT_BLOCK:	

@@ -160,7 +160,14 @@ void decl_typecheck(struct decl *d) {
 			}
 		}
 
-		if(!type_equals(d->type, expr_typecheck(d->value))) {
+		struct type *t;
+		if(d->type->kind == TYPE_ARRAY) {
+			t = expr_typecheck(d->value, 1);
+		} else {
+			t = expr_typecheck(d->value, 0);
+		}
+
+		if(!type_equals(d->type, t)) {
 			fprintf(stderr, "type error: the type of %s does not match the type of its initializer!\n", d->name);
 			exit(EXIT_FAILURE);
 		}

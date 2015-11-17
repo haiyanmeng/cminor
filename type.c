@@ -97,7 +97,7 @@ void type_typecheck(struct type *t, int is_global) {
 				}
 			}
 
-			s = expr_typecheck(t->expr);
+			s = expr_typecheck(t->expr, 0);
 			if(!s) {
 				fprintf(stderr, "type error: the array size is missing!\n");
 				exit(EXIT_FAILURE);
