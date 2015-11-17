@@ -43,5 +43,5 @@ void indent_process(int indent);
 
 void stmt_resolve(struct stmt *s, int seq);
 
-void stmt_typecheck(struct stmt *s);
+void stmt_typecheck(struct stmt *s, const char *func_name);
 #endif

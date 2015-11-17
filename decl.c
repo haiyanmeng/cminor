@@ -166,11 +166,22 @@ void decl_typecheck(struct decl *d) {
 		}
 	} else if(d->code) {
 		// function definition
-		stmt_typecheck(d->code);
+		stmt_typecheck(d->code, d->name);
 	} else {
+		if(d->type->kind == TYPE_ARRAY) {
+			if(d->symbol->kind == SYMBOL_GLOBAL) {
+				type_typecheck(d->type, 1);
+			} else {
+				type_typecheck(d->type, 0);
+			}
+		}
+
 		// declaration without initialization or function prototype, check the consistency between function prototype and function definition
 		if(!(d->symbol->t == FUNC_NOT)) {
 			struct symbol *s = scope_lookup(d->name);
+			if(!s) {
+				exit(EXIT_FAILURE);
+			}
 			if(s->t == FUNC_PROTO) { //the source code file does not include the definition of a function
 				fprintf(stderr, "type error: the function definition of %s is missing!\n", d->name);
 				exit(EXIT_FAILURE);

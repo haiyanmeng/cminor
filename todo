@@ -1,11 +1,15 @@
 Todo:
-function call return value;
-function call numbers == function prototype numbers;
-type of function return values;
-comma expression requirement.
+typecheck until case EXPR_AND
+resolve check
+
+comma expression requirement, if it is used to initialize array, then they must have the same time; if they use to do funcation call, there is no requirement they need to have the same time.
+
+missing return;
 
 line number 
+
 test different kinds of function
+
 x:array[5] integer = {5, x+3, x=8};
 
 decl_resolve: preserve all the function protoypes; so that the type checker can validate the function protype and function definition
@@ -25,7 +29,10 @@ valgrind check memory leak
 remove additional output
 
 <<<< Done:
+function call return value;
+type of function return values;
 
+function call numbers == function prototype numbers;
 function nesting? no, you can not do function nested.
 test what happen if you do function nested?
 function prototype can be in function, yes. even in the function definition of itself.

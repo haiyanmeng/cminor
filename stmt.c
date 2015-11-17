@@ -172,18 +172,32 @@ void stmt_resolve(struct stmt *s, int seq) {
 	return;
 }
 
-void stmt_typecheck(struct stmt *s) {
+void stmt_typecheck(struct stmt *s, const char *func_name) {
 	if(!s) return;
 
-	struct type *t;
+	struct type *t, *func_return;
 	switch(s->kind) {
 		case STMT_DECL:
 			decl_typecheck(s->decl);
 			break;
 		case STMT_EXPR:
 		case STMT_PRINT:
-		case STMT_RETURN:
 			expr_typecheck(s->expr);
+			break;
+		case STMT_RETURN:
+			t = expr_typecheck(s->expr);
+			func_return = scope_lookup(func_name)->type->subtype;
+			if(!t) { //return;
+				if(func_return->kind != TYPE_VOID) {
+					fprintf(stderr, "type error: function returns a wrong type!\n");
+					exit(EXIT_FAILURE);
+				}	
+			} else {
+				if(!type_equals(t, func_return)) {
+					fprintf(stderr, "type error: function returns a wrong type!\n");
+					exit(EXIT_FAILURE);
+				}
+			}
 			break;
 		case STMT_IF_ELSE:
 			t = expr_typecheck(s->expr);
@@ -196,8 +210,8 @@ void stmt_typecheck(struct stmt *s) {
 				exit(EXIT_FAILURE);
 			}
 
-			stmt_typecheck(s->body);
-			stmt_typecheck(s->else_body);
+			stmt_typecheck(s->body, func_name);
+			stmt_typecheck(s->else_body, func_name);
 			break;
 		case STMT_FOR:
 			expr_typecheck(s->init_expr);
@@ -209,11 +223,11 @@ void stmt_typecheck(struct stmt *s) {
 			}
 
 			expr_typecheck(s->next_expr);
-			stmt_typecheck(s->body);
+			stmt_typecheck(s->body, func_name);
 			break;
 		case STMT_BLOCK:	
-			stmt_typecheck(s->body);
+			stmt_typecheck(s->body, func_name);
 			break;
 	}	
-	stmt_typecheck(s->next);
+	stmt_typecheck(s->next, func_name);
 }

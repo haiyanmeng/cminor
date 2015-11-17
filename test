@@ -74,6 +74,160 @@
 //x:integer = 3;
 //a:array[3] array[5+x] integer = {{1}, {2, 3}};
 
+//f:function void(a:integer, b:char, c:string) = {
+//}
+//
+//main: function integer() = {
+//	a:integer = 1;
+//	b:char = 'c';
+//	//type error: function call does not have enough arguments!
+//	//f(a, b);
+//	//type error: the types of function call arguments do not match the types of function parameters!
+//	//f(a+3, a^2-5+7/9, b);
+//	//type error: function call has too much arguments!
+//	//f(a, b, "abc", 1, 23);
+//	return 0;
+//}
+
+////type error: function returns a wrong type!
+//f:function void(a:integer) = {
+//	return 1;
+//}
+
+////type error: function returns a wrong type!
+//f:function integer(a:integer) = {
+//	return ;
+//}
+
+////good: missing return
+//f:function integer(a:integer) = {
+//}
+
+////good, test left parenthess
+//d:integer;
+//f1:function void(a:integer) = {
+//	x:integer = ((d^2)+(-d)*5);
+//}
+
+////good
+//f:function void(a:integer) = {
+//}
+//main: function integer() = {
+//	a:integer = 1;
+//	b:array[2] char = {'c'};
+//	f(a);
+//	return 0;
+//}
+
+////type error: the type of x does not match the type of its initializer!
+//f:function void() = {
+//	a:array[3] integer;
+//	x:char = a[2];
+//}
+
+////type error: ++/-- expr only applys to integer types!
+//f: function void() = {
+//	c:char;
+//	x:integer = c--;
+//}
+
+////type error: unary neg operator expr only applys to integer types!
+//f: function void() = {
+//	c:char;
+//	x:integer = -c;
+//}
+
+////good
+//f: function void() = {
+//	c:integer;
+//	x:integer = -c;
+//}
+
+////type error: not operator expr only applys to boolean types!
+//f:function void() = {
+//	a:integer;
+//	b:boolean = !a;
+//}
+
+////good - operator !
+//f:function void() = {
+//	a:integer;
+//	b:boolean = !b;
+//}
+
+////type error: the operands of binary arithmetic operator expr mismatch.
+//f:function void() = {
+//	a:integer;
+//	c:char;
+//	b:integer = a + 5 * a / a ^ a - c;
+//}
+
+////type error: the operands of binary arithmetic operator must be integers!
+//f:function void() = {
+//	a:char;
+//	c:char;
+//	b:integer = a + a* a / a ^ a - c;
+//}
+
+////good - binary arithmetic operator
+//f:function void() = {
+//	a:integer;
+//	c:integer;
+//	b:integer = a + a* a / a ^ a - c;
+//}
+
+////type error: the operands of a comparison operator mismatch!
+//f:function void() = {
+//	a:integer;
+//	c:char;
+//	b:boolean = a > c;
+//}
+
+////type error: the operands of a comparison operator must be integers!
+//f:function void() = {
+//	a:char;
+//	c:char;
+//	b:boolean = a > c;
+//}
+
+////good - comparison
+//f:function void() = {
+//	a:integer;
+//	c:integer;
+//	b:boolean = (a > ((c)));
+//}
+
+////type error: the != operator does not apply to array and function types!
+//f:function void() = {
+//	a:array[] integer;
+//	c:array[] integer;
+//	b:boolean = (a != ((c)));
+//}
+
+////type error: the != operator does not apply to array and function types!
+//a:function integer() = {}
+//c:function integer() = {}
+//f:function void() = {
+//	a:function integer();
+//	c:function integer();
+//	b:boolean = (a != ((c)));
+//}
+
+////good 
+//a:function integer() = {}
+//c:function integer() = {}
+//f:function void() = {
+//	a:function integer();
+//	c:function integer();
+//	b:boolean = (a() != ((c())));
+//}
+
+////type error: the array size is missing!
+//f:function void() = {
+//	a:array[] integer;
+//}
+
+
 
 
 ////good, array size can only be omitted when used as function parameters

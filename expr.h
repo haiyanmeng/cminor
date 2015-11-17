@@ -61,5 +61,7 @@ struct type *expr_typecheck(struct expr *e);
 
 /* return 1 if expr is constant; return 0 if expr is not constant. */
 int expr_is_constant(struct expr *e);
-
+void expr_func_typecheck(struct expr *e);
+int expr_func_countargc(struct expr *e);
+struct expr *expr_func_getarg(struct expr *e, int n, int i);
 #endif

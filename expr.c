@@ -219,6 +219,8 @@ struct type *expr_typecheck(struct expr *e) {
 		case EXPR_LEFTPARENTHESS:
 			if(e->left) {
 				//function call
+				//check function call arguments and function definition paramters
+				expr_func_typecheck(e);
 				return scope_lookup(e->left->name)->type->subtype;
 			} else {
 				//grouping
@@ -247,8 +249,6 @@ struct type *expr_typecheck(struct expr *e) {
 			left = expr_typecheck(e->left);
 			if(left->kind != TYPE_INTEGER) {
 				fprintf(stderr, "type error: ++/-- expr only applys to integer types!\n");
-				type_print(left);
-				type_print(left);
 				exit(EXIT_FAILURE);
 			}
 			return left;
@@ -257,7 +257,6 @@ struct type *expr_typecheck(struct expr *e) {
 			right = expr_typecheck(e->right);
 			if(right->kind != TYPE_INTEGER) {
 				fprintf(stderr, "type error: unary neg operator expr only applys to integer types!\n");
-				type_print(right);
 				exit(EXIT_FAILURE);
 			}
 			return right;
@@ -280,15 +279,11 @@ struct type *expr_typecheck(struct expr *e) {
 			left = expr_typecheck(e->left);
 			right = expr_typecheck(e->right);
 			if(!type_equals(left, right)) {
-				fprintf(stderr, "type error: binary operator expr mismatch. ");
-				type_print(left);
-				type_print(right);
+				fprintf(stderr, "type error: the operands of binary arithmetic operator expr mismatch.\n");
 				exit(EXIT_FAILURE);
 			} else {
 				if(left->kind != TYPE_INTEGER) {
-					fprintf(stderr, "type error: binary operator expr only applys to integer types!\n");
-					type_print(left);
-					type_print(right);
+					fprintf(stderr, "type error: the operands of binary arithmetic operator must be integers!\n");
 					exit(EXIT_FAILURE);
 				}
 				return left;
@@ -301,15 +296,11 @@ struct type *expr_typecheck(struct expr *e) {
 			left = expr_typecheck(e->left);
 			right = expr_typecheck(e->right);
 			if(!type_equals(left, right)) {
-				fprintf(stderr, "type error: comparison expr mismatch. ");
-				type_print(left);
-				type_print(right);
+				fprintf(stderr, "type error: the operands of a comparison operator mismatch!\n");
 				exit(EXIT_FAILURE);
 			} else {
 				if(left->kind != TYPE_INTEGER) {
-					fprintf(stderr, "type error: comparison expr only applys to integer types!\n");
-					type_print(left);
-					type_print(right);
+					fprintf(stderr, "type error: the operands of a comparison operator must be integers!\n");
 					exit(EXIT_FAILURE);
 				}
 				return type_create(TYPE_BOOLEAN, 0, 0, 0);
@@ -319,15 +310,11 @@ struct type *expr_typecheck(struct expr *e) {
 			left = expr_typecheck(e->left);
 			right = expr_typecheck(e->right);
 			if(!type_equals(left, right)) {
-				fprintf(stderr, "type error: eq expr mismatch. ");
-				type_print(left);
-				type_print(right);
+				fprintf(stderr, "type error: the operands of the == operator mismatch!\n");
 				exit(EXIT_FAILURE);
 			} else {
 				if(left->kind == TYPE_ARRAY || left->kind == TYPE_FUNCTION) {
-					fprintf(stderr, "type error: eq expr does not apply to array and function types!\n");
-					type_print(left);
-					type_print(right);
+					fprintf(stderr, "type error: the == operator does not apply to array and function types!\n");
 					exit(EXIT_FAILURE);
 				}
 				return type_create(TYPE_BOOLEAN, 0, 0, 0);
@@ -337,18 +324,14 @@ struct type *expr_typecheck(struct expr *e) {
 			left = expr_typecheck(e->left);
 			right = expr_typecheck(e->right);
 			if(!type_equals(left, right)) {
-				fprintf(stderr, "type error: uneq expr mismatch. ");
-				type_print(left);
-				type_print(right);
+				fprintf(stderr, "type error: the operands of the != operator mismatch!\n");
 				exit(EXIT_FAILURE);
 			} else {
 				if(left->kind == TYPE_ARRAY || left->kind == TYPE_FUNCTION) {
-					fprintf(stderr, "type error: uneq expr does not apply to array and function types!\n");
-					type_print(left);
-					type_print(right);
+					fprintf(stderr, "type error: the != operator does not apply to array and function types!\n");
 					exit(EXIT_FAILURE);
 				}
-				return left;
+				return type_create(TYPE_BOOLEAN, 0, 0, 0);
 			}
 			break;
 		case EXPR_AND:
@@ -437,4 +420,78 @@ struct type *expr_typecheck(struct expr *e) {
 	}
 	return 0;
 }
+
+//check function call arguments and function definition paramters
+void expr_func_typecheck(struct expr *e) {
+	//search for the function in the global scope, get its type 
+	struct symbol *s = scope_lookup(e->left->name);
+	struct param_list *p = s->type->params;
+
+	//get the argument number of the function call
+	int n = expr_func_countargc(e->right);
+
+	int i = 0;
+	struct expr *arg;
+	while(p) {
+		i += 1;	
+		if(i > n) {
+			fprintf(stderr, "type error: function call does not have enough arguments!\n");
+			exit(EXIT_FAILURE);
+		}
+		arg = expr_func_getarg(e->right, n, i);
+		expr_print(arg);
+		printf("\n");
+		type_print(p->type);
+		printf("\n");
+		if(!type_equals(p->type, expr_typecheck(arg))) {
+			fprintf(stderr, "type error: the types of function call arguments do not match the types of function parameters!\n");
+			exit(EXIT_FAILURE);
+		}
+		p = p->next;
+	}
+
+	if(i < n) {
+		fprintf(stderr, "type error: function call has too much arguments!\n");
+		exit(EXIT_FAILURE);
+	}
+
+	return;
+}
+
+struct expr *expr_func_getarg(struct expr *e, int n, int i) {
+	printf("n = %d; i = %d\n", n, i);
+	if(i == n) {
+		if(n == 1) {
+			return e;
+		} else {	
+			return e->right;
+		}
+	}
+
+	int x = n - i;
+	while(x > 0) {
+		e = e->left;	
+		x -= 1; 
+	}
+
+	if(i == 1) {
+		return e;
+	} else {
+		return e->right;
+	}
+}
+
+int expr_func_countargc(struct expr *e) {
+	if(!e) return 0;
+	int n = 1;
+	while(e->kind == EXPR_COMMA) {
+		n += 1;
+		e = e->left;
+	}
+	return n;
+}
+
+
+
+
 

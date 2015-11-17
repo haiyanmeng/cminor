@@ -92,7 +92,7 @@ void type_typecheck(struct type *t, int is_global) {
 		case TYPE_ARRAY:
 			if(is_global == 1) {
 				if(!expr_is_constant(t->expr)) {
-					fprintf(stderr, "resolve error: the array size of a global array should be constant!\n");
+					fprintf(stderr, "type error: the array size of a global array should be constant!\n");
 					exit(EXIT_FAILURE);
 				}
 			}
