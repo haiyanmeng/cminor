@@ -194,7 +194,7 @@ void expr_resolve(struct expr *e) {
 	expr_resolve(e->right);
 
 	if(e->kind == EXPR_IDENT_NAME) {
-		e->symbol = scope_lookup(e->name);
+		e->symbol = scope_lookup(e->name, 1);
 	}
 }
 
@@ -221,7 +221,7 @@ struct type *expr_typecheck(struct expr *e, int is_array_initializer) {
 				//function call
 				//check function call arguments and function definition paramters
 				expr_func_typecheck(e, is_array_initializer);
-				return scope_lookup(e->left->name)->type->subtype;
+				return scope_lookup(e->left->name, 0)->type->subtype;
 			} else {
 				//grouping
 				return expr_typecheck(e->right, is_array_initializer);
@@ -412,7 +412,7 @@ struct type *expr_typecheck(struct expr *e, int is_array_initializer) {
 //check function call arguments and function definition paramters
 void expr_func_typecheck(struct expr *e, int is_array_initializer) {
 	//search for the function in the global scope, get its type 
-	struct symbol *s = scope_lookup(e->left->name);
+	struct symbol *s = scope_lookup(e->left->name, 0);
 	struct param_list *p = s->type->params;
 
 	//get the argument number of the function call

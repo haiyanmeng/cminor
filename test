@@ -1,52 +1,103 @@
-//resolve error: the intializer of a global variable (y) should be constant!
-//x:boolean = true;
-//y:boolean = x;
 
-////resolve error: x1 is not defined!
-//f:function void( )= {
-//	x:boolean = true;
-//	y:boolean = x1;
-//}
+// ***** typecheck
 
-////resolve error: x has been defined as param 0 (level 1)
-//f:function void(x:integer, x:char)= {
-//	x:boolean = true;
-//	y:boolean = x1;
-//}
+// ***** decl_typecheck
+/*
+//type error: the intializer of a global variable (y) should be constant!
+x:boolean = true;
+y:boolean = x;
+*/
 
-////resolve error: x has been defined as param 0 (level 1)
-//f:function void(x:integer)= {
-//	x:integer = 1;
-//	y:boolean = x;
-//}
+/*
+type error: the type of x does not match the type of its initializer!
+x:char = 3;
+*/
 
-////resolve error: y has been defined as local 0 (level 1)
-//f:function void(x:integer)= {
-//	y:integer = 1;
-//	y:integer = x;
-//}
-
-////resolve error: x has been defined globally!
-//x:integer = 1;
-//x:char = 'c';
-
+/*
 //type error: the type of x does not match the type of its initializer!
-//x:char = 3;
+f:function void() = {
+	a:array[3] integer;
+	x:char = a[2];
+}
+*/
 
-////type error: the function definition of f1 is missing!
-//f1:function void(x:integer);
-//f:function void( )= {
-//	x:boolean = true;
-//	y:boolean = x;
-//}
+/*
+//type error: the function definition of f1 is missing!
+f1:function void(x:integer);
+f:function void( )= {
+	x:boolean = true;
+	y:boolean = x;
+}
+*/
 
-////type error: the function definition does not match function prototype
-//f:function void(x:integer);
-//f:function void( )= {
-//	x:boolean = true;
-//	y:boolean = x;
-//}
+/*
+//type error: the function definition of f does not match its prototype!
+f:function void(x:integer);
+f:function void()= {
+	x:boolean = true;
+	y:boolean = x;
+}
+*/
 
+// ***** stmt_typecheck
+/*
+//type error: function returns a wrong type!
+f:function void(a:integer) = {
+	return 1;
+}
+*/
+
+/*
+//type error: function returns a wrong type!
+f:function integer(a:integer) = {
+	return ;
+}
+*/
+
+/*
+//good: missing return
+f:function integer(a:integer) = {
+}
+*/
+
+/*
+//type error: the expr of if_stmt must be boolean!
+f:function void(a:integer) = {
+	if(a+34*7) print;
+}
+*/
+
+/*
+//good - if else
+f:function void(a:integer) = {
+	if(true)
+		x:integer = 3;
+	else
+		print 2;
+}
+*/
+
+/*
+//type error: the expr of for_stmt must be boolean!
+f:function void() = {
+	x:integer;	
+	for (x= 1; x + 1; x++) {
+		print 1;
+	}
+}
+*/
+
+/*
+//good - for
+f:function void() = {
+	x:integer;	
+	for (x= 1; !(x == 1); x++) {
+		print 1;
+	}
+}
+*/
+
+// ***** expr_typecheck
 ////type error: x is not an array, and can not be indexed.
 //f:function void( )= {
 //	x:integer = 1;
@@ -59,70 +110,6 @@
 //	z:integer = 2;
 //	y:array [5] integer;
 //	y[x] = 5;
-//}
-
-////type error: comma expr mismatch: integer, char
-//a:array [] integer = {1, 23, 'c'};
-
-////type error: comma expr mismatch: array [] integer, array [] char
-//a:array[] array[] integer = {{1}, {'2', '3'}};
-
-////type error: the array size is missing!
-//a:array[] array[] integer = {{1}, {2, 3}};
-
-////resolve error: the array size of a global array should be constant!
-//x:integer = 3;
-//a:array[3] array[5+x] integer = {{1}, {2, 3}};
-
-//f:function void(a:integer, b:char, c:string) = {
-//}
-//
-//main: function integer() = {
-//	a:integer = 1;
-//	b:char = 'c';
-//	//type error: function call does not have enough arguments!
-//	//f(a, b);
-//	//type error: the types of function call arguments do not match the types of function parameters!
-//	//f(a+3, a^2-5+7/9, b);
-//	//type error: function call has too much arguments!
-//	//f(a, b, "abc", 1, 23);
-//	return 0;
-//}
-
-////type error: function returns a wrong type!
-//f:function void(a:integer) = {
-//	return 1;
-//}
-
-////type error: function returns a wrong type!
-//f:function integer(a:integer) = {
-//	return ;
-//}
-
-////good: missing return
-//f:function integer(a:integer) = {
-//}
-
-////good, test left parenthess
-//d:integer;
-//f1:function void(a:integer) = {
-//	x:integer = ((d^2)+(-d)*5);
-//}
-
-////good
-//f:function void(a:integer) = {
-//}
-//main: function integer() = {
-//	a:integer = 1;
-//	b:array[2] char = {'c'};
-//	f(a);
-//	return 0;
-//}
-
-////type error: the type of x does not match the type of its initializer!
-//f:function void() = {
-//	a:array[3] integer;
-//	x:char = a[2];
 //}
 
 ////type error: ++/-- expr only applys to integer types!
@@ -197,80 +184,43 @@
 //	b:boolean = (a > ((c)));
 //}
 
-////type error: the != operator does not apply to array and function types!
-//f:function void() = {
-//	a:array[] integer;
-//	c:array[] integer;
-//	b:boolean = (a != ((c)));
-//}
-
-////type error: the != operator does not apply to array and function types!
-//a:function integer() = {}
-//c:function integer() = {}
-//f:function void() = {
-//	a:function integer();
-//	c:function integer();
-//	b:boolean = (a != ((c)));
-//}
-
-////good 
-//a:function integer() = {}
-//c:function integer() = {}
-//f:function void() = {
-//	a:function integer();
-//	c:function integer();
-//	b:boolean = (a() != ((c())));
-//}
-
-////type error: the array size is missing!
-//f:function void() = {
-//	a:array[] integer;
-//}
-
-
-
-
-////good, array size can only be omitted when used as function parameters
-////good, the array size of a local array can be variable.
-//f:function void(a:array[]integer)= {
-//	x:integer = 3;
-//	a1:array[3] array[5+x] integer = {{1}, {2, 3}};
-//}
-
-//good, the initializer of a local variable may not be constant
-//f:function void( )= {
-//	x:boolean = true;
-//	y:boolean = x;
-//}
-
-////good, function prototype
-//f:function void();
-//f:function void( )= {
-//	f:function void();
-//	x:boolean = true;
-//	y:boolean = x;
-//	f();
-//}
-//f:function void();
-
-
-////good example, define x in different scopes
-//x:integer = 1;
-//f:function void(x:integer)= {
-//	y:integer = 1;
-//	xy:integer = x;
-//	if(x == 1) {
-//		x:integer = 1;
-//	}
-//
-//	{ x: integer; }
-//}
+/*
+//type error: the == operator does not apply to array and function types!
+f:function void() = {
+	a:array[2] integer;
+	c:array[2] integer;
+	b:boolean = (a == ((c)));
+}
+*/
 
 /*
-//good - && 
+//type error: the == operator does not apply to array and function types!
+a:function integer() = {}
+c:function integer() = {}
 f:function void() = {
-	a:boolean;
-	b:boolean = a && true && false;
+	a:function integer();
+	c:function integer();
+	b:boolean = (a == ((c)));
+}
+*/
+
+/*
+//type error: the != operator does not apply to array and function types!
+f:function void() = {
+	a:array[] integer;
+	c:array[] integer;
+	b:boolean = (a != ((c)));
+}
+*/
+
+/*
+//type error: the != operator does not apply to array and function types!
+a:function integer() = {}
+c:function integer() = {}
+f:function void() = {
+	a:function integer();
+	c:function integer();
+	b:boolean = (a != ((c)));
 }
 */
 
@@ -361,16 +311,207 @@ a:array[2]array[3] integer = {{true, 1}, {23}};
 */
 
 /*
+//type error: the elements of an array intializer should have the same type!
+a:array [3] integer = {1, 23, 'c'};
+*/
+
+/*
+//type error: the elements of an array intializer should have the same type!
+a:array[3] array[3] integer = {{1}, {'2', '3'}};
+*/
+
+/*
 //good - identifier, literal
 f:function void() = {
 	a:array[2]array[3] integer = {{1, 1}, {23}};
 	b:array[2]array[3] integer = a;
 	a1:integer = -(-(-12343535454654656565));
 	b1:char = '\n';
-	c:string = "dfdfd\0\dfdf";
+	c:string = "d\0\df";
 	d:boolean = true;
 	e:boolean = false;
 	f:boolean = d && e || !f;
+}
+*/
+
+/*
+//type error: function call does not have enough arguments!
+f:function void(a:integer, b:char, c:string) = {
+}
+
+main: function integer() = {
+	a:integer = 1;
+	b:char = 'c';
+	f(a, b);
+	return 0;
+}
+*/
+
+/*
+//type error: the types of function call arguments do not match the types of function parameters!
+f:function void(a:integer, b:char, c:string) = {
+}
+
+main: function integer() = {
+	a:integer = 1;
+	b:char = 'c';
+	f(a+3, a^2-5+7/9, b);
+	return 0;
+}
+*/
+
+/*
+//type error: function call has too much arguments!
+f:function void(a:integer, b:char, c:string) = {
+}
+
+main: function integer() = {
+	a:integer = 1;
+	b:char = 'c';
+	f(a, b, "abc", 1, 23);
+	return 0;
+}
+*/
+
+
+// ***** type_typecheck
+/*
+//type error: the array size of a global array should be constant!
+x:integer = 3;
+a:array[3] array[5+x] integer = {{1}, {2, 3}};
+*/
+
+/*
+//good, array size can only be omitted when used as function parameters
+//good, the array size of a local array can be variable.
+f:function void(a:array[]integer)= {
+	x:integer = 3;
+	a1:array[3] array[5+x] integer = {{1}, {2, 3}};
+}
+*/
+
+/*
+//type error: the array size is missing!
+a:array[] array[] integer = {{1}, {2, 3}};
+*/
+
+/*
+//type error: the array size is missing!
+f:function void() = {
+	a:array[] integer;
+}
+*/
+
+/*
+//type error: the array size must be integer!
+f:function void(a:array[]integer)= {
+	x:char;
+	a1:array[3] array[x] integer = {{1}, {2, 3}};
+}
+*/
+
+
+
+
+
+
+
+
+
+
+
+// ***** resolve error
+////resolve error: x1 is not defined!
+//f:function void( )= {
+//	x:boolean = true;
+//	y:boolean = x1;
+//}
+
+////resolve error: x has been defined as param 0 (level 1)
+//f:function void(x:integer, x:char)= {
+//	x:boolean = true;
+//	y:boolean = x1;
+//}
+
+////resolve error: x has been defined as param 0 (level 1)
+//f:function void(x:integer)= {
+//	x:integer = 1;
+//	y:boolean = x;
+//}
+
+////resolve error: y has been defined as local 0 (level 1)
+//f:function void(x:integer)= {
+//	y:integer = 1;
+//	y:integer = x;
+//}
+
+////resolve error: x has been defined globally!
+//x:integer = 1;
+//x:char = 'c';
+
+
+
+
+
+////good, test left parenthess
+//d:integer;
+//f1:function void(a:integer) = {
+//	x:integer = ((d^2)+(-d)*5);
+//}
+
+////good
+//f:function void(a:integer) = {
+//}
+//main: function integer() = {
+//	a:integer = 1;
+//	b:array[2] char = {'c'};
+//	f(a);
+//	return 0;
+//}
+
+////good 
+//a:function integer() = {}
+//c:function integer() = {}
+//f:function void() = {
+//	a:function integer();
+//	c:function integer();
+//	b:boolean = (a() != ((c())));
+//}
+
+//good, the initializer of a local variable may not be constant
+//f:function void( )= {
+//	x:boolean = true;
+//	y:boolean = x;
+//}
+
+////good, function prototype
+//f:function void();
+//f:function void( )= {
+//	f:function void();
+//	x:boolean = true;
+//	y:boolean = x;
+//	f();
+//}
+//f:function void();
+
+
+////good example, define x in different scopes
+//x:integer = 1;
+//f:function void(x:integer)= {
+//	y:integer = 1;
+//	xy:integer = x;
+//	if(x == 1) {
+//		x:integer = 1;
+//	}
+//
+//	{ x: integer; }
+//}
+
+/*
+//good - && 
+f:function void() = {
+	a:boolean;
+	b:boolean = a && true && false;
 }
 */
 

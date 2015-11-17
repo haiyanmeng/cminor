@@ -1,6 +1,4 @@
 Todo:
-stmt typecheck;
-decl typecheck;
 resolve check;
 
 comma expression requirement, if it is used to initialize array, then they must have the same time; if they use to do funcation call, there is no requirement they need to have the same time.
@@ -32,6 +30,8 @@ remove additional output
 <<<< Done:
 function call return value;
 type of function return values;
+stmt typecheck;
+decl typecheck;
 
 function call numbers == function prototype numbers;
 function nesting? no, you can not do function nested.

@@ -145,23 +145,20 @@ void decl_typecheck(struct decl *d) {
 	if(d->value) {
 		// declaration with initialization
 		if(d->symbol->kind == SYMBOL_GLOBAL) {
-			printf("d->name %s\n", d->name);
 			if(!expr_is_constant(d->value)) {
-				fprintf(stderr, "resolve error: the intializer of a global variable (%s) should be constant!\n", d->name);
+				fprintf(stderr, "type error: the intializer of a global variable (%s) should be constant!\n", d->name);
 				exit(EXIT_FAILURE);
 			}
 		}
 
+		struct type *t;
 		if(d->type->kind == TYPE_ARRAY) {
 			if(d->symbol->kind == SYMBOL_GLOBAL) {
 				type_typecheck(d->type, 1);
 			} else {
 				type_typecheck(d->type, 0);
 			}
-		}
 
-		struct type *t;
-		if(d->type->kind == TYPE_ARRAY) {
 			t = expr_typecheck(d->value, 1);
 		} else {
 			t = expr_typecheck(d->value, 0);
@@ -175,6 +172,7 @@ void decl_typecheck(struct decl *d) {
 		// function definition
 		stmt_typecheck(d->code, d->name);
 	} else {
+		// declaration without initialization or function prototype
 		if(d->type->kind == TYPE_ARRAY) {
 			if(d->symbol->kind == SYMBOL_GLOBAL) {
 				type_typecheck(d->type, 1);
@@ -183,9 +181,9 @@ void decl_typecheck(struct decl *d) {
 			}
 		}
 
-		// declaration without initialization or function prototype, check the consistency between function prototype and function definition
+		// check the consistency between function prototype and function definition
 		if(!(d->symbol->t == FUNC_NOT)) {
-			struct symbol *s = scope_lookup(d->name);
+			struct symbol *s = scope_lookup(d->name, 0);
 			if(!s) {
 				exit(EXIT_FAILURE);
 			}
@@ -194,7 +192,7 @@ void decl_typecheck(struct decl *d) {
 				exit(EXIT_FAILURE);
 			} else {
 				if(!type_equals(d->type, s->type)) {
-					fprintf(stderr, "type error: the function definition of %s  does not match its prototype!\n", d->name);
+					fprintf(stderr, "type error: the function definition of %s does not match its prototype!\n", d->name);
 					exit(EXIT_FAILURE);
 				}
 			}

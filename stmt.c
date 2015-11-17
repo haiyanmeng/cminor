@@ -187,7 +187,7 @@ void stmt_typecheck(struct stmt *s, const char *func_name) {
 		case STMT_RETURN:
 			t = expr_typecheck(s->expr, 0);
 			//return wrong number 
-			func_return = scope_lookup(func_name)->type->subtype;
+			func_return = scope_lookup(func_name, 0)->type->subtype;
 			if(!t) { //return;
 				if(func_return->kind != TYPE_VOID) {
 					fprintf(stderr, "type error: function returns a wrong type!\n");
@@ -202,10 +202,6 @@ void stmt_typecheck(struct stmt *s, const char *func_name) {
 			break;
 		case STMT_IF_ELSE:
 			t = expr_typecheck(s->expr, 0);
-			if(!t) {
-				fprintf(stderr, "type error: if() is not legal! The correct syntax should be if(expr)!\n");
-				exit(EXIT_FAILURE);
-			}
 			if(t->kind != TYPE_BOOLEAN) {
 				fprintf(stderr, "type error: the expr of if_stmt must be boolean!\n"); 
 				exit(EXIT_FAILURE);
