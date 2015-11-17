@@ -45,7 +45,10 @@ lvalue.c: In function ‘main’:
 lvalue.c:12:4: error: expected expression before ‘{’ token
  a1={{1,3}, {4,5}};
 
+good 1-10; not 0-9
 
+if the code passed the name resolution, should we try to catch all the type checking error? or the first type error should exit.
+when to stop?
 
 <<<< Done:
 x:integer = 5;
