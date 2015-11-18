@@ -39,5 +39,6 @@ void type_print(struct type *t);
  */
 int type_equals(struct type *s, struct type *t);
 void type_resolve(struct type *t);
-void type_typecheck(struct type *t, int is_global);
+void type_typecheck(struct type *t);
+void type_arraysize_typecheck(struct type *t, struct expr *init);
 #endif

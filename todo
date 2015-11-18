@@ -1,6 +1,8 @@
 Todo:
+param and local seq: only declaration and function prototype can increase the local sequence;
 line number 
 enrich the error msg
+check to catch all the type errors
 
 test different kinds of function
 

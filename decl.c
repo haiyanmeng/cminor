@@ -101,6 +101,7 @@ void decl_resolve(struct decl *d, int seq) {
 			case SYMBOL_GLOBAL:
 				if(s->t == FUNC_PROTO && sym->t == FUNC_DEF) {
 					scope_rebind(d->name, sym);
+					seq += 1;
 				} else {
 					fprintf(stderr, "resolve error: %s has been defined globally!\n", d->name);
 					error_count += 1;
@@ -153,13 +154,9 @@ void decl_typecheck(struct decl *d) {
 
 		struct type *t;
 		if(d->type->kind == TYPE_ARRAY) {
-			if(d->symbol->kind == SYMBOL_GLOBAL) {
-				type_typecheck(d->type, 1);
-			} else {
-				type_typecheck(d->type, 0);
-			}
-
+			type_typecheck(d->type);
 			t = expr_typecheck(d->value, 1);
+			type_arraysize_typecheck(d->type, d->value);		
 		} else {
 			t = expr_typecheck(d->value, 0);
 		}
@@ -174,11 +171,7 @@ void decl_typecheck(struct decl *d) {
 	} else {
 		// declaration without initialization or function prototype
 		if(d->type->kind == TYPE_ARRAY) {
-			if(d->symbol->kind == SYMBOL_GLOBAL) {
-				type_typecheck(d->type, 1);
-			} else {
-				type_typecheck(d->type, 0);
-			}
+			type_typecheck(d->type);
 		}
 
 		// check the consistency between function prototype and function definition

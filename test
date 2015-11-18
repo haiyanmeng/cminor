@@ -30,6 +30,18 @@ f:function void( )= {
 }
 */
 
+f:function void();
+f:function void( )= {
+	f1:function void();
+	f2:function void();
+	f3:function void();
+	f4:function void();
+	f:char;
+	f4:char;
+	x:boolean = true;
+	x:char;
+}
+
 /*
 //type error: the function definition of f does not match its prototype!
 f:function void(x:integer);
@@ -375,19 +387,30 @@ main: function integer() = {
 
 
 // ***** type_typecheck
+
+//type error: the array size must be integer literal!
 /*
-//type error: the array size of a global array should be constant!
 x:integer = 3;
 a:array[3] array[5+x] integer = {{1}, {2, 3}};
 */
 
 /*
-//good, array size can only be omitted when used as function parameters
-//good, the array size of a local array can be variable.
+//type error: the array size must be integer literal!
 f:function void(a:array[]integer)= {
 	x:integer = 3;
 	a1:array[3] array[5+x] integer = {{1}, {2, 3}};
 }
+*/
+
+/*
+//type error: the initializer size of the array does not match the size of the array!
+a:array[2] array[3] integer = {{1}, {2, 3}};
+a:array[2] array[3] integer = {{1,2,3,4}, {2, 3,3}, {1,2,3}};
+*/
+
+/*
+//good one
+a:array[2] array[3] integer = {{1,2,4}, {2, 3,3}};
 */
 
 /*

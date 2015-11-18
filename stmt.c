@@ -141,6 +141,7 @@ void stmt_resolve(struct stmt *s, int seq) {
 	switch(s->kind) {
 		case STMT_DECL:
 			decl_resolve(s->decl, seq);
+			seq += 1;
 			break;
 		case STMT_EXPR:
 			expr_resolve(s->expr);

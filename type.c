@@ -84,33 +84,53 @@ void type_resolve(struct type *t) {
 	}
 }
 
-void type_typecheck(struct type *t, int is_global) {
+void type_typecheck(struct type *t) {
 	if(!t) return;
 
 	switch(t->kind) {
-		struct type *s;
 		case TYPE_ARRAY:
-			if(is_global == 1) {
-				if(!expr_is_constant(t->expr)) {
-					fprintf(stderr, "type error: the array size of a global array should be constant!\n");
-					exit(EXIT_FAILURE);
-				}
-			}
-
-			s = expr_typecheck(t->expr, 0);
-			if(!s) {
+			if(!(t->expr)) {
 				fprintf(stderr, "type error: the array size is missing!\n");
 				exit(EXIT_FAILURE);
 			} else {
-				if(s->kind != TYPE_INTEGER) {
-					fprintf(stderr, "type error: the array size must be integer!\n");
+				if(t->expr->kind != EXPR_INTEGER_LITERAL) {
+					fprintf(stderr, "type error: the array size must be an positive integer literal!\n");
 					exit(EXIT_FAILURE);
+				} else {
+					if(t->expr->literal_value <= 0) {
+						fprintf(stderr, "type error: the array size must be an positive integer literal!\n");
+						exit(EXIT_FAILURE);
+					}
 				}
 			}
-			type_typecheck(t->subtype, is_global);
+			type_typecheck(t->subtype);
 			break;
 		default:
 			break;
 	}
 	
+}
+
+void type_arraysize_typecheck(struct type *t, struct expr *init) {
+	if(t->kind == TYPE_ARRAY) {
+		int count = t->expr->literal_value;
+		int init_count = expr_count_item(init->right);	
+	
+		if(count != init_count) {
+			fprintf(stderr, "type error: the initializer size of the array does not match the size of the array!\n"); 
+		}
+
+		int min;
+		if(count >= init_count) {
+			min = init_count;
+		} else {
+			min = count;
+		}
+
+		int i;
+		for(i = 1; i <= min; i++) {
+			struct expr *e = expr_get_item(init->right, init_count, i);
+			type_arraysize_typecheck(t->subtype, e);
+		}
+	}
 }

@@ -416,7 +416,7 @@ void expr_func_typecheck(struct expr *e, int is_array_initializer) {
 	struct param_list *p = s->type->params;
 
 	//get the argument number of the function call
-	int n = expr_func_countargc(e->right);
+	int n = expr_count_item(e->right);
 
 	int i = 0;
 	struct expr *arg;
@@ -426,7 +426,7 @@ void expr_func_typecheck(struct expr *e, int is_array_initializer) {
 			fprintf(stderr, "type error: function call does not have enough arguments!\n");
 			exit(EXIT_FAILURE);
 		}
-		arg = expr_func_getarg(e->right, n, i);
+		arg = expr_get_item(e->right, n, i);
 		if(!type_equals(p->type, expr_typecheck(arg, is_array_initializer))) {
 			fprintf(stderr, "type error: the types of function call arguments do not match the types of function parameters!\n");
 			exit(EXIT_FAILURE);
@@ -442,7 +442,7 @@ void expr_func_typecheck(struct expr *e, int is_array_initializer) {
 	return;
 }
 
-struct expr *expr_func_getarg(struct expr *e, int n, int i) {
+struct expr *expr_get_item(struct expr *e, int n, int i) {
 	if(i == n) {
 		if(n == 1) {
 			return e;
@@ -464,7 +464,7 @@ struct expr *expr_func_getarg(struct expr *e, int n, int i) {
 	}
 }
 
-int expr_func_countargc(struct expr *e) {
+int expr_count_item(struct expr *e) {
 	if(!e) return 0;
 	int n = 1;
 	while(e->kind == EXPR_COMMA) {
