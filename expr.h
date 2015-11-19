@@ -66,4 +66,5 @@ void expr_func_typecheck(struct expr *e, int silent_mode);
 int expr_count_item(struct expr *e);
 struct expr *expr_get_item(struct expr *e, int n, int i);
 void expr_print_typecheck(struct expr *e);
+int expr_equals(struct expr *s, struct expr *t);
 #endif

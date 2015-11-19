@@ -1,24 +1,25 @@
 Todo:
-add lineno to the error output.
 enrich the error msg
 add memory allocation successful check. check function return value
 valgrind check memory leak
-remove additional output
 3-D array typechecking
 
-array index must be meaning ful; if array size is n; the index must be 0 ~ n-1 
-use an variable before intializing it.
-does a single integer literal overflow checking?
+array index must be meaning ful; if array size is n; the index must be 0 ~ n-1. no.
+use an variable before intializing it. no.
+does a single integer literal overflow checking? no.
 
 is the following legal?
     a:array[2]array[3] integer = {{1, 1,1}, {1,2,23}};
     b:array[2]array[3] integer = a;
-
+this is legal.
 	
 check header file includes
 
 
 <<<< Done:
+add lineno to the error output.
+remove additional output
+
 print function and void
 param and local seq: only declaration and function prototype can increase the local sequence;
 comma expression requirement, if it is used to initialize array, then they must have the same time; if they use to do funcation call, there is no requirement they need to have the same time.

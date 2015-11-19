@@ -171,13 +171,9 @@ void decl_typecheck(struct decl *d) {
 		if(d->type->kind == TYPE_ARRAY) {
 			type_typecheck(d->type);
 			t = expr_typecheck(d->value, 1, 0);
-			if(d->value->kind != EXPR_LEFTCURLY) {
-				fprintf(stderr, "type error (line %d) : invalid initializer for an array (%s)!\n", d->value->line, d->name);
+			if(!type_equals(t, d->type)) {
+				fprintf(stderr, "type error (line %d) : the type of an array (%s) does not match the type of its initializer!\n", d->value->line, d->name);
 				type_error_count += 1;
-			} else {
-				if((d->type->expr && d->type->expr->kind == EXPR_INTEGER_LITERAL) && (d->type->expr->literal_value > 0)) {
-					type_arraysize_typecheck(d->type, d->value);		
-				}
 			}
 		} else {
 			t = expr_typecheck(d->value, 0, 0);

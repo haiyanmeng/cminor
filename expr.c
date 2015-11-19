@@ -215,7 +215,7 @@ struct type *expr_typecheck(struct expr *e, int is_array_initializer, int silent
 	struct type *left, *right;
 	switch(e->kind) {
 		case EXPR_LEFTCURLY:
-			return type_create(TYPE_ARRAY, 0, 0, expr_typecheck(e->right, is_array_initializer, silent_mode), e->line);
+			return type_create(TYPE_ARRAY, 0, expr_create_integer_literal(expr_count_item(e->right), e->line), expr_typecheck(e->right, is_array_initializer, silent_mode), e->line);
 			break;
 		case EXPR_LEFTPARENTHESS:
 			if(e->left) {
@@ -556,5 +556,19 @@ void expr_print_typecheck(struct expr *e) {
 			type_error_count += 1;
 			continue;
 		}
+	}
+}
+
+int expr_equals(struct expr *s, struct expr *t) {
+	if((!s) && (!t)) {
+		return 1;
+	} else if(s && t) {
+		if((s->kind == EXPR_INTEGER_LITERAL) && (t->kind == EXPR_INTEGER_LITERAL) && (s->literal_value == t->literal_value)) {
+			return 1;
+		} else {
+			return 0;
+		}
+	} else {
+		return 0;
 	}
 }

@@ -50,6 +50,8 @@ void scope_exit() {
 	struct scope *h = head;
 	head = head->next;
 	//hash_table_traverse(h->h);
+	hash_table_clear(h->h);
+	hash_table_delete(h->h);
 	free(h);
 	level -= 1;
 }

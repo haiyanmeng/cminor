@@ -1,0 +1,22 @@
+./cminor -print test_good
+echo "exit code: "  $?
+./cminor -print test_resolve
+echo "exit code: "  $?
+./cminor -print test_type
+echo "exit code: "  $?
+
+./cminor -resolve test_good
+echo "exit code: "  $?
+./cminor -resolve test_resolve
+echo "exit code: "  $?
+./cminor -resolve test_type
+echo "exit code: "  $?
+
+
+./cminor -typecheck test_good
+echo "exit code: "  $?
+./cminor -typecheck test_resolve
+echo "exit code: "  $?
+./cminor -typecheck test_type
+echo "exit code: "  $?
+

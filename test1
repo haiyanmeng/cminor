@@ -1,10 +1,10 @@
-f1:function void(x:integer);
-f1:function void(y:integer);
-f2:function void( )= {
-	//f1:function void(x:integer);
-	f1:function integer(y:integer);
-	//f1:function void(y:integer);
-    x:boolean = true;
-    y:boolean = x;
+f41:function void() = {
+    a:array[2]array[3] integer = {{1, 1,1}, {1,2,23}};
+    b:array[2]array[3] integer = a;
 }
+
+a3:array[3] array[3] integer = {{1}, {2, 3}};
+
+
+
 
