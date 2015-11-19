@@ -96,6 +96,7 @@ void decl_resolve(struct decl *d, int seq) {
 		}
 	}
 
+	d->symbol = sym;
 	struct symbol *s = scope_lookup_local(d->name);	
 	if(s) {
 		switch(s->kind) {
@@ -104,30 +105,31 @@ void decl_resolve(struct decl *d, int seq) {
 					scope_rebind(d->name, sym);
 				} else if(s->t == FUNC_PROTO && sym->t == FUNC_PROTO) {
 					d->symbol = sym;
-				} else {
-					fprintf(stderr, "resolve error: %s has been defined globally!\n", d->name);
+				} else if(s->t == FUNC_DEF && sym->t == FUNC_PROTO) {
+					d->symbol = sym;
+				}else {
+					fprintf(stderr, "resolve error (line %d): %s has been defined globally!\n", d->line, d->name);
 					resolve_error_count += 1;
 				}
 				break;
 			case SYMBOL_LOCAL:
 				if(s->t == FUNC_PROTO) {
 					if(!type_equals(s->type, sym->type)) {
-						fprintf(stderr, "resolve error: a function prototype named %s with a different type has been declared locally (level %d)\n", d->name, level);
+						fprintf(stderr, "resolve error (line %d): a function prototype named %s with a different type has been declared locally (level %d)\n", d->line, d->name, level);
 						resolve_error_count += 1;
 					}
 					d->symbol = sym;	
 				} else {
-					fprintf(stderr, "resolve error: %s has been defined as local %d (level %d)\n", d->name, s->which, level);
+					fprintf(stderr, "resolve error (line %d): %s has been defined as local %d (level %d)\n", d->line, d->name, s->which, level);
 					resolve_error_count += 1;
 				}
 				break;
 			case SYMBOL_PARAM:
-				fprintf(stderr, "resolve error: %s has been defined as param %d (level %d)\n", d->name, s->which, level);
+				fprintf(stderr, "resolve error (line %d): %s has been defined as param %d (level %d)\n", d->line, d->name, s->which, level);
 				resolve_error_count += 1;
 				break;
 		}
 	} else {
-		d->symbol = sym;
 		scope_bind(d->name, sym);
 		if(d->type->kind != TYPE_FUNCTION) {
 			seq += 1;
@@ -168,10 +170,17 @@ void decl_typecheck(struct decl *d) {
 		struct type *t;
 		if(d->type->kind == TYPE_ARRAY) {
 			type_typecheck(d->type);
-			t = expr_typecheck(d->value, 1);
-			type_arraysize_typecheck(d->type, d->value);		
+			t = expr_typecheck(d->value, 1, 0);
+			if(d->value->kind != EXPR_LEFTCURLY) {
+				fprintf(stderr, "type error (line %d) : invalid initializer for an array (%s)!\n", d->value->line, d->name);
+				type_error_count += 1;
+			} else {
+				if((d->type->expr && d->type->expr->kind == EXPR_INTEGER_LITERAL) && (d->type->expr->literal_value > 0)) {
+					type_arraysize_typecheck(d->type, d->value);		
+				}
+			}
 		} else {
-			t = expr_typecheck(d->value, 0);
+			t = expr_typecheck(d->value, 0, 0);
 		}
 
 		if(!type_equals(d->type, t)) {
@@ -189,7 +198,7 @@ void decl_typecheck(struct decl *d) {
 
 		// check the consistency between function prototype and function definition
 		if(!(d->symbol->t == FUNC_NOT)) {
-			struct symbol *s = scope_lookup(d->name, 0);
+			struct symbol *s = scope_lookup(d->name, d->line, 0);
 			if(!s) {
 				exit(EXIT_FAILURE);
 			}

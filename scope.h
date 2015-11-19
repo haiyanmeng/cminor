@@ -33,7 +33,7 @@ void scope_bind(const char *name, struct symbol *s);
 
 void scope_rebind(const char *name, struct symbol *s);
 
-struct symbol *scope_lookup(const char *name, int resolving);
+struct symbol *scope_lookup(const char *name, int line, int resolving);
 
 struct symbol *scope_lookup_local(const char *name);
 

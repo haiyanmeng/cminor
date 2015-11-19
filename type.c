@@ -92,15 +92,15 @@ void type_typecheck(struct type *t) {
 	switch(t->kind) {
 		case TYPE_ARRAY:
 			if(!(t->expr)) {
-				fprintf(stderr, "type error: the array size is missing!\n");
+				fprintf(stderr, "type error (line %d): the array size is missing!\n", t->line);
 				type_error_count += 1;
 			} else {
 				if(t->expr->kind != EXPR_INTEGER_LITERAL) {
-					fprintf(stderr, "type error: the array size must be an positive integer literal!\n");
+					fprintf(stderr, "type error (line %d): the array size must be an positive integer literal!\n", t->expr->line);
 					type_error_count += 1;
 				} else {
 					if(t->expr->literal_value <= 0) {
-						fprintf(stderr, "type error: the array size must be an positive integer literal!\n");
+						fprintf(stderr, "type error (line %d): the array size must be an positive integer literal!\n", t->expr->line);
 						type_error_count += 1;
 					}
 				}
@@ -119,7 +119,7 @@ void type_arraysize_typecheck(struct type *t, struct expr *init) {
 		int init_count = expr_count_item(init->right);	
 	
 		if(count != init_count) {
-			fprintf(stderr, "type error: the initializer size of the array does not match the size of the array!\n"); 
+			fprintf(stderr, "type error (line %d): the initializer size of the array does not match the size of the array!\n", t->line); 
 			type_error_count += 1;
 		}
 

@@ -38,13 +38,13 @@ void param_list_resolve(struct param_list *p, int seq) {
 	
 	struct symbol *s = scope_lookup_local(p->name);
 	if(s) {
-		fprintf(stderr, "resolve error: %s has been defined as param %d (level %d)\n", p->name, s->which, level);
+		fprintf(stderr, "resolve error (line %d): %s has been defined as param %d (level %d)\n", p->line, p->name, s->which, level);
 		resolve_error_count += 1;
+	} else {
+		scope_bind(p->name, sym);
 	}
 
 	p->symbol = sym;
-
-	scope_bind(p->name, sym);
 	
 	param_list_resolve(p->next, seq+1);
 }

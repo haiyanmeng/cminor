@@ -195,7 +195,7 @@ void expr_resolve(struct expr *e) {
 	expr_resolve(e->right);
 
 	if(e->kind == EXPR_IDENT_NAME) {
-		e->symbol = scope_lookup(e->name, 1);
+		e->symbol = scope_lookup(e->name, e->line, 1);
 	}
 }
 
@@ -209,67 +209,77 @@ int expr_is_constant(struct expr *e) {
 	}
 }
 
-struct type *expr_typecheck(struct expr *e, int is_array_initializer) {
+struct type *expr_typecheck(struct expr *e, int is_array_initializer, int silent_mode) {
 	if(!e) return 0;
 	
 	struct type *left, *right;
 	switch(e->kind) {
 		case EXPR_LEFTCURLY:
-			return type_create(TYPE_ARRAY, 0, 0, expr_typecheck(e->right, is_array_initializer), e->line);
+			return type_create(TYPE_ARRAY, 0, 0, expr_typecheck(e->right, is_array_initializer, silent_mode), e->line);
 			break;
 		case EXPR_LEFTPARENTHESS:
 			if(e->left) {
 				//function call
 				//check function call arguments and function definition paramters
-				expr_func_typecheck(e);
-				return scope_lookup(e->left->name, 0)->type->subtype;
+				expr_func_typecheck(e, silent_mode);
+				return scope_lookup(e->left->name, e->left->line, 0)->type->subtype;
 			} else {
 				//grouping
-				return expr_typecheck(e->right, is_array_initializer);
+				return expr_typecheck(e->right, is_array_initializer, silent_mode);
 			}
 			break;
 		case EXPR_LEFTBRACKET:
-			left = expr_typecheck(e->left, is_array_initializer);
-			right = expr_typecheck(e->right, is_array_initializer);
+			left = expr_typecheck(e->left, is_array_initializer, silent_mode);
+			right = expr_typecheck(e->right, is_array_initializer, silent_mode);
 
 			//the left child should be type array
 			if(left->kind != TYPE_ARRAY) {
-				fprintf(stderr, "type error: %s is not an array, and can not be indexed.\n", e->left->name);
-				type_error_count += 1;
-				return 0;
+				if(!silent_mode) {
+					fprintf(stderr, "type error (line %d): %s is not an array, and can not be indexed.\n", e->left->line, e->left->name);
+					type_error_count += 1;
+				}
+				return left;
 			}
 
 			//the right child should be type integer
 			if(right->kind != TYPE_INTEGER) {
-				fprintf(stderr, "type error: an array index must be integer!\n");
-				type_error_count += 1;
+				if(!silent_mode) {
+					fprintf(stderr, "type error (line %d): the index of an array (%s) must be integer!\n", e->left->line, e->left->name);
+					type_error_count += 1;
+				}
 			}
 			return left->subtype;
 			break;
 		case EXPR_INCREMENT:
 		case EXPR_DECREMENT:
-			left = expr_typecheck(e->left, is_array_initializer);
+			left = expr_typecheck(e->left, is_array_initializer, silent_mode);
 			if(left->kind != TYPE_INTEGER) {
-				fprintf(stderr, "type error: ++/-- expr only applys to integer types!\n");
-				type_error_count += 1;
+				if(!silent_mode) {
+					fprintf(stderr, "type error (line %d): ++/-- expr only applys to integer types!\n", e->line);
+					type_error_count += 1;
+				}
 				return type_create(TYPE_INTEGER, 0, 0, 0, e->line);
 			}
 			return left;
 			break;
 		case EXPR_UNARY_NEG:
-			right = expr_typecheck(e->right, is_array_initializer);
+			right = expr_typecheck(e->right, is_array_initializer, silent_mode);
 			if(right->kind != TYPE_INTEGER) {
-				fprintf(stderr, "type error: unary neg operator expr only applys to integer types!\n");
-				type_error_count += 1;
+				if(!silent_mode) {
+					fprintf(stderr, "type error (line %d): unary neg operator expr only applys to integer types!\n", e->line);
+					type_error_count += 1;
+				}
 				return type_create(TYPE_INTEGER, 0, 0, 0, e->line);
 			}
 			return right;
 			break;
 		case EXPR_NOT:
-			right = expr_typecheck(e->right, is_array_initializer);
+			right = expr_typecheck(e->right, is_array_initializer, silent_mode);
 			if(right->kind != TYPE_BOOLEAN) {
-				fprintf(stderr, "type error: not operator expr only applys to boolean types!\n");
-				type_error_count += 1;
+				if(!silent_mode) {
+					fprintf(stderr, "type error (line %d): not operator expr only applys to boolean types!\n", e->line);
+					type_error_count += 1;
+				}
 				return type_create(TYPE_BOOLEAN, 0, 0, 0, e->line);
 			}
 			return right;
@@ -280,16 +290,20 @@ struct type *expr_typecheck(struct expr *e, int is_array_initializer) {
 		case EXPR_MOD:
 		case EXPR_ADD:
 		case EXPR_SUB:
-			left = expr_typecheck(e->left, is_array_initializer);
-			right = expr_typecheck(e->right, is_array_initializer);
+			left = expr_typecheck(e->left, is_array_initializer, silent_mode);
+			right = expr_typecheck(e->right, is_array_initializer, silent_mode);
 			if(!type_equals(left, right)) {
-				fprintf(stderr, "type error: the operands of binary arithmetic operator expr mismatch.\n");
-				type_error_count += 1;
+				if(!silent_mode) {
+					fprintf(stderr, "type error (line %d): the operands of binary arithmetic operator expr mismatch.\n", e->line);
+					type_error_count += 1;
+				}
 				return type_create(TYPE_INTEGER, 0, 0, 0, e->line);
 			} else {
 				if(left->kind != TYPE_INTEGER) {
-					fprintf(stderr, "type error: the operands of binary arithmetic operator must be integers!\n");
-					type_error_count += 1;
+					if(!silent_mode) {
+						fprintf(stderr, "type error (line %d): the operands of binary arithmetic operator must be integers!\n", e->line);
+						type_error_count += 1;
+					}
 					return type_create(TYPE_INTEGER, 0, 0, 0, e->line);
 				}
 				return left;
@@ -299,115 +313,137 @@ struct type *expr_typecheck(struct expr *e, int is_array_initializer) {
 		case EXPR_LT:
 		case EXPR_GE:
 		case EXPR_GT:
-			left = expr_typecheck(e->left, is_array_initializer);
-			right = expr_typecheck(e->right, is_array_initializer);
+			left = expr_typecheck(e->left, is_array_initializer, silent_mode);
+			right = expr_typecheck(e->right, is_array_initializer, silent_mode);
 			if(!type_equals(left, right)) {
-				fprintf(stderr, "type error: the operands of a comparison operator mismatch!\n");
-				type_error_count += 1;
+				if(!silent_mode) {
+					fprintf(stderr, "type error (line %d): the operands of a comparison operator mismatch!\n", e->line);
+					type_error_count += 1;
+				}
 				return type_create(TYPE_BOOLEAN, 0, 0, 0, e->line);
 			} else {
 				if(left->kind != TYPE_INTEGER) {
-					fprintf(stderr, "type error: the operands of a comparison operator must be integers!\n");
-					type_error_count += 1;
+					if(!silent_mode) {
+						fprintf(stderr, "type error (line %d): the operands of a comparison operator must be integers!\n", e->line);
+						type_error_count += 1;
+					}
 					return type_create(TYPE_BOOLEAN, 0, 0, 0, e->line);
 				}
 				return type_create(TYPE_BOOLEAN, 0, 0, 0, e->line);
 			}
 			break;
 		case EXPR_EQ:
-			left = expr_typecheck(e->left, is_array_initializer);
-			right = expr_typecheck(e->right, is_array_initializer);
+			left = expr_typecheck(e->left, is_array_initializer, silent_mode);
+			right = expr_typecheck(e->right, is_array_initializer, silent_mode);
 			if(!type_equals(left, right)) {
-				fprintf(stderr, "type error: the operands of the == operator mismatch!\n");
-				type_error_count += 1;
+				if(!silent_mode) {
+					fprintf(stderr, "type error (line %d): the operands of the == operator mismatch!\n", e->line);
+					type_error_count += 1;
+				}
 				return type_create(TYPE_BOOLEAN, 0, 0, 0, e->line);
 			} else {
 				if(left->kind == TYPE_ARRAY || left->kind == TYPE_FUNCTION) {
-					fprintf(stderr, "type error: the == operator does not apply to array and function types!\n");
-					type_error_count += 1;
+					if(!silent_mode) {
+						fprintf(stderr, "type error (line %d): the == operator does not apply to array and function types!\n", e->line);
+						type_error_count += 1;
+					}
 					return type_create(TYPE_BOOLEAN, 0, 0, 0, e->line);
 				}
 				return type_create(TYPE_BOOLEAN, 0, 0, 0, e->line);
 			}
 			break;
 		case EXPR_UNEQ:
-			left = expr_typecheck(e->left, is_array_initializer);
-			right = expr_typecheck(e->right, is_array_initializer);
+			left = expr_typecheck(e->left, is_array_initializer, silent_mode);
+			right = expr_typecheck(e->right, is_array_initializer, silent_mode);
 			if(!type_equals(left, right)) {
-				fprintf(stderr, "type error: the operands of the != operator mismatch!\n");
-				type_error_count += 1;
+				if(!silent_mode) {
+					fprintf(stderr, "type error (line %d): the operands of the != operator mismatch!\n", e->line);
+					type_error_count += 1;
+				}
 				return type_create(TYPE_BOOLEAN, 0, 0, 0, e->line);
 			} else {
 				if(left->kind == TYPE_ARRAY || left->kind == TYPE_FUNCTION) {
-					fprintf(stderr, "type error: the != operator does not apply to array and function types!\n");
-					type_error_count += 1;
+					if(!silent_mode) {
+						fprintf(stderr, "type error (line %d): the != operator does not apply to array and function types!\n", e->line);
+						type_error_count += 1;
+					}
 					return type_create(TYPE_BOOLEAN, 0, 0, 0, e->line);
 				}
 				return type_create(TYPE_BOOLEAN, 0, 0, 0, e->line);
 			}
 			break;
 		case EXPR_AND:
-			left = expr_typecheck(e->left, is_array_initializer);
-			right = expr_typecheck(e->right, is_array_initializer);
+			left = expr_typecheck(e->left, is_array_initializer, silent_mode);
+			right = expr_typecheck(e->right, is_array_initializer, silent_mode);
 			if(!type_equals(left, right)) {
-				fprintf(stderr, "type error: the operands of the && operator mismatch!\n");
-				type_error_count += 1;
+				if(!silent_mode) {
+					fprintf(stderr, "type error (line %d): the operands of the && operator mismatch!\n", e->line);
+					type_error_count += 1;
+				}
 				return type_create(TYPE_BOOLEAN, 0, 0, 0, e->line);
 			} else {
 				if(left->kind != TYPE_BOOLEAN) {
-					fprintf(stderr, "type error: the && operator only applys to boolean types!\n");
-					type_error_count += 1;
+					if(!silent_mode) {
+						fprintf(stderr, "type error (line %d): the && operator only applys to boolean types!\n", e->line);
+						type_error_count += 1;
+					}
 					return type_create(TYPE_BOOLEAN, 0, 0, 0, e->line);
 				}
 				return left;
 			}
 			break;
 		case EXPR_OR:
-			left = expr_typecheck(e->left, is_array_initializer);
-			right = expr_typecheck(e->right, is_array_initializer);
+			left = expr_typecheck(e->left, is_array_initializer, silent_mode);
+			right = expr_typecheck(e->right, is_array_initializer, silent_mode);
 			if(!type_equals(left, right)) {
-				fprintf(stderr, "type error: the operands of the || operator mismatch!\n");
-				type_error_count += 1;
+				if(!silent_mode) {
+					fprintf(stderr, "type error (line %d): the operands of the || operator mismatch!\n", e->line);
+					type_error_count += 1;
+				}
 				return type_create(TYPE_BOOLEAN, 0, 0, 0, e->line);
 			} else {
 				if(left->kind != TYPE_BOOLEAN) {
-					fprintf(stderr, "type error: the || operator only applys to boolean types!\n");
-					type_error_count += 1;
+					if(!silent_mode) {
+						fprintf(stderr, "type error (line %d): the || operator only applys to boolean types!\n", e->line);
+						type_error_count += 1;
+					}
 					return type_create(TYPE_BOOLEAN, 0, 0, 0, e->line);
 				}
 				return left;
 			}
 			break;
 		case EXPR_ASSIGN:
-			left = expr_typecheck(e->left, is_array_initializer);
-			right = expr_typecheck(e->right, is_array_initializer);
+			left = expr_typecheck(e->left, is_array_initializer, silent_mode);
+			right = expr_typecheck(e->right, is_array_initializer, silent_mode);
 			if(!type_equals(left, right)) {
-				fprintf(stderr, "type error: the operands of the = operator mismatch!\n");
-				type_error_count += 1;
+				if(!silent_mode) {
+					fprintf(stderr, "type error (line %d): the operands of the = operator mismatch!\n", e->line);
+					type_error_count += 1;
+				}
 				return right;
 			} else {
 				if(left->kind == TYPE_FUNCTION) {
-					fprintf(stderr, "type error: the = operator does not apply to function types!\n");
-					type_error_count += 1;
+					if(!silent_mode) {
+						fprintf(stderr, "type error (line %d): the = operator does not apply to function types!\n", e->line);
+						type_error_count += 1;
+					}
 					return right;
 				}
 				return right;
 			}
 			break;
 		case EXPR_COMMA:
-			left = expr_typecheck(e->left, is_array_initializer);
-			right = expr_typecheck(e->right, is_array_initializer);
+			left = expr_typecheck(e->left, is_array_initializer, silent_mode);
+			right = expr_typecheck(e->right, is_array_initializer, silent_mode);
 			if(is_array_initializer) {
 				if(!type_equals(left, right)) {
-					printf("type error: the elements of an array intializer should have the same type!\n");
-					type_error_count += 1;
-					return left;
-				} else {
-					return left;
+					if(!silent_mode) {
+						printf("type error (line %d): the elements of an array intializer should have the same type!\n", e->line);
+						type_error_count += 1;
+					}
+				}
 			}
-			} else {
-				return left;
-			}
+			return left;
 			break;
 		case EXPR_IDENT_NAME:
 			return e->symbol->type;
@@ -429,9 +465,9 @@ struct type *expr_typecheck(struct expr *e, int is_array_initializer) {
 }
 
 //check function call arguments and function definition paramters
-void expr_func_typecheck(struct expr *e) {
+void expr_func_typecheck(struct expr *e, int silent_mode) {
 	//search for the function in the global scope, get its type 
-	struct symbol *s = scope_lookup(e->left->name, 0);
+	struct symbol *s = scope_lookup(e->left->name, e->line, 0);
 	struct param_list *p = s->type->params;
 
 	//get the argument number of the function call
@@ -442,22 +478,28 @@ void expr_func_typecheck(struct expr *e) {
 	while(p) {
 		i += 1;	
 		if(i > n) {
-			fprintf(stderr, "type error: function call does not have enough arguments!\n");
-			type_error_count += 1;
+			if(!silent_mode) {
+				fprintf(stderr, "type error (line %d): function call does not have enough arguments!\n", e->line);
+				type_error_count += 1;
+			}
 			return;
 		}
 		arg = expr_get_item(e->right, n, i);
-		if(!type_equals(p->type, expr_typecheck(arg, 0))) {
-			fprintf(stderr, "type error: the types of function call arguments do not match the types of function parameters!\n");
-			type_error_count += 1;
+		if(!type_equals(p->type, expr_typecheck(arg, 0, silent_mode))) {
+			if(!silent_mode) {
+				fprintf(stderr, "type error (line %d): the types of function call arguments do not match the types of function parameters!\n", e->line);
+				type_error_count += 1;
+			}
 			return;
 		}
 		p = p->next;
 	}
 
 	if(i < n) {
-		fprintf(stderr, "type error: function call has too much arguments!\n");
-		type_error_count += 1;
+		if(!silent_mode) {
+			fprintf(stderr, "type error (line %d): function call has too much arguments!\n", e->line);
+			type_error_count += 1;
+		}
 		return;
 	}
 
@@ -502,15 +544,15 @@ void expr_print_typecheck(struct expr *e) {
 	int i;
 	for(i = 1; i <= n; i++) {
 		struct expr *arg = expr_get_item(e, n, i);
-		struct type *t = expr_typecheck(arg, 0);
+		struct type *t = expr_typecheck(arg, 0, 1);
 		if(t->kind == TYPE_FUNCTION) {
-			fprintf(stderr, "type error: print_stmt can not print function!\n");
+			fprintf(stderr, "type error (line %d): print_stmt can not print function!\n", e->line);
 			type_error_count += 1;
 			continue;
 		}
 
 		if(t->kind == TYPE_VOID) {
-			fprintf(stderr, "type error: print_stmt can not print void type!\n");
+			fprintf(stderr, "type error (line %d): print_stmt can not print void type!\n", e->line);
 			type_error_count += 1;
 			continue;
 		}

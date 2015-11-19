@@ -49,7 +49,7 @@ void scope_enter() {
 void scope_exit() {
 	struct scope *h = head;
 	head = head->next;
-	hash_table_traverse(h->h);
+	//hash_table_traverse(h->h);
 	free(h);
 	level -= 1;
 }
@@ -79,7 +79,7 @@ void scope_rebind(const char *name, struct symbol *s) {
 	}
 }
 
-struct symbol *scope_lookup(const char *name, int resolving) {
+struct symbol *scope_lookup(const char *name, int line, int resolving) {
 	int i = level;
 	struct scope *s = head;
 	while(i >= 0) {
@@ -88,13 +88,13 @@ struct symbol *scope_lookup(const char *name, int resolving) {
 			if(resolving) {
 				switch(sym->kind) {
 					case SYMBOL_GLOBAL:
-						fprintf(stdout, "%s resolves to global %s (level %d)\n", name, name, i);
+						fprintf(stdout, "resolving (line %d): %s resolves to global %s (level %d)\n", line, name, name, i);
 						break;
 					case SYMBOL_LOCAL:
-						fprintf(stdout, "%s resolves to local %d (level %d)\n", name, sym->which, i);
+						fprintf(stdout, "resolving (line %d): %s resolves to local %d (level %d)\n", line, name, sym->which, i);
 						break;
 					case SYMBOL_PARAM:
-						fprintf(stdout, "%s resolves to param %d (level %d)\n", name, sym->which, i);
+						fprintf(stdout, "resolving (line %d): %s resolves to param %d (level %d)\n", line, name, sym->which, i);
 						break;
 				}
 			}
@@ -105,7 +105,7 @@ struct symbol *scope_lookup(const char *name, int resolving) {
 		}
 	}
 	if(resolving) {
-		fprintf(stdout, "resolve error: %s is not defined!\n", name);
+		fprintf(stdout, "resolve error (line %d): %s is not defined!\n", line, name);
 		resolve_error_count += 1;
 	}
 	return 0;

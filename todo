@@ -1,14 +1,22 @@
 Todo:
-line number 
-enrich the error msg
-
-test different kinds of function
-
-check header file includes
 add lineno to the error output.
+enrich the error msg
 add memory allocation successful check. check function return value
 valgrind check memory leak
 remove additional output
+3-D array typechecking
+
+array index must be meaning ful; if array size is n; the index must be 0 ~ n-1 
+use an variable before intializing it.
+does a single integer literal overflow checking?
+
+is the following legal?
+    a:array[2]array[3] integer = {{1, 1,1}, {1,2,23}};
+    b:array[2]array[3] integer = a;
+
+	
+check header file includes
+
 
 <<<< Done:
 print function and void

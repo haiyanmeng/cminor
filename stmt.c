@@ -190,31 +190,32 @@ void stmt_typecheck(struct stmt *s, const char *func_name) {
 			decl_typecheck(s->decl);
 			break;
 		case STMT_EXPR:
-			expr_typecheck(s->expr, 0);
+			expr_typecheck(s->expr, 0, 0);
+			break;
 		case STMT_PRINT:
-			expr_typecheck(s->expr, 0);
+			expr_typecheck(s->expr, 0, 0);
 			expr_print_typecheck(s->expr);
 			break;
 		case STMT_RETURN:
-			t = expr_typecheck(s->expr, 0);
+			t = expr_typecheck(s->expr, 0, 0);
 			//return wrong number 
-			func_return = scope_lookup(func_name, 0)->type->subtype;
+			func_return = scope_lookup(func_name, s->line, 0)->type->subtype;
 			if(!t) { //return;
 				if(func_return->kind != TYPE_VOID) {
-					fprintf(stderr, "type error: function returns a wrong type!\n");
+					fprintf(stderr, "type error (line %d): function (%s) returns a wrong type!\n", s->line, func_name);
 					type_error_count += 1;
 				}	
 			} else {
 				if(!type_equals(t, func_return)) {
-					fprintf(stderr, "type error: function returns a wrong type!\n");
+					fprintf(stderr, "type error (line %d): function (%s) returns a wrong type!\n", s->line, func_name);
 					type_error_count += 1;
 				}
 			}
 			break;
 		case STMT_IF_ELSE:
-			t = expr_typecheck(s->expr, 0);
+			t = expr_typecheck(s->expr, 0, 0);
 			if(t->kind != TYPE_BOOLEAN) {
-				fprintf(stderr, "type error: the expr of if_stmt must be boolean!\n"); 
+				fprintf(stderr, "type error (line %d): the expr of if_stmt must be boolean!\n", s->expr->line); 
 				type_error_count += 1;
 			}
 
@@ -222,15 +223,15 @@ void stmt_typecheck(struct stmt *s, const char *func_name) {
 			stmt_typecheck(s->else_body, func_name);
 			break;
 		case STMT_FOR:
-			expr_typecheck(s->init_expr, 0);
+			expr_typecheck(s->init_expr, 0, 0);
 
-			t = expr_typecheck(s->expr, 0);
+			t = expr_typecheck(s->expr, 0, 0);
 			if(t->kind != TYPE_BOOLEAN) {
-				fprintf(stderr, "type error: the expr of for_stmt must be boolean!\n"); 
+				fprintf(stderr, "type error (line %d): the expr of for_stmt must be boolean!\n", s->expr->line); 
 				type_error_count += 1;
 			}
 
-			expr_typecheck(s->next_expr, 0);
+			expr_typecheck(s->next_expr, 0, 0);
 			stmt_typecheck(s->body, func_name);
 			break;
 		case STMT_BLOCK:	

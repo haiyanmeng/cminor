@@ -100,7 +100,7 @@ f10:function void() = {
 //type error: the operands of the = operator mismatch!
 f11:function void( )= {
 	x:integer = 1;
-	x[3] = 5;
+	x[3] = "5";
 }
 
 //type error: an array index must be integer!
@@ -168,167 +168,160 @@ f20:function void() = {
 	b:integer = a + a* a / a ^ a - c;
 }
 
-////type error: the operands of a comparison operator mismatch!
-//f:function void() = {
-//	a:integer;
-//	c:char;
-//	b:boolean = a > c;
-//}
+//type error: the operands of a comparison operator mismatch!
+f21:function void() = {
+	a:integer;
+	c:char;
+	b:boolean = a > c;
+}
 
-////type error: the operands of a comparison operator must be integers!
-//f:function void() = {
-//	a:char;
-//	c:char;
-//	b:boolean = a > c;
-//}
+//type error: the operands of a comparison operator must be integers!
+f22:function void() = {
+	a:char;
+	c:char;
+	b:boolean = a > c;
+}
 
-////good - comparison
-//f:function void() = {
-//	a:integer;
-//	c:integer;
-//	b:boolean = (a > ((c)));
-//}
+//good - comparison
+f23:function void() = {
+	a:integer;
+	c:integer;
+	b:boolean = (a > ((c)));
+}
 
-/*
+
 //type error: the == operator does not apply to array and function types!
-f:function void() = {
+f24:function void() = {
 	a:array[2] integer;
 	c:array[2] integer;
 	b:boolean = (a == ((c)));
 }
-*/
 
-/*
+
+
 //type error: the == operator does not apply to array and function types!
 a:function integer() = {}
 c:function integer() = {}
-f:function void() = {
+f25:function void() = {
 	a:function integer();
 	c:function integer();
 	b:boolean = (a == ((c)));
 }
-*/
 
-/*
+
 //type error: the != operator does not apply to array and function types!
-f:function void() = {
+f26:function void() = {
 	a:array[] integer;
 	c:array[] integer;
 	b:boolean = (a != ((c)));
 }
-*/
 
-/*
 //type error: the != operator does not apply to array and function types!
-a:function integer() = {}
-c:function integer() = {}
-f:function void() = {
+f27:function void() = {
 	a:function integer();
 	c:function integer();
 	b:boolean = (a != ((c)));
 }
-*/
 
-/*
 //type error: the operands of the && operator mismatch!
-f:function void() = {
+f28:function void() = {
 	a:integer;
 	b:boolean = a && true && false;
 }
-*/
 
-/*
 //type error: the && operator only applys to boolean types!
-f:function void() = {
+f29:function void() = {
 	a:integer;
 	b:boolean = 1 && a;
 }
-*/
 
-/*
 //good - || 
-f:function void() = {
+f30:function void() = {
 	a:boolean;
 	b:boolean = a || true || false;
 }
-*/
 
-/*
+
 //type error: the operands of the || operator mismatch!
-f:function void() = {
+f31:function void() = {
 	a:integer;
 	b:boolean = a || true || false;
 }
-*/
 
-/*
+
+
 //type error: the || operator only applys to boolean types!
-f:function void() = {
+f32:function void() = {
 	a:integer;
 	b:boolean = 1 || a;
 }
-*/
 
-/*
+
+
 //good - = 
-f:function void() = {
+f33:function void() = {
 	a:array[1] array[2] char;
 	b:array[23] array[3+7*6] char;
 	c:array[0] array[-343] char ={{'1'}, {'2'}};
 	b = a = a = c;
 }
-*/
 
-/*
-//type error: the operands of the = operator mismatch!
-f:function void() = {
+//type error (line 272): the array size must be an positive integer literal!
+//type error (line 273): the array size must be an positive integer literal!
+//type error (line 273): the array size must be an positive integer literal!
+//type error (line 273): the initializer size of the array does not match the size of the array!
+//type error (line 274): the operands of the = operator mismatch!
+//type error (line 274): the operands of the = operator mismatch!
+f34:function void() = {
 	a:array[1] array[2] string;
 	b:array[23] array[3+7*6] char;
 	c:array[0] array[-343] char ={{'1'}, {'2'}};
 	b = a = a = c;
 }
-*/
 
-/*
 //type error: the = operator does not apply to function types!
-f1:function void() = {}
-f2:function void() = {}
-f:function void() = {
+f35:function void() = {}
+f36:function void() = {}
+f37:function void() = {
 	a:char;
-	f2 = f1;
+	f35 = f36;
 }
-*/
 
-/*
-//good - ,
-f1:function void()= {}
-f2:function void(x:integer, y:char, z:string)= {}
-f:function void() = {
+
+//type error (line 295): the initializer size of the array does not match the size of the array!
+//type error (line 295): the initializer size of the array does not match the size of the array!
+//type error (line 296): print_stmt can not print void type!
+f39:function void()= {}
+f38:function void(x:integer, y:char, z:string)= {}
+f40:function void() = {
 	a:array[2]array[3] integer = {{1, 1}, {23}};
-	print a, 1, "abc", 'a', true, false, f1();
-	f2(1,'c', "str");
+	print a, 1, "abc", 'a', true, false, f39();
+	f38(1,'c', "str");
 }
-*/
 
-/*
+
+//type error (line 304): the elements of an array intializer should have the same type!
+//type error (line 304): the elements of an array intializer should have the same type!
+//type error (line 304): the initializer size of the array does not match the size of the array!
+//type error (line 304): the initializer size of the array does not match the size of the array!
+//type error (line 304): the type of a1 does not match the type of its initializer!
+a1:array[2]array[3] integer = {{true, 1}, {23}};
+
+
+
 //type error: the elements of an array intializer should have the same type!
-a:array[2]array[3] integer = {{true, 1}, {23}};
-*/
+a2:array [3] integer = {1, 23, 'c'};
 
-/*
-//type error: the elements of an array intializer should have the same type!
-a:array [3] integer = {1, 23, 'c'};
-*/
 
-/*
-//type error: the elements of an array intializer should have the same type!
-a:array[3] array[3] integer = {{1}, {'2', '3'}};
-*/
+//type error (line 317): the elements of an array intializer should have the same type!
+//type error (line 317): the initializer size of the array does not match the size of the array!
+//type error (line 317): the initializer size of the array does not match the size of the array!
+//type error (line 317): the initializer size of the array does not match the size of the array!
+a3:array[3] array[3] integer = {{1}, {'2', '3'}};
 
-/*
-//good - identifier, literal
-f:function void() = {
-	a:array[2]array[3] integer = {{1, 1}, {23}};
+//type error (line 325) : invalid initializer for an array (b)!
+f41:function void() = {
+	a:array[2]array[3] integer = {{1, 1,1}, {1,2,23}};
 	b:array[2]array[3] integer = a;
 	a1:integer = -(-(-12343535454654656565));
 	b1:char = '\n';
@@ -337,213 +330,145 @@ f:function void() = {
 	e:boolean = false;
 	f:boolean = d && e || !f;
 }
-*/
 
-/*
+
 //type error: function call does not have enough arguments!
-f:function void(a:integer, b:char, c:string) = {
+f42:function void(a:integer, b:char, c:string) = {
 }
 
 main: function integer() = {
 	a:integer = 1;
 	b:char = 'c';
-	f(a, b);
+	f42(a, b);
 	return 0;
 }
-*/
 
-/*
 //type error: the types of function call arguments do not match the types of function parameters!
-f:function void(a:integer, b:char, c:string) = {
+f43:function void(a:integer, b:char, c:string) = {
 }
 
-main: function integer() = {
+main1: function integer() = {
 	a:integer = 1;
 	b:char = 'c';
-	f(a+3, a^2-5+7/9, b);
+	f43(a+3, a^2-5+7/9, b);
 	return 0;
 }
-*/
 
-/*
 //type error: function call has too much arguments!
-f:function void(a:integer, b:char, c:string) = {
+f44:function void(a:integer, b:char, c:string) = {
 }
 
-main: function integer() = {
+main2: function integer() = {
 	a:integer = 1;
 	b:char = 'c';
-	f(a, b, "abc", 1, 23);
+	f44(a, b, "abc", 1, 23);
 	return 0;
 }
-*/
 
 
 // ***** type_typecheck
 
-//type error: the array size must be integer literal!
-/*
-x:integer = 3;
-a:array[3] array[5+x] integer = {{1}, {2, 3}};
-*/
+//type error (line 373): the array size must be an positive integer literal!
+//type error (line 373): the initializer size of the array does not match the size of the array!
+//type error (line 373): the initializer size of the array does not match the size of the array!
+//type error (line 373): the initializer size of the array does not match the size of the array!
+xx:integer = 3;
+aa:array[3] array[5+xx] integer = {{1}, {2, 3}};
 
-/*
-//type error: the array size must be integer literal!
-f:function void(a:array[]integer)= {
+//type error (line 382): the array size must be an positive integer literal!
+//type error (line 382): the initializer size of the array does not match the size of the array!
+//type error (line 382): the initializer size of the array does not match the size of the array!
+//type error (line 382): the initializer size of the array does not match the size of the array!
+f45:function void(a:array[]integer)= {
 	x:integer = 3;
 	a1:array[3] array[5+x] integer = {{1}, {2, 3}};
 }
-*/
 
-/*
-//type error: the initializer size of the array does not match the size of the array!
-a:array[2] array[3] integer = {{1}, {2, 3}};
-a:array[2] array[3] integer = {{1,2,3,4}, {2, 3,3}, {1,2,3}};
-*/
+//type error (line 388): the initializer size of the array does not match the size of the array!
+//type error (line 388): the initializer size of the array does not match the size of the array!
+//type error (line 389): the initializer size of the array does not match the size of the array!
+//type error (line 389): the initializer size of the array does not match the size of the array!
+aa2:array[2] array[3] integer = {{1}, {2, 3}};
+aa3:array[2] array[3] integer = {{1,2,3,4}, {2, 3,3}, {1,2,3}};
 
-/*
 //good one
-a:array[2] array[3] integer = {{1,2,4}, {2, 3,3}};
-*/
+aa4:array[2] array[3] integer = {{1,2,4}, {2, 3,3}};
 
-/*
-//type error: the array size is missing!
-a:array[] array[] integer = {{1}, {2, 3}};
-*/
 
-/*
 //type error: the array size is missing!
-f:function void() = {
+aa5:array[] array[] integer = {{1}, {2, 3}};
+
+
+//type error: the array size is missing!
+f46:function void() = {
 	a:array[] integer;
 }
-*/
 
-/*
-//type error: the array size must be integer!
-f:function void(a:array[]integer)= {
+//type error (line 410): the array size must be an positive integer literal!
+//type error (line 410): the initializer size of the array does not match the size of the array!
+//type error (line 410): the initializer size of the array does not match the size of the array!
+//type error (line 410): the initializer size of the array does not match the size of the array!
+f47:function void(a:array[]integer)= {
 	x:char;
 	a1:array[3] array[x] integer = {{1}, {2, 3}};
 }
-*/
 
-
-
-
-
-
-
-
-
-
-
-// ***** resolve error
-/*
-//resolve error: a function prototype named f4 has been declared locally (level 1)
-resolve error: x has been defined as local 1 (level 1)
-f:function void();
-f:function void( )= {
-	f1:function void();
-	f2:function void();
-	f3:function void();
-	f4:function void();
-	f:char;
-	f4:char;
-	x:boolean = true;
-	x:char;
+//good, test left parenthess
+d:integer;
+f48:function void(a:integer) = {
+	x:integer = ((d^2)+(-d)*5);
 }
-*/
 
-////resolve error: x1 is not defined!
-//f:function void( )= {
-//	x:boolean = true;
-//	y:boolean = x1;
-//}
+//good
+f49:function void(a:integer) = {
+}
+main4: function integer() = {
+	a:integer = 1;
+	b:array[2] char = {'a', 'c'};
+	f49(a);
+	return 0;
+}
 
-////resolve error: x has been defined as param 0 (level 1)
-//f:function void(x:integer, x:char)= {
-//	x:boolean = true;
-//	y:boolean = x1;
-//}
-
-////resolve error: x has been defined as param 0 (level 1)
-//f:function void(x:integer)= {
-//	x:integer = 1;
-//	y:boolean = x;
-//}
-
-////resolve error: y has been defined as local 0 (level 1)
-//f:function void(x:integer)= {
-//	y:integer = 1;
-//	y:integer = x;
-//}
-
-////resolve error: x has been defined globally!
-//x:integer = 1;
-//x:char = 'c';
-
-
-
-
-
-////good, test left parenthess
-//d:integer;
-//f1:function void(a:integer) = {
-//	x:integer = ((d^2)+(-d)*5);
-//}
-
-////good
-//f:function void(a:integer) = {
-//}
-//main: function integer() = {
-//	a:integer = 1;
-//	b:array[2] char = {'c'};
-//	f(a);
-//	return 0;
-//}
-
-////good 
-//a:function integer() = {}
-//c:function integer() = {}
-//f:function void() = {
-//	a:function integer();
-//	c:function integer();
-//	b:boolean = (a() != ((c())));
-//}
+//good 
+aaa:function integer() = {}
+caa:function integer() = {}
+f50:function void() = {
+	aaa:function integer();
+	caa:function integer();
+	b:boolean = (aaa() != ((caa())));
+}
 
 //good, the initializer of a local variable may not be constant
-//f:function void( )= {
-//	x:boolean = true;
-//	y:boolean = x;
-//}
+f51:function void( )= {
+	x:boolean = true;
+	y:boolean = x;
+}
 
-////good, function prototype
-//f:function void();
-//f:function void( )= {
-//	f:function void();
-//	x:boolean = true;
-//	y:boolean = x;
-//	f();
-//}
-//f:function void();
+//good, function prototype
+fff:function void();
+fff:function void( )= {
+	fff:function void();
+	x:boolean = true;
+	y:boolean = x;
+	fff();
+}
+fff:function void();
 
 
-////good example, define x in different scopes
-//x:integer = 1;
-//f:function void(x:integer)= {
-//	y:integer = 1;
-//	xy:integer = x;
-//	if(x == 1) {
-//		x:integer = 1;
-//	}
-//
-//	{ x: integer; }
-//}
+//good example, define x in different scopes
+x52:integer = 1;
+f52:function void(x:integer)= {
+	y:integer = 1;
+	xy:integer = x52;
+	if(x52 == 1) {
+		x:integer = 1;
+	}
 
-/*
+	{ x52: integer; }
+}
+
 //good - && 
-f:function void() = {
+f53:function void() = {
 	a:boolean;
 	b:boolean = a && true && false;
 }
-*/
-
