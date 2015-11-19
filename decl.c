@@ -103,7 +103,7 @@ void decl_resolve(struct decl *d, int seq) {
 					scope_rebind(d->name, sym);
 				} else {
 					fprintf(stderr, "resolve error: %s has been defined globally!\n", d->name);
-					error_count += 1;
+					resolve_error_count += 1;
 				}
 				break;
 			case SYMBOL_LOCAL:
@@ -112,11 +112,11 @@ void decl_resolve(struct decl *d, int seq) {
 				} else {
 					fprintf(stderr, "resolve error: %s has been defined as local %d (level %d)\n", d->name, s->which, level);
 				}
-				error_count += 1;
+				resolve_error_count += 1;
 				break;
 			case SYMBOL_PARAM:
 				fprintf(stderr, "resolve error: %s has been defined as param %d (level %d)\n", d->name, s->which, level);
-				error_count += 1;
+				resolve_error_count += 1;
 				break;
 		}
 	} else {
@@ -154,7 +154,7 @@ void decl_typecheck(struct decl *d) {
 		if(d->symbol->kind == SYMBOL_GLOBAL) {
 			if(!expr_is_constant(d->value)) {
 				fprintf(stderr, "type error: the intializer of a global variable (%s) should be constant!\n", d->name);
-				exit(EXIT_FAILURE);
+				type_error_count += 1;
 			}
 		}
 
@@ -169,7 +169,7 @@ void decl_typecheck(struct decl *d) {
 
 		if(!type_equals(d->type, t)) {
 			fprintf(stderr, "type error: the type of %s does not match the type of its initializer!\n", d->name);
-			exit(EXIT_FAILURE);
+			type_error_count += 1;
 		}
 	} else if(d->code) {
 		// function definition
@@ -188,11 +188,11 @@ void decl_typecheck(struct decl *d) {
 			}
 			if(s->t == FUNC_PROTO) { //the source code file does not include the definition of a function
 				fprintf(stderr, "type error: the function definition of %s is missing!\n", d->name);
-				exit(EXIT_FAILURE);
+				type_error_count += 1;
 			} else {
 				if(!type_equals(d->type, s->type)) {
 					fprintf(stderr, "type error: the function definition of %s does not match its prototype!\n", d->name);
-					exit(EXIT_FAILURE);
+					type_error_count += 1;
 				}
 			}
 		}

@@ -4,7 +4,8 @@
 #include <stdlib.h>
 
 int level = 0;
-int error_count = 0;
+int resolve_error_count = 0;
+int type_error_count = 0;
 struct scope *head = 0;
 
 void scope_init() {
@@ -105,7 +106,7 @@ struct symbol *scope_lookup(const char *name, int resolving) {
 	}
 	if(resolving) {
 		fprintf(stdout, "resolve error: %s is not defined!\n", name);
-		error_count += 1;
+		resolve_error_count += 1;
 	}
 	return 0;
 }

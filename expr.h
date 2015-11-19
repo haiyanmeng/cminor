@@ -61,7 +61,8 @@ struct type *expr_typecheck(struct expr *e, int is_array_initializer);
 
 /* return 1 if expr is constant; return 0 if expr is not constant. */
 int expr_is_constant(struct expr *e);
-void expr_func_typecheck(struct expr *e, int is_array_initializer);
+void expr_func_typecheck(struct expr *e);
 int expr_count_item(struct expr *e);
 struct expr *expr_get_item(struct expr *e, int n, int i);
+void expr_print_typecheck(struct expr *e);
 #endif

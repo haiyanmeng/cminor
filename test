@@ -1,179 +1,151 @@
-
 // ***** typecheck
 
 // ***** decl_typecheck
-/*
+
 //type error: the intializer of a global variable (y) should be constant!
 x:boolean = true;
 y:boolean = x;
-*/
 
-/*
-type error: the type of x does not match the type of its initializer!
-x:char = 3;
-*/
-
-/*
 //type error: the type of x does not match the type of its initializer!
 f:function void() = {
 	a:array[3] integer;
 	x:char = a[2];
 }
-*/
 
-/*
+//type error: the type of x does not match the type of its initializer!
+x1:char = 3;
+
 //type error: the function definition of f1 is missing!
 f1:function void(x:integer);
-f:function void( )= {
+f2:function void( )= {
 	x:boolean = true;
 	y:boolean = x;
 }
-*/
 
-f:function void();
-f:function void( )= {
-	f1:function void();
-	f2:function void();
-	f3:function void();
-	f4:function void();
-	f:char;
-	f4:char;
-	x:boolean = true;
-	x:char;
-}
-
-/*
 //type error: the function definition of f does not match its prototype!
-f:function void(x:integer);
-f:function void()= {
+f3:function void(x:integer);
+f3:function void()= {
 	x:boolean = true;
 	y:boolean = x;
 }
-*/
 
 // ***** stmt_typecheck
-/*
+
 //type error: function returns a wrong type!
-f:function void(a:integer) = {
+f4:function void(a:integer) = {
 	return 1;
 }
-*/
 
-/*
 //type error: function returns a wrong type!
-f:function integer(a:integer) = {
+f5:function integer(a:integer) = {
 	return ;
 }
-*/
 
-/*
 //good: missing return
-f:function integer(a:integer) = {
+f6:function integer(a:integer) = {
 }
-*/
 
-/*
 //type error: the expr of if_stmt must be boolean!
-f:function void(a:integer) = {
+f7:function void(a:integer) = {
 	if(a+34*7) print;
 }
-*/
 
-/*
 //good - if else
-f:function void(a:integer) = {
+f8:function void(a:integer) = {
 	if(true)
 		x:integer = 3;
 	else
 		print 2;
 }
-*/
 
-/*
 //type error: the expr of for_stmt must be boolean!
-f:function void() = {
+f9:function void() = {
 	x:integer;	
 	for (x= 1; x + 1; x++) {
 		print 1;
 	}
 }
-*/
 
-/*
 //good - for
-f:function void() = {
+f10:function void() = {
 	x:integer;	
 	for (x= 1; !(x == 1); x++) {
 		print 1;
 	}
 }
-*/
 
 // ***** expr_typecheck
-////type error: x is not an array, and can not be indexed.
-//f:function void( )= {
-//	x:integer = 1;
-//	x[3] = 5;
-//}
+//type error: x is not an array, and can not be indexed.
+//type error: the operands of the = operator mismatch!
+f11:function void( )= {
+	x:integer = 1;
+	x[3] = 5;
+}
 
-////type error: an array index must be integer!
-//f:function void( )= {
-//	x:char = 'c';
-//	z:integer = 2;
-//	y:array [5] integer;
-//	y[x] = 5;
-//}
+//type error: an array index must be integer!
+f12:function void( )= {
+	x:char = 'c';
+	z:integer = 2;
+	y:array [5] integer;
+	y[x] = 5;
+}
 
-////type error: ++/-- expr only applys to integer types!
-//f: function void() = {
-//	c:char;
-//	x:integer = c--;
-//}
+//type error: ++/-- expr only applys to integer types!
+f13: function void() = {
+	c:char;
+	x:integer = c--;
+}
 
-////type error: unary neg operator expr only applys to integer types!
-//f: function void() = {
-//	c:char;
-//	x:integer = -c;
-//}
+//type error: unary neg operator expr only applys to integer types!
+f14: function void() = {
+	c:char;
+	x:integer = -c;
+}
 
-////good
-//f: function void() = {
-//	c:integer;
-//	x:integer = -c;
-//}
+//good
+f15: function void() = {
+	c:integer;
+	x:integer = -c;
+}
 
-////type error: not operator expr only applys to boolean types!
-//f:function void() = {
-//	a:integer;
-//	b:boolean = !a;
-//}
+//type error: not operator expr only applys to boolean types!
+//type error: print_stmt can not print void type!
+f16:function void() = {
+	a:integer;
+	b:boolean = !a;
+	print f16, f16(), a, b;
+}
 
-////good - operator !
-//f:function void() = {
-//	a:integer;
-//	b:boolean = !b;
-//}
+//good - operator !
+f17:function void() = {
+	a:integer;
+	b:boolean = !b;
+}
 
-////type error: the operands of binary arithmetic operator expr mismatch.
-//f:function void() = {
-//	a:integer;
-//	c:char;
-//	b:integer = a + 5 * a / a ^ a - c;
-//}
+//type error: the operands of binary arithmetic operator expr mismatch.
+f18:function void() = {
+	a:integer;
+	c:char;
+	b:integer = a + 5 * a / a ^ a - c;
+}
 
-////type error: the operands of binary arithmetic operator must be integers!
-//f:function void() = {
-//	a:char;
-//	c:char;
-//	b:integer = a + a* a / a ^ a - c;
-//}
+//type error: the operands of binary arithmetic operator must be integers!
+//type error: the operands of binary arithmetic operator must be integers!
+//type error: the operands of binary arithmetic operator expr mismatch.
+//type error: the operands of binary arithmetic operator expr mismatch.
+f19:function void() = {
+	a:char;
+	c:char;
+	b:integer = a + a* a / a ^ a - c;
+}
 
-////good - binary arithmetic operator
-//f:function void() = {
-//	a:integer;
-//	c:integer;
-//	b:integer = a + a* a / a ^ a - c;
-//}
+
+//good - binary arithmetic operator
+f20:function void() = {
+	a:integer;
+	c:integer;
+	b:integer = a + a* a / a ^ a - c;
+}
 
 ////type error: the operands of a comparison operator mismatch!
 //f:function void() = {
@@ -444,6 +416,22 @@ f:function void(a:array[]integer)= {
 
 
 // ***** resolve error
+/*
+//resolve error: a function prototype named f4 has been declared locally (level 1)
+resolve error: x has been defined as local 1 (level 1)
+f:function void();
+f:function void( )= {
+	f1:function void();
+	f2:function void();
+	f3:function void();
+	f4:function void();
+	f:char;
+	f4:char;
+	x:boolean = true;
+	x:char;
+}
+*/
+
 ////resolve error: x1 is not defined!
 //f:function void( )= {
 //	x:boolean = true;

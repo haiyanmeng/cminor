@@ -189,8 +189,10 @@ void stmt_typecheck(struct stmt *s, const char *func_name) {
 			decl_typecheck(s->decl);
 			break;
 		case STMT_EXPR:
+			expr_typecheck(s->expr, 0);
 		case STMT_PRINT:
 			expr_typecheck(s->expr, 0);
+			expr_print_typecheck(s->expr);
 			break;
 		case STMT_RETURN:
 			t = expr_typecheck(s->expr, 0);
@@ -199,12 +201,12 @@ void stmt_typecheck(struct stmt *s, const char *func_name) {
 			if(!t) { //return;
 				if(func_return->kind != TYPE_VOID) {
 					fprintf(stderr, "type error: function returns a wrong type!\n");
-					exit(EXIT_FAILURE);
+					type_error_count += 1;
 				}	
 			} else {
 				if(!type_equals(t, func_return)) {
 					fprintf(stderr, "type error: function returns a wrong type!\n");
-					exit(EXIT_FAILURE);
+					type_error_count += 1;
 				}
 			}
 			break;
@@ -212,7 +214,7 @@ void stmt_typecheck(struct stmt *s, const char *func_name) {
 			t = expr_typecheck(s->expr, 0);
 			if(t->kind != TYPE_BOOLEAN) {
 				fprintf(stderr, "type error: the expr of if_stmt must be boolean!\n"); 
-				exit(EXIT_FAILURE);
+				type_error_count += 1;
 			}
 
 			stmt_typecheck(s->body, func_name);
@@ -224,7 +226,7 @@ void stmt_typecheck(struct stmt *s, const char *func_name) {
 			t = expr_typecheck(s->expr, 0);
 			if(t->kind != TYPE_BOOLEAN) {
 				fprintf(stderr, "type error: the expr of for_stmt must be boolean!\n"); 
-				exit(EXIT_FAILURE);
+				type_error_count += 1;
 			}
 
 			expr_typecheck(s->next_expr, 0);

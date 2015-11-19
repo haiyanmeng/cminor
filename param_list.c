@@ -38,7 +38,7 @@ void param_list_resolve(struct param_list *p, int seq) {
 	struct symbol *s = scope_lookup_local(p->name);
 	if(s) {
 		fprintf(stderr, "resolve error: %s has been defined as param %d (level %d)\n", p->name, s->which, level);
-		error_count += 1;
+		resolve_error_count += 1;
 	}
 
 	p->symbol = sym;

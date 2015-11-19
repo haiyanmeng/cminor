@@ -9,7 +9,8 @@
 extern int yyparse();
 extern FILE *yyin;
 extern struct decl *program;
-extern int error_count;
+extern int resolve_error_count;
+extern int type_error_count;
 
 int main(int argc, char *argv[]) {
 	/* there is no difference between these three options. */
@@ -35,19 +36,23 @@ int main(int argc, char *argv[]) {
 			scope_init();
 			decl_resolve(program, 0);
 			scope_print();
-			if(error_count > 0) {
-				fprintf(stderr, "%d name resolution errors have been found!\n", error_count);
+			if(resolve_error_count > 0) {
+				fprintf(stderr, "%d name resolution errors have been found!\n", resolve_error_count);
 				exit(EXIT_FAILURE);
 			}
 		} else if(!strcmp(argv[1], "-typecheck")) {
 			scope_init();
 			decl_resolve(program, 0);
 			scope_print();
-			if(error_count > 0) {
-				fprintf(stderr, "%d name resolution errors have been found!\n", error_count);
+			if(resolve_error_count > 0) {
+				fprintf(stderr, "%d name resolution errors have been found!\n", resolve_error_count);
 				exit(EXIT_FAILURE);
 			}
 			decl_typecheck(program);
+			if(type_error_count > 0) {
+				fprintf(stderr, "%d type errors have been found!\n", type_error_count);
+				exit(EXIT_FAILURE);
+			}
 		}
 	} else {
 		exit(EXIT_FAILURE);
