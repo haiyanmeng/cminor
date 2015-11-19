@@ -1,5 +1,5 @@
 Todo:
-//type error: the function definition of f1 is missing!
+locally, function prototype conflicting.
 line number 
 enrich the error msg
 check to catch all the type errors

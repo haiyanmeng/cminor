@@ -101,6 +101,8 @@ void decl_resolve(struct decl *d, int seq) {
 			case SYMBOL_GLOBAL:
 				if(s->t == FUNC_PROTO && sym->t == FUNC_DEF) {
 					scope_rebind(d->name, sym);
+				} else if(s->t == FUNC_PROTO && sym->t == FUNC_PROTO) {
+					d->symbol = sym;
 				} else {
 					fprintf(stderr, "resolve error: %s has been defined globally!\n", d->name);
 					resolve_error_count += 1;
@@ -187,14 +189,18 @@ void decl_typecheck(struct decl *d) {
 				exit(EXIT_FAILURE);
 			}
 			if(s->t == FUNC_PROTO) { //the source code file does not include the definition of a function
-				fprintf(stderr, "type error: the function definition of %s is missing!\n", d->name);
-				type_error_count += 1;
-			} else {
+				if(s != d->symbol) {
+					if(!type_equals(d->type, s->type)) {
+						fprintf(stderr, "type error: the function %s has multiple conflicting prototype!\n", d->name);
+						type_error_count += 1;
+					}
+				}
+			} else { //function definition exists in the same source file
 				if(!type_equals(d->type, s->type)) {
 					fprintf(stderr, "type error: the function definition of %s does not match its prototype!\n", d->name);
 					type_error_count += 1;
 				}
-			}
+			} 
 		}
 	}
 	decl_typecheck(d->next);
