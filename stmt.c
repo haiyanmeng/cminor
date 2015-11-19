@@ -138,10 +138,17 @@ void indent_process(int indent) {
 void stmt_resolve(struct stmt *s, int seq) {
 	if(!s) return;
 
+	int increase_seq = 0;	
 	switch(s->kind) {
 		case STMT_DECL:
+			if(!scope_lookup_local(s->decl->name) && s->decl->type->kind != TYPE_FUNCTION) {
+				increase_seq = 1;
+			}
 			decl_resolve(s->decl, seq);
-			seq += 1;
+			if(increase_seq == 1) {
+				seq += 1;
+				increase_seq = 0;
+			}
 			break;
 		case STMT_EXPR:
 			expr_resolve(s->expr);

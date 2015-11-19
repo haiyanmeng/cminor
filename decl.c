@@ -101,14 +101,17 @@ void decl_resolve(struct decl *d, int seq) {
 			case SYMBOL_GLOBAL:
 				if(s->t == FUNC_PROTO && sym->t == FUNC_DEF) {
 					scope_rebind(d->name, sym);
-					seq += 1;
 				} else {
 					fprintf(stderr, "resolve error: %s has been defined globally!\n", d->name);
 					error_count += 1;
 				}
 				break;
 			case SYMBOL_LOCAL:
-				fprintf(stderr, "resolve error: %s has been defined as local %d (level %d)\n", d->name, s->which, level);
+				if(s->t == FUNC_PROTO) {
+					fprintf(stderr, "resolve error: a function prototype named %s has been declared locally (level %d)\n", d->name, level);
+				} else {
+					fprintf(stderr, "resolve error: %s has been defined as local %d (level %d)\n", d->name, s->which, level);
+				}
 				error_count += 1;
 				break;
 			case SYMBOL_PARAM:
@@ -119,6 +122,9 @@ void decl_resolve(struct decl *d, int seq) {
 	} else {
 		d->symbol = sym;
 		scope_bind(d->name, sym);
+		if(d->type->kind != TYPE_FUNCTION) {
+			seq += 1;
+		}
 	}		
 
 	/* resolve the size of array */
@@ -136,7 +142,7 @@ void decl_resolve(struct decl *d, int seq) {
 		scope_exit();
 	} 
 
-	decl_resolve(d->next, seq+1);
+	decl_resolve(d->next, seq);
 }
 
 //here, all the local hash tables and scopes have been disappeared except for the global hash table.
