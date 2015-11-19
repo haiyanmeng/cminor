@@ -6,7 +6,7 @@
 
 extern int level;
 
-struct param_list *param_list_create(char *name, struct type *type, struct param_list *next) {
+struct param_list *param_list_create(char *name, struct type *type, struct param_list *next, int line) {
 	struct param_list *p = (struct param_list *)malloc(sizeof(struct param_list));
 
 	if(!p) {
@@ -17,6 +17,7 @@ struct param_list *param_list_create(char *name, struct type *type, struct param
 	p->name = name;
 	p->type = type;
 	p->next = next;
+	p->line = line;
 	return p;
 }
 void param_list_print(struct param_list *p) {

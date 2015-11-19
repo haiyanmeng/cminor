@@ -39,6 +39,7 @@ struct expr {
 	expr_t kind;
 	struct expr *left;
 	struct expr *right;
+	int line;
 
 	/* used by leaf expr types */
 	const char *name; /* identifier */
@@ -47,13 +48,13 @@ struct expr {
 	const char * string_literal; /* string */
 };
 
-struct expr * expr_create(expr_t kind, struct expr *left, struct expr *right);
+struct expr * expr_create(expr_t kind, struct expr *left, struct expr *right, int line);
 
-struct expr * expr_create_name(const char *n);
-struct expr * expr_create_boolean_literal(int c);
-struct expr * expr_create_integer_literal(int c);
-struct expr * expr_create_character_literal(const char *str);
-struct expr * expr_create_string_literal(const char *str);
+struct expr * expr_create_name(const char *n, int line);
+struct expr * expr_create_boolean_literal(int c, int line);
+struct expr * expr_create_integer_literal(int c, int line);
+struct expr * expr_create_character_literal(const char *str, int line);
+struct expr * expr_create_string_literal(const char *str, int line);
 
 void expr_print(struct expr *e);
 void expr_resolve(struct expr *e);

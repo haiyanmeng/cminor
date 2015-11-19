@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include "scope.h"
 
-struct expr *expr_create(expr_t kind, struct expr *left, struct expr *right) {
+struct expr *expr_create(expr_t kind, struct expr *left, struct expr *right, int line) {
 	struct expr *e = (struct expr *)malloc(sizeof(struct expr));
 
 	if(!e) {
@@ -15,35 +15,36 @@ struct expr *expr_create(expr_t kind, struct expr *left, struct expr *right) {
 	e->symbol = 0;
 	e->left = left;
 	e->right = right;
+	e->line = line;
 	return e;
 }
 
-struct expr *expr_create_name(const char *n) {
-	struct expr *e = expr_create(EXPR_IDENT_NAME, 0, 0);
+struct expr *expr_create_name(const char *n, int line) {
+	struct expr *e = expr_create(EXPR_IDENT_NAME, 0, 0, line);
 	e->name = n;
 	return e;
 }
 
-struct expr *expr_create_boolean_literal(int c) {
-	struct expr *e = expr_create(EXPR_BOOLEAN_LITERAL, 0, 0);
+struct expr *expr_create_boolean_literal(int c, int line) {
+	struct expr *e = expr_create(EXPR_BOOLEAN_LITERAL, 0, 0, line);
 	e->literal_value = c;
 	return e;
 }
 
-struct expr *expr_create_integer_literal(int c) {
-	struct expr *e = expr_create(EXPR_INTEGER_LITERAL, 0, 0);
+struct expr *expr_create_integer_literal(int c, int line) {
+	struct expr *e = expr_create(EXPR_INTEGER_LITERAL, 0, 0, line);
 	e->literal_value = c;
 	return e;
 }
 
-struct expr *expr_create_character_literal(const char *str) {
-	struct expr *e = expr_create(EXPR_CHARACTER_LITERAL, 0, 0);
+struct expr *expr_create_character_literal(const char *str, int line) {
+	struct expr *e = expr_create(EXPR_CHARACTER_LITERAL, 0, 0, line);
 	e->string_literal = str;
 	return e;
 }
 
-struct expr *expr_create_string_literal(const char *str) {
-	struct expr *e = expr_create(EXPR_STRING_LITERAL, 0, 0);
+struct expr *expr_create_string_literal(const char *str, int line) {
+	struct expr *e = expr_create(EXPR_STRING_LITERAL, 0, 0, line);
 	e->string_literal = str;
 	return e;
 }
@@ -214,7 +215,7 @@ struct type *expr_typecheck(struct expr *e, int is_array_initializer) {
 	struct type *left, *right;
 	switch(e->kind) {
 		case EXPR_LEFTCURLY:
-			return type_create(TYPE_ARRAY, 0, 0, expr_typecheck(e->right, is_array_initializer));
+			return type_create(TYPE_ARRAY, 0, 0, expr_typecheck(e->right, is_array_initializer), e->line);
 			break;
 		case EXPR_LEFTPARENTHESS:
 			if(e->left) {
@@ -251,7 +252,7 @@ struct type *expr_typecheck(struct expr *e, int is_array_initializer) {
 			if(left->kind != TYPE_INTEGER) {
 				fprintf(stderr, "type error: ++/-- expr only applys to integer types!\n");
 				type_error_count += 1;
-				return type_create(TYPE_INTEGER, 0, 0, 0);
+				return type_create(TYPE_INTEGER, 0, 0, 0, e->line);
 			}
 			return left;
 			break;
@@ -260,7 +261,7 @@ struct type *expr_typecheck(struct expr *e, int is_array_initializer) {
 			if(right->kind != TYPE_INTEGER) {
 				fprintf(stderr, "type error: unary neg operator expr only applys to integer types!\n");
 				type_error_count += 1;
-				return type_create(TYPE_INTEGER, 0, 0, 0);
+				return type_create(TYPE_INTEGER, 0, 0, 0, e->line);
 			}
 			return right;
 			break;
@@ -269,7 +270,7 @@ struct type *expr_typecheck(struct expr *e, int is_array_initializer) {
 			if(right->kind != TYPE_BOOLEAN) {
 				fprintf(stderr, "type error: not operator expr only applys to boolean types!\n");
 				type_error_count += 1;
-				return type_create(TYPE_BOOLEAN, 0, 0, 0);
+				return type_create(TYPE_BOOLEAN, 0, 0, 0, e->line);
 			}
 			return right;
 			break;
@@ -284,12 +285,12 @@ struct type *expr_typecheck(struct expr *e, int is_array_initializer) {
 			if(!type_equals(left, right)) {
 				fprintf(stderr, "type error: the operands of binary arithmetic operator expr mismatch.\n");
 				type_error_count += 1;
-				return type_create(TYPE_INTEGER, 0, 0, 0);
+				return type_create(TYPE_INTEGER, 0, 0, 0, e->line);
 			} else {
 				if(left->kind != TYPE_INTEGER) {
 					fprintf(stderr, "type error: the operands of binary arithmetic operator must be integers!\n");
 					type_error_count += 1;
-					return type_create(TYPE_INTEGER, 0, 0, 0);
+					return type_create(TYPE_INTEGER, 0, 0, 0, e->line);
 				}
 				return left;
 			}
@@ -303,14 +304,14 @@ struct type *expr_typecheck(struct expr *e, int is_array_initializer) {
 			if(!type_equals(left, right)) {
 				fprintf(stderr, "type error: the operands of a comparison operator mismatch!\n");
 				type_error_count += 1;
-				return type_create(TYPE_BOOLEAN, 0, 0, 0);
+				return type_create(TYPE_BOOLEAN, 0, 0, 0, e->line);
 			} else {
 				if(left->kind != TYPE_INTEGER) {
 					fprintf(stderr, "type error: the operands of a comparison operator must be integers!\n");
 					type_error_count += 1;
-					return type_create(TYPE_BOOLEAN, 0, 0, 0);
+					return type_create(TYPE_BOOLEAN, 0, 0, 0, e->line);
 				}
-				return type_create(TYPE_BOOLEAN, 0, 0, 0);
+				return type_create(TYPE_BOOLEAN, 0, 0, 0, e->line);
 			}
 			break;
 		case EXPR_EQ:
@@ -319,14 +320,14 @@ struct type *expr_typecheck(struct expr *e, int is_array_initializer) {
 			if(!type_equals(left, right)) {
 				fprintf(stderr, "type error: the operands of the == operator mismatch!\n");
 				type_error_count += 1;
-				return type_create(TYPE_BOOLEAN, 0, 0, 0);
+				return type_create(TYPE_BOOLEAN, 0, 0, 0, e->line);
 			} else {
 				if(left->kind == TYPE_ARRAY || left->kind == TYPE_FUNCTION) {
 					fprintf(stderr, "type error: the == operator does not apply to array and function types!\n");
 					type_error_count += 1;
-					return type_create(TYPE_BOOLEAN, 0, 0, 0);
+					return type_create(TYPE_BOOLEAN, 0, 0, 0, e->line);
 				}
-				return type_create(TYPE_BOOLEAN, 0, 0, 0);
+				return type_create(TYPE_BOOLEAN, 0, 0, 0, e->line);
 			}
 			break;
 		case EXPR_UNEQ:
@@ -335,14 +336,14 @@ struct type *expr_typecheck(struct expr *e, int is_array_initializer) {
 			if(!type_equals(left, right)) {
 				fprintf(stderr, "type error: the operands of the != operator mismatch!\n");
 				type_error_count += 1;
-				return type_create(TYPE_BOOLEAN, 0, 0, 0);
+				return type_create(TYPE_BOOLEAN, 0, 0, 0, e->line);
 			} else {
 				if(left->kind == TYPE_ARRAY || left->kind == TYPE_FUNCTION) {
 					fprintf(stderr, "type error: the != operator does not apply to array and function types!\n");
 					type_error_count += 1;
-					return type_create(TYPE_BOOLEAN, 0, 0, 0);
+					return type_create(TYPE_BOOLEAN, 0, 0, 0, e->line);
 				}
-				return type_create(TYPE_BOOLEAN, 0, 0, 0);
+				return type_create(TYPE_BOOLEAN, 0, 0, 0, e->line);
 			}
 			break;
 		case EXPR_AND:
@@ -351,12 +352,12 @@ struct type *expr_typecheck(struct expr *e, int is_array_initializer) {
 			if(!type_equals(left, right)) {
 				fprintf(stderr, "type error: the operands of the && operator mismatch!\n");
 				type_error_count += 1;
-				return type_create(TYPE_BOOLEAN, 0, 0, 0);
+				return type_create(TYPE_BOOLEAN, 0, 0, 0, e->line);
 			} else {
 				if(left->kind != TYPE_BOOLEAN) {
 					fprintf(stderr, "type error: the && operator only applys to boolean types!\n");
 					type_error_count += 1;
-					return type_create(TYPE_BOOLEAN, 0, 0, 0);
+					return type_create(TYPE_BOOLEAN, 0, 0, 0, e->line);
 				}
 				return left;
 			}
@@ -367,12 +368,12 @@ struct type *expr_typecheck(struct expr *e, int is_array_initializer) {
 			if(!type_equals(left, right)) {
 				fprintf(stderr, "type error: the operands of the || operator mismatch!\n");
 				type_error_count += 1;
-				return type_create(TYPE_BOOLEAN, 0, 0, 0);
+				return type_create(TYPE_BOOLEAN, 0, 0, 0, e->line);
 			} else {
 				if(left->kind != TYPE_BOOLEAN) {
 					fprintf(stderr, "type error: the || operator only applys to boolean types!\n");
 					type_error_count += 1;
-					return type_create(TYPE_BOOLEAN, 0, 0, 0);
+					return type_create(TYPE_BOOLEAN, 0, 0, 0, e->line);
 				}
 				return left;
 			}
@@ -412,16 +413,16 @@ struct type *expr_typecheck(struct expr *e, int is_array_initializer) {
 			return e->symbol->type;
 			break;
 		case EXPR_BOOLEAN_LITERAL:
-			return type_create(TYPE_BOOLEAN, 0, 0, 0);
+			return type_create(TYPE_BOOLEAN, 0, 0, 0, e->line);
 			break;
 		case EXPR_INTEGER_LITERAL:
-			return type_create(TYPE_INTEGER, 0, 0, 0);
+			return type_create(TYPE_INTEGER, 0, 0, 0, e->line);
 			break;
 		case EXPR_CHARACTER_LITERAL: 
-			return type_create(TYPE_CHARACTER, 0, 0, 0);
+			return type_create(TYPE_CHARACTER, 0, 0, 0, e->line);
 			break;
 		case EXPR_STRING_LITERAL: 
-			return type_create(TYPE_STRING, 0, 0, 0);
+			return type_create(TYPE_STRING, 0, 0, 0, e->line);
 			break;
 	}
 	return 0;
@@ -503,13 +504,13 @@ void expr_print_typecheck(struct expr *e) {
 		struct expr *arg = expr_get_item(e, n, i);
 		struct type *t = expr_typecheck(arg, 0);
 		if(t->kind == TYPE_FUNCTION) {
-			fprintf(stderr, "print_stmt can not print function!\n");
+			fprintf(stderr, "type error: print_stmt can not print function!\n");
 			type_error_count += 1;
 			continue;
 		}
 
 		if(t->kind == TYPE_VOID) {
-			fprintf(stderr, "print_stmt can not print void type!\n");
+			fprintf(stderr, "type error: print_stmt can not print void type!\n");
 			type_error_count += 1;
 			continue;
 		}

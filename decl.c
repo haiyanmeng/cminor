@@ -7,7 +7,7 @@
 extern int level;
 extern struct scope *head; 
 
-struct decl *decl_create(char *name, struct type *t, struct expr *v, struct stmt *c, struct decl *next) {
+struct decl *decl_create(char *name, struct type *t, struct expr *v, struct stmt *c, int line, struct decl *next) {
 	struct decl *d = (struct decl *)malloc(sizeof(struct decl));
 
 	if(!d) {
@@ -19,6 +19,7 @@ struct decl *decl_create(char *name, struct type *t, struct expr *v, struct stmt
 	d->type = t;
 	d->value = v;
 	d->code = c;
+	d->line = line;
 	d->next = next;
 	return d;
 }
@@ -110,11 +111,15 @@ void decl_resolve(struct decl *d, int seq) {
 				break;
 			case SYMBOL_LOCAL:
 				if(s->t == FUNC_PROTO) {
-					fprintf(stderr, "resolve error: a function prototype named %s has been declared locally (level %d)\n", d->name, level);
+					if(!type_equals(s->type, sym->type)) {
+						fprintf(stderr, "resolve error: a function prototype named %s with a different type has been declared locally (level %d)\n", d->name, level);
+						resolve_error_count += 1;
+					}
+					d->symbol = sym;	
 				} else {
 					fprintf(stderr, "resolve error: %s has been defined as local %d (level %d)\n", d->name, s->which, level);
+					resolve_error_count += 1;
 				}
-				resolve_error_count += 1;
 				break;
 			case SYMBOL_PARAM:
 				fprintf(stderr, "resolve error: %s has been defined as param %d (level %d)\n", d->name, s->which, level);
@@ -155,7 +160,7 @@ void decl_typecheck(struct decl *d) {
 		// declaration with initialization
 		if(d->symbol->kind == SYMBOL_GLOBAL) {
 			if(!expr_is_constant(d->value)) {
-				fprintf(stderr, "type error: the intializer of a global variable (%s) should be constant!\n", d->name);
+				fprintf(stderr, "type error (line %d): the intializer of a global variable (%s) should be constant!\n", d->line, d->name);
 				type_error_count += 1;
 			}
 		}
@@ -170,7 +175,7 @@ void decl_typecheck(struct decl *d) {
 		}
 
 		if(!type_equals(d->type, t)) {
-			fprintf(stderr, "type error: the type of %s does not match the type of its initializer!\n", d->name);
+			fprintf(stderr, "type error (line %d): the type of %s does not match the type of its initializer!\n", d->line, d->name);
 			type_error_count += 1;
 		}
 	} else if(d->code) {
@@ -191,13 +196,13 @@ void decl_typecheck(struct decl *d) {
 			if(s->t == FUNC_PROTO) { //the source code file does not include the definition of a function
 				if(s != d->symbol) {
 					if(!type_equals(d->type, s->type)) {
-						fprintf(stderr, "type error: the function %s has multiple conflicting prototype!\n", d->name);
+						fprintf(stderr, "type error (line %d): the function %s has multiple conflicting prototype!\n", d->line, d->name);
 						type_error_count += 1;
 					}
 				}
 			} else { //function definition exists in the same source file
 				if(!type_equals(d->type, s->type)) {
-					fprintf(stderr, "type error: the function definition of %s does not match its prototype!\n", d->name);
+					fprintf(stderr, "type error (line %d): the function prototype of %s does not match its definition!\n", d->line, d->name);
 					type_error_count += 1;
 				}
 			} 

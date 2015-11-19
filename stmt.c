@@ -5,7 +5,7 @@
 #include <stdlib.h>
 #include "scope.h"
 
-struct stmt *stmt_create(stmt_kind_t kind, struct decl *d, struct expr *init_expr, struct expr *e, struct expr *next_expr, struct stmt *body, struct stmt *else_body, struct stmt *next) {
+struct stmt *stmt_create(stmt_kind_t kind, struct decl *d, struct expr *init_expr, struct expr *e, struct expr *next_expr, struct stmt *body, struct stmt *else_body, int line, struct stmt *next) {
 	struct stmt *s = (struct stmt *)malloc(sizeof(struct stmt));
 
 	if(!s) {
@@ -20,6 +20,7 @@ struct stmt *stmt_create(stmt_kind_t kind, struct decl *d, struct expr *init_exp
 	s->next_expr = next_expr;
 	s->body = body;
 	s->else_body = else_body;
+	s->line = line;
 	s->next = next;
 	return s;
 }

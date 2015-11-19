@@ -29,9 +29,10 @@ struct type {
 	struct param_list *params; /* function parameter list */
 	struct expr *expr; /* array size (e.g., a: array[5+23-3] integer; */
 	struct type *subtype; /* function return value type; type of array elements */
+	int line;
 };
 
-struct type *type_create(type_kind_t kind, struct param_list *params, struct expr *expr, struct type *subtype);
+struct type *type_create(type_kind_t kind, struct param_list *params, struct expr *expr, struct type *subtype, int line);
 void type_print(struct type *t);
 
 /* 

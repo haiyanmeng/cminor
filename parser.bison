@@ -125,31 +125,31 @@ external_decl: decl
 	;
 
 func_definition: TOKEN_IDENT TOKEN_COLON func_type TOKEN_OP_ASSIGN compound_stmt
-		{ $$ = decl_create($1, $3, 0, $5, 0); }
+		{ $$ = decl_create($1, $3, 0, $5, yylineno, 0); }
 	;
 
 decl: TOKEN_IDENT TOKEN_COLON type TOKEN_OP_ASSIGN initializer TOKEN_SEMICOLON  /* declaration with initialization */
-		{ $$ = decl_create($1, $3, $5, 0, 0); }
+		{ $$ = decl_create($1, $3, $5, 0, yylineno, 0); }
 	| TOKEN_IDENT TOKEN_COLON type TOKEN_SEMICOLON /* declaration without initialization */
-		{ $$ = decl_create($1, $3, 0, 0, 0); }
+		{ $$ = decl_create($1, $3, 0, 0, yylineno, 0); }
 	| TOKEN_IDENT TOKEN_COLON func_type TOKEN_SEMICOLON /* function prototype */
-		{ $$ = decl_create($1, $3, 0, 0, 0); }
+		{ $$ = decl_create($1, $3, 0, 0, yylineno, 0); }
 	;
 
 func_type: TOKEN_FUNCTION type TOKEN_OP_LEFTPARENTHESS param_list_opt TOKEN_OP_RIGHTPARENTHESS
-		{ $$ = type_create(TYPE_FUNCTION, $4, 0, $2); }
+		{ $$ = type_create(TYPE_FUNCTION, $4, 0, $2, yylineno); }
 	;
 
 initializer: expr
 		{ $$ = $1; }
 	| TOKEN_LEFTCURLY initializer_list TOKEN_RIGHTCURLY
-		{ $$ = expr_create(EXPR_LEFTCURLY, 0, $2); }
+		{ $$ = expr_create(EXPR_LEFTCURLY, 0, $2, yylineno); }
 	;
 
 initializer_list: initializer
 		{ $$ = $1; }
 	| initializer_list TOKEN_COMMA initializer
-		{ $$ = expr_create(EXPR_COMMA, $1, $3); }
+		{ $$ = expr_create(EXPR_COMMA, $1, $3, yylineno); }
 	;
 
 param_list_opt: /* empty */
@@ -165,22 +165,22 @@ param_list: param
 	;
 
 param: TOKEN_IDENT TOKEN_COLON type 
-		{ $$ = param_list_create($1, $3, 0); }
+		{ $$ = param_list_create($1, $3, 0, yylineno); }
 
 type: TOKEN_INTEGER
-		{ $$ = type_create(TYPE_INTEGER, 0, 0, 0); }
+		{ $$ = type_create(TYPE_INTEGER, 0, 0, 0, yylineno); }
 	| TOKEN_CHAR
-		{ $$ = type_create(TYPE_CHARACTER, 0, 0, 0); }
+		{ $$ = type_create(TYPE_CHARACTER, 0, 0, 0, yylineno); }
 	| TOKEN_BOOLEAN
-		{ $$ = type_create(TYPE_BOOLEAN, 0, 0, 0); }
+		{ $$ = type_create(TYPE_BOOLEAN, 0, 0, 0, yylineno); }
 	| TOKEN_STRING
-		{ $$ = type_create(TYPE_STRING, 0, 0, 0); }
+		{ $$ = type_create(TYPE_STRING, 0, 0, 0, yylineno); }
 	| TOKEN_VOID
-		{ $$ = type_create(TYPE_VOID, 0, 0, 0); }
+		{ $$ = type_create(TYPE_VOID, 0, 0, 0, yylineno); }
 	| TOKEN_ARRAY TOKEN_OP_LEFTBRACKET TOKEN_OP_RIGHTBRACKET type
-		{ $$ = type_create(TYPE_ARRAY, 0, 0, $4); }
+		{ $$ = type_create(TYPE_ARRAY, 0, 0, $4, yylineno); }
 	| TOKEN_ARRAY TOKEN_OP_LEFTBRACKET logical_or_expr TOKEN_OP_RIGHTBRACKET type
-		{ $$ = type_create(TYPE_ARRAY, 0, $3, $5); }
+		{ $$ = type_create(TYPE_ARRAY, 0, $3, $5, yylineno); }
 	;
 
 stmt_list: /* empty */ 
@@ -196,7 +196,7 @@ stmt: matched_stmt
 	;
 
 matched_stmt: external_decl
-		{ $$ = stmt_create(STMT_DECL, $1, 0, 0, 0, 0, 0, 0); }
+		{ $$ = stmt_create(STMT_DECL, $1, 0, 0, 0, 0, 0, yylineno, 0); }
 	| expr_stmt
 		{ $$ = $1; }
 	| compound_stmt
@@ -206,33 +206,33 @@ matched_stmt: external_decl
 	| print_stmt
 		{ $$ = $1; }
 	| TOKEN_FOR TOKEN_OP_LEFTPARENTHESS expr_opt TOKEN_SEMICOLON expr_opt TOKEN_SEMICOLON expr_opt TOKEN_OP_RIGHTPARENTHESS matched_stmt
-		{ $$ = stmt_create(STMT_FOR, 0, $3, $5, $7, $9, 0, 0); }
+		{ $$ = stmt_create(STMT_FOR, 0, $3, $5, $7, $9, 0, yylineno, 0); }
 	| TOKEN_IF TOKEN_OP_LEFTPARENTHESS expr TOKEN_OP_RIGHTPARENTHESS matched_stmt TOKEN_ELSE matched_stmt
-		{ $$ = stmt_create(STMT_IF_ELSE, 0, 0, $3, 0, $5, $7, 0); }
+		{ $$ = stmt_create(STMT_IF_ELSE, 0, 0, $3, 0, $5, $7, yylineno, 0); }
 	;
 
 unmatched_stmt: TOKEN_IF TOKEN_OP_LEFTPARENTHESS expr TOKEN_OP_RIGHTPARENTHESS stmt
-		{ $$ = stmt_create(STMT_IF_ELSE, 0, 0, $3, 0, $5, 0, 0); }
+		{ $$ = stmt_create(STMT_IF_ELSE, 0, 0, $3, 0, $5, 0, yylineno, 0); }
 	| TOKEN_IF TOKEN_OP_LEFTPARENTHESS expr TOKEN_OP_RIGHTPARENTHESS matched_stmt TOKEN_ELSE unmatched_stmt
-		{ $$ = stmt_create(STMT_IF_ELSE, 0, 0, $3, 0, $5, $7, 0); }
+		{ $$ = stmt_create(STMT_IF_ELSE, 0, 0, $3, 0, $5, $7, yylineno, 0); }
 	| TOKEN_FOR TOKEN_OP_LEFTPARENTHESS expr_opt TOKEN_SEMICOLON expr_opt TOKEN_SEMICOLON expr_opt TOKEN_OP_RIGHTPARENTHESS unmatched_stmt
-		{ $$ = stmt_create(STMT_FOR, 0, $3, $5, $7, $9, 0, 0); }
+		{ $$ = stmt_create(STMT_FOR, 0, $3, $5, $7, $9, 0, yylineno, 0); }
 	;
 
 expr_stmt: expr TOKEN_SEMICOLON
-		{ $$ = stmt_create(STMT_EXPR, 0, 0, $1, 0, 0, 0, 0); }
+		{ $$ = stmt_create(STMT_EXPR, 0, 0, $1, 0, 0, 0, yylineno, 0); }
 	;
 
 compound_stmt: TOKEN_LEFTCURLY stmt_list TOKEN_RIGHTCURLY
-		{ $$ = stmt_create(STMT_BLOCK, 0, 0, 0, 0, $2, 0, 0); }
+		{ $$ = stmt_create(STMT_BLOCK, 0, 0, 0, 0, $2, 0, yylineno, 0); }
 	;
 
 return_stmt: TOKEN_RETURN expr_opt TOKEN_SEMICOLON
-		{ $$ = stmt_create(STMT_RETURN, 0, 0, $2, 0, 0, 0, 0); }
+		{ $$ = stmt_create(STMT_RETURN, 0, 0, $2, 0, 0, 0, yylineno, 0); }
 	;
 
 print_stmt: TOKEN_PRINT expr_list_opt TOKEN_SEMICOLON
-		{ $$ = stmt_create(STMT_PRINT, 0, 0, $2, 0, 0, 0, 0); }
+		{ $$ = stmt_create(STMT_PRINT, 0, 0, $2, 0, 0, 0, yylineno, 0); }
 	;
 
 expr_list_opt: /* empty */
@@ -243,7 +243,7 @@ expr_list_opt: /* empty */
 
 expr_list: expr 
 	| expr_list TOKEN_COMMA expr
-		{ $$ = expr_create(EXPR_COMMA, $1, $3); }
+		{ $$ = expr_create(EXPR_COMMA, $1, $3, yylineno); }
 	;
 
 expr_opt: /* empty */
@@ -258,59 +258,59 @@ expr: assignment_expr
 
 assignment_expr: logical_or_expr
 	| unary_expr TOKEN_OP_ASSIGN assignment_expr
-		{ $$ = expr_create(EXPR_ASSIGN, $1, $3); }
+		{ $$ = expr_create(EXPR_ASSIGN, $1, $3, yylineno); }
 	;
 
 logical_or_expr: logical_and_expr
 	| logical_or_expr TOKEN_OP_OR logical_and_expr
-		{ $$ = expr_create(EXPR_OR, $1, $3); }
+		{ $$ = expr_create(EXPR_OR, $1, $3, yylineno); }
 	;
 
 logical_and_expr: relational_expr
 	| logical_and_expr TOKEN_OP_AND relational_expr
-		{ $$ = expr_create(EXPR_AND, $1, $3); }
+		{ $$ = expr_create(EXPR_AND, $1, $3, yylineno); }
 	;
 
 /* this is different from C. In C, relational ops have higher precedence than equality ops */
 relational_expr: add_expr
 	| relational_expr TOKEN_OP_LT add_expr
-		{ $$ = expr_create(EXPR_LT, $1, $3); }
+		{ $$ = expr_create(EXPR_LT, $1, $3, yylineno); }
 	| relational_expr TOKEN_OP_LE add_expr
-		{ $$ = expr_create(EXPR_LE, $1, $3); }
+		{ $$ = expr_create(EXPR_LE, $1, $3, yylineno); }
 	| relational_expr TOKEN_OP_GT add_expr
-		{ $$ = expr_create(EXPR_GT, $1, $3); }
+		{ $$ = expr_create(EXPR_GT, $1, $3, yylineno); }
 	| relational_expr TOKEN_OP_GE add_expr
-		{ $$ = expr_create(EXPR_GE, $1, $3); }
+		{ $$ = expr_create(EXPR_GE, $1, $3, yylineno); }
 	| relational_expr TOKEN_OP_EQ add_expr
-		{ $$ = expr_create(EXPR_EQ, $1, $3); }
+		{ $$ = expr_create(EXPR_EQ, $1, $3, yylineno); }
 	| relational_expr TOKEN_OP_UNEQ add_expr
-		{ $$ = expr_create(EXPR_UNEQ, $1, $3); }
+		{ $$ = expr_create(EXPR_UNEQ, $1, $3, yylineno); }
 	;
 
 add_expr: mul_expr
 	| add_expr TOKEN_OP_ADD mul_expr
-		{ $$ = expr_create(EXPR_ADD, $1, $3); }
+		{ $$ = expr_create(EXPR_ADD, $1, $3, yylineno); }
 	| add_expr TOKEN_OP_SUB mul_expr
-		{ $$ = expr_create(EXPR_SUB, $1, $3); }
+		{ $$ = expr_create(EXPR_SUB, $1, $3, yylineno); }
 	;
 
 mul_expr: power_expr
 	| mul_expr TOKEN_OP_MUL power_expr
-		{ $$ = expr_create(EXPR_MUL, $1, $3); }
+		{ $$ = expr_create(EXPR_MUL, $1, $3, yylineno); }
 	| mul_expr TOKEN_OP_DIV power_expr
-		{ $$ = expr_create(EXPR_DIV, $1, $3); }
+		{ $$ = expr_create(EXPR_DIV, $1, $3, yylineno); }
 	| mul_expr TOKEN_OP_MOD power_expr
-		{ $$ = expr_create(EXPR_MOD, $1, $3); }
+		{ $$ = expr_create(EXPR_MOD, $1, $3, yylineno); }
 	;
 
 power_expr: unary_expr
 	| power_expr TOKEN_OP_POWER unary_expr
-		{ $$ = expr_create(EXPR_POWER, $1, $3); }
+		{ $$ = expr_create(EXPR_POWER, $1, $3, yylineno); }
 	;
 
 unary_expr: increment_expr
 	| unary_operator unary_expr
-		{ $$ = expr_create($1, 0, $2); }
+		{ $$ = expr_create($1, 0, $2, yylineno); }
 	;
 
 unary_operator: TOKEN_OP_SUB
@@ -321,35 +321,35 @@ unary_operator: TOKEN_OP_SUB
 
 increment_expr: postfix_expr
 	| increment_expr TOKEN_OP_INCREMENT
-		{ $$ = expr_create(EXPR_INCREMENT, $1, 0); }
+		{ $$ = expr_create(EXPR_INCREMENT, $1, 0, yylineno); }
 	| increment_expr TOKEN_OP_DECREMENT
-		{ $$ = expr_create(EXPR_DECREMENT, $1, 0); }
+		{ $$ = expr_create(EXPR_DECREMENT, $1, 0, yylineno); }
 	;
 
 postfix_expr: primary_expr
 	| postfix_expr TOKEN_OP_LEFTBRACKET expr TOKEN_OP_RIGHTBRACKET /* array subscript */
-		{ $$ = expr_create(EXPR_LEFTBRACKET, $1, $3); }
+		{ $$ = expr_create(EXPR_LEFTBRACKET, $1, $3, yylineno); }
 	| postfix_expr TOKEN_OP_LEFTPARENTHESS expr_list_opt TOKEN_OP_RIGHTPARENTHESS /* function call */
-		{ $$ = expr_create(EXPR_LEFTPARENTHESS, $1, $3); }
+		{ $$ = expr_create(EXPR_LEFTPARENTHESS, $1, $3, yylineno); }
 	;
 
 primary_expr: constant
 	| TOKEN_IDENT
-		{ $$ = expr_create_name($1); }
+		{ $$ = expr_create_name($1, yylineno); }
 	| TOKEN_OP_LEFTPARENTHESS expr TOKEN_OP_RIGHTPARENTHESS /* grouping */
-		{ $$ = expr_create(EXPR_LEFTPARENTHESS, 0, $2); }
+		{ $$ = expr_create(EXPR_LEFTPARENTHESS, 0, $2, yylineno); }
 	;
 
 constant: TOKEN_INTEGER_LITERAL
-		{ $$ = expr_create_integer_literal($1); }
+		{ $$ = expr_create_integer_literal($1, yylineno); }
 	| TOKEN_CHAR_LITERAL
-		{ $$ = expr_create_character_literal($1); }
+		{ $$ = expr_create_character_literal($1, yylineno); }
 	| TOKEN_STRING_LITERAL
-		{ $$ = expr_create_string_literal($1); }
+		{ $$ = expr_create_string_literal($1, yylineno); }
 	| TOKEN_TRUE
-		{ $$ = expr_create_boolean_literal(1); }
+		{ $$ = expr_create_boolean_literal(1, yylineno); }
 	| TOKEN_FALSE
-		{ $$ = expr_create_boolean_literal(0); }
+		{ $$ = expr_create_boolean_literal(0, yylineno); }
 	;
 %%
 

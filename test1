@@ -1,0 +1,10 @@
+f1:function void(x:integer);
+f1:function void(y:integer);
+f2:function void( )= {
+	//f1:function void(x:integer);
+	f1:function integer(y:integer);
+	//f1:function void(y:integer);
+    x:boolean = true;
+    y:boolean = x;
+}
+

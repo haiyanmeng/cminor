@@ -23,10 +23,11 @@ struct stmt {
 	struct expr *next_expr; /* the next expr of for stmt */
 	struct stmt *body;
 	struct stmt *else_body; /* body of else stmt */
+	int line;
 	struct stmt *next;
 };
 
-struct stmt *stmt_create(stmt_kind_t kind, struct decl *d, struct expr *init_expr, struct expr *e, struct expr *next_expr, struct stmt *body, struct stmt *else_body, struct stmt *next);
+struct stmt *stmt_create(stmt_kind_t kind, struct decl *d, struct expr *init_expr, struct expr *e, struct expr *next_expr, struct stmt *body, struct stmt *else_body, int line, struct stmt *next);
 
 /* 
 indent1 and indent2:

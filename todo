@@ -1,22 +1,8 @@
 Todo:
-locally, function prototype conflicting.
 line number 
 enrich the error msg
-check to catch all the type errors
 
 test different kinds of function
-
-x:array[5] integer = {5, x+3, x=8};
-
-decl_resolve: preserve all the function protoypes; so that the type checker can validate the function protype and function definition
-
-double check the notes to see what error are type check error, and what error are name resolution.
-
-resolve function prototype; test whether prototype can be after func definition;
-
-test if body only a single expr_stmt without {}; what happened if we define a new variable there?
-
-track the error number; print all the errors;
 
 check header file includes
 add lineno to the error output.
@@ -33,6 +19,16 @@ type of function return values;
 stmt typecheck;
 decl typecheck;
 resolve check;
+locally, function prototype conflicting.
+check to catch all the type errors
+decl_resolve: preserve all the function protoypes; so that the type checker can validate the function protype and function definition
+double check the notes to see what error are type check error, and what error are name resolution.
+
+resolve function prototype; test whether prototype can be after func definition;
+
+test if body only a single expr_stmt without {}; what happened if we define a new variable there?
+track the error number; print all the errors;
+
 
 function call numbers == function prototype numbers;
 function nesting? no, you can not do function nested.

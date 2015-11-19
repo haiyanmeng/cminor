@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include "scope.h"
 
-struct type *type_create(type_kind_t kind, struct param_list *params, struct expr *expr, struct type *subtype) {
+struct type *type_create(type_kind_t kind, struct param_list *params, struct expr *expr, struct type *subtype, int line) {
 	struct type *t = (struct type *)malloc(sizeof(struct type));	
 
 	if(!t) {
@@ -15,6 +15,7 @@ struct type *type_create(type_kind_t kind, struct param_list *params, struct exp
 	t->params = params;
 	t->expr = expr;
 	t->subtype = subtype;
+	t->line = line;
 	return t;
 }
 
