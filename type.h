@@ -30,9 +30,10 @@ struct type {
 	struct expr *expr; /* array size (e.g., a: array[5+23-3] integer; */
 	struct type *subtype; /* function return value type; type of array elements */
 	int line;
+	int inAST;
 };
 
-struct type *type_create(type_kind_t kind, struct param_list *params, struct expr *expr, struct type *subtype, int line);
+struct type *type_create(type_kind_t kind, struct param_list *params, struct expr *expr, struct type *subtype, int line, int inAST);
 void type_print(struct type *t);
 
 /* 
@@ -42,4 +43,5 @@ int type_equals(struct type *s, struct type *t);
 void type_resolve(struct type *t);
 void type_typecheck(struct type *t);
 void type_arraysize_typecheck(struct type *t, struct expr *init);
+void type_free(struct type *t);
 #endif

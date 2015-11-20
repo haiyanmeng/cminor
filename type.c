@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include "scope.h"
 
-struct type *type_create(type_kind_t kind, struct param_list *params, struct expr *expr, struct type *subtype, int line) {
+struct type *type_create(type_kind_t kind, struct param_list *params, struct expr *expr, struct type *subtype, int line, int inAST) {
 	struct type *t = (struct type *)malloc(sizeof(struct type));	
 
 	if(!t) {
@@ -16,6 +16,7 @@ struct type *type_create(type_kind_t kind, struct param_list *params, struct exp
 	t->expr = expr;
 	t->subtype = subtype;
 	t->line = line;
+	t->inAST = inAST;
 	return t;
 }
 
@@ -139,5 +140,19 @@ void type_arraysize_typecheck(struct type *t, struct expr *init) {
 			struct expr *e = expr_get_item(init->right, init_count, i);
 			type_arraysize_typecheck(t->subtype, e);
 		}
+	}
+}
+
+void type_free(struct type *t) {
+	if(!t) return;
+
+	if(!(t->inAST)) {
+		if(t->subtype) {
+			type_free(t->subtype);
+		} 
+
+		if(t->expr)
+			free(t->expr);
+		free(t);
 	}
 }

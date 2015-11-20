@@ -193,6 +193,7 @@ void decl_typecheck(struct decl *d) {
 			fprintf(stdout, ")!\n");
 			type_error_count += 1;
 		}
+		type_free(t);
 	} else if(d->code) {
 		// function definition
 		stmt_typecheck(d->code, d->name);

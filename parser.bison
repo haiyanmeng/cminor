@@ -137,7 +137,7 @@ decl: TOKEN_IDENT TOKEN_COLON type TOKEN_OP_ASSIGN initializer TOKEN_SEMICOLON  
 	;
 
 func_type: TOKEN_FUNCTION type TOKEN_OP_LEFTPARENTHESS param_list_opt TOKEN_OP_RIGHTPARENTHESS
-		{ $$ = type_create(TYPE_FUNCTION, $4, 0, $2, yylineno); }
+		{ $$ = type_create(TYPE_FUNCTION, $4, 0, $2, yylineno, 1); }
 	;
 
 initializer: expr
@@ -168,19 +168,19 @@ param: TOKEN_IDENT TOKEN_COLON type
 		{ $$ = param_list_create($1, $3, 0, yylineno); }
 
 type: TOKEN_INTEGER
-		{ $$ = type_create(TYPE_INTEGER, 0, 0, 0, yylineno); }
+		{ $$ = type_create(TYPE_INTEGER, 0, 0, 0, yylineno, 1); }
 	| TOKEN_CHAR
-		{ $$ = type_create(TYPE_CHARACTER, 0, 0, 0, yylineno); }
+		{ $$ = type_create(TYPE_CHARACTER, 0, 0, 0, yylineno, 1); }
 	| TOKEN_BOOLEAN
-		{ $$ = type_create(TYPE_BOOLEAN, 0, 0, 0, yylineno); }
+		{ $$ = type_create(TYPE_BOOLEAN, 0, 0, 0, yylineno, 1); }
 	| TOKEN_STRING
-		{ $$ = type_create(TYPE_STRING, 0, 0, 0, yylineno); }
+		{ $$ = type_create(TYPE_STRING, 0, 0, 0, yylineno, 1); }
 	| TOKEN_VOID
-		{ $$ = type_create(TYPE_VOID, 0, 0, 0, yylineno); }
+		{ $$ = type_create(TYPE_VOID, 0, 0, 0, yylineno, 1); }
 	| TOKEN_ARRAY TOKEN_OP_LEFTBRACKET TOKEN_OP_RIGHTBRACKET type
-		{ $$ = type_create(TYPE_ARRAY, 0, 0, $4, yylineno); }
+		{ $$ = type_create(TYPE_ARRAY, 0, 0, $4, yylineno, 1); }
 	| TOKEN_ARRAY TOKEN_OP_LEFTBRACKET logical_or_expr TOKEN_OP_RIGHTBRACKET type
-		{ $$ = type_create(TYPE_ARRAY, 0, $3, $5, yylineno); }
+		{ $$ = type_create(TYPE_ARRAY, 0, $3, $5, yylineno, 1); }
 	;
 
 stmt_list: /* empty */ 

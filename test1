@@ -1,10 +1,4 @@
-f41:function void();
-f41:function void( ) = {
-	f41();
-}
-f41:function void();
-
-a:array[5]array[3]integer = {{12,3,4}};
+b:array[2] char = {'a', 'c'};
 
 
 

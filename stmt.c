@@ -190,10 +190,10 @@ void stmt_typecheck(struct stmt *s, const char *func_name) {
 			decl_typecheck(s->decl);
 			break;
 		case STMT_EXPR:
-			expr_typecheck(s->expr, 0, 0);
+			type_free(expr_typecheck(s->expr, 0, 0));
 			break;
 		case STMT_PRINT:
-			expr_typecheck(s->expr, 0, 0);
+			type_free(expr_typecheck(s->expr, 0, 0));
 			expr_print_typecheck(s->expr);
 			break;
 		case STMT_RETURN:
@@ -217,6 +217,7 @@ void stmt_typecheck(struct stmt *s, const char *func_name) {
 					type_error_count += 1;
 				}
 			}
+			type_free(t);
 			break;
 		case STMT_IF_ELSE:
 			t = expr_typecheck(s->expr, 0, 0);
@@ -229,11 +230,12 @@ void stmt_typecheck(struct stmt *s, const char *func_name) {
 				type_error_count += 1;
 			}
 
+			type_free(t);
 			stmt_typecheck(s->body, func_name);
 			stmt_typecheck(s->else_body, func_name);
 			break;
 		case STMT_FOR:
-			expr_typecheck(s->init_expr, 0, 0);
+			type_free(expr_typecheck(s->init_expr, 0, 0));
 
 			t = expr_typecheck(s->expr, 0, 0);
 			if(t->kind != TYPE_BOOLEAN) {
@@ -245,7 +247,8 @@ void stmt_typecheck(struct stmt *s, const char *func_name) {
 				type_error_count += 1;
 			}
 
-			expr_typecheck(s->next_expr, 0, 0);
+			type_free(t);
+			type_free(expr_typecheck(s->next_expr, 0, 0));
 			stmt_typecheck(s->body, func_name);
 			break;
 		case STMT_BLOCK:	

@@ -212,19 +212,26 @@ int expr_is_constant(struct expr *e) {
 struct type *expr_typecheck(struct expr *e, int is_array_initializer, int silent_mode) {
 	if(!e) return 0;
 	
-	struct type *left, *right;
+	struct type *left = 0;
+	struct type *right = 0;
 	switch(e->kind) {
 		case EXPR_LEFTCURLY:
-			return type_create(TYPE_ARRAY, 0, expr_create_integer_literal(expr_count_item(e->right), e->line), expr_typecheck(e->right, is_array_initializer, silent_mode), e->line);
+			type_free(left);	
+			type_free(right);	
+			return type_create(TYPE_ARRAY, 0, expr_create_integer_literal(expr_count_item(e->right), e->line), expr_typecheck(e->right, is_array_initializer, silent_mode), e->line, 0);
 			break;
 		case EXPR_LEFTPARENTHESS:
 			if(e->left) {
 				//function call
 				//check function call arguments and function definition paramters
 				expr_func_typecheck(e, silent_mode);
+				type_free(left);	
+				type_free(right);	
 				return scope_lookup(e->left->name, e->left->line, 0)->type->subtype;
 			} else {
 				//grouping
+				type_free(left);	
+				type_free(right);	
 				return expr_typecheck(e->right, is_array_initializer, silent_mode);
 			}
 			break;
@@ -238,6 +245,7 @@ struct type *expr_typecheck(struct expr *e, int is_array_initializer, int silent
 					fprintf(stdout, "type error (line %d): %s is not an array, and can not be indexed.\n", e->left->line, e->left->name);
 					type_error_count += 1;
 				}
+				type_free(right);
 				return left;
 			}
 
@@ -252,6 +260,7 @@ struct type *expr_typecheck(struct expr *e, int is_array_initializer, int silent
 					type_error_count += 1;
 				}
 			}
+			type_free(right);
 			return left->subtype;
 			break;
 		case EXPR_INCREMENT:
@@ -267,8 +276,11 @@ struct type *expr_typecheck(struct expr *e, int is_array_initializer, int silent
 					
 					type_error_count += 1;
 				}
-				return type_create(TYPE_INTEGER, 0, 0, 0, e->line);
+				type_free(left);
+				type_free(right);
+				return type_create(TYPE_INTEGER, 0, 0, 0, e->line, 0);
 			}
+			type_free(right);
 			return left;
 			break;
 		case EXPR_UNARY_NEG:
@@ -282,8 +294,11 @@ struct type *expr_typecheck(struct expr *e, int is_array_initializer, int silent
 					printf("!\n");
 					type_error_count += 1;
 				}
-				return type_create(TYPE_INTEGER, 0, 0, 0, e->line);
+				type_free(left);
+				type_free(right);
+				return type_create(TYPE_INTEGER, 0, 0, 0, e->line, 0);
 			}
+			type_free(left);
 			return right;
 			break;
 		case EXPR_NOT:
@@ -297,8 +312,11 @@ struct type *expr_typecheck(struct expr *e, int is_array_initializer, int silent
 					printf("!\n");
 					type_error_count += 1;
 				}
-				return type_create(TYPE_BOOLEAN, 0, 0, 0, e->line);
+				type_free(left);
+				type_free(right);
+				return type_create(TYPE_BOOLEAN, 0, 0, 0, e->line, 0);
 			}
+			type_free(left);
 			return right;
 			break;
 		case EXPR_POWER:
@@ -324,7 +342,9 @@ struct type *expr_typecheck(struct expr *e, int is_array_initializer, int silent
 					printf("!\n");
 					type_error_count += 1;
 				}
-				return type_create(TYPE_INTEGER, 0, 0, 0, e->line);
+				type_free(left);
+				type_free(right);
+				return type_create(TYPE_INTEGER, 0, 0, 0, e->line, 0);
 			} else {
 				if(left->kind != TYPE_INTEGER) {
 					if(!silent_mode) {
@@ -341,8 +361,11 @@ struct type *expr_typecheck(struct expr *e, int is_array_initializer, int silent
 						printf("!\n");
 						type_error_count += 1;
 					}
-					return type_create(TYPE_INTEGER, 0, 0, 0, e->line);
+					type_free(left);
+					type_free(right);
+					return type_create(TYPE_INTEGER, 0, 0, 0, e->line, 0);
 				}
+				type_free(right);
 				return left;
 			}
 			break;
@@ -367,7 +390,9 @@ struct type *expr_typecheck(struct expr *e, int is_array_initializer, int silent
 					printf("!\n");
 					type_error_count += 1;
 				}
-				return type_create(TYPE_BOOLEAN, 0, 0, 0, e->line);
+				type_free(left);
+				type_free(right);
+				return type_create(TYPE_BOOLEAN, 0, 0, 0, e->line, 0);
 			} else {
 				if(left->kind != TYPE_INTEGER) {
 					if(!silent_mode) {
@@ -384,9 +409,13 @@ struct type *expr_typecheck(struct expr *e, int is_array_initializer, int silent
 						printf("!\n");
 						type_error_count += 1;
 					}
-					return type_create(TYPE_BOOLEAN, 0, 0, 0, e->line);
+					type_free(left);
+					type_free(right);
+					return type_create(TYPE_BOOLEAN, 0, 0, 0, e->line, 0);
 				}
-				return type_create(TYPE_BOOLEAN, 0, 0, 0, e->line);
+				type_free(left);
+				type_free(right);
+				return type_create(TYPE_BOOLEAN, 0, 0, 0, e->line, 0);
 			}
 			break;
 		case EXPR_EQ:
@@ -408,7 +437,9 @@ struct type *expr_typecheck(struct expr *e, int is_array_initializer, int silent
 	
 					type_error_count += 1;
 				}
-				return type_create(TYPE_BOOLEAN, 0, 0, 0, e->line);
+				type_free(left);
+				type_free(right);
+				return type_create(TYPE_BOOLEAN, 0, 0, 0, e->line, 0);
 			} else {
 				if(left->kind == TYPE_ARRAY || left->kind == TYPE_FUNCTION) {
 					if(!silent_mode) {
@@ -425,9 +456,13 @@ struct type *expr_typecheck(struct expr *e, int is_array_initializer, int silent
 	
 						type_error_count += 1;
 					}
-					return type_create(TYPE_BOOLEAN, 0, 0, 0, e->line);
+					type_free(left);
+					type_free(right);
+					return type_create(TYPE_BOOLEAN, 0, 0, 0, e->line, 0);
 				}
-				return type_create(TYPE_BOOLEAN, 0, 0, 0, e->line);
+				type_free(left);
+				type_free(right);
+				return type_create(TYPE_BOOLEAN, 0, 0, 0, e->line, 0);
 			}
 			break;
 		case EXPR_UNEQ:
@@ -449,7 +484,9 @@ struct type *expr_typecheck(struct expr *e, int is_array_initializer, int silent
 	
 					type_error_count += 1;
 				}
-				return type_create(TYPE_BOOLEAN, 0, 0, 0, e->line);
+				type_free(left);
+				type_free(right);
+				return type_create(TYPE_BOOLEAN, 0, 0, 0, e->line, 0);
 			} else {
 				if(left->kind == TYPE_ARRAY || left->kind == TYPE_FUNCTION) {
 					if(!silent_mode) {
@@ -466,9 +503,13 @@ struct type *expr_typecheck(struct expr *e, int is_array_initializer, int silent
 	
 						type_error_count += 1;
 					}
-					return type_create(TYPE_BOOLEAN, 0, 0, 0, e->line);
+					type_free(left);
+					type_free(right);
+					return type_create(TYPE_BOOLEAN, 0, 0, 0, e->line, 0);
 				}
-				return type_create(TYPE_BOOLEAN, 0, 0, 0, e->line);
+				type_free(left);
+				type_free(right);
+				return type_create(TYPE_BOOLEAN, 0, 0, 0, e->line, 0);
 			}
 			break;
 		case EXPR_AND:
@@ -489,7 +530,9 @@ struct type *expr_typecheck(struct expr *e, int is_array_initializer, int silent
 	
 					type_error_count += 1;
 				}
-				return type_create(TYPE_BOOLEAN, 0, 0, 0, e->line);
+				type_free(left);
+				type_free(right);
+				return type_create(TYPE_BOOLEAN, 0, 0, 0, e->line, 0);
 			} else {
 				if(left->kind != TYPE_BOOLEAN) {
 					if(!silent_mode) {
@@ -506,8 +549,11 @@ struct type *expr_typecheck(struct expr *e, int is_array_initializer, int silent
 	
 						type_error_count += 1;
 					}
-					return type_create(TYPE_BOOLEAN, 0, 0, 0, e->line);
+					type_free(left);
+					type_free(right);
+					return type_create(TYPE_BOOLEAN, 0, 0, 0, e->line, 0);
 				}
+				type_free(right);
 				return left;
 			}
 			break;
@@ -529,7 +575,9 @@ struct type *expr_typecheck(struct expr *e, int is_array_initializer, int silent
 	
 					type_error_count += 1;
 				}
-				return type_create(TYPE_BOOLEAN, 0, 0, 0, e->line);
+				type_free(left);
+				type_free(right);
+				return type_create(TYPE_BOOLEAN, 0, 0, 0, e->line, 0);
 			} else {
 				if(left->kind != TYPE_BOOLEAN) {
 					if(!silent_mode) {
@@ -546,8 +594,11 @@ struct type *expr_typecheck(struct expr *e, int is_array_initializer, int silent
 	
 						type_error_count += 1;
 					}
-					return type_create(TYPE_BOOLEAN, 0, 0, 0, e->line);
+					type_free(left);
+					type_free(right);
+					return type_create(TYPE_BOOLEAN, 0, 0, 0, e->line, 0);
 				}
+				type_free(right);
 				return left;
 			}
 			break;
@@ -569,6 +620,7 @@ struct type *expr_typecheck(struct expr *e, int is_array_initializer, int silent
 	
 					type_error_count += 1;
 				}
+				type_free(left);
 				return right;
 			} else {
 				if(left->kind == TYPE_FUNCTION) {
@@ -577,8 +629,10 @@ struct type *expr_typecheck(struct expr *e, int is_array_initializer, int silent
 
 						type_error_count += 1;
 					}
+					type_free(left);
 					return right;
 				}
+				type_free(left);
 				return right;
 			}
 			break;
@@ -605,22 +659,33 @@ struct type *expr_typecheck(struct expr *e, int is_array_initializer, int silent
 					}
 				}
 			}
+			type_free(right);
 			return left;
 			break;
 		case EXPR_IDENT_NAME:
+			type_free(left);
+			type_free(right);
 			return e->symbol->type;
 			break;
 		case EXPR_BOOLEAN_LITERAL:
-			return type_create(TYPE_BOOLEAN, 0, 0, 0, e->line);
+			type_free(left);
+			type_free(right);
+			return type_create(TYPE_BOOLEAN, 0, 0, 0, e->line, 0);
 			break;
 		case EXPR_INTEGER_LITERAL:
-			return type_create(TYPE_INTEGER, 0, 0, 0, e->line);
+			type_free(left);
+			type_free(right);
+			return type_create(TYPE_INTEGER, 0, 0, 0, e->line, 0);
 			break;
 		case EXPR_CHARACTER_LITERAL: 
-			return type_create(TYPE_CHARACTER, 0, 0, 0, e->line);
+			type_free(left);
+			type_free(right);
+			return type_create(TYPE_CHARACTER, 0, 0, 0, e->line, 0);
 			break;
 		case EXPR_STRING_LITERAL: 
-			return type_create(TYPE_STRING, 0, 0, 0, e->line);
+			type_free(left);
+			type_free(right);
+			return type_create(TYPE_STRING, 0, 0, 0, e->line, 0);
 			break;
 	}
 	return 0;
@@ -651,7 +716,8 @@ void expr_func_typecheck(struct expr *e, int silent_mode) {
 			return;
 		}
 		arg = expr_get_item(e->right, n, i);
-		if(!type_equals(p->type, expr_typecheck(arg, 0, silent_mode))) {
+		struct type *t = expr_typecheck(arg, 0, silent_mode);
+		if(!type_equals(p->type, t)) {
 			if(!silent_mode) {
 				fprintf(stdout, "type error (line %d): the types of function call arguments (", e->line);
 				expr_print(e);
@@ -661,8 +727,10 @@ void expr_func_typecheck(struct expr *e, int silent_mode) {
 	
 				type_error_count += 1;
 			}
+			type_free(t);
 			return;
 		}
+		type_free(t);
 		p = p->next;
 	}
 
@@ -718,8 +786,9 @@ void expr_print_typecheck(struct expr *e) {
 	int n = expr_count_item(e);
 
 	int i;
+	struct expr *arg;
 	for(i = 1; i <= n; i++) {
-		struct expr *arg = expr_get_item(e, n, i);
+		arg = expr_get_item(e, n, i);
 		struct type *t = expr_typecheck(arg, 0, 1);
 		if(t->kind == TYPE_FUNCTION) {
 			fprintf(stdout, "type error (line %d): print_stmt can not print function (", e->line);
@@ -736,6 +805,7 @@ void expr_print_typecheck(struct expr *e) {
 			type_error_count += 1;
 			continue;
 		}
+		type_free(t);
 	}
 }
 

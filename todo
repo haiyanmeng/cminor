@@ -1,12 +1,12 @@
 Todo:
-type error (line 47): the function prototype (f3:function void ( x: integer )) does not match the type of its definition (f3:!
-
-
-enrich the error msg
 add memory allocation successful check. check function return value
 valgrind check memory leak
 3-D array typechecking
 
+check header file includes
+
+
+<<<< Done:
 array index must be meaning ful; if array size is n; the index must be 0 ~ n-1. no.
 use an variable before intializing it. no.
 does a single integer literal overflow checking? no.
@@ -16,10 +16,7 @@ is the following legal?
     b:array[2]array[3] integer = a;
 this is legal.
 	
-check header file includes
-
-
-<<<< Done:
+enrich the error msg
 add lineno to the error output.
 remove additional output
 
