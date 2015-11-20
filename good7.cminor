@@ -1,0 +1,6 @@
+
+//good - && 
+f53:function void() = {
+	a:boolean;
+	b:boolean = a && true && false;
+}

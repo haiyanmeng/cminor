@@ -1,0 +1,56 @@
+// ***** expr_typecheck
+//type error: x is not an array, and can not be indexed.
+//type error: the operands of the = operator mismatch!
+f11:function void( )= {
+	x:integer = 1;
+	x[3] = "5";
+}
+
+//type error: an array index must be integer!
+f12:function void( )= {
+	x:char = 'c';
+	z:integer = 2;
+	y:array [5] integer;
+	y[x] = 5;
+}
+
+//type error: ++/-- expr only applys to integer types!
+f13: function void() = {
+	c:char;
+	x:integer = c--;
+}
+
+//type error: unary neg operator expr only applys to integer types!
+f14: function void() = {
+	c:char;
+	x:integer = -c;
+}
+
+//good
+f15: function void() = {
+	c:integer;
+	x:integer = -c;
+}
+
+//type error: not operator expr only applys to boolean types!
+//type error: print_stmt can not print void type!
+f16:function void() = {
+	a:integer;
+	b:boolean = !a;
+	print f16, f16(), a, b;
+}
+
+//good - operator !
+f17:function void() = {
+	a:integer;
+	b:boolean = !b;
+}
+
+//type error: the operands of binary arithmetic operator expr mismatch.
+f18:function void() = {
+	a:integer;
+	c:char;
+	b:integer = a + 5 * a / a ^ a - c;
+}
+
+

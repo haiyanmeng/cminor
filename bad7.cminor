@@ -1,0 +1,78 @@
+
+//type error: the operands of binary arithmetic operator must be integers!
+//type error: the operands of binary arithmetic operator must be integers!
+//type error: the operands of binary arithmetic operator expr mismatch.
+//type error: the operands of binary arithmetic operator expr mismatch.
+f19:function void() = {
+	a:char;
+	c:char;
+	b:integer = a + a* a / a ^ a - c;
+}
+
+
+//good - binary arithmetic operator
+f20:function void() = {
+	a:integer;
+	c:integer;
+	b:integer = a + a* a / a ^ a - c;
+}
+
+//type error: the operands of a comparison operator mismatch!
+f21:function void() = {
+	a:integer;
+	c:char;
+	b:boolean = a > c;
+}
+
+//type error: the operands of a comparison operator must be integers!
+f22:function void() = {
+	a:char;
+	c:char;
+	b:boolean = a > c;
+}
+
+//good - comparison
+f23:function void() = {
+	a:integer;
+	c:integer;
+	b:boolean = (a > ((c)));
+}
+
+
+//type error: the == operator does not apply to array and function types!
+f24:function void() = {
+	a:array[2] integer;
+	c:array[2] integer;
+	d:char;
+	b:boolean = (a == ((c)));
+	a!=d!=d;
+	return c==d;
+}
+
+
+
+//type error: the == operator does not apply to array and function types!
+a:function integer() = {}
+c:function integer() = {}
+f25:function void() = {
+	a:function integer();
+	c:function integer();
+	b:boolean = (a == ((c)));
+}
+
+
+//type error: the != operator does not apply to array and function types!
+f26:function void() = {
+	a:array[] integer;
+	c:array[] integer;
+	b:boolean = (a != ((c)));
+}
+
+//type error: the != operator does not apply to array and function types!
+f27:function void() = {
+	a:function integer();
+	c:function integer();
+	b:boolean = (a != ((c)));
+}
+
+

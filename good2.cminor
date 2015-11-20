@@ -1,0 +1,11 @@
+//good - function call test
+f49:function void(a:integer) = {
+}
+main4: function integer() = {
+	a:integer = 1;
+	b:array[2] char = {'a', 'c'};
+	f49(a);
+	return 0;
+}
+
+

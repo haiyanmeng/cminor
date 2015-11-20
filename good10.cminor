@@ -1,0 +1,8 @@
+//good - if else
+f8:function void(a:integer) = {
+    if(true)
+        x:integer = 3;
+    else
+        print 2;
+}
+

@@ -1,0 +1,108 @@
+// ***** type_typecheck
+
+//type error (line 373): the array size must be an positive integer literal!
+//type error (line 373): the initializer size of the array does not match the size of the array!
+//type error (line 373): the initializer size of the array does not match the size of the array!
+//type error (line 373): the initializer size of the array does not match the size of the array!
+xx:integer = 3;
+aa:array[3] array[5+xx] integer = {{1}, {2, 3}};
+
+//type error (line 382): the array size must be an positive integer literal!
+//type error (line 382): the initializer size of the array does not match the size of the array!
+//type error (line 382): the initializer size of the array does not match the size of the array!
+//type error (line 382): the initializer size of the array does not match the size of the array!
+f45:function void(a:array[]integer)= {
+	x:integer = 3;
+	a1:array[3] array[5+x] integer = {{1}, {2, 3}};
+}
+
+//type error (line 388): the initializer size of the array does not match the size of the array!
+//type error (line 388): the initializer size of the array does not match the size of the array!
+//type error (line 389): the initializer size of the array does not match the size of the array!
+//type error (line 389): the initializer size of the array does not match the size of the array!
+aa2:array[2] array[3] integer = {{1}, {2, 3}};
+aa3:array[2] array[3] integer = {{1,2,3,4}, {2, 3,3}, {1,2,3}};
+
+//good one
+aa4:array[2] array[3] integer = {{1,2,4}, {2, 3,3}};
+
+
+//type error: the array size is missing!
+aa5:array[] array[] integer = {{1}, {2, 3}};
+
+
+//type error: the array size is missing!
+f46:function void() = {
+	a:array[] integer;
+}
+
+//type error (line 410): the array size must be an positive integer literal!
+//type error (line 410): the initializer size of the array does not match the size of the array!
+//type error (line 410): the initializer size of the array does not match the size of the array!
+//type error (line 410): the initializer size of the array does not match the size of the array!
+f47:function void(a:array[]integer)= {
+	x:char;
+	a1:array[3] array[x] integer = {{1}, {2, 3}};
+}
+
+//good, test left parenthess
+d:integer;
+f48:function void(a:integer) = {
+	x:integer = ((d^2)+(-d)*5);
+}
+
+//good
+f49:function void(a:integer) = {
+}
+main4: function integer() = {
+	a:integer = 1;
+	b:array[2] char = {'a', 'c'};
+	f49(a);
+	return 0;
+}
+
+//good 
+aaa:function integer() = {}
+caa:function integer() = {}
+f50:function void() = {
+	aaa:function integer();
+	caa:function integer();
+	b:boolean = (aaa() != ((caa())));
+}
+
+//good, the initializer of a local variable may not be constant
+f51:function void( )= {
+	x:boolean = true;
+	y:boolean = x;
+}
+
+//good, function prototype
+fff:function void();
+fff:function void( )= {
+	fff:function void();
+	x:boolean = true;
+	y:boolean = x;
+	fff();
+}
+fff:function void();
+
+
+//good example, define x in different scopes
+x52:integer = 1;
+f52:function void(x:integer)= {
+	y:integer = 1;
+	xy:integer = x52;
+	if(x52 == 1) {
+		x:integer = 1;
+	}
+
+	{ x52: integer; }
+}
+
+//good - && 
+f53:function void() = {
+	a:boolean;
+	b:boolean = a && true && false;
+}
+
+b12:array[2] integer = {1, true};

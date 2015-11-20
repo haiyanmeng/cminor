@@ -1,0 +1,53 @@
+//type error: the function definition of f does not match its prototype!
+f3:function void(x:integer);
+f3:function void()= {
+	x:boolean = true;
+	y:boolean = x;
+}
+
+// ***** stmt_typecheck
+
+//type error: function returns a wrong type!
+f4:function void(a:integer) = {
+	return 1;
+}
+
+//type error: function returns a wrong type!
+f5:function integer(a:integer) = {
+	return ;
+}
+
+//good: missing return
+f6:function integer(a:integer) = {
+}
+
+//type error: the expr of if_stmt must be boolean!
+f7:function void(a:integer) = {
+	if(a+34*7) print;
+}
+
+//good - if else
+f8:function void(a:integer) = {
+	if(true)
+		x:integer = 3;
+	else
+		print 2;
+}
+
+//type error: the expr of for_stmt must be boolean!
+f9:function void() = {
+	x:integer;	
+	for (x= 1; x + 1; x++) {
+		print 1;
+	}
+}
+
+//good - for
+f10:function void() = {
+	x:integer;	
+	for (x= 1; !(x == 1); x++) {
+		print 1;
+	}
+}
+
+

@@ -1,0 +1,8 @@
+//good - function prototype and function definition
+aaa:function integer() = {}
+caa:function integer() = {}
+f50:function void() = {
+	aaa:function integer();
+	caa:function integer();
+	b:boolean = (aaa() != ((caa())));
+}

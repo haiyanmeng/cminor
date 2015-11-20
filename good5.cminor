@@ -1,0 +1,12 @@
+//good, function prototype
+fff:function void();
+fff:function void( )= {
+	fff:function void();
+	x:boolean = true;
+	y:boolean = x;
+	fff();
+}
+fff:function void();
+
+
+

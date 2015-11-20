@@ -1,12 +1,13 @@
 Todo:
-add memory allocation successful check. check function return value
-valgrind check memory leak
-3-D array typechecking
 
 check header file includes
 
 
 <<<< Done:
+
+add memory allocation successful check. check function return value
+valgrind check memory leak
+3-D array typechecking
 array index must be meaning ful; if array size is n; the index must be 0 ~ n-1. no.
 use an variable before intializing it. no.
 does a single integer literal overflow checking? no.

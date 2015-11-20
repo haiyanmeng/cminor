@@ -1,0 +1,22 @@
+// ***** resolve error
+//resolve error: a function prototype named f4 has been declared locally (level 1)
+//resolve error: x has been defined as local 1 (level 1)
+f:function void();
+f:function void( )= {
+	f1:function void();
+	f2:function void();
+	f3:function void();
+	f4:function void();
+	f:char;
+	f4:char;
+	x:boolean = true;
+	x:char;
+}
+
+//resolve error: x1 is not defined!
+f4:function void( )= {
+	x:boolean = true;
+	y:boolean = x1;
+}
+
+

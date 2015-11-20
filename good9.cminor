@@ -1,0 +1,5 @@
+//good: missing return
+f6:function integer(a:integer) = {
+}
+
+

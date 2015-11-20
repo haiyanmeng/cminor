@@ -1,0 +1,44 @@
+// ***** decl_typecheck
+
+//type error: the intializer of a global variable (y) should be constant!
+x:boolean = true;
+y:boolean = x;
+
+//type error: the type of x does not match the type of its initializer!
+f:function void() = {
+	a:array[3] integer;
+	x:char = a[2];
+	y:integer;
+	z:array[5] integer = {0, -3+5-8*6, 5, y+3, y=8};
+}
+
+//type error: the type of x1 does not match the type of its initializer!
+x1:char = 3;
+
+//good
+f1:function void(x:integer);
+f2:function void( )= {
+	x:boolean = true;
+	y:boolean = x;
+}
+
+//type error: the function ff1 has multiple conflicting prototype!
+//type error: the function ff1 has multiple conflicting prototype!
+//type error: the function ff1 has multiple conflicting prototype!
+ff1:function void(x:integer);
+ff1:function void(y:integer);
+ff1:function integer(y:integer);
+ff1:function integer(x: char, y:integer);
+ff2:function void( )= {
+    ff1:function void(x:integer, y:char, z:char);
+	ff2:char;	
+}
+ 
+ff1:function void(x:integer);
+ff1:function void(y:integer);
+ff3:function void( )= {
+    ff1:function void(x:integer);
+	ff3:function void();
+}
+
+

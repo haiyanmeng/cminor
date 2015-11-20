@@ -1,0 +1,2 @@
+aa4:array[2] array[3] integer = {{1,2,4}, {2, 3,3}};
+a:array[3] char = {'a', 'b', '\\'};
