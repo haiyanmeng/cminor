@@ -13,13 +13,13 @@ void scope_init() {
 
 	struct hash_table *h = hash_table_create(0, 0);
 	if(!h) {
-		fprintf(stderr, "Fails to create a hash table!\n");
+		fprintf(stdout, "Fails to create a hash table!\n");
 		exit(EXIT_FAILURE);
 	}
 
 	struct scope *s = (struct scope *)malloc(sizeof(struct scope));
 	if(!s) {
-		fprintf(stderr, "Fails to create a new scope!\n");
+		fprintf(stdout, "Fails to create a new scope!\n");
 		exit(EXIT_FAILURE);
 	}
 
@@ -33,12 +33,12 @@ void scope_enter() {
 
 	struct hash_table *h = hash_table_create(0, 0);
 	if(!h) {
-		fprintf(stderr, "Fails to create a hash table!\n");
+		fprintf(stdout, "Fails to create a hash table!\n");
 		exit(EXIT_FAILURE);
 	}
 	struct scope *s = (struct scope *)malloc(sizeof(struct scope));
 	if(!s) {
-		fprintf(stderr, "Fails to create a new scope!\n");
+		fprintf(stdout, "Fails to create a new scope!\n");
 		exit(EXIT_FAILURE);
 	}
 	s->h = h;
@@ -64,19 +64,19 @@ void scope_bind(const char *name, struct symbol *s) {
 	//hash_table_traverse(head->h);
 
 	if(!hash_table_insert(head->h, name, (const void *)s)) {
-		fprintf(stderr, "Fails to insert a new item into the hash table!\n");
+		fprintf(stdout, "Fails to insert a new item into the hash table!\n");
 		exit(EXIT_FAILURE);
 	}
 }
 
 void scope_rebind(const char *name, struct symbol *s) {
 	if(!hash_table_remove(head->h, name)) {
-		fprintf(stderr, "Fails to remove an item (%s) into the hash table!\n", name);
+		fprintf(stdout, "Fails to remove an item (%s) into the hash table!\n", name);
 		exit(EXIT_FAILURE);
 	}
 
 	if(!hash_table_insert(head->h, name, (const void *)s)) {
-		fprintf(stderr, "Fails to insert a new item (%s) into the hash table!\n", name);
+		fprintf(stdout, "Fails to insert a new item (%s) into the hash table!\n", name);
 		exit(EXIT_FAILURE);
 	}
 }

@@ -194,7 +194,10 @@ f23:function void() = {
 f24:function void() = {
 	a:array[2] integer;
 	c:array[2] integer;
+	d:char;
 	b:boolean = (a == ((c)));
+	a!=d!=d;
+	return c==d;
 }
 
 
@@ -472,3 +475,5 @@ f53:function void() = {
 	a:boolean;
 	b:boolean = a && true && false;
 }
+
+b12:array[2] integer = {1, true};

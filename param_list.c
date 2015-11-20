@@ -10,7 +10,7 @@ struct param_list *param_list_create(char *name, struct type *type, struct param
 	struct param_list *p = (struct param_list *)malloc(sizeof(struct param_list));
 
 	if(!p) {
-		fprintf(stderr, "malloc fails!\n");
+		fprintf(stdout, "malloc fails!\n");
 		exit(EXIT_FAILURE);
 	}
 
@@ -38,7 +38,7 @@ void param_list_resolve(struct param_list *p, int seq) {
 	
 	struct symbol *s = scope_lookup_local(p->name);
 	if(s) {
-		fprintf(stderr, "resolve error (line %d): %s has been defined as param %d (level %d)\n", p->line, p->name, s->which, level);
+		fprintf(stdout, "resolve error (line %d): %s has been defined as param %d (level %d)\n", p->line, p->name, s->which, level);
 		resolve_error_count += 1;
 	} else {
 		scope_bind(p->name, sym);

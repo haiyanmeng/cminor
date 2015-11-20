@@ -1,4 +1,7 @@
 Todo:
+type error (line 47): the function prototype (f3:function void ( x: integer )) does not match the type of its definition (f3:!
+
+
 enrich the error msg
 add memory allocation successful check. check function return value
 valgrind check memory leak

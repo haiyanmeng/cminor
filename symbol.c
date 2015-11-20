@@ -7,7 +7,7 @@ struct symbol *symbol_create(symbol_t kind, int seq, struct type *type, char *na
 	struct symbol *s = (struct symbol *)malloc(sizeof(struct symbol));
 
 	if(!s) {
-		fprintf(stderr, "malloc fails!\n");
+		fprintf(stdout, "malloc fails!\n");
 		exit(EXIT_FAILURE);
 	}
 

@@ -18,12 +18,12 @@ int main(int argc, char *argv[]) {
 		&& strcmp(argv[1], "-parse") != 0 && strcmp(argv[1], "-print") != 0 \
 		&& strcmp(argv[1], "-resolve") \
 		&& strcmp(argv[1], "-typecheck")) {
-		fprintf(stderr, "The option of %s should be: -scan or -parse or -print\n", argv[0]);
+		fprintf(stdout, "The option of %s should be: -scan or -parse or -print\n", argv[0]);
 		exit(EXIT_FAILURE);
 	}
 
 	if((yyin = fopen(argv[2], "r")) == NULL) {
-		fprintf(stderr, "fopen fails to open %s: %s.\n", argv[2], strerror(errno));
+		fprintf(stdout, "fopen fails to open %s: %s.\n", argv[2], strerror(errno));
 		exit(EXIT_FAILURE);
 	}
 
@@ -37,7 +37,7 @@ int main(int argc, char *argv[]) {
 			decl_resolve(program, 0);
 			//scope_print();
 			if(resolve_error_count > 0) {
-				fprintf(stderr, "%d name resolution errors have been found!\n", resolve_error_count);
+				fprintf(stdout, "%d name resolution errors have been found!\n", resolve_error_count);
 				exit(EXIT_FAILURE);
 			}
 		} else if(!strcmp(argv[1], "-typecheck")) {
@@ -45,12 +45,12 @@ int main(int argc, char *argv[]) {
 			decl_resolve(program, 0);
 			//scope_print();
 			if(resolve_error_count > 0) {
-				fprintf(stderr, "%d name resolution errors have been found!\n", resolve_error_count);
+				fprintf(stdout, "%d name resolution errors have been found!\n", resolve_error_count);
 				exit(EXIT_FAILURE);
 			}
 			decl_typecheck(program);
 			if(type_error_count > 0) {
-				fprintf(stderr, "%d type errors have been found!\n", type_error_count);
+				fprintf(stdout, "%d type errors have been found!\n", type_error_count);
 				exit(EXIT_FAILURE);
 			}
 		}

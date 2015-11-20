@@ -9,7 +9,7 @@ struct stmt *stmt_create(stmt_kind_t kind, struct decl *d, struct expr *init_exp
 	struct stmt *s = (struct stmt *)malloc(sizeof(struct stmt));
 
 	if(!s) {
-		fprintf(stderr, "malloc fails!\n");
+		fprintf(stdout, "malloc fails!\n");
 		exit(EXIT_FAILURE);
 	}
 
@@ -121,7 +121,7 @@ void indent_process(int indent) {
 		char *spaces = (char *)malloc((indent+1) * sizeof(char));
 
 		if(!spaces) {
-			fprintf(stderr, "malloc fails!\n");
+			fprintf(stdout, "malloc fails!\n");
 			exit(EXIT_FAILURE);
 		}
 
@@ -202,12 +202,18 @@ void stmt_typecheck(struct stmt *s, const char *func_name) {
 			func_return = scope_lookup(func_name, s->line, 0)->type->subtype;
 			if(!t) { //return;
 				if(func_return->kind != TYPE_VOID) {
-					fprintf(stderr, "type error (line %d): function (%s) returns a wrong type!\n", s->line, func_name);
+					fprintf(stdout, "type error (line %d): function (%s) returns a wrong type (void), and should return type ", s->line, func_name);
+					type_print(func_return);
+					printf("!\n");
 					type_error_count += 1;
 				}	
 			} else {
 				if(!type_equals(t, func_return)) {
-					fprintf(stderr, "type error (line %d): function (%s) returns a wrong type!\n", s->line, func_name);
+					fprintf(stdout, "type error (line %d): function (%s) returns a wrong type (", s->line, func_name);
+					type_print(t);
+					printf("), and should return type ");
+					type_print(func_return);
+					printf("!\n");
 					type_error_count += 1;
 				}
 			}
@@ -215,7 +221,11 @@ void stmt_typecheck(struct stmt *s, const char *func_name) {
 		case STMT_IF_ELSE:
 			t = expr_typecheck(s->expr, 0, 0);
 			if(t->kind != TYPE_BOOLEAN) {
-				fprintf(stderr, "type error (line %d): the expr of if_stmt must be boolean!\n", s->expr->line); 
+				fprintf(stdout, "type error (line %d): the expr (", s->expr->line);
+				expr_print(s->expr);
+				printf(") of if_stmt has wrong type (");
+				type_print(t);
+				printf("), and should be boolean!\n");
 				type_error_count += 1;
 			}
 
@@ -227,7 +237,11 @@ void stmt_typecheck(struct stmt *s, const char *func_name) {
 
 			t = expr_typecheck(s->expr, 0, 0);
 			if(t->kind != TYPE_BOOLEAN) {
-				fprintf(stderr, "type error (line %d): the expr of for_stmt must be boolean!\n", s->expr->line); 
+				fprintf(stdout, "type error (line %d): the expr (", s->expr->line);
+				expr_print(s->expr);
+				printf(") of for_stmt has wrong type (");
+				type_print(t);
+				printf("), and should be boolean!\n"); 
 				type_error_count += 1;
 			}
 
