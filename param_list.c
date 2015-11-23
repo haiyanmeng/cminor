@@ -31,8 +31,8 @@ void param_list_print(struct param_list *p) {
 	}
 }
 
-void param_list_resolve(struct param_list *p, int seq) {
-	if(!p) return;
+int param_list_resolve(struct param_list *p, int seq) {
+	if(!p) return 0;
 
 	struct symbol *sym = symbol_create(SYMBOL_PARAM, seq, p->type, p->name, FUNC_NOT);
 	
@@ -46,7 +46,7 @@ void param_list_resolve(struct param_list *p, int seq) {
 
 	p->symbol = sym;
 	
-	param_list_resolve(p->next, seq+1);
+	return param_list_resolve(p->next, seq+1) + 1;
 }
 
 int params_equals(struct param_list *p, struct param_list *q) {

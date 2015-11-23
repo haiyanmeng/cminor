@@ -148,9 +148,11 @@ void decl_resolve(struct decl *d) {
 
 	if(d->code) {
 		scope_enter();	
-		param_list_resolve(d->type->params, 0);
+		int params = param_list_resolve(d->type->params, 0);
+		symbol_set_param_count(d->symbol, params);
 		stmt_resolve(d->code->body);
 		scope_exit();
+		symbol_set_local_count(d->symbol, local_no);
 	} 
 
 	decl_resolve(d->next);

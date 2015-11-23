@@ -28,8 +28,11 @@ struct symbol {
 	struct type *type;
 	char *name;
 	func_t t;
+	int local_count;
+	int param_count;
 };
 
 struct symbol *symbol_create(symbol_t kind, int seq, struct type *type, char *name, func_t t);
-
+void symbol_set_local_count(struct symbol *s, int local_count);
+void symbol_set_param_count(struct symbol *s, int param_count);
 #endif
