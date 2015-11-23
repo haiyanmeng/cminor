@@ -1,4 +1,7 @@
 b:array[2] char = {'a', 'c'};
+f:function void () = {
+	b[2+5-1] = 'c';
+}
 
 
 

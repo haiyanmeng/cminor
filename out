@@ -1,0 +1,831 @@
+d: integer;
+f48: function void ( a: integer ) =
+{
+    x: integer = ((d^2)+(-d)*5);
+}
+f49: function void ( a: integer ) =
+{
+}
+main4: function integer () =
+{
+    a: integer = 1;
+    b: array [2] char = {'a','c'};
+    f49(a);
+    return 0;
+}
+aaa: function integer () =
+{
+}
+caa: function integer () =
+{
+}
+f50: function void () =
+{
+    aaa: function integer ();
+    caa: function integer ();
+    b: boolean = (aaa()!=((caa())));
+}
+f51: function void () =
+{
+    x: boolean = true;
+    y: boolean = x;
+}
+fff: function void ();
+fff: function void () =
+{
+    fff: function void ();
+    x: boolean = true;
+    y: boolean = x;
+    fff();
+}
+fff: function void ();
+x52: integer = 1;
+f52: function void ( x: integer ) =
+{
+    y: integer = 1;
+    xy: integer = x52;
+    if(x52==1) {
+        x: integer = 1;
+    } 
+    {
+        x52: integer;
+    }
+}
+f53: function void () =
+{
+    a: boolean;
+    b: boolean = a&&true&&false;
+}
+exit code:  0
+f: function void ();
+f: function void () =
+{
+    f1: function void ();
+    f2: function void ();
+    f3: function void ();
+    f4: function void ();
+    f: char;
+    f4: char;
+    x: boolean = true;
+    x: char;
+}
+f4: function void () =
+{
+    x: boolean = true;
+    y: boolean = x1;
+}
+f3: function void ( x: integer, x: char ) =
+{
+    x: boolean = true;
+    y: boolean = x1;
+}
+f2: function void ( x: integer ) =
+{
+    x: integer = 1;
+    y: boolean = x;
+}
+f5: function void ( x: integer ) =
+{
+    y: integer = 1;
+    y: integer = x;
+}
+x: integer = 1;
+x: char = 'c';
+exit code:  0
+x: boolean = true;
+y: boolean = x;
+f: function void () =
+{
+    a: array [3] integer;
+    x: char = a[2];
+    y: integer;
+    z: array [5] integer = {0,-3+5-8*6,5,y+3,y=8};
+}
+x1: char = 3;
+f1: function void ( x: integer );
+f2: function void () =
+{
+    x: boolean = true;
+    y: boolean = x;
+}
+ff1: function void ( x: integer );
+ff1: function void ( y: integer );
+ff1: function integer ( y: integer );
+ff1: function integer ( x: char, y: integer );
+ff2: function void () =
+{
+    ff1: function void ( x: integer, y: char, z: char );
+    ff2: char;
+}
+ff1: function void ( x: integer );
+ff1: function void ( y: integer );
+ff3: function void () =
+{
+    ff1: function void ( x: integer );
+    ff3: function void ();
+}
+f3: function void ( x: integer );
+f3: function void () =
+{
+    x: boolean = true;
+    y: boolean = x;
+}
+f4: function void ( a: integer ) =
+{
+    return 1;
+}
+f5: function integer ( a: integer ) =
+{
+    return;
+}
+f6: function integer ( a: integer ) =
+{
+}
+f7: function void ( a: integer ) =
+{
+    if(a+34*7)
+        print;
+}
+f8: function void ( a: integer ) =
+{
+    if(true)
+        x: integer = 3;
+    else
+        print 2;
+}
+f9: function void () =
+{
+    x: integer;
+    for(x=1;x+1;x++) {
+        print 1;
+    }
+}
+f10: function void () =
+{
+    x: integer;
+    for(x=1;!(x==1);x++) {
+        print 1;
+    }
+}
+f11: function void () =
+{
+    x: integer = 1;
+    x[3]="5";
+}
+f12: function void () =
+{
+    x: char = 'c';
+    z: integer = 2;
+    y: array [5] integer;
+    y[x]=5;
+}
+f13: function void () =
+{
+    c: char;
+    x: integer = c--;
+}
+f14: function void () =
+{
+    c: char;
+    x: integer = -c;
+}
+f15: function void () =
+{
+    c: integer;
+    x: integer = -c;
+}
+f16: function void () =
+{
+    a: integer;
+    b: boolean = !a;
+    print f16,f16(),a,b;
+}
+f17: function void () =
+{
+    a: integer;
+    b: boolean = !b;
+}
+f18: function void () =
+{
+    a: integer;
+    c: char;
+    b: integer = a+5*a/a^a-c;
+}
+f19: function void () =
+{
+    a: char;
+    c: char;
+    b: integer = a+a*a/a^a-c;
+}
+f20: function void () =
+{
+    a: integer;
+    c: integer;
+    b: integer = a+a*a/a^a-c;
+}
+f21: function void () =
+{
+    a: integer;
+    c: char;
+    b: boolean = a>c;
+}
+f22: function void () =
+{
+    a: char;
+    c: char;
+    b: boolean = a>c;
+}
+f23: function void () =
+{
+    a: integer;
+    c: integer;
+    b: boolean = (a>((c)));
+}
+f24: function void () =
+{
+    a: array [2] integer;
+    c: array [2] integer;
+    d: char;
+    b: boolean = (a==((c)));
+    a!=d!=d;
+    return c==d;
+}
+a: function integer () =
+{
+}
+c: function integer () =
+{
+}
+f25: function void () =
+{
+    a: function integer ();
+    c: function integer ();
+    b: boolean = (a==((c)));
+}
+f26: function void () =
+{
+    a: array [] integer;
+    c: array [] integer;
+    b: boolean = (a!=((c)));
+}
+f27: function void () =
+{
+    a: function integer ();
+    c: function integer ();
+    b: boolean = (a!=((c)));
+}
+f28: function void () =
+{
+    a: integer;
+    b: boolean = a&&true&&false;
+}
+f29: function void () =
+{
+    a: integer;
+    b: boolean = 1&&a;
+}
+f30: function void () =
+{
+    a: boolean;
+    b: boolean = a||true||false;
+}
+f31: function void () =
+{
+    a: integer;
+    b: boolean = a||true||false;
+}
+f32: function void () =
+{
+    a: integer;
+    b: boolean = 1||a;
+}
+f33: function void () =
+{
+    a: array [1] array [2] char;
+    b: array [23] array [3+7*6] char;
+    c: array [0] array [-343] char = {{'1'},{'2'}};
+    b=a=a=c;
+}
+f34: function void () =
+{
+    a: array [1] array [2] string;
+    b: array [23] array [3+7*6] char;
+    c: array [0] array [-343] char = {{'1'},{'2'}};
+    b=a=a=c;
+}
+f35: function void () =
+{
+}
+f36: function void () =
+{
+}
+f37: function void () =
+{
+    a: char;
+    f35=f36;
+}
+f39: function void () =
+{
+}
+f38: function void ( x: integer, y: char, z: string ) =
+{
+}
+f40: function void () =
+{
+    a: array [2] array [3] integer = {{1,1},{23}};
+    print a,1,"abc",'a',true,false,f39();
+    f38(1,'c',"str");
+}
+a1: array [2] array [3] integer = {{true,1},{23}};
+a2: array [3] integer = {1,23,'c'};
+a3: array [3] array [3] integer = {{1},{'2','3'}};
+f41: function void () =
+{
+    a: array [2] array [3] integer = {{1,1,1},{1,2,23}};
+    b: array [2] array [3] integer = a;
+    a1: integer = -(-(--1));
+    b1: char = '\n';
+    c: string = "d\0\df";
+    d: boolean = true;
+    e: boolean = false;
+    f: boolean = d&&e||!f;
+}
+f42: function void ( a: integer, b: char, c: string ) =
+{
+}
+main: function integer () =
+{
+    a: integer = 1;
+    b: char = 'c';
+    f42(a,b);
+    return 0;
+}
+f43: function void ( a: integer, b: char, c: string ) =
+{
+}
+main1: function integer () =
+{
+    a: integer = 1;
+    b: char = 'c';
+    f43(a+3,a^2-5+7/9,b);
+    return 0;
+}
+f44: function void ( a: integer, b: char, c: string ) =
+{
+}
+main2: function integer () =
+{
+    a: integer = 1;
+    b: char = 'c';
+    f44(a,b,"abc",1,23);
+    return 0;
+}
+xx: integer = 3;
+aa: array [3] array [5+xx] integer = {{1},{2,3}};
+f45: function void ( a: array [] integer ) =
+{
+    x: integer = 3;
+    a1: array [3] array [5+x] integer = {{1},{2,3}};
+}
+aa2: array [2] array [3] integer = {{1},{2,3}};
+aa3: array [2] array [3] integer = {{1,2,3,4},{2,3,3},{1,2,3}};
+aa4: array [2] array [3] integer = {{1,2,4},{2,3,3}};
+aa5: array [] array [] integer = {{1},{2,3}};
+f46: function void () =
+{
+    a: array [] integer;
+}
+f47: function void ( a: array [] integer ) =
+{
+    x: char;
+    a1: array [3] array [x] integer = {{1},{2,3}};
+}
+d: integer;
+f48: function void ( a: integer ) =
+{
+    x: integer = ((d^2)+(-d)*5);
+}
+f49: function void ( a: integer ) =
+{
+}
+main4: function integer () =
+{
+    a: integer = 1;
+    b: array [2] char = {'a','c'};
+    f49(a);
+    return 0;
+}
+aaa: function integer () =
+{
+}
+caa: function integer () =
+{
+}
+f50: function void () =
+{
+    aaa: function integer ();
+    caa: function integer ();
+    b: boolean = (aaa()!=((caa())));
+}
+f51: function void () =
+{
+    x: boolean = true;
+    y: boolean = x;
+}
+fff: function void ();
+fff: function void () =
+{
+    fff: function void ();
+    x: boolean = true;
+    y: boolean = x;
+    fff();
+}
+fff: function void ();
+x52: integer = 1;
+f52: function void ( x: integer ) =
+{
+    y: integer = 1;
+    xy: integer = x52;
+    if(x52==1) {
+        x: integer = 1;
+    } 
+    {
+        x52: integer;
+    }
+}
+f53: function void () =
+{
+    a: boolean;
+    b: boolean = a&&true&&false;
+}
+b12: array [2] integer = {1,true};
+exit code:  0
+resolving (line 4): d resolves to global d (level 0)
+resolving (line 4): d resolves to global d (level 0)
+resolving (line 13): f49 resolves to global f49 (level 0)
+resolving (line 13): a resolves to local 0 (level 1)
+resolving (line 23): aaa resolves to local 0 (level 1)
+resolving (line 23): caa resolves to local 0 (level 1)
+resolving (line 29): x resolves to local 0 (level 1)
+resolving (line 37): x resolves to local 0 (level 1)
+resolving (line 38): fff resolves to local 0 (level 1)
+resolving (line 47): x52 resolves to global x52 (level 0)
+resolving (line 48): x52 resolves to global x52 (level 0)
+resolving (line 58): a resolves to local 0 (level 1)
+exit code:  0
+resolve error (line 12): a function prototype named f4 with a different type has been declared locally (level 1)
+resolve error (line 14): x has been defined as local 1 (level 1)
+resolve error (line 20): x1 is not defined!
+resolve error (line 24): x has been defined as param 0 (level 1)
+resolve error (line 25): x has been defined as param 0 (level 1)
+resolve error (line 26): x1 is not defined!
+resolve error (line 31): x has been defined as param 0 (level 1)
+resolving (line 32): x resolves to param 0 (level 1)
+resolve error (line 38): y has been defined as local 0 (level 1)
+resolving (line 38): x resolves to param 0 (level 1)
+resolve error (line 43): x has been defined globally!
+9 name resolution errors have been found!
+exit code:  1
+resolving (line 7): x resolves to global x (level 0)
+resolving (line 12): a resolves to local 0 (level 1)
+resolving (line 14): y resolves to local 2 (level 1)
+resolving (line 14): y resolves to local 2 (level 1)
+resolving (line 24): x resolves to local 0 (level 1)
+resolving (line 50): x resolves to local 0 (level 1)
+resolving (line 71): a resolves to param 0 (level 1)
+resolving (line 85): x resolves to local 0 (level 1)
+resolving (line 85): x resolves to local 0 (level 1)
+resolving (line 85): x resolves to local 0 (level 1)
+resolving (line 93): x resolves to local 0 (level 1)
+resolving (line 93): x resolves to local 0 (level 1)
+resolving (line 93): x resolves to local 0 (level 1)
+resolving (line 103): x resolves to local 0 (level 1)
+resolving (line 111): y resolves to local 2 (level 1)
+resolving (line 111): x resolves to local 0 (level 1)
+resolving (line 117): c resolves to local 0 (level 1)
+resolving (line 123): c resolves to local 0 (level 1)
+resolving (line 129): c resolves to local 0 (level 1)
+resolving (line 136): a resolves to local 0 (level 1)
+resolving (line 137): f16 resolves to global f16 (level 0)
+resolving (line 137): f16 resolves to global f16 (level 0)
+resolving (line 137): a resolves to local 0 (level 1)
+resolving (line 137): b resolves to local 1 (level 1)
+resolving (line 143): b resolves to local 1 (level 1)
+resolving (line 150): a resolves to local 0 (level 1)
+resolving (line 150): a resolves to local 0 (level 1)
+resolving (line 150): a resolves to local 0 (level 1)
+resolving (line 150): a resolves to local 0 (level 1)
+resolving (line 150): c resolves to local 1 (level 1)
+resolving (line 160): a resolves to local 0 (level 1)
+resolving (line 160): a resolves to local 0 (level 1)
+resolving (line 160): a resolves to local 0 (level 1)
+resolving (line 160): a resolves to local 0 (level 1)
+resolving (line 160): a resolves to local 0 (level 1)
+resolving (line 160): c resolves to local 1 (level 1)
+resolving (line 168): a resolves to local 0 (level 1)
+resolving (line 168): a resolves to local 0 (level 1)
+resolving (line 168): a resolves to local 0 (level 1)
+resolving (line 168): a resolves to local 0 (level 1)
+resolving (line 168): a resolves to local 0 (level 1)
+resolving (line 168): c resolves to local 1 (level 1)
+resolving (line 175): a resolves to local 0 (level 1)
+resolving (line 175): c resolves to local 1 (level 1)
+resolving (line 182): a resolves to local 0 (level 1)
+resolving (line 182): c resolves to local 1 (level 1)
+resolving (line 189): a resolves to local 0 (level 1)
+resolving (line 189): c resolves to local 1 (level 1)
+resolving (line 198): a resolves to local 0 (level 1)
+resolving (line 198): c resolves to local 1 (level 1)
+resolving (line 199): a resolves to local 0 (level 1)
+resolving (line 199): d resolves to local 2 (level 1)
+resolving (line 199): d resolves to local 2 (level 1)
+resolving (line 200): c resolves to local 1 (level 1)
+resolving (line 200): d resolves to local 2 (level 1)
+resolving (line 211): a resolves to local 0 (level 1)
+resolving (line 211): c resolves to local 0 (level 1)
+resolving (line 219): a resolves to local 0 (level 1)
+resolving (line 219): c resolves to local 1 (level 1)
+resolving (line 226): a resolves to local 0 (level 1)
+resolving (line 226): c resolves to local 0 (level 1)
+resolving (line 232): a resolves to local 0 (level 1)
+resolving (line 238): a resolves to local 0 (level 1)
+resolving (line 244): a resolves to local 0 (level 1)
+resolving (line 251): a resolves to local 0 (level 1)
+resolving (line 259): a resolves to local 0 (level 1)
+resolving (line 269): b resolves to local 1 (level 1)
+resolving (line 269): a resolves to local 0 (level 1)
+resolving (line 269): a resolves to local 0 (level 1)
+resolving (line 269): c resolves to local 2 (level 1)
+resolving (line 282): b resolves to local 1 (level 1)
+resolving (line 282): a resolves to local 0 (level 1)
+resolving (line 282): a resolves to local 0 (level 1)
+resolving (line 282): c resolves to local 2 (level 1)
+resolving (line 290): f35 resolves to global f35 (level 0)
+resolving (line 290): f36 resolves to global f36 (level 0)
+resolving (line 301): a resolves to local 0 (level 1)
+resolving (line 301): f39 resolves to global f39 (level 0)
+resolving (line 302): f38 resolves to global f38 (level 0)
+resolving (line 328): a resolves to local 0 (level 1)
+resolving (line 334): d resolves to local 5 (level 1)
+resolving (line 334): e resolves to local 6 (level 1)
+resolving (line 334): f resolves to local 7 (level 1)
+resolving (line 345): f42 resolves to global f42 (level 0)
+resolving (line 345): a resolves to local 0 (level 1)
+resolving (line 345): b resolves to local 1 (level 1)
+resolving (line 356): f43 resolves to global f43 (level 0)
+resolving (line 356): a resolves to local 0 (level 1)
+resolving (line 356): a resolves to local 0 (level 1)
+resolving (line 356): b resolves to local 1 (level 1)
+resolving (line 367): f44 resolves to global f44 (level 0)
+resolving (line 367): a resolves to local 0 (level 1)
+resolving (line 367): b resolves to local 1 (level 1)
+resolving (line 379): xx resolves to global xx (level 0)
+resolving (line 387): x resolves to local 0 (level 1)
+resolving (line 416): x resolves to local 0 (level 1)
+resolving (line 422): d resolves to global d (level 0)
+resolving (line 422): d resolves to global d (level 0)
+resolving (line 431): f49 resolves to global f49 (level 0)
+resolving (line 431): a resolves to local 0 (level 1)
+resolving (line 441): aaa resolves to local 0 (level 1)
+resolving (line 441): caa resolves to local 0 (level 1)
+resolving (line 447): x resolves to local 0 (level 1)
+resolving (line 455): x resolves to local 0 (level 1)
+resolving (line 456): fff resolves to local 0 (level 1)
+resolving (line 465): x52 resolves to global x52 (level 0)
+resolving (line 466): x52 resolves to global x52 (level 0)
+resolving (line 476): a resolves to local 0 (level 1)
+exit code:  0
+resolving (line 4): d resolves to global d (level 0)
+resolving (line 4): d resolves to global d (level 0)
+resolving (line 13): f49 resolves to global f49 (level 0)
+resolving (line 13): a resolves to local 0 (level 1)
+resolving (line 23): aaa resolves to local 0 (level 1)
+resolving (line 23): caa resolves to local 0 (level 1)
+resolving (line 29): x resolves to local 0 (level 1)
+resolving (line 37): x resolves to local 0 (level 1)
+resolving (line 38): fff resolves to local 0 (level 1)
+resolving (line 47): x52 resolves to global x52 (level 0)
+resolving (line 48): x52 resolves to global x52 (level 0)
+resolving (line 58): a resolves to local 0 (level 1)
+exit code:  0
+resolve error (line 12): a function prototype named f4 with a different type has been declared locally (level 1)
+resolve error (line 14): x has been defined as local 1 (level 1)
+resolve error (line 20): x1 is not defined!
+resolve error (line 24): x has been defined as param 0 (level 1)
+resolve error (line 25): x has been defined as param 0 (level 1)
+resolve error (line 26): x1 is not defined!
+resolve error (line 31): x has been defined as param 0 (level 1)
+resolving (line 32): x resolves to param 0 (level 1)
+resolve error (line 38): y has been defined as local 0 (level 1)
+resolving (line 38): x resolves to param 0 (level 1)
+resolve error (line 43): x has been defined globally!
+9 name resolution errors have been found!
+exit code:  1
+resolving (line 7): x resolves to global x (level 0)
+resolving (line 12): a resolves to local 0 (level 1)
+resolving (line 14): y resolves to local 2 (level 1)
+resolving (line 14): y resolves to local 2 (level 1)
+resolving (line 24): x resolves to local 0 (level 1)
+resolving (line 50): x resolves to local 0 (level 1)
+resolving (line 71): a resolves to param 0 (level 1)
+resolving (line 85): x resolves to local 0 (level 1)
+resolving (line 85): x resolves to local 0 (level 1)
+resolving (line 85): x resolves to local 0 (level 1)
+resolving (line 93): x resolves to local 0 (level 1)
+resolving (line 93): x resolves to local 0 (level 1)
+resolving (line 93): x resolves to local 0 (level 1)
+resolving (line 103): x resolves to local 0 (level 1)
+resolving (line 111): y resolves to local 2 (level 1)
+resolving (line 111): x resolves to local 0 (level 1)
+resolving (line 117): c resolves to local 0 (level 1)
+resolving (line 123): c resolves to local 0 (level 1)
+resolving (line 129): c resolves to local 0 (level 1)
+resolving (line 136): a resolves to local 0 (level 1)
+resolving (line 137): f16 resolves to global f16 (level 0)
+resolving (line 137): f16 resolves to global f16 (level 0)
+resolving (line 137): a resolves to local 0 (level 1)
+resolving (line 137): b resolves to local 1 (level 1)
+resolving (line 143): b resolves to local 1 (level 1)
+resolving (line 150): a resolves to local 0 (level 1)
+resolving (line 150): a resolves to local 0 (level 1)
+resolving (line 150): a resolves to local 0 (level 1)
+resolving (line 150): a resolves to local 0 (level 1)
+resolving (line 150): c resolves to local 1 (level 1)
+resolving (line 160): a resolves to local 0 (level 1)
+resolving (line 160): a resolves to local 0 (level 1)
+resolving (line 160): a resolves to local 0 (level 1)
+resolving (line 160): a resolves to local 0 (level 1)
+resolving (line 160): a resolves to local 0 (level 1)
+resolving (line 160): c resolves to local 1 (level 1)
+resolving (line 168): a resolves to local 0 (level 1)
+resolving (line 168): a resolves to local 0 (level 1)
+resolving (line 168): a resolves to local 0 (level 1)
+resolving (line 168): a resolves to local 0 (level 1)
+resolving (line 168): a resolves to local 0 (level 1)
+resolving (line 168): c resolves to local 1 (level 1)
+resolving (line 175): a resolves to local 0 (level 1)
+resolving (line 175): c resolves to local 1 (level 1)
+resolving (line 182): a resolves to local 0 (level 1)
+resolving (line 182): c resolves to local 1 (level 1)
+resolving (line 189): a resolves to local 0 (level 1)
+resolving (line 189): c resolves to local 1 (level 1)
+resolving (line 198): a resolves to local 0 (level 1)
+resolving (line 198): c resolves to local 1 (level 1)
+resolving (line 199): a resolves to local 0 (level 1)
+resolving (line 199): d resolves to local 2 (level 1)
+resolving (line 199): d resolves to local 2 (level 1)
+resolving (line 200): c resolves to local 1 (level 1)
+resolving (line 200): d resolves to local 2 (level 1)
+resolving (line 211): a resolves to local 0 (level 1)
+resolving (line 211): c resolves to local 0 (level 1)
+resolving (line 219): a resolves to local 0 (level 1)
+resolving (line 219): c resolves to local 1 (level 1)
+resolving (line 226): a resolves to local 0 (level 1)
+resolving (line 226): c resolves to local 0 (level 1)
+resolving (line 232): a resolves to local 0 (level 1)
+resolving (line 238): a resolves to local 0 (level 1)
+resolving (line 244): a resolves to local 0 (level 1)
+resolving (line 251): a resolves to local 0 (level 1)
+resolving (line 259): a resolves to local 0 (level 1)
+resolving (line 269): b resolves to local 1 (level 1)
+resolving (line 269): a resolves to local 0 (level 1)
+resolving (line 269): a resolves to local 0 (level 1)
+resolving (line 269): c resolves to local 2 (level 1)
+resolving (line 282): b resolves to local 1 (level 1)
+resolving (line 282): a resolves to local 0 (level 1)
+resolving (line 282): a resolves to local 0 (level 1)
+resolving (line 282): c resolves to local 2 (level 1)
+resolving (line 290): f35 resolves to global f35 (level 0)
+resolving (line 290): f36 resolves to global f36 (level 0)
+resolving (line 301): a resolves to local 0 (level 1)
+resolving (line 301): f39 resolves to global f39 (level 0)
+resolving (line 302): f38 resolves to global f38 (level 0)
+resolving (line 328): a resolves to local 0 (level 1)
+resolving (line 334): d resolves to local 5 (level 1)
+resolving (line 334): e resolves to local 6 (level 1)
+resolving (line 334): f resolves to local 7 (level 1)
+resolving (line 345): f42 resolves to global f42 (level 0)
+resolving (line 345): a resolves to local 0 (level 1)
+resolving (line 345): b resolves to local 1 (level 1)
+resolving (line 356): f43 resolves to global f43 (level 0)
+resolving (line 356): a resolves to local 0 (level 1)
+resolving (line 356): a resolves to local 0 (level 1)
+resolving (line 356): b resolves to local 1 (level 1)
+resolving (line 367): f44 resolves to global f44 (level 0)
+resolving (line 367): a resolves to local 0 (level 1)
+resolving (line 367): b resolves to local 1 (level 1)
+resolving (line 379): xx resolves to global xx (level 0)
+resolving (line 387): x resolves to local 0 (level 1)
+resolving (line 416): x resolves to local 0 (level 1)
+resolving (line 422): d resolves to global d (level 0)
+resolving (line 422): d resolves to global d (level 0)
+resolving (line 431): f49 resolves to global f49 (level 0)
+resolving (line 431): a resolves to local 0 (level 1)
+resolving (line 441): aaa resolves to local 0 (level 1)
+resolving (line 441): caa resolves to local 0 (level 1)
+resolving (line 447): x resolves to local 0 (level 1)
+resolving (line 455): x resolves to local 0 (level 1)
+resolving (line 456): fff resolves to local 0 (level 1)
+resolving (line 465): x52 resolves to global x52 (level 0)
+resolving (line 466): x52 resolves to global x52 (level 0)
+resolving (line 476): a resolves to local 0 (level 1)
+type error (line 7): the intializer (x) of a global variable (y) should be constant!
+type error (line 12): the type (char) of x does not match the type of its initializer (a[2])!
+type error (line 18): the type (char) of x1 does not match the type of its initializer (3)!
+type error (line 32): the function prototype (ff1:function integer ( y: integer )) does not match another function prototype (ff1:function void ( x: integer ))!
+type error (line 33): the function prototype (ff1:function integer ( x: char, y: integer )) does not match another function prototype (ff1:function void ( x: integer ))!
+type error (line 35): the function prototype (ff1:function void ( x: integer, y: char, z: char )) does not match another function prototype (ff1:function void ( x: integer ))!
+type error (line 47): the function prototype (f3:function void ( x: integer )) does not match the type of its definition (f3:function void ())!
+type error (line 57): function (f4) returns a wrong type (integer), and should return type void!
+type error (line 62): function (f5) returns a wrong type (void), and should return type integer!
+type error (line 71): the expr (a+34*7) of if_stmt has wrong type (integer), and should be boolean!
+type error (line 85): the expr (x+1) of for_stmt has wrong type (integer), and should be boolean!
+type error (line 103): x is not an array, and can not be indexed.
+type error (line 103): the operands of the = operator mismatch: left operand (x[3]) type is integer, right operand ("5") type is string!
+type error (line 111): the index (x) of an array (y) has wrong type (char), and should be integer!
+type error (line 117): ++/-- expr only applys to integer types: the type of expr (c) is char!
+type error (line 123): unary neg operator expr only applys to integer types: the type of expr (c) is char!
+type error (line 136): not operator expr only applys to boolean types: the type of expr (a) is integer!
+type error (line 137): print_stmt can not print function (f16)!
+type error (line 137): print_stmt can not print void type (f16())!
+type error (line 150): the operands of binary arithmetic operator expr (a+5*a/a^a-c)mismatch: left operand (a+5*a/a^a) type is integer, right operand (c) type is char!
+type error (line 160): the operands of binary arithmetic operator expr (a*a)must be integers: left operand (a) type is char, right operand (a) type is char!
+type error (line 160): the operands of binary arithmetic operator expr (a^a)must be integers: left operand (a) type is char, right operand (a) type is char!
+type error (line 160): the operands of binary arithmetic operator expr (a+a*a/a^a)mismatch: left operand (a) type is char, right operand (a*a/a^a) type is integer!
+type error (line 160): the operands of binary arithmetic operator expr (a+a*a/a^a-c)mismatch: left operand (a+a*a/a^a) type is integer, right operand (c) type is char!
+type error (line 175): the operands of a comparison operator expr (a>c) mismatch: left operand (a) type is integer, right operand (c) type is char!
+type error (line 182): the operands of a comparison operator expr (a>c) must be integers: left operand (a) type is char, right operand (c) type is char!
+type error (line 198): the == operator does not apply to array and function types: left operand (a) type is array [2] integer, right operand (((c))) type is array [2] integer!
+type error (line 199): the operands of the != operator expr (a!=d) mismatch: left operand (a) type is array [2] integer, right operand (d) type is char!
+type error (line 199): the operands of the != operator expr (a!=d!=d) mismatch: left operand (a!=d) type is boolean, right operand (d) type is char!
+type error (line 200): the operands of the == operator expr (c==d) mismatch: left operand (c) type is array [2] integer, right operand (d) type is char!
+type error (line 200): function (f24) returns a wrong type (boolean), and should return type void!
+type error (line 211): the == operator does not apply to array and function types: left operand (a) type is function integer (), right operand (((c))) type is function integer ()!
+type error (line 217): the array size is missing!
+type error (line 218): the array size is missing!
+type error (line 219): the != operator does not apply to array and function types: left operand (a) type is array [] integer, right operand (((c))) type is array [] integer!
+type error (line 226): the != operator does not apply to array and function types: left operand (a) type is function integer (), right operand (((c))) type is function integer ()!
+type error (line 232): the operands of the && operator mismatch: left operand (a) type is integer, right operand (true) type is boolean!
+type error (line 238): the && operator only applys to boolean types: left operand (1) type is integer, right operand (a) type is integer!
+type error (line 251): the operands of the || operator mismatch: left operand (a) type is integer, right operand (true) type is boolean!
+type error (line 259): the || operator only applys to boolean types: left operand (1) type is integer, right operand (a) type is integer!
+type error (line 267): the array size (3+7*6) must be an positive integer literal!
+type error (line 268): the array size (0) must be an positive integer literal!
+type error (line 268): the array size (-343) must be an positive integer literal!
+type error (line 268) : the type (array [0] array [-343] char) of an array (c) does not match the type of its initializer ({{'1'},{'2'}})!
+type error (line 268): the type (array [0] array [-343] char) of c does not match the type of its initializer ({{'1'},{'2'}})!
+type error (line 269): the operands of the = operator mismatch: left operand (a) type is array [1] array [2] char, right operand (c) type is array [0] array [-343] char!
+type error (line 269): the operands of the = operator mismatch: left operand (a) type is array [1] array [2] char, right operand (a=c) type is array [0] array [-343] char!
+type error (line 269): the operands of the = operator mismatch: left operand (b) type is array [23] array [3+7*6] char, right operand (a=a=c) type is array [0] array [-343] char!
+type error (line 280): the array size (3+7*6) must be an positive integer literal!
+type error (line 281): the array size (0) must be an positive integer literal!
+type error (line 281): the array size (-343) must be an positive integer literal!
+type error (line 281) : the type (array [0] array [-343] char) of an array (c) does not match the type of its initializer ({{'1'},{'2'}})!
+type error (line 281): the type (array [0] array [-343] char) of c does not match the type of its initializer ({{'1'},{'2'}})!
+type error (line 282): the operands of the = operator mismatch: left operand (a) type is array [1] array [2] string, right operand (c) type is array [0] array [-343] char!
+type error (line 282): the operands of the = operator mismatch: left operand (a) type is array [1] array [2] string, right operand (a=c) type is array [0] array [-343] char!
+type error (line 282): the operands of the = operator mismatch: left operand (b) type is array [23] array [3+7*6] char, right operand (a=a=c) type is array [0] array [-343] char!
+type error (line 290): the = operator does not apply to function types!
+type error (line 300): the elements of an array intializer ({{1,1},{23}}) should have the same type: ({1,1}) type is array [2] integer, ({23}) type is array [1] integer!
+type error (line 300) : the type (array [2] array [3] integer) of an array (a) does not match the type of its initializer ({{1,1},{23}})!
+type error (line 300): the type (array [2] array [3] integer) of a does not match the type of its initializer ({{1,1},{23}})!
+type error (line 301): print_stmt can not print void type (f39())!
+type error (line 311): the elements of an array intializer ({true,1}) should have the same type: (true) type is boolean, (1) type is integer!
+type error (line 311): the elements of an array intializer ({{true,1},{23}}) should have the same type: ({true,1}) type is array [2] boolean, ({23}) type is array [1] integer!
+type error (line 311) : the type (array [2] array [3] integer) of an array (a1) does not match the type of its initializer ({{true,1},{23}})!
+type error (line 311): the type (array [2] array [3] integer) of a1 does not match the type of its initializer ({{true,1},{23}})!
+type error (line 316): the elements of an array intializer ({1,23,'c'}) should have the same type: (1,23) type is integer, ('c') type is char!
+type error (line 323): the elements of an array intializer ({{1},{'2','3'}}) should have the same type: ({1}) type is array [1] integer, ({'2','3'}) type is array [2] char!
+type error (line 323) : the type (array [3] array [3] integer) of an array (a3) does not match the type of its initializer ({{1},{'2','3'}})!
+type error (line 323): the type (array [3] array [3] integer) of a3 does not match the type of its initializer ({{1},{'2','3'}})!
+type error (line 345): function call (f42(a,b)) does not have enough arguments, the correct function type is: function void ( a: integer, b: char, c: string )!
+type error (line 356): the types of function call arguments (f43(a+3,a^2-5+7/9,b)) do not match the types of function parameters: function void ( a: integer, b: char, c: string )!
+type error (line 367): function call (f44(a,b,"abc",1,23)) has too much arguments, the correct function type is: function void ( a: integer, b: char, c: string )!
+type error (line 379): the array size (5+xx) must be an positive integer literal!
+type error (line 379): the elements of an array intializer ({{1},{2,3}}) should have the same type: ({1}) type is array [1] integer, ({2,3}) type is array [2] integer!
+type error (line 379) : the type (array [3] array [5+xx] integer) of an array (aa) does not match the type of its initializer ({{1},{2,3}})!
+type error (line 379): the type (array [3] array [5+xx] integer) of aa does not match the type of its initializer ({{1},{2,3}})!
+type error (line 387): the array size (5+x) must be an positive integer literal!
+type error (line 387): the elements of an array intializer ({{1},{2,3}}) should have the same type: ({1}) type is array [1] integer, ({2,3}) type is array [2] integer!
+type error (line 387) : the type (array [3] array [5+x] integer) of an array (a1) does not match the type of its initializer ({{1},{2,3}})!
+type error (line 387): the type (array [3] array [5+x] integer) of a1 does not match the type of its initializer ({{1},{2,3}})!
+type error (line 394): the elements of an array intializer ({{1},{2,3}}) should have the same type: ({1}) type is array [1] integer, ({2,3}) type is array [2] integer!
+type error (line 394) : the type (array [2] array [3] integer) of an array (aa2) does not match the type of its initializer ({{1},{2,3}})!
+type error (line 394): the type (array [2] array [3] integer) of aa2 does not match the type of its initializer ({{1},{2,3}})!
+type error (line 395): the elements of an array intializer ({{1,2,3,4},{2,3,3}}) should have the same type: ({1,2,3,4}) type is array [4] integer, ({2,3,3}) type is array [3] integer!
+type error (line 395): the elements of an array intializer ({{1,2,3,4},{2,3,3},{1,2,3}}) should have the same type: ({1,2,3,4},{2,3,3}) type is array [4] integer, ({1,2,3}) type is array [3] integer!
+type error (line 395) : the type (array [2] array [3] integer) of an array (aa3) does not match the type of its initializer ({{1,2,3,4},{2,3,3},{1,2,3}})!
+type error (line 395): the type (array [2] array [3] integer) of aa3 does not match the type of its initializer ({{1,2,3,4},{2,3,3},{1,2,3}})!
+type error (line 402): the array size is missing!
+type error (line 402): the array size is missing!
+type error (line 402): the elements of an array intializer ({{1},{2,3}}) should have the same type: ({1}) type is array [1] integer, ({2,3}) type is array [2] integer!
+type error (line 402) : the type (array [] array [] integer) of an array (aa5) does not match the type of its initializer ({{1},{2,3}})!
+type error (line 402): the type (array [] array [] integer) of aa5 does not match the type of its initializer ({{1},{2,3}})!
+type error (line 407): the array size is missing!
+type error (line 416): the array size (x) must be an positive integer literal!
+type error (line 416): the elements of an array intializer ({{1},{2,3}}) should have the same type: ({1}) type is array [1] integer, ({2,3}) type is array [2] integer!
+type error (line 416) : the type (array [3] array [x] integer) of an array (a1) does not match the type of its initializer ({{1},{2,3}})!
+type error (line 416): the type (array [3] array [x] integer) of a1 does not match the type of its initializer ({{1},{2,3}})!
+type error (line 479): the elements of an array intializer ({1,true}) should have the same type: (1) type is integer, (true) type is boolean!
+98 type errors have been found!
+exit code:  1
