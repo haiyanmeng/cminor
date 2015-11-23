@@ -1,6 +1,6 @@
 Todo:
-change the symbol structure to add the number of local variables and parameters of each function
+start writing the codegen model
 
 Done:
 local variable - which field numbering
-
+change the symbol structure to add the number of local variables and parameters of each function
