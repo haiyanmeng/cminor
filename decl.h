@@ -7,6 +7,8 @@
 #include "expr.h"
 #include "symbol.h"
 
+extern int local_no;
+
 struct decl {
 	char *name; /* function name or variable name */
 	struct type *type;
@@ -23,7 +25,7 @@ void decl_print(struct decl *d, int indent);
 /*
  * name resolution errors: function redefinition
  */
-void decl_resolve(struct decl *d, int seq);
+void decl_resolve(struct decl *d);
 
 /*
  * type checking errors: conflict between function prototype and function definition

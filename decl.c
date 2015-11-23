@@ -6,6 +6,7 @@
 
 extern int level;
 extern struct scope *head; 
+int local_no = 0;
 
 struct decl *decl_create(char *name, struct type *t, struct expr *v, struct stmt *c, int line, struct decl *next) {
 	struct decl *d = (struct decl *)malloc(sizeof(struct decl));
@@ -67,7 +68,7 @@ void decl_print(struct decl *d, int indent) {
 	return;
 }
 
-void decl_resolve(struct decl *d, int seq) {
+void decl_resolve(struct decl *d) {
 	if(!d) return;
 
 	struct symbol *sym;
@@ -76,23 +77,24 @@ void decl_resolve(struct decl *d, int seq) {
 		// here can have function prototype, function definition, variable declaration.
 		if(d->type->kind == TYPE_FUNCTION) {
 			if(!(d->code)) {
-				sym = symbol_create(SYMBOL_GLOBAL, seq, d->type, d->name, FUNC_PROTO);
+				sym = symbol_create(SYMBOL_GLOBAL, local_no, d->type, d->name, FUNC_PROTO);
 			} else {
-				sym = symbol_create(SYMBOL_GLOBAL, seq, d->type, d->name, FUNC_DEF);
+				local_no = 0;
+				sym = symbol_create(SYMBOL_GLOBAL, local_no, d->type, d->name, FUNC_DEF);
 			}
 		} else {
-				sym = symbol_create(SYMBOL_GLOBAL, seq, d->type, d->name, FUNC_NOT);
+				sym = symbol_create(SYMBOL_GLOBAL, local_no, d->type, d->name, FUNC_NOT);
 		}
 	} else {
 		//FIXME: here can have function prototype and variable declaration, and stmt.
 		if(d->type->kind == TYPE_FUNCTION) {
 			if(!(d->code)) {
-				sym = symbol_create(SYMBOL_LOCAL, seq, d->type, d->name, FUNC_PROTO);
+				sym = symbol_create(SYMBOL_LOCAL, local_no, d->type, d->name, FUNC_PROTO);
 			} else {
 				fprintf(stdout, "Function definitions can not be nested!\n");
 			}
 		} else {
-			sym = symbol_create(SYMBOL_LOCAL, seq, d->type, d->name, FUNC_NOT);
+			sym = symbol_create(SYMBOL_LOCAL, local_no, d->type, d->name, FUNC_NOT);
 		}
 	}
 
@@ -132,7 +134,7 @@ void decl_resolve(struct decl *d, int seq) {
 	} else {
 		scope_bind(d->name, sym);
 		if(d->type->kind != TYPE_FUNCTION) {
-			seq += 1;
+			local_no += 1;
 		}
 	}		
 
@@ -147,11 +149,11 @@ void decl_resolve(struct decl *d, int seq) {
 	if(d->code) {
 		scope_enter();	
 		param_list_resolve(d->type->params, 0);
-		stmt_resolve(d->code->body, 0);
+		stmt_resolve(d->code->body);
 		scope_exit();
 	} 
 
-	decl_resolve(d->next, seq);
+	decl_resolve(d->next);
 }
 
 //here, all the local hash tables and scopes have been disappeared except for the global hash table.

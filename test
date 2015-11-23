@@ -1,0 +1,27 @@
+//good example, define x in different scopes
+x52:integer = 1;
+f52:function void(x:integer)= {
+	y:integer = 1;
+	xy:integer = x52;
+	xy = x + y - x52 + xy;
+	if(x52 == 1) {
+		x:integer = 1;
+		y:integer = 2;
+		xy = x + y - x52 + xy;
+	}
+
+	{ x52: integer; }
+}
+
+f53:function void(x:integer)= {
+	y:integer = 1;
+	xy:integer = x52;
+	xy = x + y - x52 + xy;
+	if(x52 == 1) {
+		x:integer = 1;
+		y:integer = 2;
+		xy = x + y - x52 + xy;
+	}
+
+	{ x52: integer; }
+}

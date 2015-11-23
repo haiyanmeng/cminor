@@ -34,7 +34,7 @@ int main(int argc, char *argv[]) {
 			decl_print(program, 0);
 		} else if(!strcmp(argv[1], "-resolve")) {
 			scope_init();
-			decl_resolve(program, 0);
+			decl_resolve(program);
 			//scope_print();
 			if(resolve_error_count > 0) {
 				fprintf(stdout, "%d name resolution errors have been found!\n", resolve_error_count);
@@ -42,7 +42,7 @@ int main(int argc, char *argv[]) {
 			}
 		} else if(!strcmp(argv[1], "-typecheck")) {
 			scope_init();
-			decl_resolve(program, 0);
+			decl_resolve(program);
 			//scope_print();
 			if(resolve_error_count > 0) {
 				fprintf(stdout, "%d name resolution errors have been found!\n", resolve_error_count);

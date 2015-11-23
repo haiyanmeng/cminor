@@ -5,6 +5,8 @@
 #include <stdlib.h>
 #include "scope.h"
 
+extern int local_no;
+
 struct stmt *stmt_create(stmt_kind_t kind, struct decl *d, struct expr *init_expr, struct expr *e, struct expr *next_expr, struct stmt *body, struct stmt *else_body, int line, struct stmt *next) {
 	struct stmt *s = (struct stmt *)malloc(sizeof(struct stmt));
 
@@ -136,20 +138,12 @@ void indent_process(int indent) {
 	}
 }
 
-void stmt_resolve(struct stmt *s, int seq) {
+void stmt_resolve(struct stmt *s) {
 	if(!s) return;
 
-	int increase_seq = 0;	
 	switch(s->kind) {
 		case STMT_DECL:
-			if(!scope_lookup_local(s->decl->name) && s->decl->type->kind != TYPE_FUNCTION) {
-				increase_seq = 1;
-			}
-			decl_resolve(s->decl, seq);
-			if(increase_seq == 1) {
-				seq += 1;
-				increase_seq = 0;
-			}
+			decl_resolve(s->decl);
 			break;
 		case STMT_EXPR:
 			expr_resolve(s->expr);
@@ -162,22 +156,22 @@ void stmt_resolve(struct stmt *s, int seq) {
 			break;
 		case STMT_IF_ELSE:
 			expr_resolve(s->expr);
-			stmt_resolve(s->body, seq);
-			stmt_resolve(s->else_body, seq);
+			stmt_resolve(s->body);
+			stmt_resolve(s->else_body);
 			break;
 		case STMT_FOR:
 			expr_resolve(s->init_expr);
 			expr_resolve(s->expr);
 			expr_resolve(s->next_expr);
-			stmt_resolve(s->body, seq);
+			stmt_resolve(s->body);
 			break;
 		case STMT_BLOCK:	
 			scope_enter();
-			stmt_resolve(s->body, 0);
+			stmt_resolve(s->body);
 			scope_exit();
 			break;
 	}	
-	stmt_resolve(s->next, seq);
+	stmt_resolve(s->next);
 	return;
 }
 
