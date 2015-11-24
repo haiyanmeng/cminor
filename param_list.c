@@ -62,3 +62,21 @@ int params_equals(struct param_list *p, struct param_list *q) {
 		}
 	}
 }
+
+char *params_register_name(struct param_list *p) {
+	switch(p->symbol->which) {
+		case 0:
+			return "rdi";
+		case 1:
+			return "rsi";
+		case 2:
+			return "rdx";
+		case 3:
+			return "rcx";
+		case 4:
+			return "r8";
+		case 5:
+			return "r9";
+	}
+}
+

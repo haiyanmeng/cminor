@@ -17,8 +17,18 @@ global_uninit_char:char;
 global_uninit_str:string;
 global_uninit_boolean:boolean;
 
+//line 20: the function (func1) has too many parameters (8 params)! Cminor supports at most 6 parameters!
+//func1: function integer(a:integer, b:char, c:char, d:char, e:char, f:char, g:char, h:char);
+
+//line 21: the function (func2) has too many parameters (7 params)! Cminor supports at most 6 parameters!
+//func2: function integer(a:integer, b:char, c:char, d:char, e:char, f:char, g:char) = {}
+
 //codegen does nothing for function prototype
-func: function integer(a:integer) = {
+func: function integer(a:integer, b:char, c:char, d:integer, e:integer) = {
+	local0:integer;
+	local1:integer;
+	local2:integer;
+	local3:integer;
     return a+1;
 }
 
@@ -40,3 +50,4 @@ f:function void() = {
 	true;
 	false;
 }
+

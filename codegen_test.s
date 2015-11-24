@@ -65,7 +65,7 @@ y:
 
 	.globl z
 
-	section .rodata
+	section	.rodata
 .str0:
 	.string "i am global"
 	.data
@@ -95,18 +95,24 @@ t2:
 	.comm global_uninit_str, 8, 8
 	.comm global_uninit_boolean, 8, 8
 	.text
-	.globl  func
-	.type   func, @function
+	.globl	func
+	.type	func, @function
 func:
 .LFB0:
 	pushq	%rbp
 	movq	%rsp, %rbp
+	pushq	%rdi
+	pushq	%rsi
+	pushq	%rdx
+	pushq	%rcx
+	pushq	%r8
+	subq	$32, %rsp
 	pushq	%rbx
 	pushq	%r12
 	pushq	%r13
 	pushq	%r14
 	pushq	%r15
-	movq $1, %rbx
+	movq	$1, %rbx
 	popq	%r15
 	popq	%r14
 	popq	%r13
@@ -118,8 +124,8 @@ func:
 .LFE0:
 	.size	func, .-func
 	.text
-	.globl  f
-	.type   f, @function
+	.globl	f
+	.type	f, @function
 f:
 .LFB1:
 	pushq	%rbp
@@ -129,36 +135,36 @@ f:
 	pushq	%r13
 	pushq	%r14
 	pushq	%r15
-	movq $35, %rbx
-	movq $92, %rbx
-	movq $0, %rbx
-	movq $13, %rbx
-	movq $10, %rbx
-	movq $9, %rbx
-	movq $53, %rbx
+	movq	$35, %rbx
+	movq	$92, %rbx
+	movq	$0, %rbx
+	movq	$13, %rbx
+	movq	$10, %rbx
+	movq	$9, %rbx
+	movq	$53, %rbx
 
-	section .rodata
+	section	.rodata
 .str1:
 	.string "h\t\n"
 	.string "\\ello"
 	.string "haiyan"
 
-	section .rodata
+	section	.rodata
 .str2:
 	.string "hello\t\\\n"
 	.string "world"
 
-	section .rodata
+	section	.rodata
 .str3:
 	.string "haiyan\tmeng\\gezi\npeng"
 	.string "end"
 
-	section .rodata
+	section	.rodata
 .str4:
 	.string "h\t\n\\ello"
 	.string ""
-	movq $1, %rbx
-	movq $0, %rbx
+	movq	$1, %rbx
+	movq	$0, %rbx
 	popq	%r15
 	popq	%r14
 	popq	%r13

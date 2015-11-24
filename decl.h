@@ -35,4 +35,6 @@ void decl_resolve(struct decl *d);
 void decl_typecheck(struct decl *d);
 
 void decl_codegen(struct decl *d, FILE *f);
+void decl_func_paramcheck(struct decl *d);
+void decl_func_saveargs(int count, FILE *f);
 #endif

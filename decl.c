@@ -147,16 +147,21 @@ void decl_resolve(struct decl *d) {
 	/* resolve the initializer and function body no matter whether the variable or the function is defined or not. */
 	if(d->value) {
 		expr_resolve(d->value);
-	}
-
-	if(d->code) {
+	} else if(d->code) {
 		scope_enter();	
 		int params = param_list_resolve(d->type->params, 0);
 		symbol_set_param_count(d->symbol, params);
 		stmt_resolve(d->code->body);
 		scope_exit();
 		symbol_set_local_count(d->symbol, local_no);
-	} 
+	} else {
+		if(d->type->kind == TYPE_FUNCTION) {
+			scope_enter();	
+			int params = param_list_resolve(d->type->params, 0);
+			symbol_set_param_count(d->symbol, params);
+			scope_exit();
+		}
+	}
 
 	decl_resolve(d->next);
 }
@@ -278,37 +283,47 @@ void decl_codegen(struct decl *d, FILE *f) {
 			register_freeall();
 		}
 	} else if(d->code) {
+		//check the number of function parameters
+		decl_func_paramcheck(d);
+	
 		// function definition
 		fprintf(f, "\t.text\n");
-		fprintf(f, "\t.globl  %s\n", d->name);
-		fprintf(f, "\t.type   %s, @function\n", d->name);
+		fprintf(f, "\t.globl\t%s\n", d->name);
+		fprintf(f, "\t.type\t%s, @function\n", d->name);
 		fprintf(f, "%s:\n", d->name);
 		fprintf(f, ".LFB%d:\n", func_no);
 		
-		fprintf(f, "\tpushq	%%rbp\n");
-		fprintf(f, "\tmovq	%%rsp, %%rbp\n");
-		fprintf(f, "\tpushq	%%rbx\n");
-		fprintf(f, "\tpushq	%%r12\n");
-		fprintf(f, "\tpushq	%%r13\n");
-		fprintf(f, "\tpushq	%%r14\n");
-		fprintf(f, "\tpushq	%%r15\n");
+		fprintf(f, "\tpushq\t%%rbp\n");
+		fprintf(f, "\tmovq\t%%rsp, %%rbp\n");
 
-		//parameter, and local variables
+		//save function arguments on the stack
+		decl_func_saveargs(d->symbol->param_count, f);
+
+		//local variables
+		if(d->symbol->local_count > 0) {
+			fprintf(f, "\tsubq\t$%d, %%rsp\n", 8 * d->symbol->local_count);
+		}
+
+		fprintf(f, "\tpushq\t%%rbx\n");
+		fprintf(f, "\tpushq\t%%r12\n");
+		fprintf(f, "\tpushq\t%%r13\n");
+		fprintf(f, "\tpushq\t%%r14\n");
+		fprintf(f, "\tpushq\t%%r15\n");
 
 		//function body
 		stmt_codegen(d->code, f);
 
-		fprintf(f, "\tpopq	%%r15\n");
-		fprintf(f, "\tpopq	%%r14\n");
-		fprintf(f, "\tpopq	%%r13\n");
-		fprintf(f, "\tpopq	%%r12\n");
-		fprintf(f, "\tpopq	%%rbx\n");
+		fprintf(f, "\tpopq\t%%r15\n");
+		fprintf(f, "\tpopq\t%%r14\n");
+		fprintf(f, "\tpopq\t%%r13\n");
+		fprintf(f, "\tpopq\t%%r12\n");
+		fprintf(f, "\tpopq\t%%rbx\n");
 		
-		fprintf(f, "\tmovq	%%rbp, %%rsp\n");
-		fprintf(f, "\tpopq	%%rbp\n");
+		fprintf(f, "\tmovq\t%%rbp, %%rsp\n");
+		fprintf(f, "\tpopq\t%%rbp\n");
 		fprintf(f, "\tret\n");
 		fprintf(f, ".LFE%d:\n", func_no);
-		fprintf(f, "\t.size	%s, .-%s\n", d->name, d->name);
+		fprintf(f, "\t.size\t%s, .-%s\n", d->name, d->name);
 
 
 		func_no += 1;
@@ -320,10 +335,30 @@ void decl_codegen(struct decl *d, FILE *f) {
 		}
 		
 		if(d->type->kind != TYPE_FUNCTION) {
-			fprintf(f, "\t.comm %s, 8, 8\n", d->name);	
+			if(d->symbol->kind == SYMBOL_GLOBAL) {
+				fprintf(f, "\t.comm %s, 8, 8\n", d->name);	
+			}
+		} else {
+			decl_func_paramcheck(d);
 		}
 	}
 	decl_codegen(d->next, f);
+}
+
+void decl_func_paramcheck(struct decl *d) {
+	if(d->symbol->param_count > 6) {
+		fprintf(stderr, "line %d: the function (%s) has too many parameters (%d params)! Cminor supports at most 6 parameters!\n", d->line, d->name, d->symbol->param_count);
+		exit(EXIT_FAILURE);
+	}
+}
+
+void decl_func_saveargs(int count, FILE *f) {
+	if(count > 0) fprintf(f, "\tpushq\t%%rdi\n"); 
+	if(count > 1) fprintf(f, "\tpushq\t%%rsi\n"); 
+	if(count > 2) fprintf(f, "\tpushq\t%%rdx\n"); 
+	if(count > 3) fprintf(f, "\tpushq\t%%rcx\n"); 
+	if(count > 4) fprintf(f, "\tpushq\t%%r8\n"); 
+	if(count > 5) fprintf(f, "\tpushq\t%%r9\n"); 
 }
 
 
