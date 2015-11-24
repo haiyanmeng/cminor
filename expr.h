@@ -48,6 +48,7 @@ struct expr {
 	int literal_value; /* boolean and integer */
 	const char * string_literal; /* string */
 
+	int is_global;
 	int reg;
 };
 

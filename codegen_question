@@ -8,3 +8,12 @@ char *s = "h\t\n\0\\ello\0haiyan";
 what happen if the code only include array decl without accepting it?
 what happen if the code include both array decl and array access?
 what is the real difference of string access and array access? is it possible to access one element of a string? 
+should we directly exit if functions have more than 6 arguments;
+
+x:integer = 8+5-3;
+this should be legal?
+
+
+how cminor code can be linked together with functions from c standard library? function prototype? 
+       int printf(const char *format, ...);
+put this prototype into cminor code, and then compile stdio.c?

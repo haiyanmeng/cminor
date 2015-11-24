@@ -1,10 +1,42 @@
+x:integer = 888+112;
+x1:integer = 888-388;
+x2:integer = 3 * 5;
+x3:integer = 21/2;
+x4:integer = 20%7;
+x5:integer = 2^8;
+x6:integer = 1+2*3-5*2/4+2^3-17%3;
+
+y:char = 'o';
+z:string = "i am global";
+
+t1:boolean = true;
+t2:boolean = false;
+
+global_uninit_int:integer;
+global_uninit_char:char;
+global_uninit_str:string;
+global_uninit_boolean:boolean;
+
+//codegen does nothing for function prototype
+func: function integer(a:integer) = {
+    return a+1;
+}
+
 f:function void() = {
+	35;
+
+	'\\';
+	'\0';
+	'\r';
+	'\n';
+	'\t';
+	'5';
+
 	"\h\t\n\0\\ello\0haiyan";
 	"hello\t\\\n\0world";
 	"haiyan\tmeng\\gezi\npeng\0end";	
 	"\h\t\n\\ello\0";	
-	'\\';
-	'\t';
+
 	true;
 	false;
 }

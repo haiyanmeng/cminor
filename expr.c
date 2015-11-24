@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <math.h>
 #include "scope.h"
 #include "register.h"
 
@@ -20,6 +21,7 @@ struct expr *expr_create(expr_t kind, struct expr *left, struct expr *right, int
 	e->left = left;
 	e->right = right;
 	e->line = line;
+	e->is_global = 0;
 	return e;
 }
 
@@ -829,6 +831,11 @@ int expr_equals(struct expr *s, struct expr *t) {
 
 void expr_codegen(struct expr *e, FILE *f) {
 	if(!e) return;
+
+	if(e->is_global) {
+		if(e->left) e->left->is_global = 1;
+		if(e->right) e->right->is_global = 1;
+	}
 	
 	switch(e->kind) {
 		case EXPR_LEFTCURLY: //array initializer 
@@ -849,16 +856,46 @@ void expr_codegen(struct expr *e, FILE *f) {
 		case EXPR_NOT:
 			break;
 		case EXPR_POWER:
+			expr_codegen(e->left, f);
+			expr_codegen(e->right, f);
+			if(e->is_global) {
+				e->literal_value = (int)pow(e->left->literal_value, e->right->literal_value);
+			}
 			break;
 		case EXPR_MUL:
+			expr_codegen(e->left, f);
+			expr_codegen(e->right, f);
+			if(e->is_global) {
+				e->literal_value = e->left->literal_value * e->right->literal_value;
+			}
 			break;
 		case EXPR_DIV:
+			expr_codegen(e->left, f);
+			expr_codegen(e->right, f);
+			if(e->is_global) {
+				e->literal_value = e->left->literal_value / e->right->literal_value;
+			}
 			break;
 		case EXPR_MOD:
+			expr_codegen(e->left, f);
+			expr_codegen(e->right, f);
+			if(e->is_global) {
+				e->literal_value = e->left->literal_value - (e->right->literal_value * (e->left->literal_value / e->right->literal_value));
+			}
 			break;
 		case EXPR_ADD:
+			expr_codegen(e->left, f);
+			expr_codegen(e->right, f);
+			if(e->is_global) {
+				e->literal_value = e->left->literal_value + e->right->literal_value;
+			}
 			break;
 		case EXPR_SUB:
+			expr_codegen(e->left, f);
+			expr_codegen(e->right, f);
+			if(e->is_global) {
+				e->literal_value = e->left->literal_value - e->right->literal_value;
+			}
 			break;
 		case EXPR_LE:
 			break;
@@ -883,24 +920,28 @@ void expr_codegen(struct expr *e, FILE *f) {
 		case EXPR_IDENT_NAME:
 			break;
 		case EXPR_BOOLEAN_LITERAL:
-			e->reg = register_alloc();
-			fprintf(f, "movq $%d, %%%s\n", e->literal_value, register_name(e->reg));
+			if(!e->is_global) {
+				e->reg = register_alloc();
+				fprintf(f, "\tmovq $%d, %%%s\n", e->literal_value, register_name(e->reg));
+			}
 			break;
 		case EXPR_INTEGER_LITERAL:
-			e->reg = register_alloc();
-			fprintf(f, "movq $%d, %%%s\n", e->literal_value, register_name(e->reg));
+			if(!e->is_global) {
+				e->reg = register_alloc();
+				fprintf(f, "\tmovq $%d, %%%s\n", e->literal_value, register_name(e->reg));
+			}
 			break;
 		case EXPR_CHARACTER_LITERAL: 
-			e->reg = register_alloc();
-			fprintf(f, "mov $%d, %%%s\n", expr_getchar(e->string_literal[1], e->string_literal[2]), register_name(e->reg));
+			e->literal_value = expr_getchar(e->string_literal[1], e->string_literal[2]);
+			if(!e->is_global) {
+				e->reg = register_alloc();
+				fprintf(f, "\tmovq $%d, %%%s\n", e->literal_value, register_name(e->reg));
+			}
 			break;
 		case EXPR_STRING_LITERAL: 
-			e->reg = register_alloc();
-			fprintf(f, "section .rodata\n");
-			fprintf(f, ".str%d\n", str_no);
+			fprintf(f, "\n\tsection .rodata\n");
+			fprintf(f, ".str%d:\n", str_no);
 			expr_codegen_str(e->string_literal, f);
-			fprintf(f, ".text\n");
-			fprintf(f, "lea .str%d, %%%s\n", str_no, register_name(e->reg));
 			str_no += 1;
 			break;
 	}
@@ -910,7 +951,7 @@ void expr_codegen(struct expr *e, FILE *f) {
 void expr_codegen_str(const char *s, FILE *f) {
 	int len = strlen(s);	
 	int i = 1;
-	fprintf(f, ".string \"");
+	fprintf(f, "\t.string \"");
 	while(i < len - 1) {
 		if(s[i] == '\\') {
 			if((s[i+1] == '\\') || (s[i+1] == 't') || (s[i+1] == 'n') || (s[i+1] == 'r')) {
@@ -918,9 +959,9 @@ void expr_codegen_str(const char *s, FILE *f) {
 			} else if(s[i+1] == '0') {
 				fprintf(f, "\"\n");
 				if( (i+1) == (len-2)) {
-					fprintf(f, ".string \"\"\n");
+					fprintf(f, "\t.string \"\"\n");
 				} else {
-					fprintf(f, ".string \"");
+					fprintf(f, "\t.string \"");
 				}
 				
 			} else {

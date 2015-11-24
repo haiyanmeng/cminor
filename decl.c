@@ -3,11 +3,13 @@
 #include <stdio.h>
 #include "symbol.h"
 #include "scope.h"
+#include "register.h"
 
 extern int level;
 extern struct scope *head; 
 int local_no = 0;
 int str_no = 0;
+int func_no = 0;
 
 struct decl *decl_create(char *name, struct type *t, struct expr *v, struct stmt *c, int line, struct decl *next) {
 	struct decl *d = (struct decl *)malloc(sizeof(struct decl));
@@ -244,13 +246,82 @@ void decl_codegen(struct decl *d, FILE *f) {
 	if(!d) return;
 
 	if(d->value) {
+		if(d->type->kind == TYPE_ARRAY) {
+			fprintf(stderr, "cminor does not support array currently!\n");
+			exit(EXIT_FAILURE);
+		}
+
 		// declaration with initialization
+		if(d->symbol->kind == SYMBOL_GLOBAL) {
+			d->value->is_global = 1;
+			fprintf(f, "\n\t.globl %s\n", d->name);
+		}
+		
 		expr_codegen(d->value, f);
+
+		if(d->symbol->kind == SYMBOL_GLOBAL) {
+			fprintf(f, "\t.data\n");
+			fprintf(f, "\t.align 8\n");
+			fprintf(f, "\t.type   %s, @object\n", d->name);
+			fprintf(f, "\t.size   %s, 8\n", d->name);
+			fprintf(f, "%s:\n", d->name);
+
+			if(d->type->kind == TYPE_STRING) {
+				fprintf(f, "\t.quad   .str%d\n", str_no-1);
+			} else {
+				fprintf(f, "\t.quad   %d\n", d->value->literal_value);
+			}
+
+		} else {
+			fprintf(f, "\n.text\n");
+			fprintf(f, "lea .str%d, %%%s\n", str_no-1, register_name(d->value->reg));
+			register_freeall();
+		}
 	} else if(d->code) {
 		// function definition
+		fprintf(f, "\t.text\n");
+		fprintf(f, "\t.globl  %s\n", d->name);
+		fprintf(f, "\t.type   %s, @function\n", d->name);
+		fprintf(f, "%s:\n", d->name);
+		fprintf(f, ".LFB%d:\n", func_no);
+		
+		fprintf(f, "\tpushq	%%rbp\n");
+		fprintf(f, "\tmovq	%%rsp, %%rbp\n");
+		fprintf(f, "\tpushq	%%rbx\n");
+		fprintf(f, "\tpushq	%%r12\n");
+		fprintf(f, "\tpushq	%%r13\n");
+		fprintf(f, "\tpushq	%%r14\n");
+		fprintf(f, "\tpushq	%%r15\n");
+
+		//parameter, and local variables
+
+		//function body
 		stmt_codegen(d->code, f);
+
+		fprintf(f, "\tpopq	%%r15\n");
+		fprintf(f, "\tpopq	%%r14\n");
+		fprintf(f, "\tpopq	%%r13\n");
+		fprintf(f, "\tpopq	%%r12\n");
+		fprintf(f, "\tpopq	%%rbx\n");
+		
+		fprintf(f, "\tmovq	%%rbp, %%rsp\n");
+		fprintf(f, "\tpopq	%%rbp\n");
+		fprintf(f, "\tret\n");
+		fprintf(f, ".LFE%d:\n", func_no);
+		fprintf(f, "\t.size	%s, .-%s\n", d->name, d->name);
+
+
+		func_no += 1;
 	} else {
 		// declaration without initialization or function prototype
+		if(d->type->kind == TYPE_ARRAY) {
+			fprintf(stderr, "cminor does not support array currently!\n");
+			exit(EXIT_FAILURE);
+		}
+		
+		if(d->type->kind != TYPE_FUNCTION) {
+			fprintf(f, "\t.comm %s, 8, 8\n", d->name);	
+		}
 	}
 	decl_codegen(d->next, f);
 }
