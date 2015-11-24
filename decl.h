@@ -8,6 +8,7 @@
 #include "symbol.h"
 
 extern int local_no;
+extern int str_no;
 
 struct decl {
 	char *name; /* function name or variable name */
@@ -31,4 +32,6 @@ void decl_resolve(struct decl *d);
  * type checking errors: conflict between function prototype and function definition
  */
 void decl_typecheck(struct decl *d);
+
+void decl_codegen(struct decl *d, FILE *f);
 #endif

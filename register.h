@@ -7,4 +7,5 @@ int register_alloc();
 
 void register_free(int r);
 
+void register_freeall();
 #endif

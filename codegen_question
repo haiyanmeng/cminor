@@ -1,0 +1,10 @@
+char *s = "h\t\n\0\\ello\0haiyan";
+.LC1:
+    .string "h\t\n"
+    .string "\\ello"
+    .string "haiyan"
+
+
+what happen if the code only include array decl without accepting it?
+what happen if the code include both array decl and array access?
+what is the real difference of string access and array access? is it possible to access one element of a string? 

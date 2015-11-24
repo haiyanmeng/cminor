@@ -75,3 +75,12 @@ void register_free(int r) {
 }
 
 
+void register_freeall() {
+	register_free(1);
+	register_free(10);
+	register_free(11);
+	register_free(12);
+	register_free(13);
+	register_free(14);
+	register_free(15);
+}

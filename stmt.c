@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "scope.h"
+#include "register.h"
 
 extern int local_no;
 
@@ -250,4 +251,40 @@ void stmt_typecheck(struct stmt *s, const char *func_name) {
 			break;
 	}	
 	stmt_typecheck(s->next, func_name);
+}
+
+void stmt_codegen(struct stmt *s, FILE *f) {
+	if(!s) return;
+
+	register_freeall();
+
+	switch(s->kind) {
+		case STMT_DECL:
+			decl_codegen(s->decl, f);
+			break;
+		case STMT_EXPR:
+			expr_codegen(s->expr, f);
+			break;
+		case STMT_PRINT:
+			expr_codegen(s->expr, f);
+			break;
+		case STMT_RETURN:
+			expr_codegen(s->expr, f);
+			break;
+		case STMT_IF_ELSE:
+			expr_codegen(s->expr, f);
+			stmt_codegen(s->body, f);
+			stmt_codegen(s->else_body, f);
+			break;
+		case STMT_FOR:
+			expr_codegen(s->init_expr, f);
+			expr_codegen(s->expr, f);
+			expr_codegen(s->next_expr, f);
+			stmt_codegen(s->body, f);
+			break;
+		case STMT_BLOCK:	
+			stmt_codegen(s->body, f);
+			break;
+	}	
+	stmt_codegen(s->next, f);
 }

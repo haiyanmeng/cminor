@@ -1,5 +1,6 @@
 #ifndef EXPR_H
 #define EXPR_H
+#include <stdio.h>
 
 /* the operators */
 typedef enum {
@@ -46,6 +47,8 @@ struct expr {
 	struct symbol *symbol; /* symbol */
 	int literal_value; /* boolean and integer */
 	const char * string_literal; /* string */
+
+	int reg;
 };
 
 struct expr * expr_create(expr_t kind, struct expr *left, struct expr *right, int line);
@@ -67,4 +70,13 @@ int expr_count_item(struct expr *e);
 struct expr *expr_get_item(struct expr *e, int n, int i);
 void expr_print_typecheck(struct expr *e);
 int expr_equals(struct expr *s, struct expr *t);
+
+/* 
+ * expr_codegen may use register to calculate. 
+ * After each stmt, free all the used registers. 
+ */
+void expr_codegen(struct expr *e, FILE *f);
+
+void expr_codegen_str(const char *s, FILE *f);
+char expr_getchar(const char a, const char b);
 #endif

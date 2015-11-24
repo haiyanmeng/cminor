@@ -45,4 +45,6 @@ void indent_process(int indent);
 void stmt_resolve(struct stmt *s);
 
 void stmt_typecheck(struct stmt *s, const char *func_name);
+
+void stmt_codegen(struct stmt *s, FILE *f);
 #endif

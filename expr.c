@@ -1,7 +1,11 @@
 #include "expr.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "scope.h"
+#include "register.h"
+
+extern int str_no;
 
 struct expr *expr_create(expr_t kind, struct expr *left, struct expr *right, int line) {
 	struct expr *e = (struct expr *)malloc(sizeof(struct expr));
@@ -820,5 +824,135 @@ int expr_equals(struct expr *s, struct expr *t) {
 		}
 	} else {
 		return 0;
+	}
+}
+
+void expr_codegen(struct expr *e, FILE *f) {
+	if(!e) return;
+	
+	switch(e->kind) {
+		case EXPR_LEFTCURLY: //array initializer 
+			break;
+		case EXPR_LEFTPARENTHESS:
+			if(e->left) { //function call
+			} else { //grouping
+			}
+			break;
+		case EXPR_LEFTBRACKET: //array subscript
+			break;
+		case EXPR_INCREMENT:
+			break;
+		case EXPR_DECREMENT:
+			break;
+		case EXPR_UNARY_NEG:
+			break;
+		case EXPR_NOT:
+			break;
+		case EXPR_POWER:
+			break;
+		case EXPR_MUL:
+			break;
+		case EXPR_DIV:
+			break;
+		case EXPR_MOD:
+			break;
+		case EXPR_ADD:
+			break;
+		case EXPR_SUB:
+			break;
+		case EXPR_LE:
+			break;
+		case EXPR_LT:
+			break;
+		case EXPR_GE:
+			break;
+		case EXPR_GT:
+			break;
+		case EXPR_EQ:
+			break;
+		case EXPR_UNEQ:
+			break;
+		case EXPR_AND:
+			break;
+		case EXPR_OR:
+			break;
+		case EXPR_ASSIGN:
+			break;
+		case EXPR_COMMA:
+			break;
+		case EXPR_IDENT_NAME:
+			break;
+		case EXPR_BOOLEAN_LITERAL:
+			e->reg = register_alloc();
+			fprintf(f, "movq $%d, %%%s\n", e->literal_value, register_name(e->reg));
+			break;
+		case EXPR_INTEGER_LITERAL:
+			e->reg = register_alloc();
+			fprintf(f, "movq $%d, %%%s\n", e->literal_value, register_name(e->reg));
+			break;
+		case EXPR_CHARACTER_LITERAL: 
+			e->reg = register_alloc();
+			fprintf(f, "mov $%d, %%%s\n", expr_getchar(e->string_literal[1], e->string_literal[2]), register_name(e->reg));
+			break;
+		case EXPR_STRING_LITERAL: 
+			e->reg = register_alloc();
+			fprintf(f, "section .rodata\n");
+			fprintf(f, ".str%d\n", str_no);
+			expr_codegen_str(e->string_literal, f);
+			fprintf(f, ".text\n");
+			fprintf(f, "lea .str%d, %%%s\n", str_no, register_name(e->reg));
+			str_no += 1;
+			break;
+	}
+	return;
+}
+
+void expr_codegen_str(const char *s, FILE *f) {
+	int len = strlen(s);	
+	int i = 1;
+	fprintf(f, ".string \"");
+	while(i < len - 1) {
+		if(s[i] == '\\') {
+			if((s[i+1] == '\\') || (s[i+1] == 't') || (s[i+1] == 'n') || (s[i+1] == 'r')) {
+				fprintf(f, "%c%c", s[i], s[i+1]);
+			} else if(s[i+1] == '0') {
+				fprintf(f, "\"\n");
+				if( (i+1) == (len-2)) {
+					fprintf(f, ".string \"\"\n");
+				} else {
+					fprintf(f, ".string \"");
+				}
+				
+			} else {
+				fprintf(f, "%c", s[i+1]);
+			}
+			i += 2;
+		} else {
+			fprintf(f, "%c", s[i]);
+			i += 1;
+		}
+	}
+
+	if(!((s[len-3] == '\\') && (s[len-2] == '0'))) {
+		fprintf(f, "\"\n");
+	}
+}
+
+char expr_getchar(const char a, const char b) {
+	if(a == '\\') {
+		switch(b) {
+			case '0':
+				return '\0';
+			case 't':
+				return '\t';
+			case 'n':
+				return '\n';
+			case 'r':
+				return '\r';
+			default:
+				return b;
+		}
+	} else {
+		return a;
 	}
 }

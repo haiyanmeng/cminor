@@ -7,6 +7,7 @@
 extern int level;
 extern struct scope *head; 
 int local_no = 0;
+int str_no = 0;
 
 struct decl *decl_create(char *name, struct type *t, struct expr *v, struct stmt *c, int line, struct decl *next) {
 	struct decl *d = (struct decl *)malloc(sizeof(struct decl));
@@ -239,6 +240,19 @@ void decl_typecheck(struct decl *d) {
 	decl_typecheck(d->next);
 }
 
+void decl_codegen(struct decl *d, FILE *f) {
+	if(!d) return;
 
+	if(d->value) {
+		// declaration with initialization
+		expr_codegen(d->value, f);
+	} else if(d->code) {
+		// function definition
+		stmt_codegen(d->code, f);
+	} else {
+		// declaration without initialization or function prototype
+	}
+	decl_codegen(d->next, f);
+}
 
 
