@@ -267,6 +267,7 @@ void stmt_codegen(struct stmt *s, FILE *f) {
 			break;
 		case STMT_PRINT:
 			expr_codegen(s->expr, f);
+			stmt_print_codegen(s->expr, f);
 			break;
 		case STMT_RETURN:
 			expr_codegen(s->expr, f);
@@ -287,4 +288,60 @@ void stmt_codegen(struct stmt *s, FILE *f) {
 			break;
 	}	
 	stmt_codegen(s->next, f);
+}
+
+void stmt_print_codegen(struct expr *e, FILE *f) {
+	if(!e) return;
+
+	int n = expr_count_item(e);
+
+	int i;
+	struct expr *arg;
+	for(i = 1; i <= n; i++) {
+		arg = expr_get_item(e, n, i);
+		struct type *t = expr_typecheck(arg, 0, 1);
+		switch(t->kind) {
+			//print integer
+			case TYPE_INTEGER:
+				fprintf(f, "\tmovq\t%%%s, %%rdi\n", register_name(e->reg));
+				fprintf(f, "\tpushq\t%%r10\n");
+				fprintf(f, "\tpushq\t%%r11\n");
+				fprintf(f, "\tcall\tprint_integer\n");
+				fprintf(f, "\tpopq\t%%r11\n");
+				fprintf(f, "\tpopq\t%%r10\n");
+				break;
+			//print char
+			case TYPE_CHARACTER:
+				fprintf(f, "\tmovq\t%%%s, %%rdi\n", register_name(e->reg));
+				fprintf(f, "\tpushq\t%%r10\n");
+				fprintf(f, "\tpushq\t%%r11\n");
+				fprintf(f, "\tcall\tprint_character\n");
+				fprintf(f, "\tpopq\t%%r11\n");
+				fprintf(f, "\tpopq\t%%r10\n");
+	
+				break;
+			//print string
+			case TYPE_STRING:
+				fprintf(f, "\tmovq\t%%%s, %%rdi\n", register_name(e->reg));
+				fprintf(f, "\tpushq\t%%r10\n");
+				fprintf(f, "\tpushq\t%%r11\n");
+				fprintf(f, "\tcall\tprint_string\n");
+				fprintf(f, "\tpopq\t%%r11\n");
+				fprintf(f, "\tpopq\t%%r10\n");
+	
+				break;
+			//print boolean
+			case TYPE_BOOLEAN:
+				fprintf(f, "\tmovq\t%%%s, %%rdi\n", register_name(e->reg));
+				fprintf(f, "\tpushq\t%%r10\n");
+				fprintf(f, "\tpushq\t%%r11\n");
+				fprintf(f, "\tcall\tprint_boolean\n");
+				fprintf(f, "\tpopq\t%%r11\n");
+				fprintf(f, "\tpopq\t%%r10\n");
+				break;
+			default:
+				break;
+		}
+		type_free(t);
+	}
 }

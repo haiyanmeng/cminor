@@ -54,3 +54,16 @@ f:function void() = {
 	false;
 }
 
+main:function void() = {
+	//print 1, "hello", 'u', true, false;
+	print 1;
+	print '\n';
+	print "hello";
+	print '\n';
+	print 'u';
+	print '\n';
+	print true;
+	print '\n';
+	print false;
+	print '\n';
+}

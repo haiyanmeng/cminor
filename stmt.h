@@ -47,4 +47,5 @@ void stmt_resolve(struct stmt *s);
 void stmt_typecheck(struct stmt *s, const char *func_name);
 
 void stmt_codegen(struct stmt *s, FILE *f);
+void stmt_print_codegen(struct expr *e, FILE *f);
 #endif

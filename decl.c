@@ -278,11 +278,6 @@ void decl_codegen(struct decl *d, FILE *f) {
 			} else {
 				fprintf(f, "\t.quad   %d\n", d->value->literal_value);
 			}
-
-		} else {
-			fprintf(f, "\n.text\n");
-			fprintf(f, "lea .str%d, %%%s\n", str_no-1, register_name(d->value->reg));
-			register_freeall();
 		}
 	} else if(d->code) {
 		//set current function symbol

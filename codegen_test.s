@@ -65,7 +65,7 @@ y:
 
 	.globl z
 
-	section	.rodata
+	.section	.rodata
 .str0:
 	.string "i am global"
 	.data
@@ -81,7 +81,7 @@ z:
 	.type   t1, @object
 	.size   t1, 8
 t1:
-	.quad   0
+	.quad   1
 
 	.globl t2
 	.data
@@ -158,26 +158,38 @@ f:
 	movq	$9, %rbx
 	movq	$53, %rbx
 
-	section	.rodata
+	.section	.rodata
 .str1:
 	.string "h\t\n"
 	.string "\\ello"
 	.string "haiyan"
 
-	section	.rodata
+.text
+	lea	.str1, %rbx
+
+	.section	.rodata
 .str2:
 	.string "hello\t\\\n"
 	.string "world"
 
-	section	.rodata
+.text
+	lea	.str2, %rbx
+
+	.section	.rodata
 .str3:
 	.string "haiyan\tmeng\\gezi\npeng"
 	.string "end"
 
-	section	.rodata
+.text
+	lea	.str3, %rbx
+
+	.section	.rodata
 .str4:
 	.string "h\t\n\\ello"
 	.string ""
+
+.text
+	lea	.str4, %rbx
 	movq	$1, %rbx
 	movq	$0, %rbx
 	popq	%r15
@@ -190,3 +202,101 @@ f:
 	ret
 .LFE1:
 	.size	f, .-f
+	.text
+	.globl	main
+	.type	main, @function
+main:
+.LFB2:
+	pushq	%rbp
+	movq	%rsp, %rbp
+	pushq	%rbx
+	pushq	%r12
+	pushq	%r13
+	pushq	%r14
+	pushq	%r15
+	movq	$1, %rbx
+	movq	%rbx, %rdi
+	pushq	%r10
+	pushq	%r11
+	call	print_integer
+	popq	%r11
+	popq	%r10
+	movq	$10, %rbx
+	movq	%rbx, %rdi
+	pushq	%r10
+	pushq	%r11
+	call	print_character
+	popq	%r11
+	popq	%r10
+
+	.section	.rodata
+.str5:
+	.string "hello"
+
+.text
+	lea	.str5, %rbx
+	movq	%rbx, %rdi
+	pushq	%r10
+	pushq	%r11
+	call	print_string
+	popq	%r11
+	popq	%r10
+	movq	$10, %rbx
+	movq	%rbx, %rdi
+	pushq	%r10
+	pushq	%r11
+	call	print_character
+	popq	%r11
+	popq	%r10
+	movq	$117, %rbx
+	movq	%rbx, %rdi
+	pushq	%r10
+	pushq	%r11
+	call	print_character
+	popq	%r11
+	popq	%r10
+	movq	$10, %rbx
+	movq	%rbx, %rdi
+	pushq	%r10
+	pushq	%r11
+	call	print_character
+	popq	%r11
+	popq	%r10
+	movq	$1, %rbx
+	movq	%rbx, %rdi
+	pushq	%r10
+	pushq	%r11
+	call	print_boolean
+	popq	%r11
+	popq	%r10
+	movq	$10, %rbx
+	movq	%rbx, %rdi
+	pushq	%r10
+	pushq	%r11
+	call	print_character
+	popq	%r11
+	popq	%r10
+	movq	$0, %rbx
+	movq	%rbx, %rdi
+	pushq	%r10
+	pushq	%r11
+	call	print_boolean
+	popq	%r11
+	popq	%r10
+	movq	$10, %rbx
+	movq	%rbx, %rdi
+	pushq	%r10
+	pushq	%r11
+	call	print_character
+	popq	%r11
+	popq	%r10
+	popq	%r15
+	popq	%r14
+	popq	%r13
+	popq	%r12
+	popq	%rbx
+	movq	%rbp, %rsp
+	popq	%rbp
+	ret
+.LFE2:
+	.size	main, .-main

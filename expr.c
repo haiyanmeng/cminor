@@ -1021,7 +1021,7 @@ void expr_codegen(struct expr *e, FILE *f) {
 				fprintf(f, "\tcmpq\t$0, %%%s\n", register_name(e->right->reg));
 				fprintf(f, "\tje\t.L%d\n", ctl_no);
 				fprintf(f, "\tmovq\t$1, %%%s\n", register_name(e->right->reg));
-				fprintf(f, "\tje\t.L%d\n", ctl_no+1);
+				fprintf(f, "\tjmp\t.L%d\n", ctl_no+1);
 				fprintf(f, ".L%d:\n", ctl_no);
 				fprintf(f, "\tmovq\t$0, %%%s\n", register_name(e->right->reg));
 				fprintf(f, ".L%d:\n", ctl_no+1);
@@ -1034,6 +1034,21 @@ void expr_codegen(struct expr *e, FILE *f) {
 		case EXPR_OR:
 			e->literal_value = 0;
 			if(e->left->literal_value || e->right->literal_value) e->literal_value = 1;
+			if(!e->is_global) {
+				fprintf(f, "\tcmpq\t$0, %%%s\n", register_name(e->left->reg));
+				fprintf(f, "\tjne\t.L%d\n", ctl_no);
+				fprintf(f, "\tcmpq\t$0, %%%s\n", register_name(e->right->reg));
+				fprintf(f, "\tjne\t.L%d\n", ctl_no);
+				fprintf(f, "\tmovq\t$0, %%%s\n", register_name(e->right->reg));
+				fprintf(f, "\tjmp\t.L%d\n", ctl_no+1);
+				fprintf(f, ".L%d:\n", ctl_no);
+				fprintf(f, "\tmovq\t$1, %%%s\n", register_name(e->right->reg));
+				fprintf(f, ".L%d:\n", ctl_no+1);
+				ctl_no += 2;
+				e->reg = e->right->reg;
+				register_free(e->left->reg);
+				e->left->reg = -1;
+			}
 	
 			break;
 		case EXPR_ASSIGN:
@@ -1070,9 +1085,14 @@ void expr_codegen(struct expr *e, FILE *f) {
 			}
 			break;
 		case EXPR_STRING_LITERAL: 
-			fprintf(f, "\n\tsection\t.rodata\n");
+			fprintf(f, "\n\t.section\t.rodata\n");
 			fprintf(f, ".str%d:\n", str_no);
 			expr_codegen_str(e->string_literal, f);
+			if(!e->is_global) {
+				e->reg = register_alloc();
+				fprintf(f, "\n.text\n");
+				fprintf(f, "\tlea\t.str%d, %%%s\n", str_no, register_name(e->reg));
+			}
 			str_no += 1;
 			break;
 	}
