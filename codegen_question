@@ -5,6 +5,8 @@ how power is supposed to be implemented? not math.h pow function;
 
 if everytime we right the value out back to the e->literal_value or string_literal, it will be very slow.
 
+print 1, 2, 3; the default delimeter of multiple arguments;
+
 DONE:
 char *s = "h\t\n\0\\ello\0haiyan";
 .LC1:

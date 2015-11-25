@@ -80,4 +80,8 @@ void expr_codegen(struct expr *e, FILE *f);
 
 void expr_codegen_str(const char *s, FILE *f);
 char expr_getchar(const char a, const char b);
+
+
+char *expr_funcarg_register_name(int i);
+void expr_funccall_codegen(struct expr *e, FILE *f);
 #endif

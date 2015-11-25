@@ -54,8 +54,21 @@ f:function void() = {
 	false;
 }
 
+print_func:function void (x:integer, y:char, z:boolean, t:string) = {
+	print x;
+	print '\n';
+	print y;
+	print '\n';
+	print z;
+	print '\n';
+	print t;
+	print '\n';
+	return;
+}
 main:function void() = {
-	//print 1, "hello", 'u', true, false;
+	print_func(222, '~', true, "hello haiyan meng");
+
+	print 1, "hello", 'u', true, false;
 	print 1;
 	print '\n';
 	print "hello";

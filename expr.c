@@ -846,7 +846,15 @@ void expr_codegen(struct expr *e, FILE *f) {
 		case EXPR_LEFTCURLY: //array initializer 
 			break;
 		case EXPR_LEFTPARENTHESS:
+			expr_codegen(e->left, f);
+			expr_codegen(e->right, f);
 			if(e->left) { //function call
+				expr_funccall_codegen(e->right, f);
+				fprintf(f, "\tpushq\t%%r10\n");
+				fprintf(f, "\tpushq\t%%r11\n");
+				fprintf(f, "\tcall\t%s\n", e->left->name);
+				fprintf(f, "\tpopq\t%%r11\n");
+				fprintf(f, "\tpopq\t%%r10\n");
 			} else { //grouping
 			}
 			break;
@@ -1054,6 +1062,8 @@ void expr_codegen(struct expr *e, FILE *f) {
 		case EXPR_ASSIGN:
 			break;
 		case EXPR_COMMA:
+			expr_codegen(e->left, f);
+			expr_codegen(e->right, f);
 			break;
 		case EXPR_IDENT_NAME:
 			e->reg = register_alloc();
@@ -1061,7 +1071,7 @@ void expr_codegen(struct expr *e, FILE *f) {
 				fprintf(f, "\tmovq\t%d(%%rbp), %%%s\n", -8 * (e->symbol->which + 1), register_name(e->reg));
 			} else if(e->symbol->kind == SYMBOL_LOCAL) {
 				fprintf(f, "\tmovq\t%d(%%rbp), %%%s\n", -8 * (cur_func->param_count + e->symbol->which + 1), register_name(e->reg));
-			} else { //global variable
+			} else if(e->symbol->t == FUNC_NOT) { //global variable
 				fprintf(f, "\tmovq\t%s(%%rip), %%%s\n", e->name, register_name(e->reg));
 			}
 			break;
@@ -1149,3 +1159,35 @@ char expr_getchar(const char a, const char b) {
 	}
 }
 
+char *expr_funcarg_register_name(int i) {
+	switch(i) {
+		case 0:
+			return "rdi";
+		case 1:
+			return "rsi";
+		case 2:
+			return "rdx";
+		case 3:
+			return "rcx";
+		case 4:
+			return "r8";
+		case 5:
+			return "r9";
+		default:
+			break;
+	}
+	return "";
+}
+
+void expr_funccall_codegen(struct expr *e, FILE *f) {
+	if(!e) return;
+
+	int n = expr_count_item(e);
+
+	int i;
+	struct expr *arg;
+	for(i = 1; i <= n; i++) {
+		arg = expr_get_item(e, n, i);
+		fprintf(f, "\tmovq\t%%%s, %%%s\n", register_name(arg->reg), expr_funcarg_register_name(i-1));
+	}
+}

@@ -303,7 +303,7 @@ void stmt_print_codegen(struct expr *e, FILE *f) {
 		switch(t->kind) {
 			//print integer
 			case TYPE_INTEGER:
-				fprintf(f, "\tmovq\t%%%s, %%rdi\n", register_name(e->reg));
+				fprintf(f, "\tmovq\t%%%s, %%rdi\n", register_name(arg->reg));
 				fprintf(f, "\tpushq\t%%r10\n");
 				fprintf(f, "\tpushq\t%%r11\n");
 				fprintf(f, "\tcall\tprint_integer\n");
@@ -312,7 +312,7 @@ void stmt_print_codegen(struct expr *e, FILE *f) {
 				break;
 			//print char
 			case TYPE_CHARACTER:
-				fprintf(f, "\tmovq\t%%%s, %%rdi\n", register_name(e->reg));
+				fprintf(f, "\tmovq\t%%%s, %%rdi\n", register_name(arg->reg));
 				fprintf(f, "\tpushq\t%%r10\n");
 				fprintf(f, "\tpushq\t%%r11\n");
 				fprintf(f, "\tcall\tprint_character\n");
@@ -322,7 +322,7 @@ void stmt_print_codegen(struct expr *e, FILE *f) {
 				break;
 			//print string
 			case TYPE_STRING:
-				fprintf(f, "\tmovq\t%%%s, %%rdi\n", register_name(e->reg));
+				fprintf(f, "\tmovq\t%%%s, %%rdi\n", register_name(arg->reg));
 				fprintf(f, "\tpushq\t%%r10\n");
 				fprintf(f, "\tpushq\t%%r11\n");
 				fprintf(f, "\tcall\tprint_string\n");
@@ -332,7 +332,7 @@ void stmt_print_codegen(struct expr *e, FILE *f) {
 				break;
 			//print boolean
 			case TYPE_BOOLEAN:
-				fprintf(f, "\tmovq\t%%%s, %%rdi\n", register_name(e->reg));
+				fprintf(f, "\tmovq\t%%%s, %%rdi\n", register_name(arg->reg));
 				fprintf(f, "\tpushq\t%%r10\n");
 				fprintf(f, "\tpushq\t%%r11\n");
 				fprintf(f, "\tcall\tprint_boolean\n");

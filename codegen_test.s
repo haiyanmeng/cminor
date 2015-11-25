@@ -203,10 +203,92 @@ f:
 .LFE1:
 	.size	f, .-f
 	.text
+	.globl	print_func
+	.type	print_func, @function
+print_func:
+.LFB2:
+	pushq	%rbp
+	movq	%rsp, %rbp
+	pushq	%rdi
+	pushq	%rsi
+	pushq	%rdx
+	pushq	%rcx
+	pushq	%rbx
+	pushq	%r12
+	pushq	%r13
+	pushq	%r14
+	pushq	%r15
+	movq	-8(%rbp), %rbx
+	movq	%rbx, %rdi
+	pushq	%r10
+	pushq	%r11
+	call	print_integer
+	popq	%r11
+	popq	%r10
+	movq	$10, %rbx
+	movq	%rbx, %rdi
+	pushq	%r10
+	pushq	%r11
+	call	print_character
+	popq	%r11
+	popq	%r10
+	movq	-16(%rbp), %rbx
+	movq	%rbx, %rdi
+	pushq	%r10
+	pushq	%r11
+	call	print_character
+	popq	%r11
+	popq	%r10
+	movq	$10, %rbx
+	movq	%rbx, %rdi
+	pushq	%r10
+	pushq	%r11
+	call	print_character
+	popq	%r11
+	popq	%r10
+	movq	-24(%rbp), %rbx
+	movq	%rbx, %rdi
+	pushq	%r10
+	pushq	%r11
+	call	print_boolean
+	popq	%r11
+	popq	%r10
+	movq	$10, %rbx
+	movq	%rbx, %rdi
+	pushq	%r10
+	pushq	%r11
+	call	print_character
+	popq	%r11
+	popq	%r10
+	movq	-32(%rbp), %rbx
+	movq	%rbx, %rdi
+	pushq	%r10
+	pushq	%r11
+	call	print_string
+	popq	%r11
+	popq	%r10
+	movq	$10, %rbx
+	movq	%rbx, %rdi
+	pushq	%r10
+	pushq	%r11
+	call	print_character
+	popq	%r11
+	popq	%r10
+	popq	%r15
+	popq	%r14
+	popq	%r13
+	popq	%r12
+	popq	%rbx
+	movq	%rbp, %rsp
+	popq	%rbp
+	ret
+.LFE2:
+	.size	print_func, .-print_func
+	.text
 	.globl	main
 	.type	main, @function
 main:
-.LFB2:
+.LFB3:
 	pushq	%rbp
 	movq	%rsp, %rbp
 	pushq	%rbx
@@ -214,6 +296,80 @@ main:
 	pushq	%r13
 	pushq	%r14
 	pushq	%r15
+	movq	$21, %rbx
+	movq	%rbx, %rdi
+	pushq	%r10
+	pushq	%r11
+	call	print_integer
+	popq	%r11
+	popq	%r10
+	movq	$10, %rbx
+	movq	%rbx, %rdi
+	pushq	%r10
+	pushq	%r11
+	call	print_character
+	popq	%r11
+	popq	%r10
+	movq	$222, %r10
+	movq	$126, %r11
+	movq	$1, %r12
+
+	.section	.rodata
+.str5:
+	.string "hello haiyan meng"
+
+.text
+	lea	.str5, %r13
+	movq	%r10, %rdi
+	movq	%r11, %rsi
+	movq	%r12, %rdx
+	movq	%r13, %rcx
+	pushq	%r10
+	pushq	%r11
+	call	print_func
+	popq	%r11
+	popq	%r10
+	movq	$1, %rbx
+
+	.section	.rodata
+.str6:
+	.string "hello"
+
+.text
+	lea	.str6, %r10
+	movq	$117, %r11
+	movq	$1, %r12
+	movq	$0, %r13
+	movq	%rbx, %rdi
+	pushq	%r10
+	pushq	%r11
+	call	print_integer
+	popq	%r11
+	popq	%r10
+	movq	%r10, %rdi
+	pushq	%r10
+	pushq	%r11
+	call	print_string
+	popq	%r11
+	popq	%r10
+	movq	%r11, %rdi
+	pushq	%r10
+	pushq	%r11
+	call	print_character
+	popq	%r11
+	popq	%r10
+	movq	%r12, %rdi
+	pushq	%r10
+	pushq	%r11
+	call	print_boolean
+	popq	%r11
+	popq	%r10
+	movq	%r13, %rdi
+	pushq	%r10
+	pushq	%r11
+	call	print_boolean
+	popq	%r11
+	popq	%r10
 	movq	$1, %rbx
 	movq	%rbx, %rdi
 	pushq	%r10
@@ -230,11 +386,11 @@ main:
 	popq	%r10
 
 	.section	.rodata
-.str5:
+.str7:
 	.string "hello"
 
 .text
-	lea	.str5, %rbx
+	lea	.str7, %rbx
 	movq	%rbx, %rdi
 	pushq	%r10
 	pushq	%r11
@@ -298,5 +454,5 @@ main:
 	movq	%rbp, %rsp
 	popq	%rbp
 	ret
-.LFE2:
+.LFE3:
 	.size	main, .-main
