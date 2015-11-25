@@ -1,7 +1,7 @@
 Todo:
 expr_codegen  EXPR_NAME
 add <parsing is done>
-
+check the validity of arithmetic:divide by 0 
 
 Done:
 local variable - which field numbering

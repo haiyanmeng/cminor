@@ -9,7 +9,7 @@ x6:integer = 1+2*3-5*2/4+2^3-17%3;
 y:char = 'o';
 z:string = "i am global";
 
-t1:boolean = true;
+t1:boolean = true && true;
 t2:boolean = false;
 
 global_uninit_int:integer;
@@ -29,6 +29,9 @@ func: function integer(a:integer, b:char, c:char, d:integer, e:integer) = {
 	local1:integer;
 	local2:integer;
 	local3:integer;
+	a+x+d+e;
+	a+x;
+	a+e;
     return a+1;
 }
 

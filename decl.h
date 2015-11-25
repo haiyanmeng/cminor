@@ -10,6 +10,8 @@
 extern int local_no;
 extern int str_no;
 extern int func_no;
+extern int ctl_no;
+extern struct symbol *cur_func;
 
 struct decl {
 	char *name; /* function name or variable name */

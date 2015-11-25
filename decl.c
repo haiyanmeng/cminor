@@ -10,6 +10,8 @@ extern struct scope *head;
 int local_no = 0;
 int str_no = 0;
 int func_no = 0;
+int ctl_no = 0;
+struct symbol *cur_func = 0;
 
 struct decl *decl_create(char *name, struct type *t, struct expr *v, struct stmt *c, int line, struct decl *next) {
 	struct decl *d = (struct decl *)malloc(sizeof(struct decl));
@@ -252,7 +254,7 @@ void decl_codegen(struct decl *d, FILE *f) {
 
 	if(d->value) {
 		if(d->type->kind == TYPE_ARRAY) {
-			fprintf(stderr, "cminor does not support array currently!\n");
+			fprintf(stderr, "line %d: cminor does not support array currently!\n", d->line);
 			exit(EXIT_FAILURE);
 		}
 
@@ -283,6 +285,9 @@ void decl_codegen(struct decl *d, FILE *f) {
 			register_freeall();
 		}
 	} else if(d->code) {
+		//set current function symbol
+		cur_func = d->symbol;
+
 		//check the number of function parameters
 		decl_func_paramcheck(d);
 	
@@ -330,7 +335,7 @@ void decl_codegen(struct decl *d, FILE *f) {
 	} else {
 		// declaration without initialization or function prototype
 		if(d->type->kind == TYPE_ARRAY) {
-			fprintf(stderr, "cminor does not support array currently!\n");
+			fprintf(stderr, "line %d: cminor does not support array currently!\n", d->line);
 			exit(EXIT_FAILURE);
 		}
 		

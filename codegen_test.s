@@ -81,7 +81,7 @@ z:
 	.type   t1, @object
 	.size   t1, 8
 t1:
-	.quad   1
+	.quad   0
 
 	.globl t2
 	.data
@@ -112,7 +112,22 @@ func:
 	pushq	%r13
 	pushq	%r14
 	pushq	%r15
-	movq	$1, %rbx
+	movq	-8(%rbp), %rbx
+	movq	x(%rip), %r10
+	addq	%rbx, %r10
+	movq	-32(%rbp), %rbx
+	addq	%r10, %rbx
+	movq	-40(%rbp), %r10
+	addq	%rbx, %r10
+	movq	-8(%rbp), %rbx
+	movq	x(%rip), %r10
+	addq	%rbx, %r10
+	movq	-8(%rbp), %rbx
+	movq	-40(%rbp), %r10
+	addq	%rbx, %r10
+	movq	-8(%rbp), %rbx
+	movq	$1, %r10
+	addq	%rbx, %r10
 	popq	%r15
 	popq	%r14
 	popq	%r13

@@ -5,8 +5,11 @@
 #include <math.h>
 #include "scope.h"
 #include "register.h"
+#include "symbol.h"
 
 extern int str_no;
+extern struct symbol *cur_func;
+extern int ctl_no;
 
 struct expr *expr_create(expr_t kind, struct expr *left, struct expr *right, int line) {
 	struct expr *e = (struct expr *)malloc(sizeof(struct expr));
@@ -22,6 +25,7 @@ struct expr *expr_create(expr_t kind, struct expr *left, struct expr *right, int
 	e->right = right;
 	e->line = line;
 	e->is_global = 0;
+	e->reg = -1;
 	return e;
 }
 
@@ -836,7 +840,8 @@ void expr_codegen(struct expr *e, FILE *f) {
 		if(e->left) e->left->is_global = 1;
 		if(e->right) e->right->is_global = 1;
 	}
-	
+
+	int i;	
 	switch(e->kind) {
 		case EXPR_LEFTCURLY: //array initializer 
 			break;
@@ -858,88 +863,214 @@ void expr_codegen(struct expr *e, FILE *f) {
 		case EXPR_POWER:
 			expr_codegen(e->left, f);
 			expr_codegen(e->right, f);
-			if(e->is_global) {
-				e->literal_value = (int)pow(e->left->literal_value, e->right->literal_value);
+			e->literal_value = (int)pow(e->left->literal_value, e->right->literal_value);
+			if(!e->is_global) {
+				if(e->right->literal_value == 0) {
+					fprintf(f, "\tmovq\t$1, %%%s\n", register_name(e->right->reg));
+				} else { 	
+					fprintf(f, "\tmovq\t%%%s, %%rax\n", register_name(e->left->reg));
+					for(i = 2; i <= e->right->literal_value; i++) {
+						fprintf(f, "\timulq\t%%%s\n", register_name(e->left->reg));
+					}
+					fprintf(f, "\tmovq\t%%rax, %%%s\n", register_name(e->right->reg));
+				}
+				e->reg = e->right->reg;
+				register_free(e->left->reg);
+				e->left->reg = -1;
 			}
 			break;
 		case EXPR_MUL:
 			expr_codegen(e->left, f);
 			expr_codegen(e->right, f);
-			if(e->is_global) {
-				e->literal_value = e->left->literal_value * e->right->literal_value;
+			e->literal_value = e->left->literal_value * e->right->literal_value;
+			if(!e->is_global) {
+				fprintf(f, "\tmovq\t%%%s, %%rax\n", register_name(e->left->reg));
+				fprintf(f, "\timulq\t%%%s\n", register_name(e->right->reg));
+				fprintf(f, "\tmovq\t%%rax, %%%s\n", register_name(e->right->reg));
+				e->reg = e->right->reg;
+				register_free(e->left->reg);
+				e->left->reg = -1;
 			}
 			break;
 		case EXPR_DIV:
 			expr_codegen(e->left, f);
 			expr_codegen(e->right, f);
-			if(e->is_global) {
-				e->literal_value = e->left->literal_value / e->right->literal_value;
+			e->literal_value = e->left->literal_value / e->right->literal_value;
+			if(!e->is_global) {
+				fprintf(f, "\tmovq\t%%%s, %%rax\n", register_name(e->left->reg));
+				fprintf(f, "\tcdqo\n");
+				fprintf(f, "\tidivq\t%%%s\n", register_name(e->right->reg));
+				fprintf(f, "\tmovq\t%%rax, %%%s\n", register_name(e->right->reg));
+				e->reg = e->right->reg;
+				register_free(e->left->reg);
+				e->left->reg = -1;
 			}
 			break;
 		case EXPR_MOD:
 			expr_codegen(e->left, f);
 			expr_codegen(e->right, f);
-			if(e->is_global) {
-				e->literal_value = e->left->literal_value - (e->right->literal_value * (e->left->literal_value / e->right->literal_value));
+			e->literal_value = e->left->literal_value - (e->right->literal_value * (e->left->literal_value / e->right->literal_value));
+			if(!e->is_global) {
+				fprintf(f, "\tmovq\t%%%s, %%rax\n", register_name(e->left->reg));
+				fprintf(f, "\tcdqo\n");
+				fprintf(f, "\tidivq\t%%%s\n", register_name(e->right->reg));
+				fprintf(f, "\tmovq\t%%rdx, %%%s\n", register_name(e->right->reg));
+				e->reg = e->right->reg;
+				register_free(e->left->reg);
+				e->left->reg = -1;
 			}
 			break;
 		case EXPR_ADD:
 			expr_codegen(e->left, f);
 			expr_codegen(e->right, f);
-			if(e->is_global) {
-				e->literal_value = e->left->literal_value + e->right->literal_value;
+			e->literal_value = e->left->literal_value + e->right->literal_value;
+			if(!e->is_global) {
+				fprintf(f, "\taddq\t%%%s, %%%s\n", register_name(e->left->reg), register_name(e->right->reg));
+				e->reg = e->right->reg;
+				register_free(e->left->reg);
+				e->left->reg = -1;
 			}
 			break;
 		case EXPR_SUB:
 			expr_codegen(e->left, f);
 			expr_codegen(e->right, f);
-			if(e->is_global) {
-				e->literal_value = e->left->literal_value - e->right->literal_value;
+			e->literal_value = e->left->literal_value - e->right->literal_value;
+			if(!e->is_global) {
+				fprintf(f, "\tsubq\t%%%s, %%%s\n", register_name(e->right->reg), register_name(e->left->reg));
+				e->reg = e->left->reg;
+				register_free(e->right->reg);
+				e->right->reg = -1;
 			}
 			break;
 		case EXPR_LE:
+			expr_codegen(e->left, f);
+			expr_codegen(e->right, f);
+			e->literal_value = 0;
+			if(e->left->literal_value <= e->right->literal_value) e->literal_value = 1;
+
+			if(!e->is_global) {
+				fprintf(f, "\tcmpq\t%%%s, %%%s\n", register_name(e->left->reg), register_name(e->right->reg));
+				fprintf(f, "\tseqle\t%%%s\n", register_name(e->right->reg));
+				e->reg = e->right->reg;
+				register_free(e->left->reg);
+				e->left->reg = -1;
+			}
 			break;
 		case EXPR_LT:
+			e->literal_value = 0;
+			if(e->left->literal_value < e->right->literal_value) e->literal_value = 1;
+			if(!e->is_global) {
+				fprintf(f, "\tcmpq\t%%%s, %%%s\n", register_name(e->left->reg), register_name(e->right->reg));
+				fprintf(f, "\tseql\t%%%s\n", register_name(e->right->reg));
+				e->reg = e->right->reg;
+				register_free(e->left->reg);
+				e->left->reg = -1;
+			}
 			break;
 		case EXPR_GE:
+			e->literal_value = 0;
+			if(e->left->literal_value >= e->right->literal_value) e->literal_value = 1;
+			if(!e->is_global) {
+				fprintf(f, "\tcmpq\t%%%s, %%%s\n", register_name(e->left->reg), register_name(e->right->reg));
+				fprintf(f, "\tseqge\t%%%s\n", register_name(e->right->reg));
+				e->reg = e->right->reg;
+				register_free(e->left->reg);
+				e->left->reg = -1;
+			}
 			break;
 		case EXPR_GT:
+			e->literal_value = 0;
+			if(e->left->literal_value > e->right->literal_value) e->literal_value = 1;
+			if(!e->is_global) {
+				fprintf(f, "\tcmpq\t%%%s, %%%s\n", register_name(e->left->reg), register_name(e->right->reg));
+				fprintf(f, "\tseqle\t%%%s\n", register_name(e->right->reg));
+				e->reg = e->right->reg;
+				register_free(e->left->reg);
+				e->left->reg = -1;
+			}
 			break;
 		case EXPR_EQ:
+			e->literal_value = 0;
+			if(e->left->literal_value == e->right->literal_value) e->literal_value = 1;
+			if(!e->is_global) {
+				fprintf(f, "\tcmpq\t%%%s, %%%s\n", register_name(e->left->reg), register_name(e->right->reg));
+				fprintf(f, "\tseqe\t%%%s\n", register_name(e->right->reg));
+				e->reg = e->right->reg;
+				register_free(e->left->reg);
+				e->left->reg = -1;
+			}
+
 			break;
 		case EXPR_UNEQ:
+			e->literal_value = 0;
+			if(e->left->literal_value != e->right->literal_value) e->literal_value = 1;
+			if(!e->is_global) {
+				fprintf(f, "\tcmpq\t%%%s, %%%s\n", register_name(e->left->reg), register_name(e->right->reg));
+				fprintf(f, "\tseqne\t%%%s\n", register_name(e->right->reg));
+				e->reg = e->right->reg;
+				register_free(e->left->reg);
+				e->left->reg = -1;
+			}
 			break;
 		case EXPR_AND:
+			e->literal_value = 0;
+			if(e->left->literal_value && e->right->literal_value) e->literal_value = 1;
+			if(!e->is_global) {
+				fprintf(f, "\tcmpq\t$0, %%%s\n", register_name(e->left->reg));
+				fprintf(f, "\tje\t.L%d\n", ctl_no);
+				fprintf(f, "\tcmpq\t$0, %%%s\n", register_name(e->right->reg));
+				fprintf(f, "\tje\t.L%d\n", ctl_no);
+				fprintf(f, "\tmovq\t$1, %%%s\n", register_name(e->right->reg));
+				fprintf(f, "\tje\t.L%d\n", ctl_no+1);
+				fprintf(f, ".L%d:\n", ctl_no);
+				fprintf(f, "\tmovq\t$0, %%%s\n", register_name(e->right->reg));
+				fprintf(f, ".L%d:\n", ctl_no+1);
+				ctl_no += 2;
+				e->reg = e->right->reg;
+				register_free(e->left->reg);
+				e->left->reg = -1;
+			}
 			break;
 		case EXPR_OR:
+			e->literal_value = 0;
+			if(e->left->literal_value || e->right->literal_value) e->literal_value = 1;
+	
 			break;
 		case EXPR_ASSIGN:
 			break;
 		case EXPR_COMMA:
 			break;
 		case EXPR_IDENT_NAME:
+			e->reg = register_alloc();
+			if(e->symbol->kind == SYMBOL_PARAM) {
+				fprintf(f, "\tmovq\t%d(%%rbp), %%%s\n", -8 * (e->symbol->which + 1), register_name(e->reg));
+			} else if(e->symbol->kind == SYMBOL_LOCAL) {
+				fprintf(f, "\tmovq\t%d(%%rbp), %%%s\n", -8 * (cur_func->param_count + e->symbol->which + 1), register_name(e->reg));
+			} else { //global variable
+				fprintf(f, "\tmovq\t%s(%%rip), %%%s\n", e->name, register_name(e->reg));
+			}
 			break;
 		case EXPR_BOOLEAN_LITERAL:
 			if(!e->is_global) {
 				e->reg = register_alloc();
-				fprintf(f, "\tmovq $%d, %%%s\n", e->literal_value, register_name(e->reg));
+				fprintf(f, "\tmovq\t$%d, %%%s\n", e->literal_value, register_name(e->reg));
 			}
 			break;
 		case EXPR_INTEGER_LITERAL:
 			if(!e->is_global) {
 				e->reg = register_alloc();
-				fprintf(f, "\tmovq $%d, %%%s\n", e->literal_value, register_name(e->reg));
+				fprintf(f, "\tmovq\t$%d, %%%s\n", e->literal_value, register_name(e->reg));
 			}
 			break;
 		case EXPR_CHARACTER_LITERAL: 
 			e->literal_value = expr_getchar(e->string_literal[1], e->string_literal[2]);
 			if(!e->is_global) {
 				e->reg = register_alloc();
-				fprintf(f, "\tmovq $%d, %%%s\n", e->literal_value, register_name(e->reg));
+				fprintf(f, "\tmovq\t$%d, %%%s\n", e->literal_value, register_name(e->reg));
 			}
 			break;
 		case EXPR_STRING_LITERAL: 
-			fprintf(f, "\n\tsection .rodata\n");
+			fprintf(f, "\n\tsection\t.rodata\n");
 			fprintf(f, ".str%d:\n", str_no);
 			expr_codegen_str(e->string_literal, f);
 			str_no += 1;
@@ -997,3 +1128,4 @@ char expr_getchar(const char a, const char b) {
 		return a;
 	}
 }
+

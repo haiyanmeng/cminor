@@ -1,0 +1,582 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+BEGIN	scanner.c	125;"	d	file:
+BISON_FILE	Makefile	/^BISON_FILE = parser.bison$/;"	m
+DECL_H	decl.h	3;"	d
+DEFAULT_FUNC	hash_table.c	15;"	d	file:
+DEFAULT_LOAD	hash_table.c	14;"	d	file:
+DEFAULT_SIZE	hash_table.c	13;"	d	file:
+ECHO	scanner.c	671;"	d	file:
+EOB_ACT_CONTINUE_SCAN	scanner.c	160;"	d	file:
+EOB_ACT_END_OF_FILE	scanner.c	161;"	d	file:
+EOB_ACT_LAST_MATCH	scanner.c	162;"	d	file:
+EXPR_ADD	expr.h	/^	EXPR_ADD,$/;"	e	enum:__anon1
+EXPR_AND	expr.h	/^	EXPR_AND,$/;"	e	enum:__anon1
+EXPR_ASSIGN	expr.h	/^	EXPR_ASSIGN,$/;"	e	enum:__anon1
+EXPR_BOOLEAN_LITERAL	expr.h	/^	EXPR_BOOLEAN_LITERAL,$/;"	e	enum:__anon1
+EXPR_CHARACTER_LITERAL	expr.h	/^	EXPR_CHARACTER_LITERAL,$/;"	e	enum:__anon1
+EXPR_COMMA	expr.h	/^	EXPR_COMMA,$/;"	e	enum:__anon1
+EXPR_DECREMENT	expr.h	/^	EXPR_DECREMENT,$/;"	e	enum:__anon1
+EXPR_DIV	expr.h	/^	EXPR_DIV,$/;"	e	enum:__anon1
+EXPR_EQ	expr.h	/^	EXPR_EQ,$/;"	e	enum:__anon1
+EXPR_GE	expr.h	/^	EXPR_GE,$/;"	e	enum:__anon1
+EXPR_GT	expr.h	/^	EXPR_GT,$/;"	e	enum:__anon1
+EXPR_H	expr.h	2;"	d
+EXPR_IDENT_NAME	expr.h	/^	EXPR_IDENT_NAME,$/;"	e	enum:__anon1
+EXPR_INCREMENT	expr.h	/^	EXPR_INCREMENT,$/;"	e	enum:__anon1
+EXPR_INTEGER_LITERAL	expr.h	/^	EXPR_INTEGER_LITERAL,$/;"	e	enum:__anon1
+EXPR_LE	expr.h	/^	EXPR_LE,$/;"	e	enum:__anon1
+EXPR_LEFTBRACKET	expr.h	/^	EXPR_LEFTBRACKET,$/;"	e	enum:__anon1
+EXPR_LEFTCURLY	expr.h	/^	EXPR_LEFTCURLY,$/;"	e	enum:__anon1
+EXPR_LEFTPARENTHESS	expr.h	/^	EXPR_LEFTPARENTHESS,$/;"	e	enum:__anon1
+EXPR_LT	expr.h	/^	EXPR_LT,$/;"	e	enum:__anon1
+EXPR_MOD	expr.h	/^	EXPR_MOD,$/;"	e	enum:__anon1
+EXPR_MUL	expr.h	/^	EXPR_MUL,$/;"	e	enum:__anon1
+EXPR_NOT	expr.h	/^	EXPR_NOT,$/;"	e	enum:__anon1
+EXPR_OR	expr.h	/^	EXPR_OR,$/;"	e	enum:__anon1
+EXPR_POWER	expr.h	/^	EXPR_POWER,$/;"	e	enum:__anon1
+EXPR_STRING_LITERAL	expr.h	/^	EXPR_STRING_LITERAL$/;"	e	enum:__anon1
+EXPR_SUB	expr.h	/^	EXPR_SUB,$/;"	e	enum:__anon1
+EXPR_UNARY_NEG	expr.h	/^	EXPR_UNARY_NEG,$/;"	e	enum:__anon1
+EXPR_UNEQ	expr.h	/^	EXPR_UNEQ,$/;"	e	enum:__anon1
+FLEXINT_H	scanner.c	30;"	d	file:
+FLEX_BETA	scanner.c	14;"	d	file:
+FLEX_FILE	Makefile	/^FLEX_FILE = scanner.flex$/;"	m
+FLEX_SCANNER	scanner.c	9;"	d	file:
+FUNC_DEF	symbol.h	/^	FUNC_DEF,$/;"	e	enum:__anon6
+FUNC_NOT	symbol.h	/^	FUNC_NOT$/;"	e	enum:__anon6
+FUNC_PROTO	symbol.h	/^	FUNC_PROTO,$/;"	e	enum:__anon6
+HASH_TABLE_H	hash_table.h	9;"	d
+INITIAL	scanner.c	584;"	d	file:
+INT16_MAX	scanner.c	73;"	d	file:
+INT16_MIN	scanner.c	64;"	d	file:
+INT32_MAX	scanner.c	76;"	d	file:
+INT32_MIN	scanner.c	67;"	d	file:
+INT8_MAX	scanner.c	70;"	d	file:
+INT8_MIN	scanner.c	61;"	d	file:
+PARAM_LIST_H	param_list.h	3;"	d
+REGISTER_H	register.h	2;"	d
+REJECT	scanner.c	551;"	d	file:
+SCOPE_H	scope.h	2;"	d
+STMT_BLOCK	stmt.h	/^	STMT_BLOCK$/;"	e	enum:__anon4
+STMT_DECL	stmt.h	/^	STMT_DECL,$/;"	e	enum:__anon4
+STMT_EXPR	stmt.h	/^	STMT_EXPR,$/;"	e	enum:__anon4
+STMT_FOR	stmt.h	/^	STMT_FOR,$/;"	e	enum:__anon4
+STMT_H	stmt.h	3;"	d
+STMT_IF_ELSE	stmt.h	/^	STMT_IF_ELSE,$/;"	e	enum:__anon4
+STMT_PRINT	stmt.h	/^	STMT_PRINT,$/;"	e	enum:__anon4
+STMT_RETURN	stmt.h	/^	STMT_RETURN,$/;"	e	enum:__anon4
+SYMBOL_GLOBAL	symbol.h	/^	SYMBOL_GLOBAL$/;"	e	enum:__anon5
+SYMBOL_H	symbol.h	3;"	d
+SYMBOL_LOCAL	symbol.h	/^	SYMBOL_LOCAL,$/;"	e	enum:__anon5
+SYMBOL_PARAM	symbol.h	/^	SYMBOL_PARAM,$/;"	e	enum:__anon5
+TOKEN_ARRAY	parser.tab.c	63;"	d	file:
+TOKEN_ARRAY	parser.tab.h	1;"	d
+TOKEN_BOOLEAN	parser.tab.c	64;"	d	file:
+TOKEN_BOOLEAN	parser.tab.h	2;"	d
+TOKEN_CHAR	parser.tab.c	65;"	d	file:
+TOKEN_CHAR	parser.tab.h	3;"	d
+TOKEN_CHAR_LITERAL	parser.tab.c	80;"	d	file:
+TOKEN_CHAR_LITERAL	parser.tab.h	18;"	d
+TOKEN_COLON	parser.tab.c	108;"	d	file:
+TOKEN_COLON	parser.tab.h	46;"	d
+TOKEN_COMMA	parser.tab.c	109;"	d	file:
+TOKEN_COMMA	parser.tab.h	47;"	d
+TOKEN_COMMENT_C	parser.tab.c	82;"	d	file:
+TOKEN_COMMENT_C	parser.tab.h	20;"	d
+TOKEN_COMMENT_CPLUSPLUS	parser.tab.c	83;"	d	file:
+TOKEN_COMMENT_CPLUSPLUS	parser.tab.h	21;"	d
+TOKEN_ELSE	parser.tab.c	66;"	d	file:
+TOKEN_ELSE	parser.tab.h	4;"	d
+TOKEN_ERROR	parser.tab.c	111;"	d	file:
+TOKEN_ERROR	parser.tab.h	49;"	d
+TOKEN_FALSE	parser.tab.c	67;"	d	file:
+TOKEN_FALSE	parser.tab.h	5;"	d
+TOKEN_FOR	parser.tab.c	68;"	d	file:
+TOKEN_FOR	parser.tab.h	6;"	d
+TOKEN_FUNCTION	parser.tab.c	69;"	d	file:
+TOKEN_FUNCTION	parser.tab.h	7;"	d
+TOKEN_IDENT	parser.tab.c	78;"	d	file:
+TOKEN_IDENT	parser.tab.h	16;"	d
+TOKEN_IF	parser.tab.c	70;"	d	file:
+TOKEN_IF	parser.tab.h	8;"	d
+TOKEN_INTEGER	parser.tab.c	71;"	d	file:
+TOKEN_INTEGER	parser.tab.h	9;"	d
+TOKEN_INTEGER_LITERAL	parser.tab.c	79;"	d	file:
+TOKEN_INTEGER_LITERAL	parser.tab.h	17;"	d
+TOKEN_LEFTCURLY	parser.tab.c	106;"	d	file:
+TOKEN_LEFTCURLY	parser.tab.h	44;"	d
+TOKEN_OP_ADD	parser.tab.c	95;"	d	file:
+TOKEN_OP_ADD	parser.tab.h	33;"	d
+TOKEN_OP_AND	parser.tab.c	103;"	d	file:
+TOKEN_OP_AND	parser.tab.h	41;"	d
+TOKEN_OP_ASSIGN	parser.tab.c	105;"	d	file:
+TOKEN_OP_ASSIGN	parser.tab.h	43;"	d
+TOKEN_OP_DECREMENT	parser.tab.c	89;"	d	file:
+TOKEN_OP_DECREMENT	parser.tab.h	27;"	d
+TOKEN_OP_DIV	parser.tab.c	93;"	d	file:
+TOKEN_OP_DIV	parser.tab.h	31;"	d
+TOKEN_OP_EQ	parser.tab.c	101;"	d	file:
+TOKEN_OP_EQ	parser.tab.h	39;"	d
+TOKEN_OP_GE	parser.tab.c	99;"	d	file:
+TOKEN_OP_GE	parser.tab.h	37;"	d
+TOKEN_OP_GT	parser.tab.c	100;"	d	file:
+TOKEN_OP_GT	parser.tab.h	38;"	d
+TOKEN_OP_INCREMENT	parser.tab.c	88;"	d	file:
+TOKEN_OP_INCREMENT	parser.tab.h	26;"	d
+TOKEN_OP_LE	parser.tab.c	97;"	d	file:
+TOKEN_OP_LE	parser.tab.h	35;"	d
+TOKEN_OP_LEFTBRACKET	parser.tab.c	86;"	d	file:
+TOKEN_OP_LEFTBRACKET	parser.tab.h	24;"	d
+TOKEN_OP_LEFTPARENTHESS	parser.tab.c	84;"	d	file:
+TOKEN_OP_LEFTPARENTHESS	parser.tab.h	22;"	d
+TOKEN_OP_LT	parser.tab.c	98;"	d	file:
+TOKEN_OP_LT	parser.tab.h	36;"	d
+TOKEN_OP_MOD	parser.tab.c	94;"	d	file:
+TOKEN_OP_MOD	parser.tab.h	32;"	d
+TOKEN_OP_MUL	parser.tab.c	92;"	d	file:
+TOKEN_OP_MUL	parser.tab.h	30;"	d
+TOKEN_OP_NOT	parser.tab.c	90;"	d	file:
+TOKEN_OP_NOT	parser.tab.h	28;"	d
+TOKEN_OP_OR	parser.tab.c	104;"	d	file:
+TOKEN_OP_OR	parser.tab.h	42;"	d
+TOKEN_OP_POWER	parser.tab.c	91;"	d	file:
+TOKEN_OP_POWER	parser.tab.h	29;"	d
+TOKEN_OP_RIGHTBRACKET	parser.tab.c	87;"	d	file:
+TOKEN_OP_RIGHTBRACKET	parser.tab.h	25;"	d
+TOKEN_OP_RIGHTPARENTHESS	parser.tab.c	85;"	d	file:
+TOKEN_OP_RIGHTPARENTHESS	parser.tab.h	23;"	d
+TOKEN_OP_SUB	parser.tab.c	96;"	d	file:
+TOKEN_OP_SUB	parser.tab.h	34;"	d
+TOKEN_OP_UNEQ	parser.tab.c	102;"	d	file:
+TOKEN_OP_UNEQ	parser.tab.h	40;"	d
+TOKEN_PRINT	parser.tab.c	72;"	d	file:
+TOKEN_PRINT	parser.tab.h	10;"	d
+TOKEN_RETURN	parser.tab.c	73;"	d	file:
+TOKEN_RETURN	parser.tab.h	11;"	d
+TOKEN_RIGHTCURLY	parser.tab.c	107;"	d	file:
+TOKEN_RIGHTCURLY	parser.tab.h	45;"	d
+TOKEN_SEMICOLON	parser.tab.c	110;"	d	file:
+TOKEN_SEMICOLON	parser.tab.h	48;"	d
+TOKEN_STRING	parser.tab.c	74;"	d	file:
+TOKEN_STRING	parser.tab.h	12;"	d
+TOKEN_STRING_LITERAL	parser.tab.c	81;"	d	file:
+TOKEN_STRING_LITERAL	parser.tab.h	19;"	d
+TOKEN_TRUE	parser.tab.c	75;"	d	file:
+TOKEN_TRUE	parser.tab.h	13;"	d
+TOKEN_VOID	parser.tab.c	76;"	d	file:
+TOKEN_VOID	parser.tab.h	14;"	d
+TOKEN_WHILE	parser.tab.c	77;"	d	file:
+TOKEN_WHILE	parser.tab.h	15;"	d
+TYPE_ARRAY	type.h	/^	TYPE_ARRAY,$/;"	e	enum:__anon7
+TYPE_BOOLEAN	type.h	/^	TYPE_BOOLEAN,$/;"	e	enum:__anon7
+TYPE_CHARACTER	type.h	/^	TYPE_CHARACTER,$/;"	e	enum:__anon7
+TYPE_FUNCTION	type.h	/^	TYPE_FUNCTION,$/;"	e	enum:__anon7
+TYPE_H	type.h	2;"	d
+TYPE_INTEGER	type.h	/^	TYPE_INTEGER,$/;"	e	enum:__anon7
+TYPE_STRING	type.h	/^	TYPE_STRING,$/;"	e	enum:__anon7
+TYPE_VOID	type.h	/^	TYPE_VOID$/;"	e	enum:__anon7
+UINT16_MAX	scanner.c	82;"	d	file:
+UINT32_MAX	scanner.c	85;"	d	file:
+UINT8_MAX	scanner.c	79;"	d	file:
+YYABORT	parser.tab.c	531;"	d	file:
+YYACCEPT	parser.tab.c	533;"	d	file:
+YYBYACC	parser.tab.c	8;"	d	file:
+YYDEBUG	parser.tab.c	330;"	d	file:
+YYEMPTY	parser.tab.c	13;"	d	file:
+YYERRCODE	parser.tab.c	112;"	d	file:
+YYERROR	parser.tab.c	534;"	d	file:
+YYFINAL	parser.tab.c	328;"	d	file:
+YYINITSTACKSIZE	parser.tab.c	466;"	d	file:
+YYMAJOR	parser.tab.c	9;"	d	file:
+YYMAXDEPTH	parser.tab.c	455;"	d	file:
+YYMAXDEPTH	parser.tab.c	456;"	d	file:
+YYMAXDEPTH	parser.tab.c	462;"	d	file:
+YYMAXTOKEN	parser.tab.c	332;"	d	file:
+YYMINOR	parser.tab.c	10;"	d	file:
+YYPATCH	parser.tab.c	11;"	d	file:
+YYPREFIX	parser.tab.c	21;"	d	file:
+YYRECOVERING	parser.tab.c	16;"	d	file:
+YYREJECT	parser.tab.c	532;"	d	file:
+YYSTACKSIZE	parser.tab.c	459;"	d	file:
+YYSTACKSIZE	parser.tab.c	461;"	d	file:
+YYSTATE	scanner.c	132;"	d	file:
+YYSTYPE	parser.tab.c	/^} YYSTYPE;$/;"	t	typeref:union:__anon2	file:
+YYSTYPE	parser.tab.h	/^} YYSTYPE;$/;"	t	typeref:union:__anon3
+YYTABLESIZE	parser.tab.c	203;"	d	file:
+YYTABLES_NAME	scanner.c	2135;"	d	file:
+YY_AT_BOL	scanner.c	344;"	d	file:
+YY_BREAK	scanner.c	750;"	d	file:
+YY_BUFFER_EOF_PENDING	scanner.c	260;"	d	file:
+YY_BUFFER_NEW	scanner.c	248;"	d	file:
+YY_BUFFER_NORMAL	scanner.c	249;"	d	file:
+YY_BUFFER_STATE	scanner.c	/^typedef struct yy_buffer_state *YY_BUFFER_STATE;$/;"	t	typeref:struct:yy_buffer_state	file:
+YY_BUF_SIZE	scanner.c	144;"	d	file:
+YY_CHAR	scanner.c	/^typedef unsigned char YY_CHAR;$/;"	t	file:
+YY_CURRENT_BUFFER	scanner.c	276;"	d	file:
+YY_CURRENT_BUFFER_LVALUE	scanner.c	283;"	d	file:
+YY_DECL	scanner.c	738;"	d	file:
+YY_DECL_IS_OURS	scanner.c	734;"	d	file:
+YY_DO_BEFORE_ACTION	scanner.c	372;"	d	file:
+YY_END_OF_BUFFER	scanner.c	380;"	d	file:
+YY_END_OF_BUFFER_CHAR	scanner.c	140;"	d	file:
+YY_EXIT_FAILURE	scanner.c	1930;"	d	file:
+YY_EXTRA_TYPE	scanner.c	595;"	d	file:
+YY_FATAL_ERROR	scanner.c	725;"	d	file:
+YY_FLEX_MAJOR_VERSION	scanner.c	10;"	d	file:
+YY_FLEX_MINOR_VERSION	scanner.c	11;"	d	file:
+YY_FLEX_SUBMINOR_VERSION	scanner.c	12;"	d	file:
+YY_FLUSH_BUFFER	scanner.c	312;"	d	file:
+YY_INPUT	scanner.c	678;"	d	file:
+YY_INT_ALIGNED	scanner.c	5;"	d	file:
+YY_LESS_LINENO	scanner.c	171;"	d	file:
+YY_MORE_ADJ	scanner.c	553;"	d	file:
+YY_NEW_FILE	scanner.c	138;"	d	file:
+YY_NULL	scanner.c	112;"	d	file:
+YY_NUM_RULES	scanner.c	379;"	d	file:
+YY_READ_BUF_SIZE	scanner.c	663;"	d	file:
+YY_RESTORE_YY_MORE_OFFSET	scanner.c	554;"	d	file:
+YY_RULE_SETUP	scanner.c	753;"	d	file:
+YY_SC_TO_UI	scanner.c	119;"	d	file:
+YY_SKIP_YYWRAP	scanner.c	349;"	d	file:
+YY_START	scanner.c	131;"	d	file:
+YY_START_STACK_INCR	scanner.c	720;"	d	file:
+YY_STATE_BUF_SIZE	scanner.c	149;"	d	file:
+YY_STATE_EOF	scanner.c	135;"	d	file:
+YY_STRUCT_YY_BUFFER_STATE	scanner.c	201;"	d	file:
+YY_TYPEDEF_YY_BUFFER_STATE	scanner.c	152;"	d	file:
+YY_TYPEDEF_YY_SIZE_T	scanner.c	196;"	d	file:
+YY_USER_ACTION	scanner.c	745;"	d	file:
+YY_USE_CONST	scanner.c	100;"	d	file:
+YY_USE_CONST	scanner.c	93;"	d	file:
+__STDC_LIMIT_MACROS	scanner.c	40;"	d	file:
+body	stmt.h	/^	struct stmt *body;$/;"	m	struct:stmt	typeref:struct:stmt::stmt
+bucket_count	hash_table.c	/^	int bucket_count;$/;"	m	struct:hash_table	file:
+buckets	hash_table.c	/^	struct entry **buckets;$/;"	m	struct:hash_table	typeref:struct:hash_table::entry	file:
+c_comment	scanner.c	/^void c_comment() {$/;"	f
+char_process	scanner.c	/^int char_process() {$/;"	f
+check_id	scanner.c	/^void check_id() {$/;"	f
+check_str	scanner.c	/^void check_str() {$/;"	f
+code	decl.h	/^	struct stmt *code; \/* function body *\/$/;"	m	struct:decl	typeref:struct:decl::stmt
+decl	decl.h	/^struct decl {$/;"	s
+decl	parser.tab.c	/^	struct decl *decl;$/;"	m	union:__anon2	typeref:struct:__anon2::decl	file:
+decl	parser.tab.h	/^	struct decl *decl;$/;"	m	union:__anon3	typeref:struct:__anon3::decl
+decl	stmt.h	/^	struct decl *decl; \/* x: integer; *\/$/;"	m	struct:stmt	typeref:struct:stmt::decl
+decl_codegen	decl.c	/^void decl_codegen(struct decl *d, FILE *f) {$/;"	f
+decl_create	decl.c	/^struct decl *decl_create(char *name, struct type *t, struct expr *v, struct stmt *c, int line, struct decl *next) {$/;"	f
+decl_func_check	decl.c	/^void decl_func_check(struct decl *d) {$/;"	f
+decl_print	decl.c	/^void decl_print(struct decl *d, int indent) {$/;"	f
+decl_resolve	decl.c	/^void decl_resolve(struct decl *d) {$/;"	f
+decl_typecheck	decl.c	/^void decl_typecheck(struct decl *d) {$/;"	f
+else_body	stmt.h	/^	struct stmt *else_body; \/* body of else stmt *\/$/;"	m	struct:stmt	typeref:struct:stmt::stmt
+entry	hash_table.c	/^struct entry {$/;"	s	file:
+expr	expr.h	/^struct expr {$/;"	s
+expr	parser.tab.c	/^	struct expr *expr;$/;"	m	union:__anon2	typeref:struct:__anon2::expr	file:
+expr	parser.tab.h	/^	struct expr *expr;$/;"	m	union:__anon3	typeref:struct:__anon3::expr
+expr	stmt.h	/^	struct expr *expr; \/* expr; or middle expr of for stmt *\/$/;"	m	struct:stmt	typeref:struct:stmt::expr
+expr	type.h	/^	struct expr *expr; \/* array size (e.g., a: array[5+23-3] integer; *\/$/;"	m	struct:type	typeref:struct:type::expr
+expr_codegen	expr.c	/^void expr_codegen(struct expr *e, FILE *f) {$/;"	f
+expr_codegen_str	expr.c	/^void expr_codegen_str(const char *s, FILE *f) {$/;"	f
+expr_count_item	expr.c	/^int expr_count_item(struct expr *e) {$/;"	f
+expr_create	expr.c	/^struct expr *expr_create(expr_t kind, struct expr *left, struct expr *right, int line) {$/;"	f
+expr_create_boolean_literal	expr.c	/^struct expr *expr_create_boolean_literal(int c, int line) {$/;"	f
+expr_create_character_literal	expr.c	/^struct expr *expr_create_character_literal(const char *str, int line) {$/;"	f
+expr_create_integer_literal	expr.c	/^struct expr *expr_create_integer_literal(int c, int line) {$/;"	f
+expr_create_name	expr.c	/^struct expr *expr_create_name(const char *n, int line) {$/;"	f
+expr_create_string_literal	expr.c	/^struct expr *expr_create_string_literal(const char *str, int line) {$/;"	f
+expr_equals	expr.c	/^int expr_equals(struct expr *s, struct expr *t) {$/;"	f
+expr_func_typecheck	expr.c	/^void expr_func_typecheck(struct expr *e, int silent_mode) {$/;"	f
+expr_get_item	expr.c	/^struct expr *expr_get_item(struct expr *e, int n, int i) {$/;"	f
+expr_getchar	expr.c	/^char expr_getchar(const char a, const char b) {$/;"	f
+expr_is_constant	expr.c	/^int expr_is_constant(struct expr *e) {$/;"	f
+expr_print	expr.c	/^void expr_print(struct expr *e) {$/;"	f
+expr_print_typecheck	expr.c	/^void expr_print_typecheck(struct expr *e) {$/;"	f
+expr_resolve	expr.c	/^void expr_resolve(struct expr *e) {$/;"	f
+expr_t	expr.h	/^} expr_t;$/;"	t	typeref:enum:__anon1
+expr_typecheck	expr.c	/^struct type *expr_typecheck(struct expr *e, int is_array_initializer, int silent_mode) {$/;"	f
+f	codegen_test.s	/^f:$/;"	l
+flex_int16_t	scanner.c	/^typedef int16_t flex_int16_t;$/;"	t	file:
+flex_int16_t	scanner.c	/^typedef short int flex_int16_t;$/;"	t	file:
+flex_int32_t	scanner.c	/^typedef int flex_int32_t;$/;"	t	file:
+flex_int32_t	scanner.c	/^typedef int32_t flex_int32_t;$/;"	t	file:
+flex_int8_t	scanner.c	/^typedef int8_t flex_int8_t;$/;"	t	file:
+flex_int8_t	scanner.c	/^typedef signed char flex_int8_t;$/;"	t	file:
+flex_uint16_t	scanner.c	/^typedef uint16_t flex_uint16_t;$/;"	t	file:
+flex_uint16_t	scanner.c	/^typedef unsigned short int flex_uint16_t;$/;"	t	file:
+flex_uint32_t	scanner.c	/^typedef uint32_t flex_uint32_t;$/;"	t	file:
+flex_uint32_t	scanner.c	/^typedef unsigned int flex_uint32_t;$/;"	t	file:
+flex_uint8_t	scanner.c	/^typedef uint8_t flex_uint8_t;$/;"	t	file:
+flex_uint8_t	scanner.c	/^typedef unsigned char flex_uint8_t; $/;"	t	file:
+func	codegen_test.s	/^func:$/;"	l
+func_no	decl.c	/^int func_no = 0;$/;"	v
+func_t	symbol.h	/^} func_t;$/;"	t	typeref:enum:__anon6
+h	scope.h	/^	struct hash_table *h; \/* each hash table corresponds a scope and maps an identifier to a symbol. *\/$/;"	m	struct:scope	typeref:struct:scope::hash_table
+hash	hash_table.c	/^	unsigned hash;$/;"	m	struct:entry	file:
+hash_func	hash_table.c	/^	hash_func_t hash_func;$/;"	m	struct:hash_table	file:
+hash_func_t	hash_table.h	/^typedef unsigned (*hash_func_t) (const char *key);$/;"	t
+hash_string	hash_table.c	/^unsigned hash_string(const char *s)$/;"	f
+hash_table	hash_table.c	/^struct hash_table {$/;"	s	file:
+hash_table_clear	hash_table.c	/^void hash_table_clear(struct hash_table *h)$/;"	f
+hash_table_create	hash_table.c	/^struct hash_table *hash_table_create(int bucket_count, hash_func_t func)$/;"	f
+hash_table_delete	hash_table.c	/^void hash_table_delete(struct hash_table *h)$/;"	f
+hash_table_double_buckets	hash_table.c	/^static int hash_table_double_buckets(struct hash_table *h)$/;"	f	file:
+hash_table_firstkey	hash_table.c	/^void hash_table_firstkey(struct hash_table *h)$/;"	f
+hash_table_insert	hash_table.c	/^int hash_table_insert(struct hash_table *h, const char *key, const void *value)$/;"	f
+hash_table_lookup	hash_table.c	/^void *hash_table_lookup(struct hash_table *h, const char *key)$/;"	f
+hash_table_nextkey	hash_table.c	/^int hash_table_nextkey(struct hash_table *h, char **key, void **value)$/;"	f
+hash_table_remove	hash_table.c	/^void *hash_table_remove(struct hash_table *h, const char *key)$/;"	f
+hash_table_size	hash_table.c	/^int hash_table_size(struct hash_table *h)$/;"	f
+hash_table_traverse	scope.c	/^void hash_table_traverse(struct hash_table *h) {$/;"	f
+hashmask	hash_table.c	256;"	d	file:
+hashsize	hash_table.c	255;"	d	file:
+head	scope.c	/^struct scope *head = 0;$/;"	v	typeref:struct:scope
+ibucket	hash_table.c	/^	int ibucket;$/;"	m	struct:hash_table	file:
+ientry	hash_table.c	/^	struct entry *ientry;$/;"	m	struct:hash_table	typeref:struct:hash_table::entry	file:
+inAST	type.h	/^	int inAST;$/;"	m	struct:type
+indent_process	stmt.c	/^void indent_process(int indent) {$/;"	f
+init_expr	stmt.h	/^	struct expr *init_expr; \/* the init expr of for stmt *\/$/;"	m	struct:stmt	typeref:struct:stmt::expr
+integer_power	library.c	/^int integer_power( int x, int y )$/;"	f
+is_global	expr.h	/^	int is_global;$/;"	m	struct:expr
+jenkins_hash	hash_table.c	/^static ub4 jenkins_hash(k, length, initval)$/;"	f	file:
+key	hash_table.c	/^	char *key;$/;"	m	struct:entry	file:
+kind	expr.h	/^	expr_t kind;$/;"	m	struct:expr
+kind	stmt.h	/^	stmt_kind_t kind;$/;"	m	struct:stmt
+kind	symbol.h	/^	symbol_t kind;$/;"	m	struct:symbol
+kind	type.h	/^	type_kind_t kind;$/;"	m	struct:type
+left	expr.h	/^	struct expr *left;$/;"	m	struct:expr	typeref:struct:expr::expr
+level	scope.c	/^int level = 0;$/;"	v
+line	decl.h	/^	int line;$/;"	m	struct:decl
+line	expr.h	/^	int line;$/;"	m	struct:expr
+line	param_list.h	/^	int line;$/;"	m	struct:param_list
+line	stmt.h	/^	int line;$/;"	m	struct:stmt
+line	type.h	/^	int line;$/;"	m	struct:type
+literal_value	expr.h	/^	int literal_value; \/* boolean and integer *\/$/;"	m	struct:expr
+local_count	symbol.h	/^	int local_count;$/;"	m	struct:symbol
+local_no	decl.c	/^int local_no = 0;$/;"	v
+main	main.c	/^int main(int argc, char *argv[]) {$/;"	f
+mix	hash_table.c	285;"	d	file:
+n	parser.tab.c	/^	int n;$/;"	m	union:__anon2	file:
+n	parser.tab.h	/^	int n;$/;"	m	union:__anon3
+name	decl.h	/^	char *name; \/* function name or variable name *\/$/;"	m	struct:decl
+name	expr.h	/^	const char *name; \/* identifier *\/$/;"	m	struct:expr
+name	param_list.h	/^	char *name;$/;"	m	struct:param_list
+name	symbol.h	/^	char *name;$/;"	m	struct:symbol
+next	decl.h	/^	struct decl *next;$/;"	m	struct:decl	typeref:struct:decl::decl
+next	hash_table.c	/^	struct entry *next;$/;"	m	struct:entry	typeref:struct:entry::entry	file:
+next	param_list.h	/^	struct param_list *next;$/;"	m	struct:param_list	typeref:struct:param_list::param_list
+next	scope.h	/^	struct scope *next;$/;"	m	struct:scope	typeref:struct:scope::scope
+next	stmt.h	/^	struct stmt *next;$/;"	m	struct:stmt	typeref:struct:stmt::stmt
+next_expr	stmt.h	/^	struct expr *next_expr; \/* the next expr of for stmt *\/$/;"	m	struct:stmt	typeref:struct:stmt::expr
+param_count	symbol.h	/^	int param_count;$/;"	m	struct:symbol
+param_list	param_list.h	/^struct param_list {$/;"	s
+param_list_create	param_list.c	/^struct param_list *param_list_create(char *name, struct type *type, struct param_list *next, int line) {$/;"	f
+param_list_print	param_list.c	/^void param_list_print(struct param_list *p) {$/;"	f
+param_list_resolve	param_list.c	/^int param_list_resolve(struct param_list *p, int seq) {$/;"	f
+params	parser.tab.c	/^	struct param_list *params;$/;"	m	union:__anon2	typeref:struct:__anon2::param_list	file:
+params	parser.tab.h	/^	struct param_list *params;$/;"	m	union:__anon3	typeref:struct:__anon3::param_list
+params	type.h	/^	struct param_list *params; \/* function parameter list *\/$/;"	m	struct:type	typeref:struct:type::param_list
+params_equals	param_list.c	/^int params_equals(struct param_list *p, struct param_list *q) {$/;"	f
+print_boolean	library.c	/^void print_boolean( int b )$/;"	f
+print_character	library.c	/^void print_character( char c )$/;"	f
+print_integer	library.c	/^void print_integer( int x )$/;"	f
+print_string	library.c	/^void print_string( const char *s )$/;"	f
+program	parser.tab.c	/^struct decl *program = 0;$/;"	v	typeref:struct:decl
+real_strlen	scanner.c	/^int real_strlen(const char *text, int len) {$/;"	f
+reg	expr.h	/^	int reg;$/;"	m	struct:expr
+reg_status	register.c	/^int reg_status[16] = {1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0};$/;"	v
+register_alloc	register.c	/^int register_alloc() {$/;"	f
+register_free	register.c	/^void register_free(int r) {$/;"	f
+register_freeall	register.c	/^void register_freeall() {$/;"	f
+register_name	register.c	/^const char *register_name(int r) {$/;"	f
+resolve_error_count	scope.c	/^int resolve_error_count = 0;$/;"	v
+right	expr.h	/^	struct expr *right;$/;"	m	struct:expr	typeref:struct:expr::expr
+scope	scope.h	/^struct scope {$/;"	s
+scope_bind	scope.c	/^void scope_bind(const char *name, struct symbol *s) {$/;"	f
+scope_enter	scope.c	/^void scope_enter() {$/;"	f
+scope_exit	scope.c	/^void scope_exit() {$/;"	f
+scope_init	scope.c	/^void scope_init() {$/;"	f
+scope_level	scope.c	/^int scope_level() {$/;"	f
+scope_lookup	scope.c	/^struct symbol *scope_lookup(const char *name, int line, int resolving) {$/;"	f
+scope_lookup_local	scope.c	/^struct symbol *scope_lookup_local(const char *name) {$/;"	f
+scope_print	scope.c	/^void scope_print() {$/;"	f
+scope_rebind	scope.c	/^void scope_rebind(const char *name, struct symbol *s) {$/;"	f
+size	hash_table.c	/^	int size;$/;"	m	struct:hash_table	file:
+stmt	parser.tab.c	/^	struct stmt *stmt;$/;"	m	union:__anon2	typeref:struct:__anon2::stmt	file:
+stmt	parser.tab.h	/^	struct stmt *stmt;$/;"	m	union:__anon3	typeref:struct:__anon3::stmt
+stmt	stmt.h	/^struct stmt {$/;"	s
+stmt_codegen	stmt.c	/^void stmt_codegen(struct stmt *s, FILE *f) {$/;"	f
+stmt_create	stmt.c	/^struct stmt *stmt_create(stmt_kind_t kind, struct decl *d, struct expr *init_expr, struct expr *e, struct expr *next_expr, struct stmt *body, struct stmt *else_body, int line, struct stmt *next) {$/;"	f
+stmt_kind_t	stmt.h	/^} stmt_kind_t;$/;"	t	typeref:enum:__anon4
+stmt_print	stmt.c	/^void stmt_print(struct stmt *s, int indent1, int indent2, int curly_newline) {$/;"	f
+stmt_resolve	stmt.c	/^void stmt_resolve(struct stmt *s) {$/;"	f
+stmt_typecheck	stmt.c	/^void stmt_typecheck(struct stmt *s, const char *func_name) {$/;"	f
+str	parser.tab.c	/^	char *str;$/;"	m	union:__anon2	file:
+str	parser.tab.h	/^	char *str;$/;"	m	union:__anon3
+str_no	decl.c	/^int str_no = 0;$/;"	v
+string_literal	expr.h	/^	const char * string_literal; \/* string *\/$/;"	m	struct:expr
+subtype	type.h	/^	struct type *subtype; \/* function return value type; type of array elements *\/$/;"	m	struct:type	typeref:struct:type::type
+symbol	decl.h	/^	struct symbol *symbol;$/;"	m	struct:decl	typeref:struct:decl::symbol
+symbol	expr.h	/^	struct symbol *symbol; \/* symbol *\/$/;"	m	struct:expr	typeref:struct:expr::symbol
+symbol	param_list.h	/^	struct symbol *symbol;$/;"	m	struct:param_list	typeref:struct:param_list::symbol
+symbol	symbol.h	/^struct symbol {$/;"	s
+symbol_create	symbol.c	/^struct symbol *symbol_create(symbol_t kind, int seq, struct type *type, char *name, func_t t) {$/;"	f
+symbol_set_local_count	symbol.c	/^void symbol_set_local_count(struct symbol *s, int local_count) {$/;"	f
+symbol_set_param_count	symbol.c	/^void symbol_set_param_count(struct symbol *s, int param_count) {$/;"	f
+symbol_t	symbol.h	/^} symbol_t;$/;"	t	typeref:enum:__anon5
+t	symbol.h	/^	func_t t;$/;"	m	struct:symbol
+t1	codegen_test.s	/^t1:$/;"	l
+t2	codegen_test.s	/^t2:$/;"	l
+type	decl.h	/^	struct type *type;$/;"	m	struct:decl	typeref:struct:decl::type
+type	param_list.h	/^	struct type *type;$/;"	m	struct:param_list	typeref:struct:param_list::type
+type	parser.tab.c	/^	struct type *type;$/;"	m	union:__anon2	typeref:struct:__anon2::type	file:
+type	parser.tab.h	/^	struct type *type;$/;"	m	union:__anon3	typeref:struct:__anon3::type
+type	symbol.h	/^	struct type *type;$/;"	m	struct:symbol	typeref:struct:symbol::type
+type	type.h	/^struct type {$/;"	s
+type_arraysize_typecheck	type.c	/^void type_arraysize_typecheck(struct type *t, struct expr *init) {$/;"	f
+type_create	type.c	/^struct type *type_create(type_kind_t kind, struct param_list *params, struct expr *expr, struct type *subtype, int line, int inAST) {$/;"	f
+type_equals	type.c	/^int type_equals(struct type *s, struct type *t) {$/;"	f
+type_error_count	scope.c	/^int type_error_count = 0;$/;"	v
+type_free	type.c	/^void type_free(struct type *t) {$/;"	f
+type_kind_t	type.h	/^} type_kind_t;$/;"	t	typeref:enum:__anon7
+type_print	type.c	/^void type_print(struct type *t) {$/;"	f
+type_resolve	type.c	/^void type_resolve(struct type *t) {$/;"	f
+type_typecheck	type.c	/^void type_typecheck(struct type *t) {$/;"	f
+ub1	hash_table.c	/^typedef unsigned char ub1;	\/* unsigned 1-byte quantities *\/$/;"	t	file:
+ub4	hash_table.c	/^typedef unsigned long int ub4;	\/* unsigned 4-byte quantities *\/$/;"	t	file:
+unput	scanner.c	193;"	d	file:
+value	decl.h	/^	struct expr *value; \/* initializer *\/$/;"	m	struct:decl	typeref:struct:decl::expr
+value	hash_table.c	/^	void *value;$/;"	m	struct:entry	file:
+which	symbol.h	/^	int which; \/* number of each symbol in a scope *\/$/;"	m	struct:symbol
+x	codegen_test.s	/^x:$/;"	l
+x1	codegen_test.s	/^x1:$/;"	l
+x2	codegen_test.s	/^x2:$/;"	l
+x3	codegen_test.s	/^x3:$/;"	l
+x4	codegen_test.s	/^x4:$/;"	l
+x5	codegen_test.s	/^x5:$/;"	l
+x6	codegen_test.s	/^x6:$/;"	l
+y	codegen_test.s	/^y:$/;"	l
+yy_accept	scanner.c	/^static yyconst flex_int16_t yy_accept[126] =$/;"	v	file:
+yy_at_bol	scanner.c	/^	int yy_at_bol;$/;"	m	struct:yy_buffer_state	file:
+yy_base	scanner.c	/^static yyconst flex_int16_t yy_base[130] =$/;"	v	file:
+yy_bs_column	scanner.c	/^    int yy_bs_column; \/**< The column count. *\/$/;"	m	struct:yy_buffer_state	file:
+yy_bs_lineno	scanner.c	/^    int yy_bs_lineno; \/**< The line count. *\/$/;"	m	struct:yy_buffer_state	file:
+yy_buf_pos	scanner.c	/^	char *yy_buf_pos;		\/* current position in input buffer *\/$/;"	m	struct:yy_buffer_state	file:
+yy_buf_size	scanner.c	/^	yy_size_t yy_buf_size;$/;"	m	struct:yy_buffer_state	file:
+yy_buffer_stack	scanner.c	/^static YY_BUFFER_STATE * yy_buffer_stack = 0; \/**< Stack as an array. *\/$/;"	v	file:
+yy_buffer_stack_max	scanner.c	/^static size_t yy_buffer_stack_max = 0; \/**< capacity of stack. *\/$/;"	v	file:
+yy_buffer_stack_top	scanner.c	/^static size_t yy_buffer_stack_top = 0; \/**< index of top of stack. *\/$/;"	v	file:
+yy_buffer_state	scanner.c	/^struct yy_buffer_state$/;"	s	file:
+yy_buffer_status	scanner.c	/^	int yy_buffer_status;$/;"	m	struct:yy_buffer_state	file:
+yy_c_buf_p	scanner.c	/^static char *yy_c_buf_p = (char *) 0;$/;"	v	file:
+yy_ch_buf	scanner.c	/^	char *yy_ch_buf;		\/* input buffer *\/$/;"	m	struct:yy_buffer_state	file:
+yy_chk	scanner.c	/^static yyconst flex_int16_t yy_chk[197] =$/;"	v	file:
+yy_create_buffer	scanner.c	/^    YY_BUFFER_STATE yy_create_buffer  (FILE * file, int  size )$/;"	f
+yy_def	scanner.c	/^static yyconst flex_int16_t yy_def[130] =$/;"	v	file:
+yy_delete_buffer	scanner.c	/^    void yy_delete_buffer (YY_BUFFER_STATE  b )$/;"	f
+yy_did_buffer_switch_on_eof	scanner.c	/^static int yy_did_buffer_switch_on_eof;$/;"	v	file:
+yy_ec	scanner.c	/^static yyconst flex_int32_t yy_ec[256] =$/;"	v	file:
+yy_fatal_error	scanner.c	/^static void yy_fatal_error (yyconst char* msg )$/;"	f	file:
+yy_fill_buffer	scanner.c	/^	int yy_fill_buffer;$/;"	m	struct:yy_buffer_state	file:
+yy_flex_debug	scanner.c	/^int yy_flex_debug = 0;$/;"	v
+yy_flex_strlen	scanner.c	/^static int yy_flex_strlen (yyconst char * s )$/;"	f	file:
+yy_flex_strncpy	scanner.c	/^static void yy_flex_strncpy (char* s1, yyconst char * s2, int n )$/;"	f	file:
+yy_flush_buffer	scanner.c	/^    void yy_flush_buffer (YY_BUFFER_STATE  b )$/;"	f
+yy_get_next_buffer	scanner.c	/^static int yy_get_next_buffer (void)$/;"	f	file:
+yy_get_previous_state	scanner.c	/^    static yy_state_type yy_get_previous_state (void)$/;"	f	file:
+yy_hold_char	scanner.c	/^static char yy_hold_char;$/;"	v	file:
+yy_init	scanner.c	/^static int yy_init = 0;		\/* whether we need to initialize *\/$/;"	v	file:
+yy_init_buffer	scanner.c	/^    static void yy_init_buffer  (YY_BUFFER_STATE  b, FILE * file )$/;"	f	file:
+yy_init_globals	scanner.c	/^static int yy_init_globals (void)$/;"	f	file:
+yy_input_file	scanner.c	/^	FILE *yy_input_file;$/;"	m	struct:yy_buffer_state	file:
+yy_is_interactive	scanner.c	/^	int yy_is_interactive;$/;"	m	struct:yy_buffer_state	file:
+yy_is_our_buffer	scanner.c	/^	int yy_is_our_buffer;$/;"	m	struct:yy_buffer_state	file:
+yy_last_accepting_cpos	scanner.c	/^static char *yy_last_accepting_cpos;$/;"	v	file:
+yy_last_accepting_state	scanner.c	/^static yy_state_type yy_last_accepting_state;$/;"	v	file:
+yy_load_buffer_state	scanner.c	/^static void yy_load_buffer_state  (void)$/;"	f	file:
+yy_meta	scanner.c	/^static yyconst flex_int32_t yy_meta[50] =$/;"	v	file:
+yy_n_chars	scanner.c	/^	int yy_n_chars;$/;"	m	struct:yy_buffer_state	file:
+yy_n_chars	scanner.c	/^static int yy_n_chars;		\/* number of characters read into yy_ch_buf *\/$/;"	v	file:
+yy_new_buffer	scanner.c	322;"	d	file:
+yy_nxt	scanner.c	/^	flex_int32_t yy_nxt;$/;"	m	struct:yy_trans_info	file:
+yy_nxt	scanner.c	/^static yyconst flex_int16_t yy_nxt[197] =$/;"	v	file:
+yy_rule_can_match_eol	scanner.c	/^static yyconst flex_int32_t yy_rule_can_match_eol[52] =$/;"	v	file:
+yy_scan_buffer	scanner.c	/^YY_BUFFER_STATE yy_scan_buffer  (char * base, yy_size_t  size )$/;"	f
+yy_scan_bytes	scanner.c	/^YY_BUFFER_STATE yy_scan_bytes  (yyconst char * yybytes, int  _yybytes_len )$/;"	f
+yy_scan_string	scanner.c	/^YY_BUFFER_STATE yy_scan_string (yyconst char * yystr )$/;"	f
+yy_set_bol	scanner.c	334;"	d	file:
+yy_set_interactive	scanner.c	324;"	d	file:
+yy_size_t	scanner.c	/^typedef size_t yy_size_t;$/;"	t	file:
+yy_start	scanner.c	/^static int yy_start = 0;	\/* start state number *\/$/;"	v	file:
+yy_state_type	scanner.c	/^typedef int yy_state_type;$/;"	t	file:
+yy_switch_to_buffer	scanner.c	/^    void yy_switch_to_buffer  (YY_BUFFER_STATE  new_buffer )$/;"	f
+yy_trans_info	scanner.c	/^struct yy_trans_info$/;"	s	file:
+yy_try_NUL_trans	scanner.c	/^    static yy_state_type yy_try_NUL_trans  (yy_state_type yy_current_state )$/;"	f	file:
+yy_verify	scanner.c	/^	flex_int32_t yy_verify;$/;"	m	struct:yy_trans_info	file:
+yyalloc	scanner.c	/^void *yyalloc (yy_size_t  size )$/;"	f
+yychar	parser.tab.c	/^int      yychar;$/;"	v
+yycheck	parser.tab.c	/^short yycheck[] = {                                      20,$/;"	v
+yyclearin	parser.tab.c	14;"	d	file:
+yyconst	scanner.c	106;"	d	file:
+yyconst	scanner.c	108;"	d	file:
+yydebug	parser.tab.c	/^int      yydebug;$/;"	v
+yydefred	parser.tab.c	/^short yydefred[] = {                                      0,$/;"	v
+yydgoto	parser.tab.c	/^short yydgoto[] = {                                       2,$/;"	v
+yyensure_buffer_stack	scanner.c	/^static void yyensure_buffer_stack (void)$/;"	f	file:
+yyerrflag	parser.tab.c	/^int      yyerrflag;$/;"	v
+yyerrok	parser.tab.c	15;"	d	file:
+yyerror	parser.tab.c	/^int yyerror( char *str )$/;"	f
+yyfree	scanner.c	/^void yyfree (void * ptr )$/;"	f
+yyget_debug	scanner.c	/^int yyget_debug  (void)$/;"	f
+yyget_in	scanner.c	/^FILE *yyget_in  (void)$/;"	f
+yyget_leng	scanner.c	/^int yyget_leng  (void)$/;"	f
+yyget_lineno	scanner.c	/^int yyget_lineno  (void)$/;"	f
+yyget_out	scanner.c	/^FILE *yyget_out  (void)$/;"	f
+yyget_text	scanner.c	/^char *yyget_text  (void)$/;"	f
+yygindex	parser.tab.c	/^short yygindex[] = {                                      0,$/;"	v
+yygrowstack	parser.tab.c	/^static int yygrowstack(void)$/;"	f	file:
+yyin	scanner.c	/^FILE *yyin = (FILE *) 0, *yyout = (FILE *) 0;$/;"	v
+yyinput	scanner.c	/^    static int yyinput (void)$/;"	f	file:
+yylen	parser.tab.c	/^short yylen[] = {                                         2,$/;"	v
+yyleng	scanner.c	/^int yyleng;$/;"	v
+yyless	scanner.c	180;"	d	file:
+yyless	scanner.c	1941;"	d	file:
+yyless	scanner.c	1942;"	d	file:
+yylex_destroy	scanner.c	/^int yylex_destroy  (void)$/;"	f
+yylhs	parser.tab.c	/^short yylhs[] = {                                        -1,$/;"	v
+yylineno	scanner.c	/^int yylineno = 1;$/;"	v
+yylval	parser.tab.c	/^YYSTYPE  yylval;$/;"	v
+yymore	scanner.c	552;"	d	file:
+yyname	parser.tab.c	/^char *yyname[] = {$/;"	v
+yynerrs	parser.tab.c	/^int      yynerrs;$/;"	v
+yyout	scanner.c	/^FILE *yyin = (FILE *) 0, *yyout = (FILE *) 0;$/;"	v
+yyparse	parser.tab.c	/^yyparse(void)$/;"	f
+yypop_buffer_state	scanner.c	/^void yypop_buffer_state (void)$/;"	f
+yypush_buffer_state	scanner.c	/^void yypush_buffer_state (YY_BUFFER_STATE new_buffer )$/;"	f
+yyrealloc	scanner.c	/^void *yyrealloc  (void * ptr, yy_size_t  size )$/;"	f
+yyrestart	scanner.c	/^    void yyrestart  (FILE * input_file )$/;"	f
+yyrindex	parser.tab.c	/^short yyrindex[] = {                                    184,$/;"	v
+yyrule	parser.tab.c	/^char *yyrule[] = {$/;"	v
+yysccsid	parser.tab.c	/^static const char yysccsid[] = "@(#)yaccpar	1.9 (Berkeley) 02\/21\/93";$/;"	v	file:
+yyset_debug	scanner.c	/^void yyset_debug (int  bdebug )$/;"	f
+yyset_in	scanner.c	/^void yyset_in (FILE *  in_str )$/;"	f
+yyset_lineno	scanner.c	/^void yyset_lineno (int  line_number )$/;"	f
+yyset_out	scanner.c	/^void yyset_out (FILE *  out_str )$/;"	f
+yysindex	parser.tab.c	/^short yysindex[] = {                                   -202,$/;"	v
+yyss	parser.tab.c	/^static short   *yyss;$/;"	v	file:
+yysslim	parser.tab.c	/^static short   *yysslim;$/;"	v	file:
+yyssp	parser.tab.c	/^short   *yyssp;$/;"	v
+yystacksize	parser.tab.c	/^static int      yystacksize;$/;"	v	file:
+yytable	parser.tab.c	/^short yytable[] = {                                      51,$/;"	v
+yyterminate	scanner.c	715;"	d	file:
+yytext	scanner.c	/^char *yytext;$/;"	v
+yytext_ptr	scanner.c	362;"	d	file:
+yyunput	scanner.c	/^    static void yyunput (int c, register char * yy_bp )$/;"	f	file:
+yyval	parser.tab.c	/^YYSTYPE  yyval;$/;"	v
+yyvs	parser.tab.c	/^static YYSTYPE *yyvs;$/;"	v	file:
+yyvsp	parser.tab.c	/^YYSTYPE *yyvsp;$/;"	v
+yywrap	scanner.c	348;"	d	file:
+z	codegen_test.s	/^z:$/;"	l
