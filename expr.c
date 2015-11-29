@@ -841,7 +841,6 @@ void expr_codegen(struct expr *e, FILE *f) {
 		if(e->right) e->right->is_global = 1;
 	}
 
-	int i;	
 	switch(e->kind) {
 		case EXPR_LEFTCURLY: //array initializer 
 			break;
@@ -871,17 +870,18 @@ void expr_codegen(struct expr *e, FILE *f) {
 		case EXPR_POWER:
 			expr_codegen(e->left, f);
 			expr_codegen(e->right, f);
-			e->literal_value = (int)pow(e->left->literal_value, e->right->literal_value);
-			if(!e->is_global) {
-				if(e->right->literal_value == 0) {
-					fprintf(f, "\tmovq\t$1, %%%s\n", register_name(e->right->reg));
-				} else { 	
-					fprintf(f, "\tmovq\t%%%s, %%rax\n", register_name(e->left->reg));
-					for(i = 2; i <= e->right->literal_value; i++) {
-						fprintf(f, "\timulq\t%%%s\n", register_name(e->left->reg));
-					}
-					fprintf(f, "\tmovq\t%%rax, %%%s\n", register_name(e->right->reg));
-				}
+			if(e->is_global) {
+				e->literal_value = (int)pow(e->left->literal_value, e->right->literal_value);
+			} else {
+				fprintf(f, "\tmovq\t%%%s, %%rdi\n", register_name(e->left->reg));
+				fprintf(f, "\tmovq\t%%%s, %%rsi\n", register_name(e->right->reg));
+				fprintf(f, "\tpushq\t%%r10\n");
+				fprintf(f, "\tpushq\t%%r11\n");
+				fprintf(f, "\tcall\tinteger_power\n");
+				fprintf(f, "\tpopq\t%%r11\n");
+				fprintf(f, "\tpopq\t%%r10\n");
+				fprintf(f, "\tmovq\t%%rax, %%%s\n", register_name(e->right->reg));
+
 				e->reg = e->right->reg;
 				register_free(e->left->reg);
 				e->left->reg = -1;
@@ -890,8 +890,9 @@ void expr_codegen(struct expr *e, FILE *f) {
 		case EXPR_MUL:
 			expr_codegen(e->left, f);
 			expr_codegen(e->right, f);
-			e->literal_value = e->left->literal_value * e->right->literal_value;
-			if(!e->is_global) {
+			if(e->is_global) {
+				e->literal_value = e->left->literal_value * e->right->literal_value;
+			} else {
 				fprintf(f, "\tmovq\t%%%s, %%rax\n", register_name(e->left->reg));
 				fprintf(f, "\timulq\t%%%s\n", register_name(e->right->reg));
 				fprintf(f, "\tmovq\t%%rax, %%%s\n", register_name(e->right->reg));
@@ -903,10 +904,11 @@ void expr_codegen(struct expr *e, FILE *f) {
 		case EXPR_DIV:
 			expr_codegen(e->left, f);
 			expr_codegen(e->right, f);
-			e->literal_value = e->left->literal_value / e->right->literal_value;
-			if(!e->is_global) {
+			if(e->is_global) {
+				e->literal_value = e->left->literal_value / e->right->literal_value;
+			} else {
 				fprintf(f, "\tmovq\t%%%s, %%rax\n", register_name(e->left->reg));
-				fprintf(f, "\tcdqo\n");
+				fprintf(f, "\tcqo\n");
 				fprintf(f, "\tidivq\t%%%s\n", register_name(e->right->reg));
 				fprintf(f, "\tmovq\t%%rax, %%%s\n", register_name(e->right->reg));
 				e->reg = e->right->reg;
@@ -917,10 +919,11 @@ void expr_codegen(struct expr *e, FILE *f) {
 		case EXPR_MOD:
 			expr_codegen(e->left, f);
 			expr_codegen(e->right, f);
-			e->literal_value = e->left->literal_value - (e->right->literal_value * (e->left->literal_value / e->right->literal_value));
-			if(!e->is_global) {
+			if(e->is_global) {
+				e->literal_value = e->left->literal_value - (e->right->literal_value * (e->left->literal_value / e->right->literal_value));
+			} else {
 				fprintf(f, "\tmovq\t%%%s, %%rax\n", register_name(e->left->reg));
-				fprintf(f, "\tcdqo\n");
+				fprintf(f, "\tcqo\n");
 				fprintf(f, "\tidivq\t%%%s\n", register_name(e->right->reg));
 				fprintf(f, "\tmovq\t%%rdx, %%%s\n", register_name(e->right->reg));
 				e->reg = e->right->reg;
@@ -931,8 +934,9 @@ void expr_codegen(struct expr *e, FILE *f) {
 		case EXPR_ADD:
 			expr_codegen(e->left, f);
 			expr_codegen(e->right, f);
-			e->literal_value = e->left->literal_value + e->right->literal_value;
-			if(!e->is_global) {
+			if(e->is_global) {
+				e->literal_value = e->left->literal_value + e->right->literal_value;
+			} else {
 				fprintf(f, "\taddq\t%%%s, %%%s\n", register_name(e->left->reg), register_name(e->right->reg));
 				e->reg = e->right->reg;
 				register_free(e->left->reg);
@@ -942,8 +946,9 @@ void expr_codegen(struct expr *e, FILE *f) {
 		case EXPR_SUB:
 			expr_codegen(e->left, f);
 			expr_codegen(e->right, f);
-			e->literal_value = e->left->literal_value - e->right->literal_value;
-			if(!e->is_global) {
+			if(e->is_global) {
+				e->literal_value = e->left->literal_value - e->right->literal_value;
+			} else {
 				fprintf(f, "\tsubq\t%%%s, %%%s\n", register_name(e->right->reg), register_name(e->left->reg));
 				e->reg = e->left->reg;
 				register_free(e->right->reg);
@@ -953,77 +958,108 @@ void expr_codegen(struct expr *e, FILE *f) {
 		case EXPR_LE:
 			expr_codegen(e->left, f);
 			expr_codegen(e->right, f);
-			e->literal_value = 0;
-			if(e->left->literal_value <= e->right->literal_value) e->literal_value = 1;
 
-			if(!e->is_global) {
-				fprintf(f, "\tcmpq\t%%%s, %%%s\n", register_name(e->left->reg), register_name(e->right->reg));
-				fprintf(f, "\tseqle\t%%%s\n", register_name(e->right->reg));
+			if(e->is_global) {
+				e->literal_value = 0;
+				if(e->left->literal_value <= e->right->literal_value) e->literal_value = 1;
+			} else {
+				fprintf(f, "\tcmpq\t%%%s, %%%s\n", register_name(e->right->reg), register_name(e->left->reg));
+				fprintf(f, "\tsetle\t%%al\n");
+				fprintf(f, "\tmovzx\t%%al, %%rax\n");
+				fprintf(f, "\tmovq\t%%rax, %%%s\n", register_name(e->right->reg));
 				e->reg = e->right->reg;
 				register_free(e->left->reg);
 				e->left->reg = -1;
 			}
 			break;
 		case EXPR_LT:
-			e->literal_value = 0;
-			if(e->left->literal_value < e->right->literal_value) e->literal_value = 1;
-			if(!e->is_global) {
-				fprintf(f, "\tcmpq\t%%%s, %%%s\n", register_name(e->left->reg), register_name(e->right->reg));
-				fprintf(f, "\tseql\t%%%s\n", register_name(e->right->reg));
+			expr_codegen(e->left, f);
+			expr_codegen(e->right, f);
+			if(e->is_global) {
+				e->literal_value = 0;
+				if(e->left->literal_value < e->right->literal_value) e->literal_value = 1;
+			} else {
+				fprintf(f, "\tcmpq\t%%%s, %%%s\n", register_name(e->right->reg), register_name(e->left->reg));
+				fprintf(f, "\tsetl\t%%al\n");
+				fprintf(f, "\tmovzx\t%%al, %%rax\n");
+				fprintf(f, "\tmovq\t%%rax, %%%s\n", register_name(e->right->reg));
 				e->reg = e->right->reg;
 				register_free(e->left->reg);
 				e->left->reg = -1;
 			}
 			break;
 		case EXPR_GE:
-			e->literal_value = 0;
-			if(e->left->literal_value >= e->right->literal_value) e->literal_value = 1;
-			if(!e->is_global) {
-				fprintf(f, "\tcmpq\t%%%s, %%%s\n", register_name(e->left->reg), register_name(e->right->reg));
-				fprintf(f, "\tseqge\t%%%s\n", register_name(e->right->reg));
+			expr_codegen(e->left, f);
+			expr_codegen(e->right, f);
+			if(e->is_global) {
+				e->literal_value = 0;
+				if(e->left->literal_value >= e->right->literal_value) e->literal_value = 1;
+			} else {
+				fprintf(f, "\tcmpq\t%%%s, %%%s\n", register_name(e->right->reg), register_name(e->left->reg));
+				fprintf(f, "\tsetge\t%%al\n");
+				fprintf(f, "\tmovzx\t%%al, %%rax\n");
+				fprintf(f, "\tmovq\t%%rax, %%%s\n", register_name(e->right->reg));
 				e->reg = e->right->reg;
 				register_free(e->left->reg);
 				e->left->reg = -1;
 			}
 			break;
 		case EXPR_GT:
-			e->literal_value = 0;
-			if(e->left->literal_value > e->right->literal_value) e->literal_value = 1;
-			if(!e->is_global) {
-				fprintf(f, "\tcmpq\t%%%s, %%%s\n", register_name(e->left->reg), register_name(e->right->reg));
-				fprintf(f, "\tseqle\t%%%s\n", register_name(e->right->reg));
+			expr_codegen(e->left, f);
+			expr_codegen(e->right, f);
+			if(e->is_global) {
+				e->literal_value = 0;
+				if(e->left->literal_value > e->right->literal_value) e->literal_value = 1;
+			} else {
+				fprintf(f, "\tcmpq\t%%%s, %%%s\n", register_name(e->right->reg), register_name(e->left->reg));
+				fprintf(f, "\tsetg\t%%al\n");
+				fprintf(f, "\tmovzx\t%%al, %%rax\n");
+				fprintf(f, "\tmovq\t%%rax, %%%s\n", register_name(e->right->reg));
 				e->reg = e->right->reg;
 				register_free(e->left->reg);
 				e->left->reg = -1;
 			}
 			break;
 		case EXPR_EQ:
-			e->literal_value = 0;
-			if(e->left->literal_value == e->right->literal_value) e->literal_value = 1;
-			if(!e->is_global) {
-				fprintf(f, "\tcmpq\t%%%s, %%%s\n", register_name(e->left->reg), register_name(e->right->reg));
-				fprintf(f, "\tseqe\t%%%s\n", register_name(e->right->reg));
+			expr_codegen(e->left, f);
+			expr_codegen(e->right, f);
+			if(e->is_global) {
+				e->literal_value = 0;
+				if(e->left->literal_value == e->right->literal_value) e->literal_value = 1;
+			} else {
+				fprintf(f, "\tcmpq\t%%%s, %%%s\n", register_name(e->right->reg), register_name(e->left->reg));
+				fprintf(f, "\tsete\t%%al\n");
+				fprintf(f, "\tmovzx\t%%al, %%rax\n");
+				fprintf(f, "\tmovq\t%%rax, %%%s\n", register_name(e->right->reg));
 				e->reg = e->right->reg;
 				register_free(e->left->reg);
 				e->left->reg = -1;
 			}
-
 			break;
 		case EXPR_UNEQ:
-			e->literal_value = 0;
-			if(e->left->literal_value != e->right->literal_value) e->literal_value = 1;
-			if(!e->is_global) {
-				fprintf(f, "\tcmpq\t%%%s, %%%s\n", register_name(e->left->reg), register_name(e->right->reg));
-				fprintf(f, "\tseqne\t%%%s\n", register_name(e->right->reg));
+			expr_codegen(e->left, f);
+			expr_codegen(e->right, f);
+			if(e->is_global) {
+				e->literal_value = 0;
+				if(e->left->literal_value != e->right->literal_value) e->literal_value = 1;
+			} else {
+				fprintf(f, "\tcmpq\t%%%s, %%%s\n", register_name(e->right->reg), register_name(e->left->reg));
+				fprintf(f, "\tsetne\t%%al\n");
+				fprintf(f, "\tmovzx\t%%al, %%rax\n");
+				fprintf(f, "\tmovq\t%%rax, %%%s\n", register_name(e->right->reg));
 				e->reg = e->right->reg;
 				register_free(e->left->reg);
 				e->left->reg = -1;
 			}
 			break;
 		case EXPR_AND:
-			e->literal_value = 0;
-			if(e->left->literal_value && e->right->literal_value) e->literal_value = 1;
-			if(!e->is_global) {
+			expr_codegen(e->left, f);
+			expr_codegen(e->right, f);
+
+			if(e->is_global) {
+				e->literal_value = 0;
+				if(e->left->literal_value && e->right->literal_value) e->literal_value = 1;
+			} else {	
 				fprintf(f, "\tcmpq\t$0, %%%s\n", register_name(e->left->reg));
 				fprintf(f, "\tje\t.L%d\n", ctl_no);
 				fprintf(f, "\tcmpq\t$0, %%%s\n", register_name(e->right->reg));
@@ -1040,9 +1076,12 @@ void expr_codegen(struct expr *e, FILE *f) {
 			}
 			break;
 		case EXPR_OR:
-			e->literal_value = 0;
-			if(e->left->literal_value || e->right->literal_value) e->literal_value = 1;
-			if(!e->is_global) {
+			expr_codegen(e->left, f);
+			expr_codegen(e->right, f);
+			if(e->is_global) {
+				e->literal_value = 0;
+				if(e->left->literal_value || e->right->literal_value) e->literal_value = 1;
+			} else {
 				fprintf(f, "\tcmpq\t$0, %%%s\n", register_name(e->left->reg));
 				fprintf(f, "\tjne\t.L%d\n", ctl_no);
 				fprintf(f, "\tcmpq\t$0, %%%s\n", register_name(e->right->reg));

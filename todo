@@ -1,9 +1,38 @@
 Todo:
-expr_codegen  EXPR_NAME
-add <parsing is done>
+expr_codegen: EXPR_ASSIGN, 
+	        case EXPR_LEFTCURLY: //array initializer 
+            break;
+        case EXPR_LEFTPARENTHESS:
+            expr_codegen(e->left, f);
+            expr_codegen(e->right, f);
+            if(e->left) { //function call
+                expr_funccall_codegen(e->right, f);
+                fprintf(f, "\tpushq\t%%r10\n");
+                fprintf(f, "\tpushq\t%%r11\n");
+                fprintf(f, "\tcall\t%s\n", e->left->name);
+                fprintf(f, "\tpopq\t%%r11\n");
+                fprintf(f, "\tpopq\t%%r10\n");
+            } else { //grouping
+            }
+            break;
+        case EXPR_LEFTBRACKET: //array subscript
+            break;
+        case EXPR_INCREMENT:
+            break;
+        case EXPR_DECREMENT:
+            break;
+        case EXPR_UNARY_NEG:
+            break;
+        case EXPR_NOT:
+            break;
+
+
+http://www.felixcloutier.com/x86/
 check the validity of arithmetic:divide by 0 
 global variable does not need register, just need the label.
+add <parsing is done>
 
 Done:
+modify ^ op.
 local variable - which field numbering
 change the symbol structure to add the number of local variables and parameters of each function

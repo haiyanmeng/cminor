@@ -68,6 +68,168 @@ print_func:function void (x:integer, y:char, z:boolean, t:string) = {
 main:function void() = {
 	print_func(222, '~', true, "hello haiyan meng");
 
+	print "2^4";
+	print '\n';
+	print 2^4;
+	print '\n';
+	print "2+4";
+	print '\n';
+	print 2+4;
+	print '\n';
+	print "2-4";
+	print '\n';
+	print 2-4;
+	print '\n';
+	print "2*4";
+	print '\n';
+	print 2*4;
+	print '\n';
+	print "29/4";
+	print '\n';
+	print 29/4;
+	print '\n';
+
+	print "29%4";
+	print '\n';
+	print 29%4;
+	print '\n';
+
+	print "true && true";
+	print '\n';
+	print true && true;
+	print '\n';
+
+	print "false && false";
+	print '\n';
+	print false && false;
+	print '\n';
+
+	print "true && false";
+	print '\n';
+	print true && false;
+	print '\n';
+
+	print "true || true";
+	print '\n';
+	print true || true;
+	print '\n';
+
+	print "false || false";
+	print '\n';
+	print false || false;
+	print '\n';
+
+	print "true || false";
+	print '\n';
+	print true || false;
+	print '\n';
+
+
+	print "1 <= 2";
+	print '\n';
+	print 1 <= 2;
+	print '\n';
+
+
+	print "12345 <= 2";
+	print '\n';
+	print 12345 <= 2;
+	print '\n';
+
+	print " 500 +9 < 234";
+	print '\n';
+	print  500 +9 < 234;
+	print '\n';
+
+
+	print " 5 +9 < 234";
+	print '\n';
+	print  5 +9 < 234;
+	print '\n';
+
+	print "1 < 2";
+	print '\n';
+	print 1 < 2;
+	print '\n';
+
+
+	print "1 >= 2";
+	print '\n';
+	print 1 >= 2;
+	print '\n';
+
+
+	print "12345 >= 2";
+	print '\n';
+	print 12345 >= 2;
+	print '\n';
+
+	print " 500 +9 > 234";
+	print '\n';
+	print  500 +9 > 234;
+	print '\n';
+
+
+	print " 5 +9 > 234";
+	print '\n';
+	print  5 +9 > 234;
+	print '\n';
+
+	print "1 > 2";
+	print '\n';
+	print 1 > 2;
+	print '\n';
+
+	print "true == false";
+	print '\n';
+	print true == false;
+	print '\n';
+
+	print "true == true";
+	print '\n';
+	print true == true;
+	print '\n';
+
+	print "3 == 5";
+	print '\n';
+	print 3 == 5;
+	print '\n';
+
+	print "hello", " == ", "word";
+	print '\n';
+	print "hello" == "word";
+	print '\n';
+
+	print "hello", " != ", "word";
+	print '\n';
+	print "hello" != "word";
+	print '\n';
+
+	print "'c' == 'd'";
+	print '\n';
+	print 'c' == 'd';
+	print '\n';
+
+	print "3!=5";
+	print '\n';
+	print 3!=5;
+	print '\n';
+
+	print "'c' != 'd'";
+	print '\n';
+	print 'c' != 'd';
+	print '\n';
+
+	print "true != false";
+	print '\n';
+	print true != false;
+	print '\n';
+
+	print "false != false";
+	print '\n';
+	print false != false;
+	print '\n';
+
 	print 1, "hello", 'u', true, false;
 	print 1;
 	print '\n';
