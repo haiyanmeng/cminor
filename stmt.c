@@ -271,6 +271,9 @@ void stmt_codegen(struct stmt *s, FILE *f) {
 			break;
 		case STMT_RETURN:
 			expr_codegen(s->expr, f);
+			if(s->expr) {
+				fprintf(f, "\tmovq\t%%%s, %%rax\n", register_name(s->expr->reg));
+			}
 			break;
 		case STMT_IF_ELSE:
 			expr_codegen(s->expr, f);

@@ -65,6 +65,11 @@ print_func:function void (x:integer, y:char, z:boolean, t:string) = {
 	print '\n';
 	return;
 }
+
+sum:function integer(x:integer, y:integer) = {
+	return (x) + (((y)));
+}
+
 main:function void() = {
 	print_func(222, '~', true, "hello haiyan meng");
 
@@ -230,7 +235,7 @@ main:function void() = {
 	print false != false;
 	print '\n';
 
-	print 1, "hello", 'u', true, false;
+	print (1+23), "hello", 'u', true, false;
 	print 1;
 	print '\n';
 	print "hello";
@@ -240,5 +245,10 @@ main:function void() = {
 	print true;
 	print '\n';
 	print false;
+	print '\n';
+
+	print "sum(3+20)";
+	print '\n';
+	print sum(3,20);
 	print '\n';
 }

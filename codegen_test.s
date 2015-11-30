@@ -128,6 +128,7 @@ func:
 	movq	-8(%rbp), %rbx
 	movq	$1, %r10
 	addq	%rbx, %r10
+	movq	%r10, %rax
 	popq	%r15
 	popq	%r14
 	popq	%r13
@@ -285,10 +286,38 @@ print_func:
 .LFE2:
 	.size	print_func, .-print_func
 	.text
+	.globl	sum
+	.type	sum, @function
+sum:
+.LFB3:
+	pushq	%rbp
+	movq	%rsp, %rbp
+	pushq	%rdi
+	pushq	%rsi
+	pushq	%rbx
+	pushq	%r12
+	pushq	%r13
+	pushq	%r14
+	pushq	%r15
+	movq	-8(%rbp), %rbx
+	movq	-16(%rbp), %r10
+	addq	%rbx, %r10
+	movq	%r10, %rax
+	popq	%r15
+	popq	%r14
+	popq	%r13
+	popq	%r12
+	popq	%rbx
+	movq	%rbp, %rsp
+	popq	%rbp
+	ret
+.LFE3:
+	.size	sum, .-sum
+	.text
 	.globl	main
 	.type	main, @function
 main:
-.LFB3:
+.LFB4:
 	pushq	%rbp
 	movq	%rsp, %rbp
 	pushq	%rbx
@@ -315,6 +344,7 @@ main:
 	call	print_func
 	popq	%r11
 	popq	%r10
+	movq	%rax, %r13
 
 	.section	.rodata
 .str6:
@@ -1675,23 +1705,25 @@ main:
 	popq	%r11
 	popq	%r10
 	movq	$1, %rbx
+	movq	$23, %r10
+	addq	%rbx, %r10
 
 	.section	.rodata
 .str46:
 	.string "hello"
 
 .text
-	lea	.str46, %r10
+	lea	.str46, %rbx
 	movq	$117, %r11
 	movq	$1, %r12
 	movq	$0, %r13
-	movq	%rbx, %rdi
+	movq	%r10, %rdi
 	pushq	%r10
 	pushq	%r11
 	call	print_integer
 	popq	%r11
 	popq	%r10
-	movq	%r10, %rdi
+	movq	%rbx, %rdi
 	pushq	%r10
 	pushq	%r11
 	call	print_string
@@ -1791,6 +1823,49 @@ main:
 	call	print_character
 	popq	%r11
 	popq	%r10
+
+	.section	.rodata
+.str48:
+	.string "sum(3+20)"
+
+.text
+	lea	.str48, %rbx
+	movq	%rbx, %rdi
+	pushq	%r10
+	pushq	%r11
+	call	print_string
+	popq	%r11
+	popq	%r10
+	movq	$10, %rbx
+	movq	%rbx, %rdi
+	pushq	%r10
+	pushq	%r11
+	call	print_character
+	popq	%r11
+	popq	%r10
+	movq	$3, %r10
+	movq	$20, %r11
+	movq	%r10, %rdi
+	movq	%r11, %rsi
+	pushq	%r10
+	pushq	%r11
+	call	sum
+	popq	%r11
+	popq	%r10
+	movq	%rax, %r11
+	movq	%r11, %rdi
+	pushq	%r10
+	pushq	%r11
+	call	print_integer
+	popq	%r11
+	popq	%r10
+	movq	$10, %rbx
+	movq	%rbx, %rdi
+	pushq	%r10
+	pushq	%r11
+	call	print_character
+	popq	%r11
+	popq	%r10
 	popq	%r15
 	popq	%r14
 	popq	%r13
@@ -1799,5 +1874,5 @@ main:
 	movq	%rbp, %rsp
 	popq	%rbp
 	ret
-.LFE3:
+.LFE4:
 	.size	main, .-main

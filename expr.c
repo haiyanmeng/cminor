@@ -854,7 +854,13 @@ void expr_codegen(struct expr *e, FILE *f) {
 				fprintf(f, "\tcall\t%s\n", e->left->name);
 				fprintf(f, "\tpopq\t%%r11\n");
 				fprintf(f, "\tpopq\t%%r10\n");
+				fprintf(f, "\tmovq\t%%rax, %%%s\n", register_name(e->right->reg));
+
+				e->reg = e->right->reg;
+				register_free(e->left->reg);
+				e->left->reg = -1;
 			} else { //grouping
+				e->reg = e->right->reg;
 			}
 			break;
 		case EXPR_LEFTBRACKET: //array subscript
@@ -1103,6 +1109,10 @@ void expr_codegen(struct expr *e, FILE *f) {
 		case EXPR_COMMA:
 			expr_codegen(e->left, f);
 			expr_codegen(e->right, f);
+			if(!e->is_global) {
+				e->reg = e->right->reg;
+				/* here e->left->reg can not be freed, because stmt_print_codegen still needs to use it. */
+			}
 			break;
 		case EXPR_IDENT_NAME:
 			e->reg = register_alloc();

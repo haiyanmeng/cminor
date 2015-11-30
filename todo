@@ -1,19 +1,6 @@
 Todo:
 expr_codegen: EXPR_ASSIGN, 
-	        case EXPR_LEFTCURLY: //array initializer 
-            break;
-        case EXPR_LEFTPARENTHESS:
-            expr_codegen(e->left, f);
-            expr_codegen(e->right, f);
-            if(e->left) { //function call
-                expr_funccall_codegen(e->right, f);
-                fprintf(f, "\tpushq\t%%r10\n");
-                fprintf(f, "\tpushq\t%%r11\n");
-                fprintf(f, "\tcall\t%s\n", e->left->name);
-                fprintf(f, "\tpopq\t%%r11\n");
-                fprintf(f, "\tpopq\t%%r10\n");
-            } else { //grouping
-            }
+        case EXPR_LEFTCURLY: //array initializer 
             break;
         case EXPR_LEFTBRACKET: //array subscript
             break;
@@ -27,10 +14,12 @@ expr_codegen: EXPR_ASSIGN,
             break;
 
 
+global variable, string, and immediate numbers does not need register, just need the label.
+
 http://www.felixcloutier.com/x86/
-check the validity of arithmetic:divide by 0 
-global variable does not need register, just need the label.
 add <parsing is done>
+
+check the validity of arithmetic:divide by 0. this check is only meaning for global expressions.
 
 Done:
 modify ^ op.
