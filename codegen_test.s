@@ -129,6 +129,8 @@ func:
 	movq	$1, %r10
 	addq	%rbx, %r10
 	movq	%r10, %rax
+	nop
+	nop
 	popq	%r15
 	popq	%r14
 	popq	%r13
@@ -193,6 +195,8 @@ f:
 	lea	.str4, %rbx
 	movq	$1, %rbx
 	movq	$0, %rbx
+	nop
+	nop
 	popq	%r15
 	popq	%r14
 	popq	%r13
@@ -275,6 +279,8 @@ print_func:
 	call	print_character
 	popq	%r11
 	popq	%r10
+	nop
+	nop
 	popq	%r15
 	popq	%r14
 	popq	%r13
@@ -303,6 +309,8 @@ sum:
 	movq	-16(%rbp), %r10
 	addq	%rbx, %r10
 	movq	%r10, %rax
+	nop
+	nop
 	popq	%r15
 	popq	%r14
 	popq	%r13
@@ -324,7 +332,7 @@ main:
 	pushq	%rsi
 	pushq	%rdx
 	pushq	%rcx
-	subq	$32, %rsp
+	subq	$48, %rsp
 	pushq	%rbx
 	pushq	%r12
 	pushq	%r13
@@ -2861,15 +2869,17 @@ main:
 	popq	%r11
 	popq	%r10
 	movq	global_global_uninit_int(%rip), %rbx
-	movq	$1000, %r10
+	movq	$100, %r10
 	cmpq	%r10, %rbx
 	setg	%al
 	movzx	%al, %rax
 	movq	%rax, %r10
+	cmpq	$0, %r10
+	je	.L17
 
 	.section	.rodata
 .str67:
-	.string "i am greater than 100\n"
+	.string "greater\n"
 
 .text
 	lea	.str67, %rbx
@@ -2879,6 +2889,160 @@ main:
 	call	print_string
 	popq	%r11
 	popq	%r10
+	nop
+	nop
+	jmp	.L18
+.L17:
+	nop
+.L18:
+	movq	global_global_uninit_int(%rip), %rbx
+	movq	$1000, %r10
+	cmpq	%r10, %rbx
+	setg	%al
+	movzx	%al, %rax
+	movq	%rax, %r10
+	cmpq	$0, %r10
+	je	.L19
+	nop
+	nop
+	jmp	.L20
+.L19:
+
+	.section	.rodata
+.str68:
+	.string "less\n"
+
+.text
+	lea	.str68, %rbx
+	movq	%rbx, %rdi
+	pushq	%r10
+	pushq	%r11
+	call	print_string
+	popq	%r11
+	popq	%r10
+	nop
+	nop
+.L20:
+	movq	$0, %rbx
+	movq	%rbx, -80(%rbp)
+	movq	-72(%rbp), %rbx
+	movq	$1, %r10
+	movq	%r10, -72(%rbp)
+.L21:
+	movq	-72(%rbp), %rbx
+	movq	$5, %r11
+	cmpq	%r11, %rbx
+	setl	%al
+	movzx	%al, %rax
+	movq	%rax, %r11
+	cmpq	$0, %r11
+	je	.L22
+	movq	-80(%rbp), %rbx
+	movq	-80(%rbp), %r10
+	movq	-72(%rbp), %r11
+	addq	%r10, %r11
+	movq	%r11, -80(%rbp)
+	movq	-72(%rbp), %rbx
+	movq	$32, %r10
+	movq	%rbx, %rdi
+	pushq	%r10
+	pushq	%r11
+	call	print_integer
+	popq	%r11
+	popq	%r10
+	movq	%r10, %rdi
+	pushq	%r10
+	pushq	%r11
+	call	print_character
+	popq	%r11
+	popq	%r10
+	nop
+	nop
+	movq	-72(%rbp), %r11
+	addq	$1, -72(%rbp)
+	jmp	.L21
+.L22:
+	movq	$10, %rbx
+	movq	%rbx, %rdi
+	pushq	%r10
+	pushq	%r11
+	call	print_character
+	popq	%r11
+	popq	%r10
+	movq	-72(%rbp), %rbx
+	movq	$10, %r10
+	movq	%rbx, %rdi
+	pushq	%r10
+	pushq	%r11
+	call	print_integer
+	popq	%r11
+	popq	%r10
+	movq	%r10, %rdi
+	pushq	%r10
+	pushq	%r11
+	call	print_character
+	popq	%r11
+	popq	%r10
+	movq	-80(%rbp), %rbx
+	movq	$10, %r10
+	movq	%rbx, %rdi
+	pushq	%r10
+	pushq	%r11
+	call	print_integer
+	popq	%r11
+	popq	%r10
+	movq	%r10, %rdi
+	pushq	%r10
+	pushq	%r11
+	call	print_character
+	popq	%r11
+	popq	%r10
+	movq	global_global_uninit_int(%rip), %rbx
+	movq	$4032, %r10
+	movq	%r10, global_global_uninit_int(%rip)
+	movq	global_global_uninit_int(%rip), %rbx
+	movq	$1000, %r10
+	cmpq	%r10, %rbx
+	setg	%al
+	movzx	%al, %rax
+	movq	%rax, %r10
+	cmpq	$0, %r10
+	je	.L23
+
+	.section	.rodata
+.str69:
+	.string "i am greater than 1000\n"
+
+.text
+	lea	.str69, %rbx
+	movq	%rbx, %rdi
+	pushq	%r10
+	pushq	%r11
+	call	print_string
+	popq	%r11
+	popq	%r10
+	nop
+	nop
+	jmp	.L24
+.L23:
+
+	.section	.rodata
+.str70:
+	.string "less\n"
+
+.text
+	lea	.str70, %rbx
+	movq	%rbx, %rdi
+	pushq	%r10
+	pushq	%r11
+	call	print_string
+	popq	%r11
+	popq	%r10
+	nop
+	nop
+.L24:
+	nop
+	nop
 	popq	%r15
 	popq	%r14
 	popq	%r13

@@ -7,6 +7,7 @@
 #include "register.h"
 
 extern int local_no;
+extern int ctl_no;
 
 struct stmt *stmt_create(stmt_kind_t kind, struct decl *d, struct expr *init_expr, struct expr *e, struct expr *next_expr, struct stmt *body, struct stmt *else_body, int line, struct stmt *next) {
 	struct stmt *s = (struct stmt *)malloc(sizeof(struct stmt));
@@ -254,7 +255,10 @@ void stmt_typecheck(struct stmt *s, const char *func_name) {
 }
 
 void stmt_codegen(struct stmt *s, FILE *f) {
-	if(!s) return;
+	if(!s) {
+		fprintf(f, "\tnop\n");
+		return;
+	}
 
 	register_freeall();
 
@@ -277,16 +281,27 @@ void stmt_codegen(struct stmt *s, FILE *f) {
 			break;
 		case STMT_IF_ELSE:
 			expr_codegen(s->expr, f);
-//			fprintf(f, "\tcmpq\t$0, %%%s\n", register_name(s->expr->reg));
-//			fprintf(f, "\tje\t.L%d\n", ctl_no);
+			fprintf(f, "\tcmpq\t$0, %%%s\n", register_name(s->expr->reg));
+			fprintf(f, "\tje\t.L%d\n", ctl_no);
 			stmt_codegen(s->body, f);
+			fprintf(f, "\tjmp\t.L%d\n", ctl_no+1);
+			fprintf(f, ".L%d:\n", ctl_no);
 			stmt_codegen(s->else_body, f);
+			fprintf(f, ".L%d:\n", ctl_no+1);
+			ctl_no += 2;
 			break;
 		case STMT_FOR:
 			expr_codegen(s->init_expr, f);
+			fprintf(f, ".L%d:\n", ctl_no);
 			expr_codegen(s->expr, f);
-			expr_codegen(s->next_expr, f);
+			fprintf(f, "\tcmpq\t$0, %%%s\n", register_name(s->expr->reg));
+			fprintf(f, "\tje\t.L%d\n", ctl_no+1);
 			stmt_codegen(s->body, f);
+			expr_codegen(s->next_expr, f);
+			fprintf(f, "\tjmp\t.L%d\n", ctl_no);
+
+			fprintf(f, ".L%d:\n", ctl_no+1);
+			ctl_no += 2;
 			break;
 		case STMT_BLOCK:	
 			stmt_codegen(s->body, f);
