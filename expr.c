@@ -904,13 +904,15 @@ void expr_codegen(struct expr *e, FILE *f) {
 				fprintf(f, "\tcall\t%s\n", e->left->name);
 				fprintf(f, "\tpopq\t%%r11\n");
 				fprintf(f, "\tpopq\t%%r10\n");
-				fprintf(f, "\tmovq\t%%rax, %%%s\n", register_name(e->right->reg));
+				fprintf(f, "\tmovq\t%%rax, %%%s\n", register_name(e->left->reg));
 
-				e->reg = e->right->reg;
-				register_free(e->left->reg);
-				e->left->reg = -1;
+				e->reg = e->left->reg;
+				if(e->right) {
+					register_free(e->right->reg);
+					e->right->reg = -1;
+				}
 			} else { //grouping
-				e->reg = e->right->reg;
+				e->reg = e->left->reg;
 			}
 			break;
 		case EXPR_LEFTBRACKET: //array subscript

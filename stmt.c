@@ -234,7 +234,7 @@ void stmt_typecheck(struct stmt *s, const char *func_name) {
 			type_free(expr_typecheck(s->init_expr, 0, 0));
 
 			t = expr_typecheck(s->expr, 0, 0);
-			if(t->kind != TYPE_BOOLEAN) {
+			if(t && t->kind != TYPE_BOOLEAN) {
 				fprintf(stdout, "type error (line %d): the expr (", s->expr->line);
 				expr_print(s->expr);
 				printf(") of for_stmt has wrong type (");
@@ -262,6 +262,7 @@ void stmt_codegen(struct stmt *s, FILE *f) {
 
 	register_freeall();
 
+	int old_ctl_no;
 	switch(s->kind) {
 		case STMT_DECL:
 			decl_codegen(s->decl, f);
@@ -281,27 +282,31 @@ void stmt_codegen(struct stmt *s, FILE *f) {
 			break;
 		case STMT_IF_ELSE:
 			expr_codegen(s->expr, f);
-			fprintf(f, "\tcmpq\t$0, %%%s\n", register_name(s->expr->reg));
-			fprintf(f, "\tje\t.L%d\n", ctl_no);
-			stmt_codegen(s->body, f);
-			fprintf(f, "\tjmp\t.L%d\n", ctl_no+1);
-			fprintf(f, ".L%d:\n", ctl_no);
-			stmt_codegen(s->else_body, f);
-			fprintf(f, ".L%d:\n", ctl_no+1);
+			old_ctl_no = ctl_no;
 			ctl_no += 2;
+			fprintf(f, "\tcmpq\t$0, %%%s\n", register_name(s->expr->reg));
+			fprintf(f, "\tje\t.L%d\n", old_ctl_no);
+			stmt_codegen(s->body, f);
+			fprintf(f, "\tjmp\t.L%d\n", old_ctl_no+1);
+			fprintf(f, ".L%d:\n", old_ctl_no);
+			stmt_codegen(s->else_body, f);
+			fprintf(f, ".L%d:\n", old_ctl_no+1);
 			break;
 		case STMT_FOR:
 			expr_codegen(s->init_expr, f);
-			fprintf(f, ".L%d:\n", ctl_no);
-			expr_codegen(s->expr, f);
-			fprintf(f, "\tcmpq\t$0, %%%s\n", register_name(s->expr->reg));
-			fprintf(f, "\tje\t.L%d\n", ctl_no+1);
+			old_ctl_no = ctl_no;
+			ctl_no += 2;
+			fprintf(f, ".L%d:\n", old_ctl_no);
+			if(s->expr) {
+				expr_codegen(s->expr, f);
+				fprintf(f, "\tcmpq\t$0, %%%s\n", register_name(s->expr->reg));
+				fprintf(f, "\tje\t.L%d\n", old_ctl_no+1);
+			}
 			stmt_codegen(s->body, f);
 			expr_codegen(s->next_expr, f);
-			fprintf(f, "\tjmp\t.L%d\n", ctl_no);
+			fprintf(f, "\tjmp\t.L%d\n", old_ctl_no);
 
-			fprintf(f, ".L%d:\n", ctl_no+1);
-			ctl_no += 2;
+			fprintf(f, ".L%d:\n", old_ctl_no+1);
 			break;
 		case STMT_BLOCK:	
 			stmt_codegen(s->body, f);
