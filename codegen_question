@@ -1,3 +1,6 @@
+
+parenthesis (x);
+
 how the mul/div results returns back to the user? rdx rax
 
 power should only non-negative? right?

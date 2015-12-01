@@ -81,95 +81,133 @@ void expr_print(struct expr *e) {
 			printf("]");
 			break;
 		case EXPR_INCREMENT:
+			printf("(");
 			expr_print(e->left);
 			printf("++");
+			printf(")");
 			break;
 		case EXPR_DECREMENT:
+			printf("(");
 			expr_print(e->left);
 			printf("--");
+			printf(")");
 			break;
 		case EXPR_UNARY_NEG:
+			printf("(");
 			printf("-");
 			expr_print(e->right);
+			printf(")");
 			break;
 		case EXPR_NOT:
+			printf("(");
 			printf("!");
 			expr_print(e->right);
+			printf(")");
 			break;
 		case EXPR_POWER:
+			printf("(");
 			expr_print(e->left);
 			printf("^");
 			expr_print(e->right);
+			printf(")");
 			break;
 		case EXPR_MUL:
+			printf("(");
 			expr_print(e->left);
 			printf("*");
 			expr_print(e->right);
+			printf(")");
 			break;
 		case EXPR_DIV:
+			printf("(");
 			expr_print(e->left);
 			printf("/");
 			expr_print(e->right);
+			printf(")");
 			break;
 		case EXPR_MOD:
+			printf("(");
 			expr_print(e->left);
 			printf("%%");
 			expr_print(e->right);
+			printf(")");
 			break;
 		case EXPR_ADD:
+			printf("(");
 			expr_print(e->left);
 			printf("+");
 			expr_print(e->right);
+			printf(")");
 			break;
 		case EXPR_SUB:
+			printf("(");
 			expr_print(e->left);
 			printf("-");
 			expr_print(e->right);
+			printf(")");
 			break;
 		case EXPR_LE:
+			printf("(");
 			expr_print(e->left);
 			printf("<=");
 			expr_print(e->right);
+			printf(")");
 			break;
 		case EXPR_LT:
+			printf("(");
 			expr_print(e->left);
 			printf("<");
 			expr_print(e->right);
+			printf(")");
 			break;
 		case EXPR_GE:
+			printf("(");
 			expr_print(e->left);
 			printf(">=");
 			expr_print(e->right);
+			printf(")");
 			break;
 		case EXPR_GT:
+			printf("(");
 			expr_print(e->left);
 			printf(">");
 			expr_print(e->right);
+			printf(")");
 			break;
 		case EXPR_EQ:
+			printf("(");
 			expr_print(e->left);
 			printf("==");
 			expr_print(e->right);
+			printf(")");
 			break;
 		case EXPR_UNEQ:
+			printf("(");
 			expr_print(e->left);
 			printf("!=");
 			expr_print(e->right);
+			printf(")");
 			break;
 		case EXPR_AND:
+			printf("(");
 			expr_print(e->left);
 			printf("&&");
 			expr_print(e->right);
+			printf(")");
 			break;
 		case EXPR_OR:
+			printf("(");
 			expr_print(e->left);
 			printf("||");
 			expr_print(e->right);
+			printf(")");
 			break;
 		case EXPR_ASSIGN:
+			printf("(");
 			expr_print(e->left);
 			printf("=");
 			expr_print(e->right);
+			printf(")");
 			break;
 		case EXPR_COMMA:
 			expr_print(e->left);
@@ -237,7 +275,7 @@ struct type *expr_typecheck(struct expr *e, int is_array_initializer, int silent
 				expr_func_typecheck(e, silent_mode);
 				type_free(left);	
 				type_free(right);	
-				return scope_lookup(expr_get_lvalue(e->left)->name, e->left->line, 0)->type->subtype;
+				return scope_lookup(e->left->name, e->left->line, 0)->type->subtype;
 			} else {
 				//grouping
 				type_free(left);	
@@ -714,7 +752,7 @@ struct type *expr_typecheck(struct expr *e, int is_array_initializer, int silent
 //check function call arguments and function definition paramters
 void expr_func_typecheck(struct expr *e, int silent_mode) {
 	//search for the function in the global scope, get its type 
-	struct symbol *s = scope_lookup(expr_get_lvalue(e->left)->name, e->line, 0);
+	struct symbol *s = scope_lookup(e->left->name, e->line, 0);
 	struct param_list *p = s->type->params;
 
 	//get the argument number of the function call
@@ -863,7 +901,7 @@ void expr_codegen(struct expr *e, FILE *f) {
 				expr_funccall_codegen(e->right, f);
 				fprintf(f, "\tpushq\t%%r10\n");
 				fprintf(f, "\tpushq\t%%r11\n");
-				fprintf(f, "\tcall\t%s\n", expr_get_lvalue(e->left)->name);
+				fprintf(f, "\tcall\t%s\n", e->left->name);
 				fprintf(f, "\tpopq\t%%r11\n");
 				fprintf(f, "\tpopq\t%%r10\n");
 				fprintf(f, "\tmovq\t%%rax, %%%s\n", register_name(e->right->reg));
@@ -886,7 +924,7 @@ void expr_codegen(struct expr *e, FILE *f) {
 				e->literal_value = e->left->literal_value + 1;
 			} else {
 				e->reg = e->left->reg;
-				fprintf(f, "\taddq\t$1, %d(%%rbp)\n", -8 * (cur_func->param_count + expr_get_lvalue(e->left)->symbol->which + 1));
+				fprintf(f, "\taddq\t$1, %d(%%rbp)\n", -8 * (cur_func->param_count + e->left->symbol->which + 1));
 			}	
 			break;
 		case EXPR_DECREMENT:
@@ -896,7 +934,7 @@ void expr_codegen(struct expr *e, FILE *f) {
 				e->literal_value = e->left->literal_value + 1;
 			} else {
 				e->reg = e->left->reg;
-				fprintf(f, "\tsubq\t$1, %d(%%rbp)\n", -8 * (cur_func->param_count + expr_get_lvalue(e->left)->symbol->which + 1));
+				fprintf(f, "\tsubq\t$1, %d(%%rbp)\n", -8 * (cur_func->param_count + e->left->symbol->which + 1));
 			}	
 			break;
 		case EXPR_UNARY_NEG:
@@ -1164,7 +1202,7 @@ void expr_codegen(struct expr *e, FILE *f) {
 				e->literal_value = e->right->literal_value;
 				e->string_literal = e->right->string_literal;
 			} else {
-				fprintf(f, "\tmovq\t%%%s, %d(%%rbp)\n", register_name(e->right->reg), -8 * (cur_func->param_count + expr_get_lvalue(e->left)->symbol->which + 1));
+				fprintf(f, "\tmovq\t%%%s, %d(%%rbp)\n", register_name(e->right->reg), -8 * (cur_func->param_count + e->left->symbol->which + 1));
 				e->reg = e->right->reg;
 				register_free(e->left->reg);
 				e->left->reg = -1;

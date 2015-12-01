@@ -337,7 +337,7 @@ primary_expr: constant
 	| TOKEN_IDENT
 		{ $$ = expr_create_name($1, yylineno); }
 	| TOKEN_OP_LEFTPARENTHESS expr TOKEN_OP_RIGHTPARENTHESS /* grouping */
-		{ $$ = expr_create(EXPR_LEFTPARENTHESS, 0, $2, yylineno); }
+		{ $$ = $2; }
 	;
 
 constant: TOKEN_INTEGER_LITERAL
