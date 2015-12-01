@@ -277,6 +277,8 @@ void stmt_codegen(struct stmt *s, FILE *f) {
 			break;
 		case STMT_IF_ELSE:
 			expr_codegen(s->expr, f);
+//			fprintf(f, "\tcmpq\t$0, %%%s\n", register_name(s->expr->reg));
+//			fprintf(f, "\tje\t.L%d\n", ctl_no);
 			stmt_codegen(s->body, f);
 			stmt_codegen(s->else_body, f);
 			break;

@@ -1,10 +1,10 @@
+global variable, string, and immediate numbers does not need register, just need the label.
 
 parenthesis (x);
 
 how the mul/div results returns back to the user? rdx rax
 
 power should only non-negative? right?
-how power is supposed to be implemented? not math.h pow function;
 
 if everytime we right the value out back to the e->literal_value or string_literal, it will be very slow.
 

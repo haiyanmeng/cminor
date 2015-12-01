@@ -1,21 +1,21 @@
-x:integer = 888+112;
-x1:integer = 888-388;
-x2:integer = 3 * 5;
-x3:integer = 21/2;
-x4:integer = 20%7;
-x5:integer = 2^8;
-x6:integer = 1+2*3-5*2/4+2^3-17%3;
+global_x:integer = 888+112;
+global_x1:integer = 888-388;
+global_x2:integer = 3 * 5;
+global_x3:integer = 21/2;
+global_x4:integer = 20%7;
+global_x5:integer = 2^8;
+global_x6:integer = 1+2*3-5*2/4+2^3-17%3;
 
-y:char = 'o';
-z:string = "i am global";
+global_y:char = 'o';
+global_z:string = "i am global";
 
-t1:boolean = true && true;
-t2:boolean = false;
+global_t1:boolean = true && true;
+global_t2:boolean = false;
 
-global_uninit_int:integer;
-global_uninit_char:char;
-global_uninit_str:string;
-global_uninit_boolean:boolean;
+global_global_uninit_int:integer;
+global_global_uninit_char:char;
+global_global_uninit_str:string;
+global_global_uninit_boolean:boolean;
 
 //line 20: the function (func1) has too many parameters (8 params)! Cminor supports at most 6 parameters!
 //func1: function integer(a:integer, b:char, c:char, d:char, e:char, f:char, g:char, h:char);
@@ -29,8 +29,8 @@ func: function integer(a:integer, b:char, c:char, d:integer, e:integer) = {
 	local1:integer;
 	local2:integer;
 	local3:integer;
-	a+x+d+e;
-	a+x;
+	a+global_x+d+e;
+	a+global_x;
 	a+e;
     return a+1;
 }
@@ -70,7 +70,7 @@ sum:function integer(x:integer, y:integer) = {
 	return (x) + (((y)));
 }
 
-main:function void() = {
+main:function void(param1:integer, param2:char, param3:string, param4:boolean) = {
 
 	print "2^4";
 	print '\n';
@@ -294,4 +294,68 @@ main:function void() = {
 
 	x = 3;
 	print (1 + 2) * 3;
+	print '\n';
+
+	param1 = 23;
+	param2 = 'p';
+	param3 = "i am param3";
+	param4 = true && false;
+	print param1, ' ', param2, ' ';
+	print param4, ' ', param3, '\n';
+	print_func(param1, param2, param4, param3);
+
+/*
+global_x:integer = 888+112;
+global_x1:integer = 888-388;
+global_x2:integer = 3 * 5;
+global_x3:integer = 21/2;
+global_x4:integer = 20%7;
+global_x5:integer = 2^8;
+global_x6:integer = 1+2*3-5*2/4+2^3-17%3;
+ 
+global_y:char = 'o';
+global_z:string = "i am global";
+
+global_t1:boolean = true && true;
+global_t2:boolean = false;
+
+global_global_uninit_int:integer;
+global_global_uninit_char:char;
+global_global_uninit_str:string;
+global_global_uninit_boolean:boolean;
+*/
+	print global_x, ' ';
+	print global_x1, ' ';
+	print global_x2, ' ';
+	print global_x3, ' ';
+	print global_x4, ' ';
+	print global_x5, ' ';
+	print global_x6, ' ';
+	print global_y, ' ';
+	print global_z, ' ';
+	print global_t1, ' ';
+	print global_t2, ' ';
+
+	print global_global_uninit_int, ' ';
+	print global_global_uninit_char, ' ';
+	print global_global_uninit_str, ' ';
+	print global_global_uninit_boolean, ' ';
+
+	print '\n';
+
+	global_global_uninit_int=432;
+	global_global_uninit_char='i';
+	global_global_uninit_str="new string";
+	global_global_uninit_boolean= false || true;
+
+	print global_global_uninit_int, ' ';
+	print global_global_uninit_char, ' ';
+	print global_global_uninit_str, ' ';
+	print global_global_uninit_boolean, ' ';
+
+	print '\n';
+
+	if(global_global_uninit_int>1000) {
+		print "i am greater than 100\n";
+	}
 }

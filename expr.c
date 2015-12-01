@@ -1202,7 +1202,14 @@ void expr_codegen(struct expr *e, FILE *f) {
 				e->literal_value = e->right->literal_value;
 				e->string_literal = e->right->string_literal;
 			} else {
-				fprintf(f, "\tmovq\t%%%s, %d(%%rbp)\n", register_name(e->right->reg), -8 * (cur_func->param_count + e->left->symbol->which + 1));
+				if(e->left->symbol->kind == SYMBOL_PARAM) {
+					fprintf(f, "\tmovq\t%%%s, %d(%%rbp)\n", register_name(e->right->reg), -8 * (e->left->symbol->which + 1));
+				} else if(e->left->symbol->kind == SYMBOL_LOCAL) {
+					fprintf(f, "\tmovq\t%%%s, %d(%%rbp)\n", register_name(e->right->reg), -8 * (cur_func->param_count + e->left->symbol->which + 1));
+				} else if(e->left->symbol->kind == FUNC_NOT) {
+					fprintf(f, "\tmovq\t%%%s, %s(%%rip)\n", register_name(e->right->reg), e->left->name);
+				}
+
 				e->reg = e->right->reg;
 				register_free(e->left->reg);
 				e->left->reg = -1;

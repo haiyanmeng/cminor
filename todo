@@ -1,6 +1,4 @@
 Todo:
-test EXPR_IDENT_NAME and param and global variable 
-
 test if-else for
 
 overall test
@@ -16,10 +14,10 @@ add <parsing is done>
 
 check the validity of arithmetic:divide by 0. this check is only meaning for global expressions.
 
-
 lvalue of function call, ++, --, = should be IDENT_NAME.
 
 Done:
+test EXPR_IDENT_NAME and param and global variable 
 modify expr_print, and retest parser and typecheck
 
 expr_codegen: EXPR_ASSIGN, 

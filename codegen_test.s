@@ -1,99 +1,99 @@
 
-	.globl x
+	.globl global_x
 	.data
 	.align 8
-	.type   x, @object
-	.size   x, 8
-x:
+	.type   global_x, @object
+	.size   global_x, 8
+global_x:
 	.quad   1000
 
-	.globl x1
+	.globl global_x1
 	.data
 	.align 8
-	.type   x1, @object
-	.size   x1, 8
-x1:
+	.type   global_x1, @object
+	.size   global_x1, 8
+global_x1:
 	.quad   500
 
-	.globl x2
+	.globl global_x2
 	.data
 	.align 8
-	.type   x2, @object
-	.size   x2, 8
-x2:
+	.type   global_x2, @object
+	.size   global_x2, 8
+global_x2:
 	.quad   15
 
-	.globl x3
+	.globl global_x3
 	.data
 	.align 8
-	.type   x3, @object
-	.size   x3, 8
-x3:
+	.type   global_x3, @object
+	.size   global_x3, 8
+global_x3:
 	.quad   10
 
-	.globl x4
+	.globl global_x4
 	.data
 	.align 8
-	.type   x4, @object
-	.size   x4, 8
-x4:
+	.type   global_x4, @object
+	.size   global_x4, 8
+global_x4:
 	.quad   6
 
-	.globl x5
+	.globl global_x5
 	.data
 	.align 8
-	.type   x5, @object
-	.size   x5, 8
-x5:
+	.type   global_x5, @object
+	.size   global_x5, 8
+global_x5:
 	.quad   256
 
-	.globl x6
+	.globl global_x6
 	.data
 	.align 8
-	.type   x6, @object
-	.size   x6, 8
-x6:
+	.type   global_x6, @object
+	.size   global_x6, 8
+global_x6:
 	.quad   11
 
-	.globl y
+	.globl global_y
 	.data
 	.align 8
-	.type   y, @object
-	.size   y, 8
-y:
+	.type   global_y, @object
+	.size   global_y, 8
+global_y:
 	.quad   111
 
-	.globl z
+	.globl global_z
 
 	.section	.rodata
 .str0:
 	.string "i am global"
 	.data
 	.align 8
-	.type   z, @object
-	.size   z, 8
-z:
+	.type   global_z, @object
+	.size   global_z, 8
+global_z:
 	.quad   .str0
 
-	.globl t1
+	.globl global_t1
 	.data
 	.align 8
-	.type   t1, @object
-	.size   t1, 8
-t1:
+	.type   global_t1, @object
+	.size   global_t1, 8
+global_t1:
 	.quad   1
 
-	.globl t2
+	.globl global_t2
 	.data
 	.align 8
-	.type   t2, @object
-	.size   t2, 8
-t2:
+	.type   global_t2, @object
+	.size   global_t2, 8
+global_t2:
 	.quad   0
-	.comm global_uninit_int, 8, 8
-	.comm global_uninit_char, 8, 8
-	.comm global_uninit_str, 8, 8
-	.comm global_uninit_boolean, 8, 8
+	.comm global_global_uninit_int, 8, 8
+	.comm global_global_uninit_char, 8, 8
+	.comm global_global_uninit_str, 8, 8
+	.comm global_global_uninit_boolean, 8, 8
 	.text
 	.globl	func
 	.type	func, @function
@@ -113,14 +113,14 @@ func:
 	pushq	%r14
 	pushq	%r15
 	movq	-8(%rbp), %rbx
-	movq	x(%rip), %r10
+	movq	global_x(%rip), %r10
 	addq	%rbx, %r10
 	movq	-32(%rbp), %rbx
 	addq	%r10, %rbx
 	movq	-40(%rbp), %r10
 	addq	%rbx, %r10
 	movq	-8(%rbp), %rbx
-	movq	x(%rip), %r10
+	movq	global_x(%rip), %r10
 	addq	%rbx, %r10
 	movq	-8(%rbp), %rbx
 	movq	-40(%rbp), %r10
@@ -320,6 +320,10 @@ main:
 .LFB4:
 	pushq	%rbp
 	movq	%rsp, %rbp
+	pushq	%rdi
+	pushq	%rsi
+	pushq	%rdx
+	pushq	%rcx
 	subq	$32, %rsp
 	pushq	%rbx
 	pushq	%r12
@@ -1931,20 +1935,20 @@ main:
 	popq	%r11
 	popq	%r10
 	movq	$2, %rbx
-	movq	%rbx, -8(%rbp)
+	movq	%rbx, -40(%rbp)
 	movq	$3, %rbx
-	movq	%rbx, -16(%rbp)
+	movq	%rbx, -48(%rbp)
 	movq	$4, %rbx
-	movq	%rbx, -24(%rbp)
+	movq	%rbx, -56(%rbp)
 	movq	$5, %rbx
-	movq	%rbx, -32(%rbp)
-	movq	-8(%rbp), %rbx
+	movq	%rbx, -64(%rbp)
+	movq	-40(%rbp), %rbx
 	movq	$32, %r10
-	movq	-16(%rbp), %r11
+	movq	-48(%rbp), %r11
 	movq	$32, %r12
-	movq	-24(%rbp), %r13
+	movq	-56(%rbp), %r13
 	movq	$32, %r14
-	movq	-32(%rbp), %r15
+	movq	-64(%rbp), %r15
 	movq	%rbx, %rdi
 	pushq	%r10
 	pushq	%r11
@@ -1994,7 +1998,7 @@ main:
 	call	print_character
 	popq	%r11
 	popq	%r10
-	movq	-8(%rbp), %rbx
+	movq	-40(%rbp), %rbx
 	movq	$12, %r10
 	addq	%rbx, %r10
 	movq	%r10, %rdi
@@ -2030,8 +2034,8 @@ main:
 
 .text
 	lea	.str51, %rbx
-	movq	-8(%rbp), %r10
-	addq	$1, -8(%rbp)
+	movq	-40(%rbp), %r10
+	addq	$1, -40(%rbp)
 
 	.section	.rodata
 .str52:
@@ -2039,7 +2043,7 @@ main:
 
 .text
 	lea	.str52, %r11
-	movq	-8(%rbp), %r12
+	movq	-40(%rbp), %r12
 	movq	$10, %r13
 	movq	%rbx, %rdi
 	pushq	%r10
@@ -2078,8 +2082,8 @@ main:
 
 .text
 	lea	.str53, %rbx
-	movq	-8(%rbp), %r10
-	addq	$1, -8(%rbp)
+	movq	-40(%rbp), %r10
+	addq	$1, -40(%rbp)
 
 	.section	.rodata
 .str54:
@@ -2087,7 +2091,7 @@ main:
 
 .text
 	lea	.str54, %r11
-	movq	-8(%rbp), %r12
+	movq	-40(%rbp), %r12
 	movq	$10, %r13
 	movq	%rbx, %rdi
 	pushq	%r10
@@ -2139,8 +2143,8 @@ main:
 
 .text
 	lea	.str56, %rbx
-	movq	-32(%rbp), %r10
-	subq	$1, -32(%rbp)
+	movq	-64(%rbp), %r10
+	subq	$1, -64(%rbp)
 
 	.section	.rodata
 .str57:
@@ -2148,7 +2152,7 @@ main:
 
 .text
 	lea	.str57, %r11
-	movq	-32(%rbp), %r12
+	movq	-64(%rbp), %r12
 	movq	$10, %r13
 	movq	%rbx, %rdi
 	pushq	%r10
@@ -2187,8 +2191,8 @@ main:
 
 .text
 	lea	.str58, %rbx
-	movq	-32(%rbp), %r10
-	subq	$1, -32(%rbp)
+	movq	-64(%rbp), %r10
+	subq	$1, -64(%rbp)
 
 	.section	.rodata
 .str59:
@@ -2196,7 +2200,7 @@ main:
 
 .text
 	lea	.str59, %r11
-	movq	-32(%rbp), %r12
+	movq	-64(%rbp), %r12
 	movq	$10, %r13
 	movq	%rbx, %rdi
 	pushq	%r10
@@ -2228,14 +2232,14 @@ main:
 	call	print_character
 	popq	%r11
 	popq	%r10
-	movq	-8(%rbp), %rbx
-	movq	-16(%rbp), %r10
-	movq	-32(%rbp), %r11
-	movq	-24(%rbp), %r12
-	movq	%r12, -32(%rbp)
-	movq	%r12, -16(%rbp)
-	movq	%r12, -8(%rbp)
-	movq	-8(%rbp), %rbx
+	movq	-40(%rbp), %rbx
+	movq	-48(%rbp), %r10
+	movq	-64(%rbp), %r11
+	movq	-56(%rbp), %r12
+	movq	%r12, -64(%rbp)
+	movq	%r12, -48(%rbp)
+	movq	%r12, -40(%rbp)
+	movq	-40(%rbp), %rbx
 
 	.section	.rodata
 .str60:
@@ -2243,7 +2247,7 @@ main:
 
 .text
 	lea	.str60, %r10
-	movq	-16(%rbp), %r11
+	movq	-48(%rbp), %r11
 	movq	$32, %r12
 	movq	%rbx, %rdi
 	pushq	%r10
@@ -2269,9 +2273,9 @@ main:
 	call	print_character
 	popq	%r11
 	popq	%r10
-	movq	-24(%rbp), %rbx
+	movq	-56(%rbp), %rbx
 	movq	$32, %r10
-	movq	-32(%rbp), %r11
+	movq	-64(%rbp), %r11
 	movq	$10, %r12
 	movq	%rbx, %rdi
 	pushq	%r10
@@ -2337,9 +2341,9 @@ main:
 	popq	%r11
 	popq	%r10
 	movq	%rax, %r13
-	movq	-8(%rbp), %rbx
+	movq	-40(%rbp), %rbx
 	movq	$8, %r10
-	movq	%r10, -8(%rbp)
+	movq	%r10, -40(%rbp)
 
 	.section	.rodata
 .str63:
@@ -2353,10 +2357,10 @@ main:
 	call	print_string
 	popq	%r11
 	popq	%r10
-	movq	-8(%rbp), %rbx
-	subq	$1, -8(%rbp)
+	movq	-40(%rbp), %rbx
+	subq	$1, -40(%rbp)
 	movq	$32, %r10
-	movq	-8(%rbp), %r11
+	movq	-40(%rbp), %r11
 	movq	$10, %r12
 	movq	%rbx, %rdi
 	pushq	%r10
@@ -2382,9 +2386,9 @@ main:
 	call	print_character
 	popq	%r11
 	popq	%r10
-	movq	-8(%rbp), %rbx
+	movq	-40(%rbp), %rbx
 	movq	$4, %r10
-	movq	%r10, -8(%rbp)
+	movq	%r10, -40(%rbp)
 
 	.section	.rodata
 .str64:
@@ -2398,10 +2402,10 @@ main:
 	call	print_string
 	popq	%r11
 	popq	%r10
-	movq	-8(%rbp), %rbx
-	addq	$1, -8(%rbp)
+	movq	-40(%rbp), %rbx
+	addq	$1, -40(%rbp)
 	movq	$32, %r10
-	movq	-8(%rbp), %r11
+	movq	-40(%rbp), %r11
 	movq	$10, %r12
 	movq	%rbx, %rdi
 	pushq	%r10
@@ -2427,9 +2431,9 @@ main:
 	call	print_character
 	popq	%r11
 	popq	%r10
-	movq	-8(%rbp), %rbx
+	movq	-40(%rbp), %rbx
 	movq	$3, %r10
-	movq	%r10, -8(%rbp)
+	movq	%r10, -40(%rbp)
 	movq	$1, %rbx
 	movq	$2, %r10
 	addq	%rbx, %r10
@@ -2441,6 +2445,438 @@ main:
 	pushq	%r10
 	pushq	%r11
 	call	print_integer
+	popq	%r11
+	popq	%r10
+	movq	$10, %rbx
+	movq	%rbx, %rdi
+	pushq	%r10
+	pushq	%r11
+	call	print_character
+	popq	%r11
+	popq	%r10
+	movq	-8(%rbp), %rbx
+	movq	$23, %r10
+	movq	%r10, -8(%rbp)
+	movq	-16(%rbp), %rbx
+	movq	$112, %r10
+	movq	%r10, -16(%rbp)
+	movq	-24(%rbp), %rbx
+
+	.section	.rodata
+.str65:
+	.string "i am param3"
+
+.text
+	lea	.str65, %r10
+	movq	%r10, -24(%rbp)
+	movq	-32(%rbp), %rbx
+	movq	$1, %r10
+	movq	$0, %r11
+	cmpq	$0, %r10
+	je	.L13
+	cmpq	$0, %r11
+	je	.L13
+	movq	$1, %r11
+	jmp	.L14
+.L13:
+	movq	$0, %r11
+.L14:
+	movq	%r11, -32(%rbp)
+	movq	-8(%rbp), %rbx
+	movq	$32, %r10
+	movq	-16(%rbp), %r11
+	movq	$32, %r12
+	movq	%rbx, %rdi
+	pushq	%r10
+	pushq	%r11
+	call	print_integer
+	popq	%r11
+	popq	%r10
+	movq	%r10, %rdi
+	pushq	%r10
+	pushq	%r11
+	call	print_character
+	popq	%r11
+	popq	%r10
+	movq	%r11, %rdi
+	pushq	%r10
+	pushq	%r11
+	call	print_character
+	popq	%r11
+	popq	%r10
+	movq	%r12, %rdi
+	pushq	%r10
+	pushq	%r11
+	call	print_character
+	popq	%r11
+	popq	%r10
+	movq	-32(%rbp), %rbx
+	movq	$32, %r10
+	movq	-24(%rbp), %r11
+	movq	$10, %r12
+	movq	%rbx, %rdi
+	pushq	%r10
+	pushq	%r11
+	call	print_boolean
+	popq	%r11
+	popq	%r10
+	movq	%r10, %rdi
+	pushq	%r10
+	pushq	%r11
+	call	print_character
+	popq	%r11
+	popq	%r10
+	movq	%r11, %rdi
+	pushq	%r10
+	pushq	%r11
+	call	print_string
+	popq	%r11
+	popq	%r10
+	movq	%r12, %rdi
+	pushq	%r10
+	pushq	%r11
+	call	print_character
+	popq	%r11
+	popq	%r10
+	movq	-8(%rbp), %r10
+	movq	-16(%rbp), %r11
+	movq	-32(%rbp), %r12
+	movq	-24(%rbp), %r13
+	movq	%r10, %rdi
+	movq	%r11, %rsi
+	movq	%r12, %rdx
+	movq	%r13, %rcx
+	pushq	%r10
+	pushq	%r11
+	call	print_func
+	popq	%r11
+	popq	%r10
+	movq	%rax, %r13
+	movq	global_x(%rip), %rbx
+	movq	$32, %r10
+	movq	%rbx, %rdi
+	pushq	%r10
+	pushq	%r11
+	call	print_integer
+	popq	%r11
+	popq	%r10
+	movq	%r10, %rdi
+	pushq	%r10
+	pushq	%r11
+	call	print_character
+	popq	%r11
+	popq	%r10
+	movq	global_x1(%rip), %rbx
+	movq	$32, %r10
+	movq	%rbx, %rdi
+	pushq	%r10
+	pushq	%r11
+	call	print_integer
+	popq	%r11
+	popq	%r10
+	movq	%r10, %rdi
+	pushq	%r10
+	pushq	%r11
+	call	print_character
+	popq	%r11
+	popq	%r10
+	movq	global_x2(%rip), %rbx
+	movq	$32, %r10
+	movq	%rbx, %rdi
+	pushq	%r10
+	pushq	%r11
+	call	print_integer
+	popq	%r11
+	popq	%r10
+	movq	%r10, %rdi
+	pushq	%r10
+	pushq	%r11
+	call	print_character
+	popq	%r11
+	popq	%r10
+	movq	global_x3(%rip), %rbx
+	movq	$32, %r10
+	movq	%rbx, %rdi
+	pushq	%r10
+	pushq	%r11
+	call	print_integer
+	popq	%r11
+	popq	%r10
+	movq	%r10, %rdi
+	pushq	%r10
+	pushq	%r11
+	call	print_character
+	popq	%r11
+	popq	%r10
+	movq	global_x4(%rip), %rbx
+	movq	$32, %r10
+	movq	%rbx, %rdi
+	pushq	%r10
+	pushq	%r11
+	call	print_integer
+	popq	%r11
+	popq	%r10
+	movq	%r10, %rdi
+	pushq	%r10
+	pushq	%r11
+	call	print_character
+	popq	%r11
+	popq	%r10
+	movq	global_x5(%rip), %rbx
+	movq	$32, %r10
+	movq	%rbx, %rdi
+	pushq	%r10
+	pushq	%r11
+	call	print_integer
+	popq	%r11
+	popq	%r10
+	movq	%r10, %rdi
+	pushq	%r10
+	pushq	%r11
+	call	print_character
+	popq	%r11
+	popq	%r10
+	movq	global_x6(%rip), %rbx
+	movq	$32, %r10
+	movq	%rbx, %rdi
+	pushq	%r10
+	pushq	%r11
+	call	print_integer
+	popq	%r11
+	popq	%r10
+	movq	%r10, %rdi
+	pushq	%r10
+	pushq	%r11
+	call	print_character
+	popq	%r11
+	popq	%r10
+	movq	global_y(%rip), %rbx
+	movq	$32, %r10
+	movq	%rbx, %rdi
+	pushq	%r10
+	pushq	%r11
+	call	print_character
+	popq	%r11
+	popq	%r10
+	movq	%r10, %rdi
+	pushq	%r10
+	pushq	%r11
+	call	print_character
+	popq	%r11
+	popq	%r10
+	movq	global_z(%rip), %rbx
+	movq	$32, %r10
+	movq	%rbx, %rdi
+	pushq	%r10
+	pushq	%r11
+	call	print_string
+	popq	%r11
+	popq	%r10
+	movq	%r10, %rdi
+	pushq	%r10
+	pushq	%r11
+	call	print_character
+	popq	%r11
+	popq	%r10
+	movq	global_t1(%rip), %rbx
+	movq	$32, %r10
+	movq	%rbx, %rdi
+	pushq	%r10
+	pushq	%r11
+	call	print_boolean
+	popq	%r11
+	popq	%r10
+	movq	%r10, %rdi
+	pushq	%r10
+	pushq	%r11
+	call	print_character
+	popq	%r11
+	popq	%r10
+	movq	global_t2(%rip), %rbx
+	movq	$32, %r10
+	movq	%rbx, %rdi
+	pushq	%r10
+	pushq	%r11
+	call	print_boolean
+	popq	%r11
+	popq	%r10
+	movq	%r10, %rdi
+	pushq	%r10
+	pushq	%r11
+	call	print_character
+	popq	%r11
+	popq	%r10
+	movq	global_global_uninit_int(%rip), %rbx
+	movq	$32, %r10
+	movq	%rbx, %rdi
+	pushq	%r10
+	pushq	%r11
+	call	print_integer
+	popq	%r11
+	popq	%r10
+	movq	%r10, %rdi
+	pushq	%r10
+	pushq	%r11
+	call	print_character
+	popq	%r11
+	popq	%r10
+	movq	global_global_uninit_char(%rip), %rbx
+	movq	$32, %r10
+	movq	%rbx, %rdi
+	pushq	%r10
+	pushq	%r11
+	call	print_character
+	popq	%r11
+	popq	%r10
+	movq	%r10, %rdi
+	pushq	%r10
+	pushq	%r11
+	call	print_character
+	popq	%r11
+	popq	%r10
+	movq	global_global_uninit_str(%rip), %rbx
+	movq	$32, %r10
+	movq	%rbx, %rdi
+	pushq	%r10
+	pushq	%r11
+	call	print_string
+	popq	%r11
+	popq	%r10
+	movq	%r10, %rdi
+	pushq	%r10
+	pushq	%r11
+	call	print_character
+	popq	%r11
+	popq	%r10
+	movq	global_global_uninit_boolean(%rip), %rbx
+	movq	$32, %r10
+	movq	%rbx, %rdi
+	pushq	%r10
+	pushq	%r11
+	call	print_boolean
+	popq	%r11
+	popq	%r10
+	movq	%r10, %rdi
+	pushq	%r10
+	pushq	%r11
+	call	print_character
+	popq	%r11
+	popq	%r10
+	movq	$10, %rbx
+	movq	%rbx, %rdi
+	pushq	%r10
+	pushq	%r11
+	call	print_character
+	popq	%r11
+	popq	%r10
+	movq	global_global_uninit_int(%rip), %rbx
+	movq	$432, %r10
+	movq	%r10, global_global_uninit_int(%rip)
+	movq	global_global_uninit_char(%rip), %rbx
+	movq	$105, %r10
+	movq	%r10, global_global_uninit_char(%rip)
+	movq	global_global_uninit_str(%rip), %rbx
+
+	.section	.rodata
+.str66:
+	.string "new string"
+
+.text
+	lea	.str66, %r10
+	movq	%r10, global_global_uninit_str(%rip)
+	movq	global_global_uninit_boolean(%rip), %rbx
+	movq	$0, %r10
+	movq	$1, %r11
+	cmpq	$0, %r10
+	jne	.L15
+	cmpq	$0, %r11
+	jne	.L15
+	movq	$0, %r11
+	jmp	.L16
+.L15:
+	movq	$1, %r11
+.L16:
+	movq	%r11, global_global_uninit_boolean(%rip)
+	movq	global_global_uninit_int(%rip), %rbx
+	movq	$32, %r10
+	movq	%rbx, %rdi
+	pushq	%r10
+	pushq	%r11
+	call	print_integer
+	popq	%r11
+	popq	%r10
+	movq	%r10, %rdi
+	pushq	%r10
+	pushq	%r11
+	call	print_character
+	popq	%r11
+	popq	%r10
+	movq	global_global_uninit_char(%rip), %rbx
+	movq	$32, %r10
+	movq	%rbx, %rdi
+	pushq	%r10
+	pushq	%r11
+	call	print_character
+	popq	%r11
+	popq	%r10
+	movq	%r10, %rdi
+	pushq	%r10
+	pushq	%r11
+	call	print_character
+	popq	%r11
+	popq	%r10
+	movq	global_global_uninit_str(%rip), %rbx
+	movq	$32, %r10
+	movq	%rbx, %rdi
+	pushq	%r10
+	pushq	%r11
+	call	print_string
+	popq	%r11
+	popq	%r10
+	movq	%r10, %rdi
+	pushq	%r10
+	pushq	%r11
+	call	print_character
+	popq	%r11
+	popq	%r10
+	movq	global_global_uninit_boolean(%rip), %rbx
+	movq	$32, %r10
+	movq	%rbx, %rdi
+	pushq	%r10
+	pushq	%r11
+	call	print_boolean
+	popq	%r11
+	popq	%r10
+	movq	%r10, %rdi
+	pushq	%r10
+	pushq	%r11
+	call	print_character
+	popq	%r11
+	popq	%r10
+	movq	$10, %rbx
+	movq	%rbx, %rdi
+	pushq	%r10
+	pushq	%r11
+	call	print_character
+	popq	%r11
+	popq	%r10
+	movq	global_global_uninit_int(%rip), %rbx
+	movq	$1000, %r10
+	cmpq	%r10, %rbx
+	setg	%al
+	movzx	%al, %rax
+	movq	%rax, %r10
+
+	.section	.rodata
+.str67:
+	.string "i am greater than 100\n"
+
+.text
+	lea	.str67, %rbx
+	movq	%rbx, %rdi
+	pushq	%r10
+	pushq	%r11
+	call	print_string
 	popq	%r11
 	popq	%r10
 	popq	%r15
