@@ -71,7 +71,6 @@ sum:function integer(x:integer, y:integer) = {
 }
 
 main:function void() = {
-	print_func(222, '~', true, "hello haiyan meng");
 
 	print "2^4";
 	print '\n';
@@ -251,4 +250,48 @@ main:function void() = {
 	print '\n';
 	print sum(3,20);
 	print '\n';
+
+	print "!(3<20)";
+	print '\n';
+	print !(3<20);
+	print '\n';
+
+	print "-(30-5)";
+	print '\n';
+	print -(30-5);
+	print '\n';
+
+	x:integer = 2;
+	x1:integer = 3;
+	x2:integer = 4;
+	x3:integer = 5;
+	print x, ' ', x1, ' ', x2, ' ', x3;
+	print '\n';
+	print x+12;
+	print '\n';
+	print "x=2\n";
+	print "x++ = ", x++,  ", x= ", x, '\n';
+	print "x++ = ", x++,  ", x= ", x, '\n';
+
+	print "x3=5\n";	
+	print "x3-- = ", x3--,  ", x3= ", x3, '\n';
+	print "x3-- = ", x3--,  ", x3= ", x3, '\n';
+
+	x = x1 = x3 = x2;
+	print x, " ", x1, ' ';
+	print x2, ' ', x3, '\n';
+
+	(print_func)(222, '~', true, "hello haiyan meng");
+	((print_func))(222, '~', true, "hello haiyan meng");
+
+	x = 8;
+	print "x=8\n";
+	print (x)--, ' ', x, '\n';
+
+	((x)) = 4;
+	print "x=4\n";
+	print (x)++, ' ', x, '\n';
+
+	x = 3;
+	print (1 + 2) * 3;
 }

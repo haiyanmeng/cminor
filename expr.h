@@ -84,4 +84,7 @@ char expr_getchar(const char a, const char b);
 
 char *expr_funcarg_register_name(int i);
 void expr_funccall_codegen(struct expr *e, FILE *f);
+
+int expr_check_lvalue(struct expr *e);
+struct expr *expr_get_lvalue(struct expr *e);
 #endif

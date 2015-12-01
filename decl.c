@@ -278,6 +278,8 @@ void decl_codegen(struct decl *d, FILE *f) {
 			} else {
 				fprintf(f, "\t.quad   %d\n", d->value->literal_value);
 			}
+		} else {
+			fprintf(f, "\tmovq\t%%%s, %d(%%rbp)\n", register_name(d->value->reg), -8 * (cur_func->param_count + d->symbol->which + 1));
 		}
 	} else if(d->code) {
 		//set current function symbol

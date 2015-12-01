@@ -237,7 +237,7 @@ struct type *expr_typecheck(struct expr *e, int is_array_initializer, int silent
 				expr_func_typecheck(e, silent_mode);
 				type_free(left);	
 				type_free(right);	
-				return scope_lookup(e->left->name, e->left->line, 0)->type->subtype;
+				return scope_lookup(expr_get_lvalue(e->left)->name, e->left->line, 0)->type->subtype;
 			} else {
 				//grouping
 				type_free(left);	
@@ -289,7 +289,17 @@ struct type *expr_typecheck(struct expr *e, int is_array_initializer, int silent
 				type_free(left);
 				type_free(right);
 				return type_create(TYPE_INTEGER, 0, 0, 0, e->line, 0);
+			} 
+
+			if(expr_is_constant(e->left)) {
+				if(!silent_mode) {
+					fprintf(stdout, "type error (line %d): lvalue of ++/-- expr (", e->line);
+					expr_print(e->left);
+					fprintf(stdout, ") should not be constant!\n");
+					type_error_count += 1;
+				}
 			}
+
 			type_free(right);
 			return left;
 			break;
@@ -704,7 +714,7 @@ struct type *expr_typecheck(struct expr *e, int is_array_initializer, int silent
 //check function call arguments and function definition paramters
 void expr_func_typecheck(struct expr *e, int silent_mode) {
 	//search for the function in the global scope, get its type 
-	struct symbol *s = scope_lookup(e->left->name, e->line, 0);
+	struct symbol *s = scope_lookup(expr_get_lvalue(e->left)->name, e->line, 0);
 	struct param_list *p = s->type->params;
 
 	//get the argument number of the function call
@@ -843,6 +853,8 @@ void expr_codegen(struct expr *e, FILE *f) {
 
 	switch(e->kind) {
 		case EXPR_LEFTCURLY: //array initializer 
+			fprintf(stderr, "line %d: cminor does not support array currently!\n", e->line);
+			exit(EXIT_FAILURE);
 			break;
 		case EXPR_LEFTPARENTHESS:
 			expr_codegen(e->left, f);
@@ -851,7 +863,7 @@ void expr_codegen(struct expr *e, FILE *f) {
 				expr_funccall_codegen(e->right, f);
 				fprintf(f, "\tpushq\t%%r10\n");
 				fprintf(f, "\tpushq\t%%r11\n");
-				fprintf(f, "\tcall\t%s\n", e->left->name);
+				fprintf(f, "\tcall\t%s\n", expr_get_lvalue(e->left)->name);
 				fprintf(f, "\tpopq\t%%r11\n");
 				fprintf(f, "\tpopq\t%%r10\n");
 				fprintf(f, "\tmovq\t%%rax, %%%s\n", register_name(e->right->reg));
@@ -864,14 +876,55 @@ void expr_codegen(struct expr *e, FILE *f) {
 			}
 			break;
 		case EXPR_LEFTBRACKET: //array subscript
+			fprintf(stderr, "line %d: cminor does not support array currently!\n", e->line);
+			exit(EXIT_FAILURE);
 			break;
 		case EXPR_INCREMENT:
+			expr_codegen(e->left, f);
+			expr_codegen(e->right, f);
+			if(e->is_global) {
+				e->literal_value = e->left->literal_value + 1;
+			} else {
+				e->reg = e->left->reg;
+				fprintf(f, "\taddq\t$1, %d(%%rbp)\n", -8 * (cur_func->param_count + expr_get_lvalue(e->left)->symbol->which + 1));
+			}	
 			break;
 		case EXPR_DECREMENT:
+			expr_codegen(e->left, f);
+			expr_codegen(e->right, f);
+			if(e->is_global) {
+				e->literal_value = e->left->literal_value + 1;
+			} else {
+				e->reg = e->left->reg;
+				fprintf(f, "\tsubq\t$1, %d(%%rbp)\n", -8 * (cur_func->param_count + expr_get_lvalue(e->left)->symbol->which + 1));
+			}	
 			break;
 		case EXPR_UNARY_NEG:
+			expr_codegen(e->left, f);
+			expr_codegen(e->right, f);
+			if(e->is_global) {
+				e->literal_value = -1 * e->right->literal_value;
+			} else {
+				fprintf(f, "\tmovq\t$0, %%rax\n");
+				fprintf(f, "\tsubq\t%%%s, %%rax\n", register_name(e->right->reg));
+				fprintf(f, "\tmovq\t%%rax, %%%s\n", register_name(e->right->reg));
+				e->reg = e->right->reg;
+			}
 			break;
 		case EXPR_NOT:
+			expr_codegen(e->left, f);
+			expr_codegen(e->right, f);
+			if(e->is_global) {
+				e->literal_value = 1 - e->right->literal_value;
+			} else {
+				fprintf(f, "\tcmpq\t$1, %%%s\n", register_name(e->right->reg));
+				fprintf(f, "\tje\t.L%d\n", ctl_no);
+				fprintf(f, "\tmovq\t$1, %%%s\n", register_name(e->right->reg));
+				fprintf(f, ".L%d:\n", ctl_no);
+				fprintf(f, "\tmovq\t$0, %%%s\n", register_name(e->right->reg));
+				ctl_no += 1;
+				e->reg = e->right->reg;
+			}	
 			break;
 		case EXPR_POWER:
 			expr_codegen(e->left, f);
@@ -1105,6 +1158,17 @@ void expr_codegen(struct expr *e, FILE *f) {
 	
 			break;
 		case EXPR_ASSIGN:
+			expr_codegen(e->left, f);
+			expr_codegen(e->right, f);
+			if(e->is_global) {
+				e->literal_value = e->right->literal_value;
+				e->string_literal = e->right->string_literal;
+			} else {
+				fprintf(f, "\tmovq\t%%%s, %d(%%rbp)\n", register_name(e->right->reg), -8 * (cur_func->param_count + expr_get_lvalue(e->left)->symbol->which + 1));
+				e->reg = e->right->reg;
+				register_free(e->left->reg);
+				e->left->reg = -1;
+			}	
 			break;
 		case EXPR_COMMA:
 			expr_codegen(e->left, f);
@@ -1240,3 +1304,25 @@ void expr_funccall_codegen(struct expr *e, FILE *f) {
 		fprintf(f, "\tmovq\t%%%s, %%%s\n", register_name(arg->reg), expr_funcarg_register_name(i-1));
 	}
 }
+
+int expr_check_lvalue(struct expr *e) {
+	if(!e) return 1;
+
+	if((e->kind == EXPR_IDENT_NAME) || (e->kind == EXPR_LEFTPARENTHESS && (!(e->left)))) {
+		return expr_check_lvalue(e->left) && expr_check_lvalue(e->right);
+	} else {
+		return 0;
+	}
+}
+
+struct expr *expr_get_lvalue(struct expr *e) {
+	if(e->kind == EXPR_LEFTPARENTHESS) {
+		return expr_get_lvalue(e->right);
+	} else {
+		return e;
+	}	
+}
+
+
+
+
