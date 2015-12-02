@@ -1,6 +1,8 @@
 Todo:
 overall test, check for each operator and its operands.
 
+global and local
+
 check the wasteful usages of registers.
 
 double check the case where things can be empty, do not try to use those e->right->reg like func_call without params;

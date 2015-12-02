@@ -889,6 +889,7 @@ void expr_codegen(struct expr *e, FILE *f) {
 		if(e->right) e->right->is_global = 1;
 	}
 
+	struct type *t;
 	switch(e->kind) {
 		case EXPR_LEFTCURLY: //array initializer 
 			fprintf(stderr, "line %d: cminor does not support array currently!\n", e->line);
@@ -1119,34 +1120,82 @@ void expr_codegen(struct expr *e, FILE *f) {
 		case EXPR_EQ:
 			expr_codegen(e->left, f);
 			expr_codegen(e->right, f);
+			t = expr_typecheck(e->left, 0, 1);
 			if(e->is_global) {
 				e->literal_value = 0;
-				if(e->left->literal_value == e->right->literal_value) e->literal_value = 1;
+				if(t->kind == TYPE_STRING) {
+					if(!strcmp(e->left->string_literal, e->right->string_literal)) e->literal_value = 1;
+				} else {
+					if(e->left->literal_value == e->right->literal_value) e->literal_value = 1;
+				}
 			} else {
-				fprintf(f, "\tcmpq\t%%%s, %%%s\n", register_name(e->right->reg), register_name(e->left->reg));
-				fprintf(f, "\tsete\t%%al\n");
-				fprintf(f, "\tmovzx\t%%al, %%rax\n");
-				fprintf(f, "\tmovq\t%%rax, %%%s\n", register_name(e->right->reg));
+				if(t->kind == TYPE_STRING) {
+					fprintf(f, "\tmovq\t%%%s, %%rdi\n", register_name(e->left->reg));
+					fprintf(f, "\tmovq\t%%%s, %%rsi\n", register_name(e->right->reg));
+					fprintf(f, "\tpushq\t%%r10\n");
+					fprintf(f, "\tpushq\t%%r11\n");
+					fprintf(f, "\tcall\tstrcmp\n");
+					fprintf(f, "\tpopq\t%%r11\n");
+					fprintf(f, "\tpopq\t%%r10\n");
+					fprintf(f, "\tcmpq\t$0, %%rax\n");
+					fprintf(f, "\tje\t.L%d\n", ctl_no);
+					fprintf(f, "\tmovq\t$0, %%%s\n", register_name(e->right->reg));
+					fprintf(f, "\tjmp\t.L%d\n", ctl_no+1);
+					fprintf(f, ".L%d:\n", ctl_no);
+					fprintf(f, "\tmovq\t$1, %%%s\n", register_name(e->right->reg));
+					fprintf(f, ".L%d:\n", ctl_no+1);
+					ctl_no += 2;
+				} else {
+					fprintf(f, "\tcmpq\t%%%s, %%%s\n", register_name(e->right->reg), register_name(e->left->reg));
+					fprintf(f, "\tsete\t%%al\n");
+					fprintf(f, "\tmovzx\t%%al, %%rax\n");
+					fprintf(f, "\tmovq\t%%rax, %%%s\n", register_name(e->right->reg));
+				}
 				e->reg = e->right->reg;
 				register_free(e->left->reg);
 				e->left->reg = -1;
 			}
+			type_free(t);
 			break;
 		case EXPR_UNEQ:
 			expr_codegen(e->left, f);
 			expr_codegen(e->right, f);
+			t = expr_typecheck(e->left, 0, 1);
 			if(e->is_global) {
 				e->literal_value = 0;
-				if(e->left->literal_value != e->right->literal_value) e->literal_value = 1;
+				if(t->kind == TYPE_STRING) {
+					if(strcmp(e->left->string_literal, e->right->string_literal)) e->literal_value = 1;
+				} else {
+					if(e->left->literal_value != e->right->literal_value) e->literal_value = 1;
+				}
 			} else {
-				fprintf(f, "\tcmpq\t%%%s, %%%s\n", register_name(e->right->reg), register_name(e->left->reg));
-				fprintf(f, "\tsetne\t%%al\n");
-				fprintf(f, "\tmovzx\t%%al, %%rax\n");
-				fprintf(f, "\tmovq\t%%rax, %%%s\n", register_name(e->right->reg));
+				if(t->kind == TYPE_STRING) {
+					fprintf(f, "\tmovq\t%%%s, %%rdi\n", register_name(e->left->reg));
+					fprintf(f, "\tmovq\t%%%s, %%rsi\n", register_name(e->right->reg));
+					fprintf(f, "\tpushq\t%%r10\n");
+					fprintf(f, "\tpushq\t%%r11\n");
+					fprintf(f, "\tcall\tstrcmp\n");
+					fprintf(f, "\tpopq\t%%r11\n");
+					fprintf(f, "\tpopq\t%%r10\n");
+					fprintf(f, "\tcmpq\t$0, %%rax\n");
+					fprintf(f, "\tjne\t.L%d\n", ctl_no);
+					fprintf(f, "\tmovq\t$0, %%%s\n", register_name(e->right->reg));
+					fprintf(f, "\tjmp\t.L%d\n", ctl_no+1);
+					fprintf(f, ".L%d:\n", ctl_no);
+					fprintf(f, "\tmovq\t$1, %%%s\n", register_name(e->right->reg));
+					fprintf(f, ".L%d:\n", ctl_no+1);
+					ctl_no += 2;
+				} else {
+					fprintf(f, "\tcmpq\t%%%s, %%%s\n", register_name(e->right->reg), register_name(e->left->reg));
+					fprintf(f, "\tsetne\t%%al\n");
+					fprintf(f, "\tmovzx\t%%al, %%rax\n");
+					fprintf(f, "\tmovq\t%%rax, %%%s\n", register_name(e->right->reg));
+				}
 				e->reg = e->right->reg;
 				register_free(e->left->reg);
 				e->left->reg = -1;
 			}
+			type_free(t);
 			break;
 		case EXPR_AND:
 			expr_codegen(e->left, f);

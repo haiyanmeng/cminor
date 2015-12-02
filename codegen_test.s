@@ -403,6 +403,112 @@ main:
 	popq	%r11
 	popq	%r10
 	movq	$2, %rbx
+	movq	$0, %r10
+	movq	%rbx, %rdi
+	movq	%r10, %rsi
+	pushq	%r10
+	pushq	%r11
+	call	integer_power
+	popq	%r11
+	popq	%r10
+	movq	%rax, %r10
+	movq	%r10, %rdi
+	pushq	%r10
+	pushq	%r11
+	call	print_integer
+	popq	%r11
+	popq	%r10
+	movq	$10, %rbx
+	movq	%rbx, %rdi
+	pushq	%r10
+	pushq	%r11
+	call	print_character
+	popq	%r11
+	popq	%r10
+	movq	$2, %rbx
+	movq	$10, %r10
+	movq	$0, %rax
+	subq	%r10, %rax
+	movq	%rax, %r10
+	movq	%rbx, %rdi
+	movq	%r10, %rsi
+	pushq	%r10
+	pushq	%r11
+	call	integer_power
+	popq	%r11
+	popq	%r10
+	movq	%rax, %r10
+	movq	%r10, %rdi
+	pushq	%r10
+	pushq	%r11
+	call	print_integer
+	popq	%r11
+	popq	%r10
+	movq	$10, %rbx
+	movq	%rbx, %rdi
+	pushq	%r10
+	pushq	%r11
+	call	print_character
+	popq	%r11
+	popq	%r10
+	movq	$5, %rbx
+	movq	$3, %r10
+	subq	%r10, %rbx
+	movq	$0, %r10
+	addq	%rbx, %r10
+	movq	$2, %rbx
+	addq	%r10, %rbx
+	movq	$2, %r10
+	subq	%r10, %rbx
+	movq	$2, %r10
+	addq	%rbx, %r10
+	movq	$2, %rbx
+	subq	%rbx, %r10
+	movq	$2, %rbx
+	movq	$1, %r11
+	movq	%rbx, %rax
+	cqo
+	idivq	%r11
+	movq	%rdx, %r11
+	addq	%r10, %r11
+	movq	$2, %rbx
+	movq	$20, %r10
+	movq	%rbx, %rax
+	cqo
+	idivq	%r10
+	movq	%rax, %r10
+	addq	%r11, %r10
+	movq	$0, %rbx
+	movq	$34343, %r11
+	movq	%rbx, %rax
+	imulq	%r11
+	movq	%rax, %r11
+	addq	%r10, %r11
+	movq	$20, %rbx
+	movq	$10, %r10
+	subq	%r10, %rbx
+	movq	%r11, %rdi
+	movq	%rbx, %rsi
+	pushq	%r10
+	pushq	%r11
+	call	integer_power
+	popq	%r11
+	popq	%r10
+	movq	%rax, %rbx
+	movq	%rbx, %rdi
+	pushq	%r10
+	pushq	%r11
+	call	print_integer
+	popq	%r11
+	popq	%r10
+	movq	$10, %rbx
+	movq	%rbx, %rdi
+	pushq	%r10
+	pushq	%r11
+	call	print_character
+	popq	%r11
+	popq	%r10
+	movq	$2, %rbx
 	movq	$3, %r10
 	cmpq	%r10, %rbx
 	setl	%al
@@ -1413,7 +1519,7 @@ main:
 
 	.section	.rodata
 .str32:
-	.string "hello"
+	.string "(2+1+0/234) == (5/4+2*1)"
 
 .text
 	lea	.str32, %rbx
@@ -1423,10 +1529,56 @@ main:
 	call	print_string
 	popq	%r11
 	popq	%r10
+	movq	$10, %rbx
+	movq	%rbx, %rdi
+	pushq	%r10
+	pushq	%r11
+	call	print_character
+	popq	%r11
+	popq	%r10
+	movq	$2, %rbx
+	movq	$1, %r10
+	addq	%rbx, %r10
+	movq	$0, %rbx
+	movq	$234, %r11
+	movq	%rbx, %rax
+	cqo
+	idivq	%r11
+	movq	%rax, %r11
+	addq	%r10, %r11
+	movq	$5, %rbx
+	movq	$4, %r10
+	movq	%rbx, %rax
+	cqo
+	idivq	%r10
+	movq	%rax, %r10
+	movq	$2, %rbx
+	movq	$1, %r12
+	movq	%rbx, %rax
+	imulq	%r12
+	movq	%rax, %r12
+	addq	%r10, %r12
+	cmpq	%r12, %r11
+	sete	%al
+	movzx	%al, %rax
+	movq	%rax, %r12
+	movq	%r12, %rdi
+	pushq	%r10
+	pushq	%r11
+	call	print_boolean
+	popq	%r11
+	popq	%r10
+	movq	$10, %rbx
+	movq	%rbx, %rdi
+	pushq	%r10
+	pushq	%r11
+	call	print_character
+	popq	%r11
+	popq	%r10
 
 	.section	.rodata
 .str33:
-	.string " == "
+	.string "hello"
 
 .text
 	lea	.str33, %rbx
@@ -1439,10 +1591,23 @@ main:
 
 	.section	.rodata
 .str34:
-	.string "word"
+	.string " == "
 
 .text
 	lea	.str34, %rbx
+	movq	%rbx, %rdi
+	pushq	%r10
+	pushq	%r11
+	call	print_string
+	popq	%r11
+	popq	%r10
+
+	.section	.rodata
+.str35:
+	.string "word"
+
+.text
+	lea	.str35, %rbx
 	movq	%rbx, %rdi
 	pushq	%r10
 	pushq	%r11
@@ -1458,22 +1623,32 @@ main:
 	popq	%r10
 
 	.section	.rodata
-.str35:
+.str36:
 	.string "hello"
 
 .text
-	lea	.str35, %rbx
+	lea	.str36, %rbx
 
 	.section	.rodata
-.str36:
+.str37:
 	.string "word"
 
 .text
-	lea	.str36, %r10
-	cmpq	%r10, %rbx
-	sete	%al
-	movzx	%al, %rax
-	movq	%rax, %r10
+	lea	.str37, %r10
+	movq	%rbx, %rdi
+	movq	%r10, %rsi
+	pushq	%r10
+	pushq	%r11
+	call	strcmp
+	popq	%r11
+	popq	%r10
+	cmpq	$0, %rax
+	je	.L14
+	movq	$0, %r10
+	jmp	.L15
+.L14:
+	movq	$1, %r10
+.L15:
 	movq	%r10, %rdi
 	pushq	%r10
 	pushq	%r11
@@ -1489,21 +1664,8 @@ main:
 	popq	%r10
 
 	.section	.rodata
-.str37:
-	.string "hello"
-
-.text
-	lea	.str37, %rbx
-	movq	%rbx, %rdi
-	pushq	%r10
-	pushq	%r11
-	call	print_string
-	popq	%r11
-	popq	%r10
-
-	.section	.rodata
 .str38:
-	.string " != "
+	.string "hello"
 
 .text
 	lea	.str38, %rbx
@@ -1516,10 +1678,23 @@ main:
 
 	.section	.rodata
 .str39:
-	.string "word"
+	.string " != "
 
 .text
 	lea	.str39, %rbx
+	movq	%rbx, %rdi
+	pushq	%r10
+	pushq	%r11
+	call	print_string
+	popq	%r11
+	popq	%r10
+
+	.section	.rodata
+.str40:
+	.string "word"
+
+.text
+	lea	.str40, %rbx
 	movq	%rbx, %rdi
 	pushq	%r10
 	pushq	%r11
@@ -1535,22 +1710,32 @@ main:
 	popq	%r10
 
 	.section	.rodata
-.str40:
+.str41:
 	.string "hello"
 
 .text
-	lea	.str40, %rbx
+	lea	.str41, %rbx
 
 	.section	.rodata
-.str41:
+.str42:
 	.string "word"
 
 .text
-	lea	.str41, %r10
-	cmpq	%r10, %rbx
-	setne	%al
-	movzx	%al, %rax
-	movq	%rax, %r10
+	lea	.str42, %r10
+	movq	%rbx, %rdi
+	movq	%r10, %rsi
+	pushq	%r10
+	pushq	%r11
+	call	strcmp
+	popq	%r11
+	popq	%r10
+	cmpq	$0, %rax
+	jne	.L16
+	movq	$0, %r10
+	jmp	.L17
+.L16:
+	movq	$1, %r10
+.L17:
 	movq	%r10, %rdi
 	pushq	%r10
 	pushq	%r11
@@ -1566,11 +1751,106 @@ main:
 	popq	%r10
 
 	.section	.rodata
-.str42:
+.str43:
+	.string "hello111"
+
+.text
+	lea	.str43, %rbx
+	movq	%rbx, %rdi
+	pushq	%r10
+	pushq	%r11
+	call	print_string
+	popq	%r11
+	popq	%r10
+
+	.section	.rodata
+.str44:
+	.string " == "
+
+.text
+	lea	.str44, %rbx
+	movq	%rbx, %rdi
+	pushq	%r10
+	pushq	%r11
+	call	print_string
+	popq	%r11
+	popq	%r10
+
+	.section	.rodata
+.str45:
+	.string "hello111"
+
+.text
+	lea	.str45, %rbx
+	movq	%rbx, %rdi
+	pushq	%r10
+	pushq	%r11
+	call	print_string
+	popq	%r11
+	popq	%r10
+	movq	$10, %rbx
+	movq	%rbx, %rdi
+	pushq	%r10
+	pushq	%r11
+	call	print_character
+	popq	%r11
+	popq	%r10
+
+	.section	.rodata
+.str46:
+	.string "hello111"
+
+.text
+	lea	.str46, %rbx
+
+	.section	.rodata
+.str47:
+	.string "hello111"
+
+.text
+	lea	.str47, %r10
+	movq	%rbx, %rdi
+	movq	%r10, %rsi
+	pushq	%r10
+	pushq	%r11
+	call	strcmp
+	popq	%r11
+	popq	%r10
+	cmpq	$0, %rax
+	je	.L18
+	movq	$0, %r10
+	jmp	.L19
+.L18:
+	movq	$1, %r10
+.L19:
+	movq	%r10, %rdi
+	pushq	%r10
+	pushq	%r11
+	call	print_boolean
+	popq	%r11
+	popq	%r10
+	movq	$10, %rbx
+	movq	%rbx, %rdi
+	pushq	%r10
+	pushq	%r11
+	call	print_character
+	popq	%r11
+	popq	%r10
+	popq	%r15
+	popq	%r14
+	popq	%r13
+	popq	%r12
+	popq	%rbx
+	movq	%rbp, %rsp
+	popq	%rbp
+	ret
+
+	.section	.rodata
+.str48:
 	.string "'c' == 'd'"
 
 .text
-	lea	.str42, %rbx
+	lea	.str48, %rbx
 	movq	%rbx, %rdi
 	pushq	%r10
 	pushq	%r11
@@ -1603,13 +1883,21 @@ main:
 	call	print_character
 	popq	%r11
 	popq	%r10
+	popq	%r15
+	popq	%r14
+	popq	%r13
+	popq	%r12
+	popq	%rbx
+	movq	%rbp, %rsp
+	popq	%rbp
+	ret
 
 	.section	.rodata
-.str43:
+.str49:
 	.string "3!=5"
 
 .text
-	lea	.str43, %rbx
+	lea	.str49, %rbx
 	movq	%rbx, %rdi
 	pushq	%r10
 	pushq	%r11
@@ -1644,11 +1932,11 @@ main:
 	popq	%r10
 
 	.section	.rodata
-.str44:
+.str50:
 	.string "'c' != 'd'"
 
 .text
-	lea	.str44, %rbx
+	lea	.str50, %rbx
 	movq	%rbx, %rdi
 	pushq	%r10
 	pushq	%r11
@@ -1683,11 +1971,11 @@ main:
 	popq	%r10
 
 	.section	.rodata
-.str45:
+.str51:
 	.string "true != false"
 
 .text
-	lea	.str45, %rbx
+	lea	.str51, %rbx
 	movq	%rbx, %rdi
 	pushq	%r10
 	pushq	%r11
@@ -1722,11 +2010,11 @@ main:
 	popq	%r10
 
 	.section	.rodata
-.str46:
+.str52:
 	.string "false != false"
 
 .text
-	lea	.str46, %rbx
+	lea	.str52, %rbx
 	movq	%rbx, %rdi
 	pushq	%r10
 	pushq	%r11
@@ -1770,11 +2058,11 @@ main:
 	popq	%r10
 
 	.section	.rodata
-.str47:
+.str53:
 	.string "hello"
 
 .text
-	lea	.str47, %rbx
+	lea	.str53, %rbx
 	movq	%rbx, %rdi
 	pushq	%r10
 	pushq	%r11
@@ -1818,11 +2106,11 @@ main:
 	popq	%r10
 
 	.section	.rodata
-.str48:
+.str54:
 	.string "hello"
 
 .text
-	lea	.str48, %rbx
+	lea	.str54, %rbx
 	movq	%rbx, %rdi
 	pushq	%r10
 	pushq	%r11
@@ -1880,11 +2168,11 @@ main:
 	popq	%r10
 
 	.section	.rodata
-.str49:
+.str55:
 	.string "sum(3+20)"
 
 .text
-	lea	.str49, %rbx
+	lea	.str55, %rbx
 	movq	%rbx, %rdi
 	pushq	%r10
 	pushq	%r11
@@ -1923,11 +2211,11 @@ main:
 	popq	%r10
 
 	.section	.rodata
-.str50:
+.str56:
 	.string "!(3<20)"
 
 .text
-	lea	.str50, %rbx
+	lea	.str56, %rbx
 	movq	%rbx, %rdi
 	pushq	%r10
 	pushq	%r11
@@ -1948,9 +2236,9 @@ main:
 	movzx	%al, %rax
 	movq	%rax, %r10
 	cmpq	$1, %r10
-	je	.L14
+	je	.L20
 	movq	$1, %r10
-.L14:
+.L20:
 	movq	$0, %r10
 	movq	%r10, %rdi
 	pushq	%r10
@@ -1967,11 +2255,11 @@ main:
 	popq	%r10
 
 	.section	.rodata
-.str51:
+.str57:
 	.string "-(30-5)"
 
 .text
-	lea	.str51, %rbx
+	lea	.str57, %rbx
 	movq	%rbx, %rdi
 	pushq	%r10
 	pushq	%r11
@@ -2086,130 +2374,8 @@ main:
 	popq	%r10
 
 	.section	.rodata
-.str52:
-	.string "x=2\n"
-
-.text
-	lea	.str52, %rbx
-	movq	%rbx, %rdi
-	pushq	%r10
-	pushq	%r11
-	call	print_string
-	popq	%r11
-	popq	%r10
-
-	.section	.rodata
-.str53:
-	.string "x++ = "
-
-.text
-	lea	.str53, %rbx
-	movq	%rbx, %rdi
-	pushq	%r10
-	pushq	%r11
-	call	print_string
-	popq	%r11
-	popq	%r10
-	movq	-40(%rbp), %rbx
-	addq	$1, -40(%rbp)
-	movq	%rbx, %rdi
-	pushq	%r10
-	pushq	%r11
-	call	print_integer
-	popq	%r11
-	popq	%r10
-
-	.section	.rodata
-.str54:
-	.string ", x= "
-
-.text
-	lea	.str54, %rbx
-	movq	%rbx, %rdi
-	pushq	%r10
-	pushq	%r11
-	call	print_string
-	popq	%r11
-	popq	%r10
-	movq	-40(%rbp), %rbx
-	movq	%rbx, %rdi
-	pushq	%r10
-	pushq	%r11
-	call	print_integer
-	popq	%r11
-	popq	%r10
-	movq	$10, %rbx
-	movq	%rbx, %rdi
-	pushq	%r10
-	pushq	%r11
-	call	print_character
-	popq	%r11
-	popq	%r10
-
-	.section	.rodata
-.str55:
-	.string "x++ = "
-
-.text
-	lea	.str55, %rbx
-	movq	%rbx, %rdi
-	pushq	%r10
-	pushq	%r11
-	call	print_string
-	popq	%r11
-	popq	%r10
-	movq	-40(%rbp), %rbx
-	addq	$1, -40(%rbp)
-	movq	%rbx, %rdi
-	pushq	%r10
-	pushq	%r11
-	call	print_integer
-	popq	%r11
-	popq	%r10
-
-	.section	.rodata
-.str56:
-	.string ", x= "
-
-.text
-	lea	.str56, %rbx
-	movq	%rbx, %rdi
-	pushq	%r10
-	pushq	%r11
-	call	print_string
-	popq	%r11
-	popq	%r10
-	movq	-40(%rbp), %rbx
-	movq	%rbx, %rdi
-	pushq	%r10
-	pushq	%r11
-	call	print_integer
-	popq	%r11
-	popq	%r10
-	movq	$10, %rbx
-	movq	%rbx, %rdi
-	pushq	%r10
-	pushq	%r11
-	call	print_character
-	popq	%r11
-	popq	%r10
-
-	.section	.rodata
-.str57:
-	.string "x3=5\n"
-
-.text
-	lea	.str57, %rbx
-	movq	%rbx, %rdi
-	pushq	%r10
-	pushq	%r11
-	call	print_string
-	popq	%r11
-	popq	%r10
-
-	.section	.rodata
 .str58:
-	.string "x3-- = "
+	.string "x=2\n"
 
 .text
 	lea	.str58, %rbx
@@ -2219,6 +2385,128 @@ main:
 	call	print_string
 	popq	%r11
 	popq	%r10
+
+	.section	.rodata
+.str59:
+	.string "x++ = "
+
+.text
+	lea	.str59, %rbx
+	movq	%rbx, %rdi
+	pushq	%r10
+	pushq	%r11
+	call	print_string
+	popq	%r11
+	popq	%r10
+	movq	-40(%rbp), %rbx
+	addq	$1, -40(%rbp)
+	movq	%rbx, %rdi
+	pushq	%r10
+	pushq	%r11
+	call	print_integer
+	popq	%r11
+	popq	%r10
+
+	.section	.rodata
+.str60:
+	.string ", x= "
+
+.text
+	lea	.str60, %rbx
+	movq	%rbx, %rdi
+	pushq	%r10
+	pushq	%r11
+	call	print_string
+	popq	%r11
+	popq	%r10
+	movq	-40(%rbp), %rbx
+	movq	%rbx, %rdi
+	pushq	%r10
+	pushq	%r11
+	call	print_integer
+	popq	%r11
+	popq	%r10
+	movq	$10, %rbx
+	movq	%rbx, %rdi
+	pushq	%r10
+	pushq	%r11
+	call	print_character
+	popq	%r11
+	popq	%r10
+
+	.section	.rodata
+.str61:
+	.string "x++ = "
+
+.text
+	lea	.str61, %rbx
+	movq	%rbx, %rdi
+	pushq	%r10
+	pushq	%r11
+	call	print_string
+	popq	%r11
+	popq	%r10
+	movq	-40(%rbp), %rbx
+	addq	$1, -40(%rbp)
+	movq	%rbx, %rdi
+	pushq	%r10
+	pushq	%r11
+	call	print_integer
+	popq	%r11
+	popq	%r10
+
+	.section	.rodata
+.str62:
+	.string ", x= "
+
+.text
+	lea	.str62, %rbx
+	movq	%rbx, %rdi
+	pushq	%r10
+	pushq	%r11
+	call	print_string
+	popq	%r11
+	popq	%r10
+	movq	-40(%rbp), %rbx
+	movq	%rbx, %rdi
+	pushq	%r10
+	pushq	%r11
+	call	print_integer
+	popq	%r11
+	popq	%r10
+	movq	$10, %rbx
+	movq	%rbx, %rdi
+	pushq	%r10
+	pushq	%r11
+	call	print_character
+	popq	%r11
+	popq	%r10
+
+	.section	.rodata
+.str63:
+	.string "x3=5\n"
+
+.text
+	lea	.str63, %rbx
+	movq	%rbx, %rdi
+	pushq	%r10
+	pushq	%r11
+	call	print_string
+	popq	%r11
+	popq	%r10
+
+	.section	.rodata
+.str64:
+	.string "x3-- = "
+
+.text
+	lea	.str64, %rbx
+	movq	%rbx, %rdi
+	pushq	%r10
+	pushq	%r11
+	call	print_string
+	popq	%r11
+	popq	%r10
 	movq	-64(%rbp), %rbx
 	subq	$1, -64(%rbp)
 	movq	%rbx, %rdi
@@ -2229,11 +2517,11 @@ main:
 	popq	%r10
 
 	.section	.rodata
-.str59:
+.str65:
 	.string ", x3= "
 
 .text
-	lea	.str59, %rbx
+	lea	.str65, %rbx
 	movq	%rbx, %rdi
 	pushq	%r10
 	pushq	%r11
@@ -2256,11 +2544,11 @@ main:
 	popq	%r10
 
 	.section	.rodata
-.str60:
+.str66:
 	.string "x3-- = "
 
 .text
-	lea	.str60, %rbx
+	lea	.str66, %rbx
 	movq	%rbx, %rdi
 	pushq	%r10
 	pushq	%r11
@@ -2277,11 +2565,11 @@ main:
 	popq	%r10
 
 	.section	.rodata
-.str61:
+.str67:
 	.string ", x3= "
 
 .text
-	lea	.str61, %rbx
+	lea	.str67, %rbx
 	movq	%rbx, %rdi
 	pushq	%r10
 	pushq	%r11
@@ -2318,11 +2606,11 @@ main:
 	popq	%r10
 
 	.section	.rodata
-.str62:
+.str68:
 	.string " "
 
 .text
-	lea	.str62, %rbx
+	lea	.str68, %rbx
 	movq	%rbx, %rdi
 	pushq	%r10
 	pushq	%r11
@@ -2376,11 +2664,11 @@ main:
 	movq	$1, %r11
 
 	.section	.rodata
-.str63:
+.str69:
 	.string "hello haiyan meng"
 
 .text
-	lea	.str63, %r12
+	lea	.str69, %r12
 	movq	%rbx, %rdi
 	movq	%r10, %rsi
 	movq	%r11, %rdx
@@ -2396,11 +2684,11 @@ main:
 	movq	$1, %r11
 
 	.section	.rodata
-.str64:
+.str70:
 	.string "hello haiyan meng"
 
 .text
-	lea	.str64, %r12
+	lea	.str70, %r12
 	movq	%rbx, %rdi
 	movq	%r10, %rsi
 	movq	%r11, %rdx
@@ -2416,11 +2704,11 @@ main:
 	movq	%r10, -40(%rbp)
 
 	.section	.rodata
-.str65:
+.str71:
 	.string "x=8\n"
 
 .text
-	lea	.str65, %rbx
+	lea	.str71, %rbx
 	movq	%rbx, %rdi
 	pushq	%r10
 	pushq	%r11
@@ -2461,11 +2749,11 @@ main:
 	movq	%r10, -40(%rbp)
 
 	.section	.rodata
-.str66:
+.str72:
 	.string "x=4\n"
 
 .text
-	lea	.str66, %rbx
+	lea	.str72, %rbx
 	movq	%rbx, %rdi
 	pushq	%r10
 	pushq	%r11
@@ -2533,24 +2821,24 @@ main:
 	movq	-24(%rbp), %rbx
 
 	.section	.rodata
-.str67:
+.str73:
 	.string "i am param3"
 
 .text
-	lea	.str67, %r10
+	lea	.str73, %r10
 	movq	%r10, -24(%rbp)
 	movq	-32(%rbp), %rbx
 	movq	$1, %r10
 	movq	$0, %r11
 	cmpq	$0, %r10
-	je	.L15
+	je	.L21
 	cmpq	$0, %r11
-	je	.L15
+	je	.L21
 	movq	$1, %r11
-	jmp	.L16
-.L15:
+	jmp	.L22
+.L21:
 	movq	$0, %r11
-.L16:
+.L22:
 	movq	%r11, -32(%rbp)
 	movq	-8(%rbp), %rbx
 	movq	%rbx, %rdi
@@ -2848,24 +3136,24 @@ main:
 	movq	global_global_uninit_str(%rip), %rbx
 
 	.section	.rodata
-.str68:
+.str74:
 	.string "new string"
 
 .text
-	lea	.str68, %r10
+	lea	.str74, %r10
 	movq	%r10, global_global_uninit_str(%rip)
 	movq	global_global_uninit_boolean(%rip), %rbx
 	movq	$0, %r10
 	movq	$1, %r11
 	cmpq	$0, %r10
-	jne	.L17
+	jne	.L23
 	cmpq	$0, %r11
-	jne	.L17
+	jne	.L23
 	movq	$0, %r11
-	jmp	.L18
-.L17:
+	jmp	.L24
+.L23:
 	movq	$1, %r11
-.L18:
+.L24:
 	movq	%r11, global_global_uninit_boolean(%rip)
 	movq	global_global_uninit_int(%rip), %rbx
 	movq	%rbx, %rdi
@@ -2937,14 +3225,14 @@ main:
 	movzx	%al, %rax
 	movq	%rax, %r10
 	cmpq	$0, %r10
-	je	.L19
+	je	.L25
 
 	.section	.rodata
-.str69:
+.str75:
 	.string "greater\n"
 
 .text
-	lea	.str69, %rbx
+	lea	.str75, %rbx
 	movq	%rbx, %rdi
 	pushq	%r10
 	pushq	%r11
@@ -2953,10 +3241,10 @@ main:
 	popq	%r10
 	nop
 	nop
-	jmp	.L20
-.L19:
+	jmp	.L26
+.L25:
 	nop
-.L20:
+.L26:
 	movq	global_global_uninit_int(%rip), %rbx
 	movq	$1000, %r10
 	cmpq	%r10, %rbx
@@ -2964,18 +3252,18 @@ main:
 	movzx	%al, %rax
 	movq	%rax, %r10
 	cmpq	$0, %r10
-	je	.L21
+	je	.L27
 	nop
 	nop
-	jmp	.L22
-.L21:
+	jmp	.L28
+.L27:
 
 	.section	.rodata
-.str70:
+.str76:
 	.string "less\n"
 
 .text
-	lea	.str70, %rbx
+	lea	.str76, %rbx
 	movq	%rbx, %rdi
 	pushq	%r10
 	pushq	%r11
@@ -2984,13 +3272,13 @@ main:
 	popq	%r10
 	nop
 	nop
-.L22:
+.L28:
 	movq	$0, %rbx
 	movq	%rbx, -80(%rbp)
 	movq	-72(%rbp), %rbx
 	movq	$1, %r10
 	movq	%r10, -72(%rbp)
-.L23:
+.L29:
 	movq	-72(%rbp), %rbx
 	movq	$5, %r11
 	cmpq	%r11, %rbx
@@ -2998,7 +3286,7 @@ main:
 	movzx	%al, %rax
 	movq	%rax, %r11
 	cmpq	$0, %r11
-	je	.L24
+	je	.L30
 	movq	-80(%rbp), %rbx
 	movq	-80(%rbp), %r10
 	movq	-72(%rbp), %r11
@@ -3022,8 +3310,8 @@ main:
 	nop
 	movq	-72(%rbp), %rbx
 	addq	$1, -72(%rbp)
-	jmp	.L23
-.L24:
+	jmp	.L29
+.L30:
 	movq	$10, %rbx
 	movq	%rbx, %rdi
 	pushq	%r10
@@ -3069,14 +3357,14 @@ main:
 	movzx	%al, %rax
 	movq	%rax, %r10
 	cmpq	$0, %r10
-	je	.L25
+	je	.L31
 
 	.section	.rodata
-.str71:
+.str77:
 	.string "i am greater than 1000\n"
 
 .text
-	lea	.str71, %rbx
+	lea	.str77, %rbx
 	movq	%rbx, %rdi
 	pushq	%r10
 	pushq	%r11
@@ -3085,15 +3373,15 @@ main:
 	popq	%r10
 	nop
 	nop
-	jmp	.L26
-.L25:
+	jmp	.L32
+.L31:
 
 	.section	.rodata
-.str72:
+.str78:
 	.string "less\n"
 
 .text
-	lea	.str72, %rbx
+	lea	.str78, %rbx
 	movq	%rbx, %rdi
 	pushq	%r10
 	pushq	%r11
@@ -3102,7 +3390,7 @@ main:
 	popq	%r10
 	nop
 	nop
-.L26:
+.L32:
 	movq	$1, %rbx
 	movq	%rbx, %rdi
 	pushq	%r10
@@ -3243,14 +3531,14 @@ main:
 	movzx	%al, %rax
 	movq	%rax, %r10
 	cmpq	$0, %r10
-	je	.L27
+	je	.L33
 
 	.section	.rodata
-.str73:
+.str79:
 	.string "2<3\n"
 
 .text
-	lea	.str73, %rbx
+	lea	.str79, %rbx
 	movq	%rbx, %rdi
 	pushq	%r10
 	pushq	%r11
@@ -3259,15 +3547,15 @@ main:
 	popq	%r10
 	nop
 	nop
-	jmp	.L28
-.L27:
+	jmp	.L34
+.L33:
 
 	.section	.rodata
-.str74:
+.str80:
 	.string "never happen\n"
 
 .text
-	lea	.str74, %rbx
+	lea	.str80, %rbx
 	movq	%rbx, %rdi
 	pushq	%r10
 	pushq	%r11
@@ -3276,7 +3564,23 @@ main:
 	popq	%r10
 	nop
 	nop
-.L28:
+.L34:
+	popq	%r15
+	popq	%r14
+	popq	%r13
+	popq	%r12
+	popq	%rbx
+	movq	%rbp, %rsp
+	popq	%rbp
+	ret
+	popq	%r15
+	popq	%r14
+	popq	%r13
+	popq	%r12
+	popq	%rbx
+	movq	%rbp, %rsp
+	popq	%rbp
+	ret
 	popq	%r15
 	popq	%r14
 	popq	%r13

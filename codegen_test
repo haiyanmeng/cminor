@@ -80,7 +80,14 @@ main:function void(param1:integer, param2:char, param3:string, param4:boolean) =
 	print '\n';
 	print 2^4;
 	print '\n';
-//return;
+
+	print 2^0;
+	print '\n';
+	print 2^(-10);
+	print '\n';
+	print (5-3+0+2-2+2-2+2%1+2/20+0*34343)^(20-10);
+	print '\n';
+
 	if(2<3) {
 		print "2<3\n";
 	} else {
@@ -210,6 +217,11 @@ main:function void(param1:integer, param2:char, param3:string, param4:boolean) =
 	print 3 == 5;
 	print '\n';
 
+	print "(2+1+0/234) == (5/4+2*1)";
+	print '\n';
+	print (2+1+0/234) == (5/4+2*1);
+	print '\n';
+
 	print "hello", " == ", "word";
 	print '\n';
 	print "hello" == "word";
@@ -220,10 +232,16 @@ main:function void(param1:integer, param2:char, param3:string, param4:boolean) =
 	print "hello" != "word";
 	print '\n';
 
+	print "hello111", " == ", "hello111";
+	print '\n';
+	print "hello111" == "hello111";
+	print '\n';
+
 	print "'c' == 'd'";
 	print '\n';
 	print 'c' == 'd';
 	print '\n';
+	return;
 
 	print "3!=5";
 	print '\n';
@@ -402,5 +420,7 @@ global_global_uninit_boolean:boolean;
 	} else {
 		print "never happen\n";
 	}
+	return;
+	return;
 	return;
 }
