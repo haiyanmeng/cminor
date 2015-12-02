@@ -1,3 +1,10 @@
+if return is missing from main, should we forcefully add postamble or let segmentation fault happens?
+
+Done:
+if return is not at the end of a program, what should happen? should we continue to generate the ass code for the following stmts? yes. because the return stmt may not be insdie if else and is not necessary to be executed.
+
+f(f(f(f(f(f(a))))))
+
 global variable, string, and immediate numbers does not need register, just need the label.
 
 parenthesis (x);

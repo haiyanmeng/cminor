@@ -315,18 +315,8 @@ void decl_codegen(struct decl *d, FILE *f) {
 		//function body
 		stmt_codegen(d->code, f);
 
-		fprintf(f, "\tpopq\t%%r15\n");
-		fprintf(f, "\tpopq\t%%r14\n");
-		fprintf(f, "\tpopq\t%%r13\n");
-		fprintf(f, "\tpopq\t%%r12\n");
-		fprintf(f, "\tpopq\t%%rbx\n");
-		
-		fprintf(f, "\tmovq\t%%rbp, %%rsp\n");
-		fprintf(f, "\tpopq\t%%rbp\n");
-		fprintf(f, "\tret\n");
 		fprintf(f, ".LFE%d:\n", func_no);
 		fprintf(f, "\t.size\t%s, .-%s\n", d->name, d->name);
-
 
 		func_no += 1;
 	} else {

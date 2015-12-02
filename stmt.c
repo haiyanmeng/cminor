@@ -271,7 +271,6 @@ void stmt_codegen(struct stmt *s, FILE *f) {
 			expr_codegen(s->expr, f);
 			break;
 		case STMT_PRINT:
-			expr_codegen(s->expr, f);
 			stmt_print_codegen(s->expr, f);
 			break;
 		case STMT_RETURN:
@@ -279,6 +278,17 @@ void stmt_codegen(struct stmt *s, FILE *f) {
 			if(s->expr) {
 				fprintf(f, "\tmovq\t%%%s, %%rax\n", register_name(s->expr->reg));
 			}
+
+			/* the postamble must be put here. Putting postamble into decl.c would result the stmts after return still get executed. */
+			fprintf(f, "\tpopq\t%%r15\n");
+			fprintf(f, "\tpopq\t%%r14\n");
+			fprintf(f, "\tpopq\t%%r13\n");
+			fprintf(f, "\tpopq\t%%r12\n");
+			fprintf(f, "\tpopq\t%%rbx\n");
+			
+			fprintf(f, "\tmovq\t%%rbp, %%rsp\n");
+			fprintf(f, "\tpopq\t%%rbp\n");
+			fprintf(f, "\tret\n");
 			break;
 		case STMT_IF_ELSE:
 			expr_codegen(s->expr, f);
@@ -325,6 +335,7 @@ void stmt_print_codegen(struct expr *e, FILE *f) {
 	for(i = 1; i <= n; i++) {
 		arg = expr_get_item(e, n, i);
 		struct type *t = expr_typecheck(arg, 0, 1);
+		expr_codegen(arg, f);
 		switch(t->kind) {
 			//print integer
 			case TYPE_INTEGER:
@@ -367,6 +378,7 @@ void stmt_print_codegen(struct expr *e, FILE *f) {
 			default:
 				break;
 		}
+		register_free(arg->reg);
 		type_free(t);
 	}
 }

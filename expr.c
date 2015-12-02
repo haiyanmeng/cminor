@@ -895,8 +895,8 @@ void expr_codegen(struct expr *e, FILE *f) {
 			exit(EXIT_FAILURE);
 			break;
 		case EXPR_LEFTPARENTHESS:
-			expr_codegen(e->left, f);
 			expr_codegen(e->right, f);
+			e->reg = register_alloc();
 			if(e->left) { //function call
 				expr_funccall_codegen(e->right, f);
 				fprintf(f, "\tpushq\t%%r10\n");
@@ -904,15 +904,12 @@ void expr_codegen(struct expr *e, FILE *f) {
 				fprintf(f, "\tcall\t%s\n", e->left->name);
 				fprintf(f, "\tpopq\t%%r11\n");
 				fprintf(f, "\tpopq\t%%r10\n");
-				fprintf(f, "\tmovq\t%%rax, %%%s\n", register_name(e->left->reg));
+				fprintf(f, "\tmovq\t%%rax, %%%s\n", register_name(e->reg));
 
-				e->reg = e->left->reg;
 				if(e->right) {
 					register_free(e->right->reg);
 					e->right->reg = -1;
 				}
-			} else { //grouping
-				e->reg = e->left->reg;
 			}
 			break;
 		case EXPR_LEFTBRACKET: //array subscript
@@ -1218,6 +1215,7 @@ void expr_codegen(struct expr *e, FILE *f) {
 			}	
 			break;
 		case EXPR_COMMA:
+			/* the only case this case is executed is the argument list of a func call. However, function call has up to 6 parameters. */
 			expr_codegen(e->left, f);
 			expr_codegen(e->right, f);
 			if(!e->is_global) {
