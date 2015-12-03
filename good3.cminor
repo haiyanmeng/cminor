@@ -1,8 +1,49 @@
-//good - function prototype and function definition
-aaa:function integer() = {}
-caa:function integer() = {}
-f50:function void() = {
-	aaa:function integer();
-	caa:function integer();
-	b:boolean = (aaa() != ((caa())));
+//global variables, local variables
+
+x1: integer = 2^(10-8+0/1); //4
+x2:string= "heeo\0dfdf\n";	
+
+x3:boolean = (true && (1<3) && (1>5) || false); //false
+x4:boolean = "hello" == "hello"; //true
+x5:boolean = ("hello" != "word"); //true
+
+x:boolean;
+y:integer;
+z:string;
+c:char;
+
+main:function integer() = {
+
+	print x1, '\n';
+	print x2, '\n';
+	print x3, '\n';
+	print x4, '\n';
+	print x5, '\n';
+	print x, '\n';
+	print y, '\n';
+	print z, '\n';
+	print c, '\n';
+
+	x1: integer = x1 + 10; //10
+	x2: string = "local string";
+	x3: boolean = x3 || true; //true
+	x4: boolean = x4 && true; //false
+
+	x: char = '-';
+	y: string = "local y is string";
+	z: integer = 1024/100;
+	c: boolean = x3 || x4; //true
+
+	print x1, '\n';
+	print x2, '\n';
+	print x3, '\n';
+	print x4, '\n';
+	print x5, '\n';
+	print x, '\n';
+	print y, '\n';
+	print z, '\n';
+	print c, '\n';
+
+	return 0;
 }
+

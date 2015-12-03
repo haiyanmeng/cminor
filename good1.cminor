@@ -1,7 +1,14 @@
-//good, test left parenthess
-d:integer;
-f48:function void(a:integer) = {
-	x:integer = ((d^2)+(-d)*5);
+//func call - multiple times of calling
+
+func_test:function integer();
+str_create:function string(str:string) = {
+	print "parameter str: ", str, '\n';
+	return "new string lol";
 }
+main:function integer() = {
+	str:string = "hello333";
+	print "return value: ", str_create(str), '\n';
 
-
+	print str_create(str_create(str_create(str_create(str_create(str_create(str_create(str_create(str_create(str_create(str_create(str)))))))))));
+	return 0;
+}

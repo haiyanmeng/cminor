@@ -1,10 +1,21 @@
-global_x:integer = 888+112;
-global_x1:integer = 888-388;
-global_x2:integer = 3 * 5;
-global_x3:integer = 21/2;
-global_x4:integer = 20%7;
-global_x5:integer = 2^8;
-global_x6:integer = 1+2*3-5*2/4+2^3-17%3;
+/*
+function call test; 0 paramter - 7 paramters
+print 1-20 paramters;
+if - else
+for 
+return
+block
+expr
+*/
+
+
+global_x:integer = 888+112; //1000
+global_x1:integer = 888-388; //500
+global_x2:integer = 3 * 5; //15
+global_x3:integer = 21/2; //10
+global_x4:integer = 20%7; //6
+global_x5:integer = 2^8; //256
+global_x6:integer = 1+2*3-5*2/4+2^3-17%3; //11
 
 global_y:char = 'o';
 global_z:string = "i am global";

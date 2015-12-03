@@ -1,0 +1,29 @@
+//using exit function from glibc
+//sum of integers from a to b
+
+exit:function void(status:integer);
+
+sum:function integer(a:integer, b:integer) = {
+	if(a > b) {
+		print "the first parameter should be <= the second parameter!\n";
+		exit(-1);
+	}
+	if(a==b) {
+		return a;
+	} else {
+		s:integer = 0;
+		i:integer;
+		for(i = a; i <= b; i ++) 
+			s = s + i;
+		return s;
+	}
+}
+
+main:function integer() = {
+	print sum(1, 5), '\n';
+	print sum(5, 5), '\n';
+	print sum(1, 10), '\n';
+	print sum(-5, -1), '\n';
+	print sum(9, 5), '\n';
+	return 0;
+}

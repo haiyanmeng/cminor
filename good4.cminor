@@ -1,7 +1,6 @@
-//good, the initializer of a local variable may not be constant
-f51:function void( )= {
-	x:boolean = true;
-	y:boolean = x;
+//void return type 
+
+main:function void(param1:integer, param2:char, param3:string, param4:boolean) = {
+	print "test void return type\n";
+	return;
 }
-
-

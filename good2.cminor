@@ -1,11 +1,25 @@
-//good - function call test
-f49:function void(a:integer) = {
-}
-main4: function integer() = {
-	a:integer = 1;
-	b:array[2] char = {'a', 'c'};
-	f49(a);
-	return 0;
-}
+//local variables
 
+main:function void(param1:integer, param2:char, param3:string, param4:boolean) = {
+	x: integer = (5-3+0+2-2+2-2+2%1+2/20+0*34343)^(20-10); //1024
+	y: integer = 2048;
+	z: integer = x + x + x*2/10000; //2048
+	print x, '\n';
+	print y, '\n';
+	print z, '\n';
+	b1: boolean = (y == z); //true
+	b2: boolean = (x == y); //false
 
+	s1: string = "hello";
+	s2: string = "worl";
+	b3: boolean;
+	b4: boolean;
+	b3 = s1 == s2; //false
+	b4 = s1 != s2; //true
+
+	print b1, '\n';
+	print b2, '\n';
+	print b3, '\n';
+	print b4, '\n';
+	return;
+}
