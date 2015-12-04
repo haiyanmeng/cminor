@@ -896,6 +896,7 @@ void expr_codegen(struct expr *e, FILE *f) {
 			exit(EXIT_FAILURE);
 			break;
 		case EXPR_LEFTPARENTHESS:
+			/* the left child of ( can only be: id; there is no need to do codegen on it */
 			expr_codegen(e->right, f);
 			e->reg = register_alloc();
 			if(e->left) { //function call
@@ -1029,6 +1030,11 @@ void expr_codegen(struct expr *e, FILE *f) {
 			}
 			break;
 		case EXPR_ADD:
+			/*
+			 * the sequence of call expr_codegen on e->left and e->right matters. 
+			 * the big lession: if the parser rules is construsted as left-recursive, then the expr_codegen should first be called on the left child.
+			 * if expr_codegen(e->right, f) is called first here, we would get an error: there is no free register left! 
+			 */
 			expr_codegen(e->left, f);
 			expr_codegen(e->right, f);
 			if(e->is_global) {
@@ -1244,7 +1250,7 @@ void expr_codegen(struct expr *e, FILE *f) {
 	
 			break;
 		case EXPR_ASSIGN:
-			expr_codegen(e->left, f);
+			/* the left child of = can be: id;  the right child of = can be: id, = */
 			expr_codegen(e->right, f);
 			if(e->is_global) {
 				e->literal_value = e->right->literal_value;
@@ -1257,10 +1263,7 @@ void expr_codegen(struct expr *e, FILE *f) {
 				} else if(e->left->symbol->kind == FUNC_NOT) {
 					fprintf(f, "\tmovq\t%%%s, %s(%%rip)\n", register_name(e->right->reg), e->left->name);
 				}
-
 				e->reg = e->right->reg;
-				register_free(e->left->reg);
-				e->left->reg = -1;
 			}	
 			break;
 		case EXPR_COMMA:

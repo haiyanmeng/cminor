@@ -1,0 +1,25 @@
+//++ 
+
+main:function integer() = {
+	x1:integer = 2;
+	x2:integer = 2;
+	x3:integer = 2;
+	x4:integer = 2;
+	x5:integer = 2;
+	x6:integer = 2;
+	x7:integer = 2;
+	x8:integer = 2;
+	x9:integer = 2;
+	x10: integer = x1 + x2 + x3 + x4 + x5 + x6 + x7 + x8 + x9;
+	print x1, '\n';
+	print x2, '\n';
+	print x3, '\n';
+	print x4, '\n';
+	print x5, '\n';
+	print x6, '\n';
+	print x7, '\n';
+	print x8, '\n';
+	print x9, '\n';
+	print x10, '\n';
+	return 0;
+}

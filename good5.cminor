@@ -1,0 +1,24 @@
+//EXPR_ASSIGN test
+
+main:function integer() = {
+	x1:integer;
+	x2:integer;
+	x3:integer;
+	x4:integer;
+	x5:integer;
+	x6:integer;
+	x7:integer;
+	x8:integer;
+	x9:integer;
+	x1 = x2 = x3 = x4 = x5 = x6 = x7 = x8 = x9 = 23456;
+	print x1, '\n';
+	print x2, '\n';
+	print x3, '\n';
+	print x4, '\n';
+	print x5, '\n';
+	print x6, '\n';
+	print x7, '\n';
+	print x8, '\n';
+	print x9, '\n';
+	return 0;
+}

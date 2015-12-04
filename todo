@@ -1,5 +1,8 @@
 Todo:
+the big lession: if the parser rules is construsted as left-recursive, then the expr_codegen should first be called on the left child.
+
 overall test, check for each operator and its operands.
+think about each expr type;
 
 global and local
 
@@ -22,6 +25,7 @@ check the validity of arithmetic:divide by 0. this check is only meaning for glo
 lvalue of function call, ++, --, = should be IDENT_NAME.
 
 Done:
+the left child of = can be: id; the right child of = can be: id, =
 func_call; 
 try dthain test cases.
 print modify
