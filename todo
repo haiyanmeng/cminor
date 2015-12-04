@@ -1,8 +1,15 @@
 Todo:
-the big lession: if the parser rules is construsted as left-recursive, then the expr_codegen should first be called on the left child.
 
+fix missing return;
+
+for + - * /, guarantee only one reg is still used all the others are freed.
 overall test, check for each operator and its operands.
 think about each expr type;
+
+function call without arguments test;
+
+the big lession: if the parser rules is construsted as left-recursive, then the expr_codegen should first be called on the left child.
+function, global variables from multiple function;
 
 global and local
 

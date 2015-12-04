@@ -897,21 +897,17 @@ void expr_codegen(struct expr *e, FILE *f) {
 			break;
 		case EXPR_LEFTPARENTHESS:
 			/* the left child of ( can only be: id; there is no need to do codegen on it */
-			expr_codegen(e->right, f);
-			e->reg = register_alloc();
 			if(e->left) { //function call
 				expr_funccall_codegen(e->right, f);
+
 				fprintf(f, "\tpushq\t%%r10\n");
 				fprintf(f, "\tpushq\t%%r11\n");
 				fprintf(f, "\tcall\t%s\n", e->left->name);
 				fprintf(f, "\tpopq\t%%r11\n");
 				fprintf(f, "\tpopq\t%%r10\n");
-				fprintf(f, "\tmovq\t%%rax, %%%s\n", register_name(e->reg));
 
-				if(e->right) {
-					register_free(e->right->reg);
-					e->right->reg = -1;
-				}
+				e->reg = register_alloc();
+				fprintf(f, "\tmovq\t%%rax, %%%s\n", register_name(e->reg));
 			}
 			break;
 		case EXPR_LEFTBRACKET: //array subscript
@@ -919,8 +915,8 @@ void expr_codegen(struct expr *e, FILE *f) {
 			exit(EXIT_FAILURE);
 			break;
 		case EXPR_INCREMENT:
+			/* left child must be a EXPR_IDENT_NAME, right child is empty */
 			expr_codegen(e->left, f);
-			expr_codegen(e->right, f);
 			if(e->is_global) {
 				e->literal_value = e->left->literal_value + 1;
 			} else {
@@ -929,8 +925,8 @@ void expr_codegen(struct expr *e, FILE *f) {
 			}	
 			break;
 		case EXPR_DECREMENT:
+			/* left child must be a EXPR_IDENT_NAME, right child is empty */
 			expr_codegen(e->left, f);
-			expr_codegen(e->right, f);
 			if(e->is_global) {
 				e->literal_value = e->left->literal_value + 1;
 			} else {
@@ -939,7 +935,7 @@ void expr_codegen(struct expr *e, FILE *f) {
 			}	
 			break;
 		case EXPR_UNARY_NEG:
-			expr_codegen(e->left, f);
+			/*left child is empty */
 			expr_codegen(e->right, f);
 			if(e->is_global) {
 				e->literal_value = -1 * e->right->literal_value;
@@ -951,7 +947,6 @@ void expr_codegen(struct expr *e, FILE *f) {
 			}
 			break;
 		case EXPR_NOT:
-			expr_codegen(e->left, f);
 			expr_codegen(e->right, f);
 			if(e->is_global) {
 				e->literal_value = 1 - e->right->literal_value;
@@ -959,9 +954,11 @@ void expr_codegen(struct expr *e, FILE *f) {
 				fprintf(f, "\tcmpq\t$1, %%%s\n", register_name(e->right->reg));
 				fprintf(f, "\tje\t.L%d\n", ctl_no);
 				fprintf(f, "\tmovq\t$1, %%%s\n", register_name(e->right->reg));
+				fprintf(f, "\tjmp\t.L%d\n", ctl_no+1);
 				fprintf(f, ".L%d:\n", ctl_no);
 				fprintf(f, "\tmovq\t$0, %%%s\n", register_name(e->right->reg));
-				ctl_no += 1;
+				fprintf(f, ".L%d:\n", ctl_no+1);
+				ctl_no += 2;
 				e->reg = e->right->reg;
 			}	
 			break;
@@ -1250,7 +1247,7 @@ void expr_codegen(struct expr *e, FILE *f) {
 	
 			break;
 		case EXPR_ASSIGN:
-			/* the left child of = can be: id;  the right child of = can be: id, = */
+			/* the left child of = can be: id (there is no necessity to do codegen on the left child);  the right child of = can be: id, = */
 			expr_codegen(e->right, f);
 			if(e->is_global) {
 				e->literal_value = e->right->literal_value;
@@ -1267,13 +1264,6 @@ void expr_codegen(struct expr *e, FILE *f) {
 			}	
 			break;
 		case EXPR_COMMA:
-			/* the only case this case is executed is the argument list of a func call. However, function call has up to 6 parameters. */
-			expr_codegen(e->left, f);
-			expr_codegen(e->right, f);
-			if(!e->is_global) {
-				e->reg = e->right->reg;
-				/* here e->left->reg can not be freed, because stmt_print_codegen still needs to use it. */
-			}
 			break;
 		case EXPR_IDENT_NAME:
 			e->reg = register_alloc();
@@ -1394,11 +1384,18 @@ void expr_funccall_codegen(struct expr *e, FILE *f) {
 
 	int n = expr_count_item(e);
 
+	if(n > 6) {
+		fprintf(stderr, "line %d: the function call has too many arguments (%d arguments)! Cminor supports at most 6 arguments!\n", e->line, n);
+		exit(EXIT_FAILURE);
+	}
+
 	int i;
 	struct expr *arg;
 	for(i = 1; i <= n; i++) {
 		arg = expr_get_item(e, n, i);
+		expr_codegen(arg, f);
 		fprintf(f, "\tmovq\t%%%s, %%%s\n", register_name(arg->reg), expr_funcarg_register_name(i-1));
+		register_free(arg->reg);
 	}
 }
 

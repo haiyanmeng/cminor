@@ -330,8 +330,6 @@ void decl_codegen(struct decl *d, FILE *f) {
 			if(d->symbol->kind == SYMBOL_GLOBAL) {
 				fprintf(f, "\t.comm %s, 8, 8\n", d->name);	
 			}
-		} else {
-			decl_func_paramcheck(d);
 		}
 	}
 	decl_codegen(d->next, f);

@@ -1,0 +1,7 @@
+
+func1: function integer(a:integer, b:char, c:char, d:char, e:char, f:char, g:char, h:char);
+
+main: function integer() = {
+	print "main func\n";
+	return 0;
+}

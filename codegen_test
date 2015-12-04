@@ -252,7 +252,6 @@ main:function void(param1:integer, param2:char, param3:string, param4:boolean) =
 	print '\n';
 	print 'c' == 'd';
 	print '\n';
-	return;
 
 	print "3!=5";
 	print '\n';
@@ -317,6 +316,23 @@ main:function void(param1:integer, param2:char, param3:string, param4:boolean) =
 	print "x3-- = ", x3--,  ", x3= ", x3, '\n';
 	print "x3-- = ", x3--,  ", x3= ", x3, '\n';
 
+	y:integer = (x) ++;
+	print y, '\n';
+	print x, '\n';
+
+	y = -(-(-(x)));
+	print y, '\n';
+	print x, '\n';
+
+	print y>x, ' ', !(y>x), ' ', !!(y>x), ' ', !!!(y>x), '\n';
+
+	if(!(y>x)) print "y<=x\n";
+	else print "y>x\n";
+
+	if(!(y>x) || !false) print "y<=x || true\n";
+
+
+return;
 	x = x1 = x3 = x2;
 	print x, " ", x1, ' ';
 	print x2, ' ', x3, '\n';

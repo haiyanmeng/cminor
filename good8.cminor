@@ -1,0 +1,22 @@
+//multiple precedences
+
+f:function integer(x:integer, y:integer, z:integer) = {
+	return x+y+z;
+}
+main:function integer() = {
+	x:integer = 1;
+	y:integer = 2;
+	z:integer = 3;
+	c:integer = 2;	
+	b:integer = 5;
+	a:integer = 80;
+	d:integer = 400;
+	e:boolean = true;
+	f1:boolean = false;
+	g:boolean;
+	g = f1 || e && d == a + b * c; //false
+	print g, '\n';
+	g = f1 || e && d == a + b * c ^ f(x, y, z); //true
+	print g, '\n';
+	return 0;
+}
