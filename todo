@@ -1,10 +1,5 @@
 Todo:
-
-fix missing return;
-
-for + - * /, guarantee only one reg is still used all the others are freed.
 overall test, check for each operator and its operands.
-think about each expr type;
 
 function call without arguments test;
 
@@ -32,6 +27,8 @@ check the validity of arithmetic:divide by 0. this check is only meaning for glo
 lvalue of function call, ++, --, = should be IDENT_NAME.
 
 Done:
+for + - * /, guarantee only one reg is still used all the others are freed.  think about each expr type;
+fix missing return;
 the left child of = can be: id; the right child of = can be: id, =
 func_call; 
 try dthain test cases.

@@ -279,7 +279,7 @@ void stmt_codegen(struct stmt *s, FILE *f) {
 				fprintf(f, "\tmovq\t%%%s, %%rax\n", register_name(s->expr->reg));
 			}
 
-			/* the postamble must be put here. Putting postamble into decl.c would result the stmts after return still get executed. */
+			/* the postamble. Without postamble here would result the stmts after return still get executed. */
 			fprintf(f, "\tpopq\t%%r15\n");
 			fprintf(f, "\tpopq\t%%r14\n");
 			fprintf(f, "\tpopq\t%%r13\n");

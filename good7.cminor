@@ -1,3 +1,4 @@
+//func prototype has more than 6 parameters; no call.
 
 func1: function integer(a:integer, b:char, c:char, d:char, e:char, f:char, g:char, h:char);
 

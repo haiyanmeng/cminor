@@ -1,5 +1,4 @@
-//using exit function from glibc
-//sum of integers from a to b
+//using exit function from glibc; sum of integers from a to b
 
 exit:function void(status:integer);
 

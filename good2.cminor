@@ -1,4 +1,4 @@
-//local variables
+//local variables, local binary ops
 
 main:function void(param1:integer, param2:char, param3:string, param4:boolean) = {
 	x: integer = (5-3+0+2-2+2-2+2%1+2/20+0*34343)^(20-10); //1024
@@ -21,5 +21,6 @@ main:function void(param1:integer, param2:char, param3:string, param4:boolean) =
 	print b2, '\n';
 	print b3, '\n';
 	print b4, '\n';
+	print 100 - 20 - 3, '\n'; //77
 	return;
 }

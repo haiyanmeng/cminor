@@ -1,11 +1,12 @@
 //global variables, local variables
 
 x1: integer = 2^(10-8+0/1); //4
-x2:string= "heeo\0dfdf\n";	
+x2:string= "heeo\0dfdf\n";	//heeo
 
 x3:boolean = (true && (1<3) && (1>5) || false); //false
 x4:boolean = "hello" == "hello"; //true
 x5:boolean = ("hello" != "word"); //true
+x6:char = 'u';
 
 x:boolean;
 y:integer;
@@ -19,10 +20,13 @@ main:function integer() = {
 	print x3, '\n';
 	print x4, '\n';
 	print x5, '\n';
+	print x6, '\n';
+	print '\n';
 	print x, '\n';
 	print y, '\n';
 	print z, '\n';
 	print c, '\n';
+	print '\n';
 
 	x1: integer = x1 + 10; //10
 	x2: string = "local string";
@@ -31,14 +35,14 @@ main:function integer() = {
 
 	x: char = '-';
 	y: string = "local y is string";
-	z: integer = 1024/100;
+	z: integer = 1024/100; //10
 	c: boolean = x3 || x4; //true
 
 	print x1, '\n';
 	print x2, '\n';
 	print x3, '\n';
 	print x4, '\n';
-	print x5, '\n';
+	print '\n';
 	print x, '\n';
 	print y, '\n';
 	print z, '\n';

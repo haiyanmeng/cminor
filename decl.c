@@ -315,6 +315,21 @@ void decl_codegen(struct decl *d, FILE *f) {
 		//function body
 		stmt_codegen(d->code, f);
 
+		/* 
+		 * the postamble is used for the case the function misses a return stmt. 
+		 * This solution, however, does not solve the problem when a function whose return type is string misses a return stmt: %rax 
+		 * may not be a string, so "Segmentation fault (core dumped)" would be met.
+		 */
+		fprintf(f, "\tpopq\t%%r15\n");
+		fprintf(f, "\tpopq\t%%r14\n");
+		fprintf(f, "\tpopq\t%%r13\n");
+		fprintf(f, "\tpopq\t%%r12\n");
+		fprintf(f, "\tpopq\t%%rbx\n");
+		
+		fprintf(f, "\tmovq\t%%rbp, %%rsp\n");
+		fprintf(f, "\tpopq\t%%rbp\n");
+		fprintf(f, "\tret\n");
+
 		fprintf(f, ".LFE%d:\n", func_no);
 		fprintf(f, "\t.size\t%s, .-%s\n", d->name, d->name);
 

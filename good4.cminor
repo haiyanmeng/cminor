@@ -1,6 +1,33 @@
-//void return type 
+//return type 
+
+f1:function void() = {
+	print "func return type: void\n";
+}
+
+f2:function integer() = {
+	print "func return type: integer\n";
+}
+
+
+f3:function char() = {
+	print "func return type: char\n";
+}
+
+/* the return of this function can not be missed. */
+f4:function string() = {
+	print "func return type: string\n";
+	return "hello world";
+}
+
+f5:function boolean() = {
+	print "func return type: boolean\n";
+}
+
 
 main:function void(param1:integer, param2:char, param3:string, param4:boolean) = {
-	print "test void return type\n";
-	return;
+	print "test return type\n";
+	print f2(), '\n';
+	print f3(), '\n';
+	print f5(), '\n';
+	print f4(), '\n';
 }
