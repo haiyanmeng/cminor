@@ -1,9 +1,5 @@
 /*
-function call test; 0 paramter - 7 paramters
-print 1-20 paramters;
-if - else
-for 
-return
+return early return
 block
 expr
 */
@@ -85,7 +81,7 @@ incr:function integer(x:integer) = {
 	return x + 1;
 }
 
-main:function void(param1:integer, param2:char, param3:string, param4:boolean) = {
+main:function integer(param1:integer, param2:char, param3:string, param4:boolean) = {
 
 	print "2^4";
 	print '\n';
@@ -331,8 +327,6 @@ main:function void(param1:integer, param2:char, param3:string, param4:boolean) =
 
 	if(!(y>x) || !false) print "y<=x || true\n";
 
-
-return;
 	x = x1 = x3 = x2;
 	print x, " ", x1, ' ';
 	print x2, ' ', x3, '\n';
@@ -447,7 +441,7 @@ global_global_uninit_boolean:boolean;
 	} else {
 		print "never happen\n";
 	}
-	return;
-	return;
-	return;
+	return 0;
+	return 0;
+	return 0;
 }

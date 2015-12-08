@@ -1,0 +1,40 @@
+valgrind --track-origins=yes --leak-check=full ./cminor -codegen good1.cminor codegen_test.s && gcc codegen_test.s library.c  && ./a.out
+echo "exit code: " $?
+valgrind --track-origins=yes --leak-check=full ./cminor -codegen good2.cminor codegen_test.s && gcc codegen_test.s library.c  && ./a.out
+echo "exit code: " $?
+valgrind --track-origins=yes --leak-check=full ./cminor -codegen good3.cminor codegen_test.s && gcc codegen_test.s library.c  && ./a.out
+echo "exit code: " $?
+valgrind --track-origins=yes --leak-check=full ./cminor -codegen good4.cminor codegen_test.s && gcc codegen_test.s library.c  && ./a.out
+echo "exit code: " $?
+valgrind --track-origins=yes --leak-check=full ./cminor -codegen good5.cminor codegen_test.s && gcc codegen_test.s library.c  && ./a.out
+echo "exit code: " $?
+valgrind --track-origins=yes --leak-check=full ./cminor -codegen good6.cminor codegen_test.s && gcc codegen_test.s library.c  && ./a.out
+echo "exit code: " $?
+valgrind --track-origins=yes --leak-check=full ./cminor -codegen good7.cminor codegen_test.s && gcc codegen_test.s library.c  && ./a.out
+echo "exit code: " $?
+valgrind --track-origins=yes --leak-check=full ./cminor -codegen good8.cminor codegen_test.s && gcc codegen_test.s library.c  && ./a.out
+echo "exit code: " $?
+valgrind --track-origins=yes --leak-check=full ./cminor -codegen good9.cminor codegen_test.s && gcc codegen_test.s library.c  && ./a.out
+echo "exit code: " $?
+valgrind --track-origins=yes --leak-check=full ./cminor -codegen good10.cminor codegen_test.s && gcc codegen_test.s library.c  && ./a.out
+echo "exit code: " $?
+valgrind --track-origins=yes --leak-check=full ./cminor -codegen good11.cminor codegen_test.s && gcc codegen_test.s library.c  && ./a.out
+echo "exit code: " $?
+valgrind --track-origins=yes --leak-check=full ./cminor -codegen good12.cminor codegen_test.s && gcc codegen_test.s library.c  && ./a.out
+echo "exit code: " $?
+valgrind --track-origins=yes --leak-check=full ./cminor -codegen good13.cminor codegen_test.s && gcc codegen_test.s library.c  && ./a.out
+echo "exit code: " $?
+valgrind --track-origins=yes --leak-check=full ./cminor -codegen good14.cminor codegen_test.s && gcc codegen_test.s library.c  && ./a.out
+echo "exit code: " $?
+valgrind --track-origins=yes --leak-check=full ./cminor -codegen good15.cminor codegen_test.s && gcc codegen_test.s library.c  && ./a.out
+echo "exit code: " $?
+valgrind --track-origins=yes --leak-check=full ./cminor -codegen good16.cminor codegen_test.s && gcc codegen_test.s library.c  && ./a.out
+echo "exit code: " $?
+valgrind --track-origins=yes --leak-check=full ./cminor -codegen good17.cminor codegen_test.s && gcc codegen_test.s library.c  && ./a.out
+echo "exit code: " $?
+valgrind --track-origins=yes --leak-check=full ./cminor -codegen good18.cminor codegen_test.s && gcc codegen_test.s library.c  && ./a.out
+echo "exit code: " $?
+valgrind --track-origins=yes --leak-check=full ./cminor -codegen good19.cminor codegen_test.s && gcc codegen_test.s library.c  && ./a.out
+echo "exit code: " $?
+valgrind --track-origins=yes --leak-check=full ./cminor -codegen good20.cminor codegen_test.s && gcc codegen_test.s library.c  && ./a.out
+echo "exit code: " $?

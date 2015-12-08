@@ -18,23 +18,23 @@ valgrind --track-origins=yes --leak-check=full ./cminor -typecheck good9.cminor
 echo "exit code: " $?
 valgrind --track-origins=yes --leak-check=full ./cminor -typecheck good10.cminor
 echo "exit code: " $?
-valgrind --track-origins=yes --leak-check=full ./cminor -typecheck bad1.cminor
+valgrind --track-origins=yes --leak-check=full ./cminor -typecheck good11.cminor
 echo "exit code: " $?
-valgrind --track-origins=yes --leak-check=full ./cminor -typecheck bad2.cminor
+valgrind --track-origins=yes --leak-check=full ./cminor -typecheck good12.cminor
 echo "exit code: " $?
-valgrind --track-origins=yes --leak-check=full ./cminor -typecheck bad3.cminor
+valgrind --track-origins=yes --leak-check=full ./cminor -typecheck good13.cminor
 echo "exit code: " $?
-valgrind --track-origins=yes --leak-check=full ./cminor -typecheck bad4.cminor
+valgrind --track-origins=yes --leak-check=full ./cminor -typecheck good14.cminor
 echo "exit code: " $?
-valgrind --track-origins=yes --leak-check=full ./cminor -typecheck bad5.cminor
+valgrind --track-origins=yes --leak-check=full ./cminor -typecheck good15.cminor
 echo "exit code: " $?
-valgrind --track-origins=yes --leak-check=full ./cminor -typecheck bad6.cminor
+valgrind --track-origins=yes --leak-check=full ./cminor -typecheck good16.cminor
 echo "exit code: " $?
-valgrind --track-origins=yes --leak-check=full ./cminor -typecheck bad7.cminor
+valgrind --track-origins=yes --leak-check=full ./cminor -typecheck good17.cminor
 echo "exit code: " $?
-valgrind --track-origins=yes --leak-check=full ./cminor -typecheck bad8.cminor
+valgrind --track-origins=yes --leak-check=full ./cminor -typecheck good18.cminor
 echo "exit code: " $?
-valgrind --track-origins=yes --leak-check=full ./cminor -typecheck bad9.cminor
+valgrind --track-origins=yes --leak-check=full ./cminor -typecheck good19.cminor
 echo "exit code: " $?
-valgrind --track-origins=yes --leak-check=full ./cminor -typecheck bad10.cminor
+valgrind --track-origins=yes --leak-check=full ./cminor -typecheck good20.cminor
 echo "exit code: " $?

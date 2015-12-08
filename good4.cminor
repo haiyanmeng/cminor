@@ -1,7 +1,8 @@
 //return type 
 
-f1:function void() = {
+f1:function integer() = {
 	print "func return type: void\n";
+	return 0;
 }
 
 f2:function integer() = {
@@ -24,10 +25,11 @@ f5:function boolean() = {
 }
 
 
-main:function void(param1:integer, param2:char, param3:string, param4:boolean) = {
+main:function integer(param1:integer, param2:char, param3:string, param4:boolean) = {
 	print "test return type\n";
 	print f2(), '\n';
 	print f3(), '\n';
 	print f5(), '\n';
 	print f4(), '\n';
+	return 0;
 }

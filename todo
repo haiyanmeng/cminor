@@ -1,4 +1,7 @@
 Todo:
+double check dthain test cases.
+double check typecheck has the same results
+
 overall test, check for each operator and its operands.
 
 function call without arguments test;
@@ -16,12 +19,10 @@ prune the usage of register. test print with multiple paramters; test bounce pro
 
 global variable, string, and immediate numbers does not need register, just need the label.
 
-double check typecheck has the same results
 
 http://www.felixcloutier.com/x86/
 add <parsing is done>
 
-double check dthain test cases.
 
 check the validity of arithmetic:divide by 0. this check is only meaning for global expressions.
 lvalue of function call, ++, --, = should be IDENT_NAME.

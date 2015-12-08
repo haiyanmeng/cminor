@@ -24,4 +24,5 @@ main:function integer() = {
 	}
 	print s, '\n'; //1
 */
+	return 0;
 }

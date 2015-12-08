@@ -1,0 +1,26 @@
+f: function integer () = {
+	print "f - a\n";
+	print "f - b\n";
+	return 0;
+	print "f - c\n";
+	return 0;
+}
+
+main:function integer() = {
+	print "main function\n";
+
+	if(f() == 0) {
+		print "f() return 0\n";
+		return 0;
+	}
+	
+	print "f() ends\n";
+
+	return 0;
+
+	f();
+
+	print "f() ends second time\n";	
+
+	return 0;
+}

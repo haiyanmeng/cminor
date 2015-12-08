@@ -1,0 +1,43 @@
+//arithmatic expr
+
+main:function integer() = {
+	print "2^4";
+	print '=';
+	print 2^4;
+	print '\n';
+
+	print "2^0=", 2^0;
+	print '\n';
+	print "2^(-10)=";
+	print 2^(-10);
+	print '\n';
+
+	print "(5-3+0+2-2+2-2+2%1+2/20+0*34343)^(20-10)=";
+	print (5-3+0+2-2+2-2+2%1+2/20+0*34343)^(20-10); //1024
+	print '\n';
+
+	print "2+4";
+	print '\n';
+	print 2+4;
+	print '\n';
+	print "2-4";
+	print '\n';
+	print 2-4;
+	print '\n';
+	print "2*4";
+	print '\n';
+	print 2*4;
+	print '\n';
+	print "29/4";
+	print '\n';
+	print 29/4;
+	print '\n';
+
+	print "29%4";
+	print '\n';
+	print 29%4;
+	print '\n';
+
+	return 0;
+}
+

@@ -1,0 +1,80 @@
+
+print_func:function integer (x:integer, y:char, z:boolean, t:string) = {
+	print x;
+	print '\n';
+	print y;
+	print '\n';
+	print z;
+	print '\n';
+	print ((((t))));
+	print '\n';
+	return 0;
+}
+
+
+main:function integer() = {
+	print "true == false";
+	print '\n';
+	print true == false;
+	print '\n';
+
+	print "true == true";
+	print '\n';
+	print true == true;
+	print '\n';
+
+	print "3 == 5";
+	print '\n';
+	print 3 == 5;
+	print '\n';
+
+	print "(2+1+0/234) == (5/4+2*1)";
+	print '\n';
+	print (2+1+0/234) == (5/4+2*1);
+	print '\n';
+
+	print "hello", " == ", "word";
+	print '\n';
+	print "hello" == "word";
+	print '\n';
+
+	print "hello", " != ", "word";
+	print '\n';
+	print "hello" != "word";
+	print '\n';
+
+	print "hello111", " == ", "hello111";
+	print '\n';
+	print "hello111" == "hello111";
+	print '\n';
+
+	print "'c' == 'd'";
+	print '\n';
+	print 'c' == 'd';
+	print '\n';
+
+	print "3!=5";
+	print '\n';
+	print 3!=5;
+	print '\n';
+
+	print "'c' != 'd'";
+	print '\n';
+	print 'c' != 'd';
+	print '\n';
+
+	print "true != false";
+	print '\n';
+	print true != false;
+	print '\n';
+
+	print "false != false";
+	print '\n';
+	print false != false;
+	print '\n';
+
+	x:integer = 4;
+	print (x)--, ' ', x, '\n';
+	((print_func))(222, (((('~')))), true, "hello haiyan meng");
+	return 0;
+}

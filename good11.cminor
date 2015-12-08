@@ -1,0 +1,17 @@
+// if-else
+
+main:function integer () = {
+	if(2<3) {
+		print "2<3\n";
+	} else {
+		print "never happen\n";
+	}
+
+	if(false) print "never enter\n";
+	else print "always false\n";
+
+	if(!!!false && 3>1) print "!!!false\n";
+
+	return 0;
+}
+

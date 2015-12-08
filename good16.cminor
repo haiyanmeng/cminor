@@ -1,0 +1,59 @@
+//comparison expr: > >= < <=
+
+main:function integer() = {
+	print "1 <= 2";
+	print '\n';
+	print 1 <= 2;
+	print '\n';
+
+	print "12345 <= 2";
+	print '\n';
+	print 12345 <= 2;
+	print '\n';
+
+	print " 500 +9 < 234";
+	print '\n';
+	print  500 +9 < 234;
+	print '\n';
+
+
+	print " 5 +9 < 234";
+	print '\n';
+	print  5 +9 < 234;
+	print '\n';
+
+	print "1 < 2";
+	print '\n';
+	print 1 < 2;
+	print '\n';
+
+
+	print "1 >= 2";
+	print '\n';
+	print 1 >= 2;
+	print '\n';
+
+
+	print "12345 >= 2";
+	print '\n';
+	print 12345 >= 2;
+	print '\n';
+
+	print " 500 +9 > 234";
+	print '\n';
+	print  500 +9 > 234;
+	print '\n';
+
+
+	print " 5 +9 > 234";
+	print '\n';
+	print  5 +9 > 234;
+	print '\n';
+
+	print "1 > 2";
+	print '\n';
+	print 1 > 2;
+	print '\n';
+
+	return 0;
+}

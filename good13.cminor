@@ -1,0 +1,27 @@
+//good example, define x in different scopes
+x52:integer = 1;
+x:integer = 2;
+f52:function void(x:integer)= {
+	print x, '\n';
+
+	{ x:integer = 4; }
+
+	print x, '\n';
+
+	if(x52 == 1) {
+		x:integer = 5;
+		print x, '\n';
+	}
+
+	{ x: integer; {{ x = 6; }} {{{print x, '\n';}}} }
+
+	print x, '\n';
+}
+
+main:function integer() = {
+	print x, '\n';
+
+	x:integer = 3;
+	f52(x);
+	return 0;
+}
