@@ -1,0 +1,8 @@
+To clean up the directory, run:
+$ make clean
+
+To generate cminor, the assembly codes (good[1-20].s) and  the executables (a.out.[1-20]), corresponding to good[1-20].cminor, run:
+$ make
+
+To execute a.out.[1-20], run:
+$./run

@@ -1,8 +1,8 @@
-==1091== Memcheck, a memory error detector
-==1091== Copyright (C) 2002-2012, and GNU GPL'd, by Julian Seward et al.
-==1091== Using Valgrind-3.8.1 and LibVEX; rerun with -h for copyright info
-==1091== Command: ./cminor -print good1.cminor
-==1091== 
+==19132== Memcheck, a memory error detector
+==19132== Copyright (C) 2002-2012, and GNU GPL'd, by Julian Seward et al.
+==19132== Using Valgrind-3.8.1 and LibVEX; rerun with -h for copyright info
+==19132== Command: ./cminor -print good1.cminor
+==19132== 
 func_test: function integer ();
 str_create: function string ( str: string ) =
 {
@@ -16,28 +16,28 @@ main: function integer () =
     print str_create(str_create(str_create(str_create(str_create(str_create(str_create(str_create(str_create(str_create(str_create(str)))))))))));
     return 0;
 }
-==1091== 
-==1091== HEAP SUMMARY:
-==1091==     in use at exit: 26,173 bytes in 91 blocks
-==1091==   total heap usage: 97 allocs, 6 frees, 26,203 bytes allocated
-==1091== 
-==1091== LEAK SUMMARY:
-==1091==    definitely lost: 0 bytes in 0 blocks
-==1091==    indirectly lost: 0 bytes in 0 blocks
-==1091==      possibly lost: 0 bytes in 0 blocks
-==1091==    still reachable: 26,173 bytes in 91 blocks
-==1091==         suppressed: 0 bytes in 0 blocks
-==1091== Reachable blocks (those to which a pointer was found) are not shown.
-==1091== To see them, rerun with: --leak-check=full --show-reachable=yes
-==1091== 
-==1091== For counts of detected and suppressed errors, rerun with: -v
-==1091== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 6 from 6)
+==19132== 
+==19132== HEAP SUMMARY:
+==19132==     in use at exit: 26,173 bytes in 91 blocks
+==19132==   total heap usage: 97 allocs, 6 frees, 26,203 bytes allocated
+==19132== 
+==19132== LEAK SUMMARY:
+==19132==    definitely lost: 0 bytes in 0 blocks
+==19132==    indirectly lost: 0 bytes in 0 blocks
+==19132==      possibly lost: 0 bytes in 0 blocks
+==19132==    still reachable: 26,173 bytes in 91 blocks
+==19132==         suppressed: 0 bytes in 0 blocks
+==19132== Reachable blocks (those to which a pointer was found) are not shown.
+==19132== To see them, rerun with: --leak-check=full --show-reachable=yes
+==19132== 
+==19132== For counts of detected and suppressed errors, rerun with: -v
+==19132== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 6 from 6)
 exit code:  0
-==1092== Memcheck, a memory error detector
-==1092== Copyright (C) 2002-2012, and GNU GPL'd, by Julian Seward et al.
-==1092== Using Valgrind-3.8.1 and LibVEX; rerun with -h for copyright info
-==1092== Command: ./cminor -print good2.cminor
-==1092== 
+==19133== Memcheck, a memory error detector
+==19133== Copyright (C) 2002-2012, and GNU GPL'd, by Julian Seward et al.
+==19133== Using Valgrind-3.8.1 and LibVEX; rerun with -h for copyright info
+==19133== Command: ./cminor -print good2.cminor
+==19133== 
 main: function integer ( param1: integer, param2: char, param3: string, param4: boolean ) =
 {
     x: integer = ((((((((((5-3)+0)+2)-2)+2)-2)+(2%1))+(2/20))+(0*34343))^(20-10));
@@ -61,28 +61,28 @@ main: function integer ( param1: integer, param2: char, param3: string, param4: 
     print ((100-20)-3),'\n';
     return 0;
 }
-==1092== 
-==1092== HEAP SUMMARY:
-==1092==     in use at exit: 31,212 bytes in 186 blocks
-==1092==   total heap usage: 206 allocs, 20 frees, 31,312 bytes allocated
-==1092== 
-==1092== LEAK SUMMARY:
-==1092==    definitely lost: 0 bytes in 0 blocks
-==1092==    indirectly lost: 0 bytes in 0 blocks
-==1092==      possibly lost: 0 bytes in 0 blocks
-==1092==    still reachable: 31,212 bytes in 186 blocks
-==1092==         suppressed: 0 bytes in 0 blocks
-==1092== Reachable blocks (those to which a pointer was found) are not shown.
-==1092== To see them, rerun with: --leak-check=full --show-reachable=yes
-==1092== 
-==1092== For counts of detected and suppressed errors, rerun with: -v
-==1092== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 6 from 6)
+==19133== 
+==19133== HEAP SUMMARY:
+==19133==     in use at exit: 31,212 bytes in 186 blocks
+==19133==   total heap usage: 206 allocs, 20 frees, 31,312 bytes allocated
+==19133== 
+==19133== LEAK SUMMARY:
+==19133==    definitely lost: 0 bytes in 0 blocks
+==19133==    indirectly lost: 0 bytes in 0 blocks
+==19133==      possibly lost: 0 bytes in 0 blocks
+==19133==    still reachable: 31,212 bytes in 186 blocks
+==19133==         suppressed: 0 bytes in 0 blocks
+==19133== Reachable blocks (those to which a pointer was found) are not shown.
+==19133== To see them, rerun with: --leak-check=full --show-reachable=yes
+==19133== 
+==19133== For counts of detected and suppressed errors, rerun with: -v
+==19133== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 6 from 6)
 exit code:  0
-==1093== Memcheck, a memory error detector
-==1093== Copyright (C) 2002-2012, and GNU GPL'd, by Julian Seward et al.
-==1093== Using Valgrind-3.8.1 and LibVEX; rerun with -h for copyright info
-==1093== Command: ./cminor -print good3.cminor
-==1093== 
+==19134== Memcheck, a memory error detector
+==19134== Copyright (C) 2002-2012, and GNU GPL'd, by Julian Seward et al.
+==19134== Using Valgrind-3.8.1 and LibVEX; rerun with -h for copyright info
+==19134== Command: ./cminor -print good3.cminor
+==19134== 
 x1: integer = (2^((10-8)+(0/1)));
 x2: string = "heeo\0dfdf\n";
 x3: boolean = (((true&&(1<3))&&(1>5))||false);
@@ -126,28 +126,28 @@ main: function integer () =
     print c,'\n';
     return 0;
 }
-==1093== 
-==1093== HEAP SUMMARY:
-==1093==     in use at exit: 33,916 bytes in 252 blocks
-==1093==   total heap usage: 282 allocs, 30 frees, 34,066 bytes allocated
-==1093== 
-==1093== LEAK SUMMARY:
-==1093==    definitely lost: 0 bytes in 0 blocks
-==1093==    indirectly lost: 0 bytes in 0 blocks
-==1093==      possibly lost: 0 bytes in 0 blocks
-==1093==    still reachable: 33,916 bytes in 252 blocks
-==1093==         suppressed: 0 bytes in 0 blocks
-==1093== Reachable blocks (those to which a pointer was found) are not shown.
-==1093== To see them, rerun with: --leak-check=full --show-reachable=yes
-==1093== 
-==1093== For counts of detected and suppressed errors, rerun with: -v
-==1093== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 6 from 6)
+==19134== 
+==19134== HEAP SUMMARY:
+==19134==     in use at exit: 33,916 bytes in 252 blocks
+==19134==   total heap usage: 282 allocs, 30 frees, 34,066 bytes allocated
+==19134== 
+==19134== LEAK SUMMARY:
+==19134==    definitely lost: 0 bytes in 0 blocks
+==19134==    indirectly lost: 0 bytes in 0 blocks
+==19134==      possibly lost: 0 bytes in 0 blocks
+==19134==    still reachable: 33,916 bytes in 252 blocks
+==19134==         suppressed: 0 bytes in 0 blocks
+==19134== Reachable blocks (those to which a pointer was found) are not shown.
+==19134== To see them, rerun with: --leak-check=full --show-reachable=yes
+==19134== 
+==19134== For counts of detected and suppressed errors, rerun with: -v
+==19134== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 6 from 6)
 exit code:  0
-==1095== Memcheck, a memory error detector
-==1095== Copyright (C) 2002-2012, and GNU GPL'd, by Julian Seward et al.
-==1095== Using Valgrind-3.8.1 and LibVEX; rerun with -h for copyright info
-==1095== Command: ./cminor -print good4.cminor
-==1095== 
+==19135== Memcheck, a memory error detector
+==19135== Copyright (C) 2002-2012, and GNU GPL'd, by Julian Seward et al.
+==19135== Using Valgrind-3.8.1 and LibVEX; rerun with -h for copyright info
+==19135== Command: ./cminor -print good4.cminor
+==19135== 
 f1: function integer () =
 {
     print "func return type: void\n";
@@ -179,28 +179,28 @@ main: function integer ( param1: integer, param2: char, param3: string, param4: 
     print f4(),'\n';
     return 0;
 }
-==1095== 
-==1095== HEAP SUMMARY:
-==1095==     in use at exit: 26,588 bytes in 101 blocks
-==1095==   total heap usage: 114 allocs, 13 frees, 26,653 bytes allocated
-==1095== 
-==1095== LEAK SUMMARY:
-==1095==    definitely lost: 0 bytes in 0 blocks
-==1095==    indirectly lost: 0 bytes in 0 blocks
-==1095==      possibly lost: 0 bytes in 0 blocks
-==1095==    still reachable: 26,588 bytes in 101 blocks
-==1095==         suppressed: 0 bytes in 0 blocks
-==1095== Reachable blocks (those to which a pointer was found) are not shown.
-==1095== To see them, rerun with: --leak-check=full --show-reachable=yes
-==1095== 
-==1095== For counts of detected and suppressed errors, rerun with: -v
-==1095== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 6 from 6)
+==19135== 
+==19135== HEAP SUMMARY:
+==19135==     in use at exit: 26,588 bytes in 101 blocks
+==19135==   total heap usage: 114 allocs, 13 frees, 26,653 bytes allocated
+==19135== 
+==19135== LEAK SUMMARY:
+==19135==    definitely lost: 0 bytes in 0 blocks
+==19135==    indirectly lost: 0 bytes in 0 blocks
+==19135==      possibly lost: 0 bytes in 0 blocks
+==19135==    still reachable: 26,588 bytes in 101 blocks
+==19135==         suppressed: 0 bytes in 0 blocks
+==19135== Reachable blocks (those to which a pointer was found) are not shown.
+==19135== To see them, rerun with: --leak-check=full --show-reachable=yes
+==19135== 
+==19135== For counts of detected and suppressed errors, rerun with: -v
+==19135== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 6 from 6)
 exit code:  0
-==1096== Memcheck, a memory error detector
-==1096== Copyright (C) 2002-2012, and GNU GPL'd, by Julian Seward et al.
-==1096== Using Valgrind-3.8.1 and LibVEX; rerun with -h for copyright info
-==1096== Command: ./cminor -print good5.cminor
-==1096== 
+==19137== Memcheck, a memory error detector
+==19137== Copyright (C) 2002-2012, and GNU GPL'd, by Julian Seward et al.
+==19137== Using Valgrind-3.8.1 and LibVEX; rerun with -h for copyright info
+==19137== Command: ./cminor -print good5.cminor
+==19137== 
 main: function integer () =
 {
     x1: integer;
@@ -224,28 +224,28 @@ main: function integer () =
     print x9,'\n';
     return 0;
 }
-==1096== 
-==1096== HEAP SUMMARY:
-==1096==     in use at exit: 28,053 bytes in 132 blocks
-==1096==   total heap usage: 152 allocs, 20 frees, 28,153 bytes allocated
-==1096== 
-==1096== LEAK SUMMARY:
-==1096==    definitely lost: 0 bytes in 0 blocks
-==1096==    indirectly lost: 0 bytes in 0 blocks
-==1096==      possibly lost: 0 bytes in 0 blocks
-==1096==    still reachable: 28,053 bytes in 132 blocks
-==1096==         suppressed: 0 bytes in 0 blocks
-==1096== Reachable blocks (those to which a pointer was found) are not shown.
-==1096== To see them, rerun with: --leak-check=full --show-reachable=yes
-==1096== 
-==1096== For counts of detected and suppressed errors, rerun with: -v
-==1096== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 6 from 6)
+==19137== 
+==19137== HEAP SUMMARY:
+==19137==     in use at exit: 28,053 bytes in 132 blocks
+==19137==   total heap usage: 152 allocs, 20 frees, 28,153 bytes allocated
+==19137== 
+==19137== LEAK SUMMARY:
+==19137==    definitely lost: 0 bytes in 0 blocks
+==19137==    indirectly lost: 0 bytes in 0 blocks
+==19137==      possibly lost: 0 bytes in 0 blocks
+==19137==    still reachable: 28,053 bytes in 132 blocks
+==19137==         suppressed: 0 bytes in 0 blocks
+==19137== Reachable blocks (those to which a pointer was found) are not shown.
+==19137== To see them, rerun with: --leak-check=full --show-reachable=yes
+==19137== 
+==19137== For counts of detected and suppressed errors, rerun with: -v
+==19137== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 6 from 6)
 exit code:  0
-==1097== Memcheck, a memory error detector
-==1097== Copyright (C) 2002-2012, and GNU GPL'd, by Julian Seward et al.
-==1097== Using Valgrind-3.8.1 and LibVEX; rerun with -h for copyright info
-==1097== Command: ./cminor -print good6.cminor
-==1097== 
+==19138== Memcheck, a memory error detector
+==19138== Copyright (C) 2002-2012, and GNU GPL'd, by Julian Seward et al.
+==19138== Using Valgrind-3.8.1 and LibVEX; rerun with -h for copyright info
+==19138== Command: ./cminor -print good6.cminor
+==19138== 
 main: function integer () =
 {
     x1: integer = 2;
@@ -270,56 +270,56 @@ main: function integer () =
     print x10,'\n';
     return 0;
 }
-==1097== 
-==1097== HEAP SUMMARY:
-==1097==     in use at exit: 28,954 bytes in 148 blocks
-==1097==   total heap usage: 169 allocs, 21 frees, 29,059 bytes allocated
-==1097== 
-==1097== LEAK SUMMARY:
-==1097==    definitely lost: 0 bytes in 0 blocks
-==1097==    indirectly lost: 0 bytes in 0 blocks
-==1097==      possibly lost: 0 bytes in 0 blocks
-==1097==    still reachable: 28,954 bytes in 148 blocks
-==1097==         suppressed: 0 bytes in 0 blocks
-==1097== Reachable blocks (those to which a pointer was found) are not shown.
-==1097== To see them, rerun with: --leak-check=full --show-reachable=yes
-==1097== 
-==1097== For counts of detected and suppressed errors, rerun with: -v
-==1097== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 6 from 6)
+==19138== 
+==19138== HEAP SUMMARY:
+==19138==     in use at exit: 28,954 bytes in 148 blocks
+==19138==   total heap usage: 169 allocs, 21 frees, 29,059 bytes allocated
+==19138== 
+==19138== LEAK SUMMARY:
+==19138==    definitely lost: 0 bytes in 0 blocks
+==19138==    indirectly lost: 0 bytes in 0 blocks
+==19138==      possibly lost: 0 bytes in 0 blocks
+==19138==    still reachable: 28,954 bytes in 148 blocks
+==19138==         suppressed: 0 bytes in 0 blocks
+==19138== Reachable blocks (those to which a pointer was found) are not shown.
+==19138== To see them, rerun with: --leak-check=full --show-reachable=yes
+==19138== 
+==19138== For counts of detected and suppressed errors, rerun with: -v
+==19138== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 6 from 6)
 exit code:  0
-==1098== Memcheck, a memory error detector
-==1098== Copyright (C) 2002-2012, and GNU GPL'd, by Julian Seward et al.
-==1098== Using Valgrind-3.8.1 and LibVEX; rerun with -h for copyright info
-==1098== Command: ./cminor -print good7.cminor
-==1098== 
+==19139== Memcheck, a memory error detector
+==19139== Copyright (C) 2002-2012, and GNU GPL'd, by Julian Seward et al.
+==19139== Using Valgrind-3.8.1 and LibVEX; rerun with -h for copyright info
+==19139== Command: ./cminor -print good7.cminor
+==19139== 
 func1: function integer ( a: integer, b: char, c: char, d: char, e: char, f: char, g: char, h: char );
 main: function integer () =
 {
     print "main func\n";
     return 0;
 }
-==1098== 
-==1098== HEAP SUMMARY:
-==1098==     in use at exit: 23,339 bytes in 44 blocks
-==1098==   total heap usage: 46 allocs, 2 frees, 23,349 bytes allocated
-==1098== 
-==1098== LEAK SUMMARY:
-==1098==    definitely lost: 0 bytes in 0 blocks
-==1098==    indirectly lost: 0 bytes in 0 blocks
-==1098==      possibly lost: 0 bytes in 0 blocks
-==1098==    still reachable: 23,339 bytes in 44 blocks
-==1098==         suppressed: 0 bytes in 0 blocks
-==1098== Reachable blocks (those to which a pointer was found) are not shown.
-==1098== To see them, rerun with: --leak-check=full --show-reachable=yes
-==1098== 
-==1098== For counts of detected and suppressed errors, rerun with: -v
-==1098== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 6 from 6)
+==19139== 
+==19139== HEAP SUMMARY:
+==19139==     in use at exit: 23,339 bytes in 44 blocks
+==19139==   total heap usage: 46 allocs, 2 frees, 23,349 bytes allocated
+==19139== 
+==19139== LEAK SUMMARY:
+==19139==    definitely lost: 0 bytes in 0 blocks
+==19139==    indirectly lost: 0 bytes in 0 blocks
+==19139==      possibly lost: 0 bytes in 0 blocks
+==19139==    still reachable: 23,339 bytes in 44 blocks
+==19139==         suppressed: 0 bytes in 0 blocks
+==19139== Reachable blocks (those to which a pointer was found) are not shown.
+==19139== To see them, rerun with: --leak-check=full --show-reachable=yes
+==19139== 
+==19139== For counts of detected and suppressed errors, rerun with: -v
+==19139== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 6 from 6)
 exit code:  0
-==1099== Memcheck, a memory error detector
-==1099== Copyright (C) 2002-2012, and GNU GPL'd, by Julian Seward et al.
-==1099== Using Valgrind-3.8.1 and LibVEX; rerun with -h for copyright info
-==1099== Command: ./cminor -print good8.cminor
-==1099== 
+==19141== Memcheck, a memory error detector
+==19141== Copyright (C) 2002-2012, and GNU GPL'd, by Julian Seward et al.
+==19141== Using Valgrind-3.8.1 and LibVEX; rerun with -h for copyright info
+==19141== Command: ./cminor -print good8.cminor
+==19141== 
 f: function integer ( x: integer, y: integer, z: integer ) =
 {
     return ((x+y)+z);
@@ -342,28 +342,28 @@ main: function integer () =
     print g,'\n';
     return 0;
 }
-==1099== 
-==1099== HEAP SUMMARY:
-==1099==     in use at exit: 28,846 bytes in 151 blocks
-==1099==   total heap usage: 167 allocs, 16 frees, 28,926 bytes allocated
-==1099== 
-==1099== LEAK SUMMARY:
-==1099==    definitely lost: 0 bytes in 0 blocks
-==1099==    indirectly lost: 0 bytes in 0 blocks
-==1099==      possibly lost: 0 bytes in 0 blocks
-==1099==    still reachable: 28,846 bytes in 151 blocks
-==1099==         suppressed: 0 bytes in 0 blocks
-==1099== Reachable blocks (those to which a pointer was found) are not shown.
-==1099== To see them, rerun with: --leak-check=full --show-reachable=yes
-==1099== 
-==1099== For counts of detected and suppressed errors, rerun with: -v
-==1099== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 6 from 6)
+==19141== 
+==19141== HEAP SUMMARY:
+==19141==     in use at exit: 28,846 bytes in 151 blocks
+==19141==   total heap usage: 167 allocs, 16 frees, 28,926 bytes allocated
+==19141== 
+==19141== LEAK SUMMARY:
+==19141==    definitely lost: 0 bytes in 0 blocks
+==19141==    indirectly lost: 0 bytes in 0 blocks
+==19141==      possibly lost: 0 bytes in 0 blocks
+==19141==    still reachable: 28,846 bytes in 151 blocks
+==19141==         suppressed: 0 bytes in 0 blocks
+==19141== Reachable blocks (those to which a pointer was found) are not shown.
+==19141== To see them, rerun with: --leak-check=full --show-reachable=yes
+==19141== 
+==19141== For counts of detected and suppressed errors, rerun with: -v
+==19141== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 6 from 6)
 exit code:  0
-==1100== Memcheck, a memory error detector
-==1100== Copyright (C) 2002-2012, and GNU GPL'd, by Julian Seward et al.
-==1100== Using Valgrind-3.8.1 and LibVEX; rerun with -h for copyright info
-==1100== Command: ./cminor -print good9.cminor
-==1100== 
+==19142== Memcheck, a memory error detector
+==19142== Copyright (C) 2002-2012, and GNU GPL'd, by Julian Seward et al.
+==19142== Using Valgrind-3.8.1 and LibVEX; rerun with -h for copyright info
+==19142== Command: ./cminor -print good9.cminor
+==19142== 
 main: function integer () =
 {
     i: integer;
@@ -379,56 +379,56 @@ main: function integer () =
     print s,'\n';
     return 0;
 }
-==1100== 
-==1100== HEAP SUMMARY:
-==1100==     in use at exit: 26,873 bytes in 98 blocks
-==1100==   total heap usage: 110 allocs, 12 frees, 26,941 bytes allocated
-==1100== 
-==1100== LEAK SUMMARY:
-==1100==    definitely lost: 0 bytes in 0 blocks
-==1100==    indirectly lost: 0 bytes in 0 blocks
-==1100==      possibly lost: 0 bytes in 0 blocks
-==1100==    still reachable: 26,873 bytes in 98 blocks
-==1100==         suppressed: 0 bytes in 0 blocks
-==1100== Reachable blocks (those to which a pointer was found) are not shown.
-==1100== To see them, rerun with: --leak-check=full --show-reachable=yes
-==1100== 
-==1100== For counts of detected and suppressed errors, rerun with: -v
-==1100== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 6 from 6)
+==19142== 
+==19142== HEAP SUMMARY:
+==19142==     in use at exit: 26,873 bytes in 98 blocks
+==19142==   total heap usage: 110 allocs, 12 frees, 26,941 bytes allocated
+==19142== 
+==19142== LEAK SUMMARY:
+==19142==    definitely lost: 0 bytes in 0 blocks
+==19142==    indirectly lost: 0 bytes in 0 blocks
+==19142==      possibly lost: 0 bytes in 0 blocks
+==19142==    still reachable: 26,873 bytes in 98 blocks
+==19142==         suppressed: 0 bytes in 0 blocks
+==19142== Reachable blocks (those to which a pointer was found) are not shown.
+==19142== To see them, rerun with: --leak-check=full --show-reachable=yes
+==19142== 
+==19142== For counts of detected and suppressed errors, rerun with: -v
+==19142== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 6 from 6)
 exit code:  0
-==1102== Memcheck, a memory error detector
-==1102== Copyright (C) 2002-2012, and GNU GPL'd, by Julian Seward et al.
-==1102== Using Valgrind-3.8.1 and LibVEX; rerun with -h for copyright info
-==1102== Command: ./cminor -print good10.cminor
-==1102== 
+==19143== Memcheck, a memory error detector
+==19143== Copyright (C) 2002-2012, and GNU GPL'd, by Julian Seward et al.
+==19143== Using Valgrind-3.8.1 and LibVEX; rerun with -h for copyright info
+==19143== Command: ./cminor -print good10.cminor
+==19143== 
 main: function integer () =
 {
     print 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20;
     print '\n';
     return 0;
 }
-==1102== 
-==1102== HEAP SUMMARY:
-==1102==     in use at exit: 25,412 bytes in 56 blocks
-==1102==   total heap usage: 59 allocs, 3 frees, 25,427 bytes allocated
-==1102== 
-==1102== LEAK SUMMARY:
-==1102==    definitely lost: 0 bytes in 0 blocks
-==1102==    indirectly lost: 0 bytes in 0 blocks
-==1102==      possibly lost: 0 bytes in 0 blocks
-==1102==    still reachable: 25,412 bytes in 56 blocks
-==1102==         suppressed: 0 bytes in 0 blocks
-==1102== Reachable blocks (those to which a pointer was found) are not shown.
-==1102== To see them, rerun with: --leak-check=full --show-reachable=yes
-==1102== 
-==1102== For counts of detected and suppressed errors, rerun with: -v
-==1102== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 6 from 6)
+==19143== 
+==19143== HEAP SUMMARY:
+==19143==     in use at exit: 25,412 bytes in 56 blocks
+==19143==   total heap usage: 59 allocs, 3 frees, 25,427 bytes allocated
+==19143== 
+==19143== LEAK SUMMARY:
+==19143==    definitely lost: 0 bytes in 0 blocks
+==19143==    indirectly lost: 0 bytes in 0 blocks
+==19143==      possibly lost: 0 bytes in 0 blocks
+==19143==    still reachable: 25,412 bytes in 56 blocks
+==19143==         suppressed: 0 bytes in 0 blocks
+==19143== Reachable blocks (those to which a pointer was found) are not shown.
+==19143== To see them, rerun with: --leak-check=full --show-reachable=yes
+==19143== 
+==19143== For counts of detected and suppressed errors, rerun with: -v
+==19143== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 6 from 6)
 exit code:  0
-==1103== Memcheck, a memory error detector
-==1103== Copyright (C) 2002-2012, and GNU GPL'd, by Julian Seward et al.
-==1103== Using Valgrind-3.8.1 and LibVEX; rerun with -h for copyright info
-==1103== Command: ./cminor -print good11.cminor
-==1103== 
+==19144== Memcheck, a memory error detector
+==19144== Copyright (C) 2002-2012, and GNU GPL'd, by Julian Seward et al.
+==19144== Using Valgrind-3.8.1 and LibVEX; rerun with -h for copyright info
+==19144== Command: ./cminor -print good11.cminor
+==19144== 
 main: function integer () =
 {
     if((2<3)) {
@@ -444,28 +444,28 @@ main: function integer () =
         print "!!!false\n";
     return 0;
 }
-==1103== 
-==1103== HEAP SUMMARY:
-==1103==     in use at exit: 24,398 bytes in 45 blocks
-==1103==   total heap usage: 57 allocs, 12 frees, 24,478 bytes allocated
-==1103== 
-==1103== LEAK SUMMARY:
-==1103==    definitely lost: 0 bytes in 0 blocks
-==1103==    indirectly lost: 0 bytes in 0 blocks
-==1103==      possibly lost: 0 bytes in 0 blocks
-==1103==    still reachable: 24,398 bytes in 45 blocks
-==1103==         suppressed: 0 bytes in 0 blocks
-==1103== Reachable blocks (those to which a pointer was found) are not shown.
-==1103== To see them, rerun with: --leak-check=full --show-reachable=yes
-==1103== 
-==1103== For counts of detected and suppressed errors, rerun with: -v
-==1103== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 6 from 6)
+==19144== 
+==19144== HEAP SUMMARY:
+==19144==     in use at exit: 24,398 bytes in 45 blocks
+==19144==   total heap usage: 57 allocs, 12 frees, 24,478 bytes allocated
+==19144== 
+==19144== LEAK SUMMARY:
+==19144==    definitely lost: 0 bytes in 0 blocks
+==19144==    indirectly lost: 0 bytes in 0 blocks
+==19144==      possibly lost: 0 bytes in 0 blocks
+==19144==    still reachable: 24,398 bytes in 45 blocks
+==19144==         suppressed: 0 bytes in 0 blocks
+==19144== Reachable blocks (those to which a pointer was found) are not shown.
+==19144== To see them, rerun with: --leak-check=full --show-reachable=yes
+==19144== 
+==19144== For counts of detected and suppressed errors, rerun with: -v
+==19144== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 6 from 6)
 exit code:  0
-==1104== Memcheck, a memory error detector
-==1104== Copyright (C) 2002-2012, and GNU GPL'd, by Julian Seward et al.
-==1104== Using Valgrind-3.8.1 and LibVEX; rerun with -h for copyright info
-==1104== Command: ./cminor -print good12.cminor
-==1104== 
+==19146== Memcheck, a memory error detector
+==19146== Copyright (C) 2002-2012, and GNU GPL'd, by Julian Seward et al.
+==19146== Using Valgrind-3.8.1 and LibVEX; rerun with -h for copyright info
+==19146== Command: ./cminor -print good12.cminor
+==19146== 
 f: function integer () =
 {
     print "f - a\n";
@@ -487,28 +487,28 @@ main: function integer () =
     print "f() ends second time\n";
     return 0;
 }
-==1104== 
-==1104== HEAP SUMMARY:
-==1104==     in use at exit: 24,932 bytes in 58 blocks
-==1104==   total heap usage: 73 allocs, 15 frees, 25,015 bytes allocated
-==1104== 
-==1104== LEAK SUMMARY:
-==1104==    definitely lost: 0 bytes in 0 blocks
-==1104==    indirectly lost: 0 bytes in 0 blocks
-==1104==      possibly lost: 0 bytes in 0 blocks
-==1104==    still reachable: 24,932 bytes in 58 blocks
-==1104==         suppressed: 0 bytes in 0 blocks
-==1104== Reachable blocks (those to which a pointer was found) are not shown.
-==1104== To see them, rerun with: --leak-check=full --show-reachable=yes
-==1104== 
-==1104== For counts of detected and suppressed errors, rerun with: -v
-==1104== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 6 from 6)
+==19146== 
+==19146== HEAP SUMMARY:
+==19146==     in use at exit: 24,932 bytes in 58 blocks
+==19146==   total heap usage: 73 allocs, 15 frees, 25,015 bytes allocated
+==19146== 
+==19146== LEAK SUMMARY:
+==19146==    definitely lost: 0 bytes in 0 blocks
+==19146==    indirectly lost: 0 bytes in 0 blocks
+==19146==      possibly lost: 0 bytes in 0 blocks
+==19146==    still reachable: 24,932 bytes in 58 blocks
+==19146==         suppressed: 0 bytes in 0 blocks
+==19146== Reachable blocks (those to which a pointer was found) are not shown.
+==19146== To see them, rerun with: --leak-check=full --show-reachable=yes
+==19146== 
+==19146== For counts of detected and suppressed errors, rerun with: -v
+==19146== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 6 from 6)
 exit code:  0
-==1105== Memcheck, a memory error detector
-==1105== Copyright (C) 2002-2012, and GNU GPL'd, by Julian Seward et al.
-==1105== Using Valgrind-3.8.1 and LibVEX; rerun with -h for copyright info
-==1105== Command: ./cminor -print good13.cminor
-==1105== 
+==19147== Memcheck, a memory error detector
+==19147== Copyright (C) 2002-2012, and GNU GPL'd, by Julian Seward et al.
+==19147== Using Valgrind-3.8.1 and LibVEX; rerun with -h for copyright info
+==19147== Command: ./cminor -print good13.cminor
+==19147== 
 x52: integer = 1;
 x: integer = 2;
 f52: function void ( x: integer ) =
@@ -546,28 +546,28 @@ main: function integer () =
     f52(x);
     return 0;
 }
-==1105== 
-==1105== HEAP SUMMARY:
-==1105==     in use at exit: 27,137 bytes in 108 blocks
-==1105==   total heap usage: 137 allocs, 29 frees, 27,398 bytes allocated
-==1105== 
-==1105== LEAK SUMMARY:
-==1105==    definitely lost: 0 bytes in 0 blocks
-==1105==    indirectly lost: 0 bytes in 0 blocks
-==1105==      possibly lost: 0 bytes in 0 blocks
-==1105==    still reachable: 27,137 bytes in 108 blocks
-==1105==         suppressed: 0 bytes in 0 blocks
-==1105== Reachable blocks (those to which a pointer was found) are not shown.
-==1105== To see them, rerun with: --leak-check=full --show-reachable=yes
-==1105== 
-==1105== For counts of detected and suppressed errors, rerun with: -v
-==1105== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 6 from 6)
+==19147== 
+==19147== HEAP SUMMARY:
+==19147==     in use at exit: 27,137 bytes in 108 blocks
+==19147==   total heap usage: 137 allocs, 29 frees, 27,398 bytes allocated
+==19147== 
+==19147== LEAK SUMMARY:
+==19147==    definitely lost: 0 bytes in 0 blocks
+==19147==    indirectly lost: 0 bytes in 0 blocks
+==19147==      possibly lost: 0 bytes in 0 blocks
+==19147==    still reachable: 27,137 bytes in 108 blocks
+==19147==         suppressed: 0 bytes in 0 blocks
+==19147== Reachable blocks (those to which a pointer was found) are not shown.
+==19147== To see them, rerun with: --leak-check=full --show-reachable=yes
+==19147== 
+==19147== For counts of detected and suppressed errors, rerun with: -v
+==19147== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 6 from 6)
 exit code:  0
-==1106== Memcheck, a memory error detector
-==1106== Copyright (C) 2002-2012, and GNU GPL'd, by Julian Seward et al.
-==1106== Using Valgrind-3.8.1 and LibVEX; rerun with -h for copyright info
-==1106== Command: ./cminor -print good14.cminor
-==1106== 
+==19167== Memcheck, a memory error detector
+==19167== Copyright (C) 2002-2012, and GNU GPL'd, by Julian Seward et al.
+==19167== Using Valgrind-3.8.1 and LibVEX; rerun with -h for copyright info
+==19167== Command: ./cminor -print good14.cminor
+==19167== 
 main: function integer () =
 {
     print "2^4";
@@ -604,28 +604,28 @@ main: function integer () =
     print '\n';
     return 0;
 }
-==1106== 
-==1106== HEAP SUMMARY:
-==1106==     in use at exit: 30,549 bytes in 148 blocks
-==1106==   total heap usage: 181 allocs, 33 frees, 30,714 bytes allocated
-==1106== 
-==1106== LEAK SUMMARY:
-==1106==    definitely lost: 0 bytes in 0 blocks
-==1106==    indirectly lost: 0 bytes in 0 blocks
-==1106==      possibly lost: 0 bytes in 0 blocks
-==1106==    still reachable: 30,549 bytes in 148 blocks
-==1106==         suppressed: 0 bytes in 0 blocks
-==1106== Reachable blocks (those to which a pointer was found) are not shown.
-==1106== To see them, rerun with: --leak-check=full --show-reachable=yes
-==1106== 
-==1106== For counts of detected and suppressed errors, rerun with: -v
-==1106== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 6 from 6)
+==19167== 
+==19167== HEAP SUMMARY:
+==19167==     in use at exit: 30,549 bytes in 148 blocks
+==19167==   total heap usage: 181 allocs, 33 frees, 30,714 bytes allocated
+==19167== 
+==19167== LEAK SUMMARY:
+==19167==    definitely lost: 0 bytes in 0 blocks
+==19167==    indirectly lost: 0 bytes in 0 blocks
+==19167==      possibly lost: 0 bytes in 0 blocks
+==19167==    still reachable: 30,549 bytes in 148 blocks
+==19167==         suppressed: 0 bytes in 0 blocks
+==19167== Reachable blocks (those to which a pointer was found) are not shown.
+==19167== To see them, rerun with: --leak-check=full --show-reachable=yes
+==19167== 
+==19167== For counts of detected and suppressed errors, rerun with: -v
+==19167== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 6 from 6)
 exit code:  0
-==1107== Memcheck, a memory error detector
-==1107== Copyright (C) 2002-2012, and GNU GPL'd, by Julian Seward et al.
-==1107== Using Valgrind-3.8.1 and LibVEX; rerun with -h for copyright info
-==1107== Command: ./cminor -print good15.cminor
-==1107== 
+==19168== Memcheck, a memory error detector
+==19168== Copyright (C) 2002-2012, and GNU GPL'd, by Julian Seward et al.
+==19168== Using Valgrind-3.8.1 and LibVEX; rerun with -h for copyright info
+==19168== Command: ./cminor -print good15.cminor
+==19168== 
 main: function integer () =
 {
     print "true && true";
@@ -654,28 +654,28 @@ main: function integer () =
     print '\n';
     return 0;
 }
-==1107== 
-==1107== HEAP SUMMARY:
-==1107==     in use at exit: 26,859 bytes in 91 blocks
-==1107==   total heap usage: 116 allocs, 25 frees, 26,984 bytes allocated
-==1107== 
-==1107== LEAK SUMMARY:
-==1107==    definitely lost: 0 bytes in 0 blocks
-==1107==    indirectly lost: 0 bytes in 0 blocks
-==1107==      possibly lost: 0 bytes in 0 blocks
-==1107==    still reachable: 26,859 bytes in 91 blocks
-==1107==         suppressed: 0 bytes in 0 blocks
-==1107== Reachable blocks (those to which a pointer was found) are not shown.
-==1107== To see them, rerun with: --leak-check=full --show-reachable=yes
-==1107== 
-==1107== For counts of detected and suppressed errors, rerun with: -v
-==1107== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 6 from 6)
+==19168== 
+==19168== HEAP SUMMARY:
+==19168==     in use at exit: 26,859 bytes in 91 blocks
+==19168==   total heap usage: 116 allocs, 25 frees, 26,984 bytes allocated
+==19168== 
+==19168== LEAK SUMMARY:
+==19168==    definitely lost: 0 bytes in 0 blocks
+==19168==    indirectly lost: 0 bytes in 0 blocks
+==19168==      possibly lost: 0 bytes in 0 blocks
+==19168==    still reachable: 26,859 bytes in 91 blocks
+==19168==         suppressed: 0 bytes in 0 blocks
+==19168== Reachable blocks (those to which a pointer was found) are not shown.
+==19168== To see them, rerun with: --leak-check=full --show-reachable=yes
+==19168== 
+==19168== For counts of detected and suppressed errors, rerun with: -v
+==19168== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 6 from 6)
 exit code:  0
-==1110== Memcheck, a memory error detector
-==1110== Copyright (C) 2002-2012, and GNU GPL'd, by Julian Seward et al.
-==1110== Using Valgrind-3.8.1 and LibVEX; rerun with -h for copyright info
-==1110== Command: ./cminor -print good16.cminor
-==1110== 
+==19169== Memcheck, a memory error detector
+==19169== Copyright (C) 2002-2012, and GNU GPL'd, by Julian Seward et al.
+==19169== Using Valgrind-3.8.1 and LibVEX; rerun with -h for copyright info
+==19169== Command: ./cminor -print good16.cminor
+==19169== 
 main: function integer () =
 {
     print "1 <= 2";
@@ -720,28 +720,28 @@ main: function integer () =
     print '\n';
     return 0;
 }
-==1110== 
-==1110== HEAP SUMMARY:
-==1110==     in use at exit: 30,379 bytes in 151 blocks
-==1110==   total heap usage: 192 allocs, 41 frees, 30,584 bytes allocated
-==1110== 
-==1110== LEAK SUMMARY:
-==1110==    definitely lost: 0 bytes in 0 blocks
-==1110==    indirectly lost: 0 bytes in 0 blocks
-==1110==      possibly lost: 0 bytes in 0 blocks
-==1110==    still reachable: 30,379 bytes in 151 blocks
-==1110==         suppressed: 0 bytes in 0 blocks
-==1110== Reachable blocks (those to which a pointer was found) are not shown.
-==1110== To see them, rerun with: --leak-check=full --show-reachable=yes
-==1110== 
-==1110== For counts of detected and suppressed errors, rerun with: -v
-==1110== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 6 from 6)
+==19169== 
+==19169== HEAP SUMMARY:
+==19169==     in use at exit: 30,379 bytes in 151 blocks
+==19169==   total heap usage: 192 allocs, 41 frees, 30,584 bytes allocated
+==19169== 
+==19169== LEAK SUMMARY:
+==19169==    definitely lost: 0 bytes in 0 blocks
+==19169==    indirectly lost: 0 bytes in 0 blocks
+==19169==      possibly lost: 0 bytes in 0 blocks
+==19169==    still reachable: 30,379 bytes in 151 blocks
+==19169==         suppressed: 0 bytes in 0 blocks
+==19169== Reachable blocks (those to which a pointer was found) are not shown.
+==19169== To see them, rerun with: --leak-check=full --show-reachable=yes
+==19169== 
+==19169== For counts of detected and suppressed errors, rerun with: -v
+==19169== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 6 from 6)
 exit code:  0
-==1112== Memcheck, a memory error detector
-==1112== Copyright (C) 2002-2012, and GNU GPL'd, by Julian Seward et al.
-==1112== Using Valgrind-3.8.1 and LibVEX; rerun with -h for copyright info
-==1112== Command: ./cminor -print good17.cminor
-==1112== 
+==19170== Memcheck, a memory error detector
+==19170== Copyright (C) 2002-2012, and GNU GPL'd, by Julian Seward et al.
+==19170== Using Valgrind-3.8.1 and LibVEX; rerun with -h for copyright info
+==19170== Command: ./cminor -print good17.cminor
+==19170== 
 print_func: function integer ( x: integer, y: char, z: boolean, t: string ) =
 {
     print x;
@@ -809,28 +809,28 @@ main: function integer () =
     print_func(222,'~',true,"hello haiyan meng");
     return 0;
 }
-==1112== 
-==1112== HEAP SUMMARY:
-==1112==     in use at exit: 36,674 bytes in 283 blocks
-==1112==   total heap usage: 344 allocs, 61 frees, 36,979 bytes allocated
-==1112== 
-==1112== LEAK SUMMARY:
-==1112==    definitely lost: 0 bytes in 0 blocks
-==1112==    indirectly lost: 0 bytes in 0 blocks
-==1112==      possibly lost: 0 bytes in 0 blocks
-==1112==    still reachable: 36,674 bytes in 283 blocks
-==1112==         suppressed: 0 bytes in 0 blocks
-==1112== Reachable blocks (those to which a pointer was found) are not shown.
-==1112== To see them, rerun with: --leak-check=full --show-reachable=yes
-==1112== 
-==1112== For counts of detected and suppressed errors, rerun with: -v
-==1112== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 6 from 6)
+==19170== 
+==19170== HEAP SUMMARY:
+==19170==     in use at exit: 36,674 bytes in 283 blocks
+==19170==   total heap usage: 344 allocs, 61 frees, 36,979 bytes allocated
+==19170== 
+==19170== LEAK SUMMARY:
+==19170==    definitely lost: 0 bytes in 0 blocks
+==19170==    indirectly lost: 0 bytes in 0 blocks
+==19170==      possibly lost: 0 bytes in 0 blocks
+==19170==    still reachable: 36,674 bytes in 283 blocks
+==19170==         suppressed: 0 bytes in 0 blocks
+==19170== Reachable blocks (those to which a pointer was found) are not shown.
+==19170== To see them, rerun with: --leak-check=full --show-reachable=yes
+==19170== 
+==19170== For counts of detected and suppressed errors, rerun with: -v
+==19170== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 6 from 6)
 exit code:  0
-==1113== Memcheck, a memory error detector
-==1113== Copyright (C) 2002-2012, and GNU GPL'd, by Julian Seward et al.
-==1113== Using Valgrind-3.8.1 and LibVEX; rerun with -h for copyright info
-==1113== Command: ./cminor -print good18.cminor
-==1113== 
+==19172== Memcheck, a memory error detector
+==19172== Copyright (C) 2002-2012, and GNU GPL'd, by Julian Seward et al.
+==19172== Using Valgrind-3.8.1 and LibVEX; rerun with -h for copyright info
+==19172== Command: ./cminor -print good18.cminor
+==19172== 
 global_x: integer = (888+112);
 global_x1: integer = (888-388);
 global_x2: integer = (3*5);
@@ -1171,28 +1171,28 @@ main: function integer ( param1: integer, param2: char, param3: string, param4: 
     return 0;
     return 0;
 }
-==1113== 
-==1113== HEAP SUMMARY:
-==1113==     in use at exit: 109,757 bytes in 1,636 blocks
-==1113==   total heap usage: 1,943 allocs, 307 frees, 111,344 bytes allocated
-==1113== 
-==1113== LEAK SUMMARY:
-==1113==    definitely lost: 0 bytes in 0 blocks
-==1113==    indirectly lost: 0 bytes in 0 blocks
-==1113==      possibly lost: 0 bytes in 0 blocks
-==1113==    still reachable: 109,757 bytes in 1,636 blocks
-==1113==         suppressed: 0 bytes in 0 blocks
-==1113== Reachable blocks (those to which a pointer was found) are not shown.
-==1113== To see them, rerun with: --leak-check=full --show-reachable=yes
-==1113== 
-==1113== For counts of detected and suppressed errors, rerun with: -v
-==1113== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 6 from 6)
+==19172== 
+==19172== HEAP SUMMARY:
+==19172==     in use at exit: 109,757 bytes in 1,636 blocks
+==19172==   total heap usage: 1,943 allocs, 307 frees, 111,344 bytes allocated
+==19172== 
+==19172== LEAK SUMMARY:
+==19172==    definitely lost: 0 bytes in 0 blocks
+==19172==    indirectly lost: 0 bytes in 0 blocks
+==19172==      possibly lost: 0 bytes in 0 blocks
+==19172==    still reachable: 109,757 bytes in 1,636 blocks
+==19172==         suppressed: 0 bytes in 0 blocks
+==19172== Reachable blocks (those to which a pointer was found) are not shown.
+==19172== To see them, rerun with: --leak-check=full --show-reachable=yes
+==19172== 
+==19172== For counts of detected and suppressed errors, rerun with: -v
+==19172== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 6 from 6)
 exit code:  0
-==1114== Memcheck, a memory error detector
-==1114== Copyright (C) 2002-2012, and GNU GPL'd, by Julian Seward et al.
-==1114== Using Valgrind-3.8.1 and LibVEX; rerun with -h for copyright info
-==1114== Command: ./cminor -print good19.cminor
-==1114== 
+==19173== Memcheck, a memory error detector
+==19173== Copyright (C) 2002-2012, and GNU GPL'd, by Julian Seward et al.
+==19173== Using Valgrind-3.8.1 and LibVEX; rerun with -h for copyright info
+==19173== Command: ./cminor -print good19.cminor
+==19173== 
 fib: function integer ( x: integer ) =
 {
     if((x<1)) {
@@ -1220,28 +1220,28 @@ main: function integer () =
     print fib(10),'\n';
     return 0;
 }
-==1114== 
-==1114== HEAP SUMMARY:
-==1114==     in use at exit: 29,560 bytes in 143 blocks
-==1114==   total heap usage: 164 allocs, 21 frees, 29,697 bytes allocated
-==1114== 
-==1114== LEAK SUMMARY:
-==1114==    definitely lost: 0 bytes in 0 blocks
-==1114==    indirectly lost: 0 bytes in 0 blocks
-==1114==      possibly lost: 0 bytes in 0 blocks
-==1114==    still reachable: 29,560 bytes in 143 blocks
-==1114==         suppressed: 0 bytes in 0 blocks
-==1114== Reachable blocks (those to which a pointer was found) are not shown.
-==1114== To see them, rerun with: --leak-check=full --show-reachable=yes
-==1114== 
-==1114== For counts of detected and suppressed errors, rerun with: -v
-==1114== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 6 from 6)
+==19173== 
+==19173== HEAP SUMMARY:
+==19173==     in use at exit: 29,560 bytes in 143 blocks
+==19173==   total heap usage: 164 allocs, 21 frees, 29,697 bytes allocated
+==19173== 
+==19173== LEAK SUMMARY:
+==19173==    definitely lost: 0 bytes in 0 blocks
+==19173==    indirectly lost: 0 bytes in 0 blocks
+==19173==      possibly lost: 0 bytes in 0 blocks
+==19173==    still reachable: 29,560 bytes in 143 blocks
+==19173==         suppressed: 0 bytes in 0 blocks
+==19173== Reachable blocks (those to which a pointer was found) are not shown.
+==19173== To see them, rerun with: --leak-check=full --show-reachable=yes
+==19173== 
+==19173== For counts of detected and suppressed errors, rerun with: -v
+==19173== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 6 from 6)
 exit code:  0
-==1115== Memcheck, a memory error detector
-==1115== Copyright (C) 2002-2012, and GNU GPL'd, by Julian Seward et al.
-==1115== Using Valgrind-3.8.1 and LibVEX; rerun with -h for copyright info
-==1115== Command: ./cminor -print good20.cminor
-==1115== 
+==19174== Memcheck, a memory error detector
+==19174== Copyright (C) 2002-2012, and GNU GPL'd, by Julian Seward et al.
+==19174== Using Valgrind-3.8.1 and LibVEX; rerun with -h for copyright info
+==19174== Command: ./cminor -print good20.cminor
+==19174== 
 exit: function void ( status: integer );
 sum: function integer ( a: integer, b: integer ) =
 {
@@ -1267,20 +1267,20 @@ main: function integer () =
     print sum((-5),(-1)),'\n';
     return 0;
 }
-==1115== 
-==1115== HEAP SUMMARY:
-==1115==     in use at exit: 28,639 bytes in 135 blocks
-==1115==   total heap usage: 153 allocs, 18 frees, 28,765 bytes allocated
-==1115== 
-==1115== LEAK SUMMARY:
-==1115==    definitely lost: 0 bytes in 0 blocks
-==1115==    indirectly lost: 0 bytes in 0 blocks
-==1115==      possibly lost: 0 bytes in 0 blocks
-==1115==    still reachable: 28,639 bytes in 135 blocks
-==1115==         suppressed: 0 bytes in 0 blocks
-==1115== Reachable blocks (those to which a pointer was found) are not shown.
-==1115== To see them, rerun with: --leak-check=full --show-reachable=yes
-==1115== 
-==1115== For counts of detected and suppressed errors, rerun with: -v
-==1115== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 6 from 6)
+==19174== 
+==19174== HEAP SUMMARY:
+==19174==     in use at exit: 28,639 bytes in 135 blocks
+==19174==   total heap usage: 153 allocs, 18 frees, 28,765 bytes allocated
+==19174== 
+==19174== LEAK SUMMARY:
+==19174==    definitely lost: 0 bytes in 0 blocks
+==19174==    indirectly lost: 0 bytes in 0 blocks
+==19174==      possibly lost: 0 bytes in 0 blocks
+==19174==    still reachable: 28,639 bytes in 135 blocks
+==19174==         suppressed: 0 bytes in 0 blocks
+==19174== Reachable blocks (those to which a pointer was found) are not shown.
+==19174== To see them, rerun with: --leak-check=full --show-reachable=yes
+==19174== 
+==19174== For counts of detected and suppressed errors, rerun with: -v
+==19174== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 6 from 6)
 exit code:  0
