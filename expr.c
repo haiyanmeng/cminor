@@ -920,8 +920,14 @@ void expr_codegen(struct expr *e, FILE *f) {
 			if(e->is_global) {
 				e->literal_value = e->left->literal_value + 1;
 			} else {
+				if(e->left->symbol->kind == SYMBOL_PARAM) {
+					fprintf(f, "\taddq\t$1, %d(%%rbp)\n", -8 * (e->left->symbol->which + 1));
+				} else if(e->left->symbol->kind == SYMBOL_LOCAL) {
+					fprintf(f, "\taddq\t$1, %d(%%rbp)\n", -8 * (cur_func->param_count + e->left->symbol->which + 1));
+				} else if(e->left->symbol->kind == FUNC_NOT) {
+					fprintf(f, "\taddq\t$1, %s(%%rip)\n", e->left->name);
+				}
 				e->reg = e->left->reg;
-				fprintf(f, "\taddq\t$1, %d(%%rbp)\n", -8 * (cur_func->param_count + e->left->symbol->which + 1));
 			}	
 			break;
 		case EXPR_DECREMENT:
@@ -930,8 +936,14 @@ void expr_codegen(struct expr *e, FILE *f) {
 			if(e->is_global) {
 				e->literal_value = e->left->literal_value + 1;
 			} else {
+				if(e->left->symbol->kind == SYMBOL_PARAM) {
+					fprintf(f, "\tsubq\t$1, %d(%%rbp)\n", -8 * (e->left->symbol->which + 1));
+				} else if(e->left->symbol->kind == SYMBOL_LOCAL) {
+					fprintf(f, "\tsubq\t$1, %d(%%rbp)\n", -8 * (cur_func->param_count + e->left->symbol->which + 1));
+				} else if(e->left->symbol->kind == FUNC_NOT) {
+					fprintf(f, "\tsubq\t$1, %s(%%rip)\n", e->left->name);
+				}
 				e->reg = e->left->reg;
-				fprintf(f, "\tsubq\t$1, %d(%%rbp)\n", -8 * (cur_func->param_count + e->left->symbol->which + 1));
 			}	
 			break;
 		case EXPR_UNARY_NEG:
