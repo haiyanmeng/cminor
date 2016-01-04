@@ -1,6 +1,0 @@
-
-x:char;
-main: function integer ();
-main: function integer () = {
-	print 1;
-}

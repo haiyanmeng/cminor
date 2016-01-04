@@ -1,8 +1,30 @@
+cminor is a c-like language which supports most of the C language features except for pointer, and adopts a slight different declaration syntax.
+Here is the specification of cminor: http://www3.nd.edu/~dthain/courses/cse40243/fall2015/cminor.html
+
 To clean up the directory, run:
 $ make clean
 
-To generate cminor, the assembly codes (good[1-20].s) and  the executables (a.out.[1-20]), corresponding to good[1-20].cminor, run:
+To generate cminor:
 $ make
 
-To execute a.out.[1-20], run:
-$./run
+Having a cminor executable, you can do the following actions:
+Print a a cminor program beautifully:
+$ ./cminor -print good1.cminor
+or 
+$ ./cminor -parse good1.cminor
+
+Resolve variables in a cminor program:
+$ ./cminor -resolve good1.cminor
+
+Type check of a cminor program:
+$ ./cminor -typecheck good1.cminor
+
+Generate the assembly code for a cminor program:
+$ ./cminor -codegen good1.cminor
+
+Test Cases:
+`parser_test` includes 10 good test cases and 10 bad test cases.
+`typecheck_test` includes 10 good test cases and 10 bad test cases.
+`codegen_test` includes 20 good test cases.
+To run the test cases under these three test dirs, you need to first generate cminor in the current dir. 
+The cminor under each test dir is a symlink pointing to the cminor in the current dir.

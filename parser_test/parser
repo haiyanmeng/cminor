@@ -1,3 +1,0 @@
-yacc -d -bparser -v parser.bison
-
-

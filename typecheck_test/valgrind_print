@@ -1,0 +1,40 @@
+valgrind --track-origins=yes --leak-check=full ./cminor -print good1.cminor
+echo "exit code: " $?
+valgrind --track-origins=yes --leak-check=full ./cminor -print good2.cminor
+echo "exit code: " $?
+valgrind --track-origins=yes --leak-check=full ./cminor -print good3.cminor
+echo "exit code: " $?
+valgrind --track-origins=yes --leak-check=full ./cminor -print good4.cminor
+echo "exit code: " $?
+valgrind --track-origins=yes --leak-check=full ./cminor -print good5.cminor
+echo "exit code: " $?
+valgrind --track-origins=yes --leak-check=full ./cminor -print good6.cminor
+echo "exit code: " $?
+valgrind --track-origins=yes --leak-check=full ./cminor -print good7.cminor
+echo "exit code: " $?
+valgrind --track-origins=yes --leak-check=full ./cminor -print good8.cminor
+echo "exit code: " $?
+valgrind --track-origins=yes --leak-check=full ./cminor -print good9.cminor
+echo "exit code: " $?
+valgrind --track-origins=yes --leak-check=full ./cminor -print good10.cminor
+echo "exit code: " $?
+valgrind --track-origins=yes --leak-check=full ./cminor -print bad1.cminor
+echo "exit code: " $?
+valgrind --track-origins=yes --leak-check=full ./cminor -print bad2.cminor
+echo "exit code: " $?
+valgrind --track-origins=yes --leak-check=full ./cminor -print bad3.cminor
+echo "exit code: " $?
+valgrind --track-origins=yes --leak-check=full ./cminor -print bad4.cminor
+echo "exit code: " $?
+valgrind --track-origins=yes --leak-check=full ./cminor -print bad5.cminor
+echo "exit code: " $?
+valgrind --track-origins=yes --leak-check=full ./cminor -print bad6.cminor
+echo "exit code: " $?
+valgrind --track-origins=yes --leak-check=full ./cminor -print bad7.cminor
+echo "exit code: " $?
+valgrind --track-origins=yes --leak-check=full ./cminor -print bad8.cminor
+echo "exit code: " $?
+valgrind --track-origins=yes --leak-check=full ./cminor -print bad9.cminor
+echo "exit code: " $?
+valgrind --track-origins=yes --leak-check=full ./cminor -print bad10.cminor
+echo "exit code: " $?

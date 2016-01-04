@@ -1,0 +1,8 @@
+Print a cminor program beautifully:
+$ ./cminor -print good1.cminor
+
+Resolve variables in a cminor program:
+$ ./cminor -resolve good1.cminor
+
+Type check of a cminor program:
+$ ./cminor -typecheck good1.cminor
